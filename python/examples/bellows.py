@@ -2,38 +2,38 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from tinygfx import *
+from dtk import *
 
 import sys
         
-context = tgCore.Context()
-app = tgUIApp.App(context, sys.argv, "buttons", "Buttons example")
+context = dtkCore.Context()
+app = dtkUIApp.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = tgUIApp.Window(context, "buttons", tgCore.Size2I(1280, 960))
+window = dtkUIApp.Window(context, "buttons", dtkCore.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
-layout = tgUI.VerticalLayout(context)
-layout.spacingRole = tgUI.SizeRole.SizeRoleNone
-scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
+layout = dtkUI.VerticalLayout(context)
+layout.spacingRole = dtkUI.SizeRole.SizeRoleNone
+scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both, window)
 scrollWidget.widget = layout;
 
 # Add a bellows.
-vLayout = tgUI.VerticalLayout(context)
-vLayout.marginRole = tgUI.SizeRole.Margin
-vLayout.spacingRole = tgUI.SizeRole.SpacingSmall
+vLayout = dtkUI.VerticalLayout(context)
+vLayout.marginRole = dtkUI.SizeRole.Margin
+vLayout.spacingRole = dtkUI.SizeRole.SpacingSmall
 for i in range(0, 10):
-    tgUI.PushButton(context, "Push Button {}".format(i), vLayout)
-bellows = tgUI.Bellows(context, "Push Buttons", layout)
+    dtkUI.PushButton(context, "Push Button {}".format(i), vLayout)
+bellows = dtkUI.Bellows(context, "Push Buttons", layout)
 bellows.widget = vLayout
 
 # Add a bellows.
-vLayout = tgUI.VerticalLayout(context)
-vLayout.marginRole = tgUI.SizeRole.Margin
-vLayout.spacingRole = tgUI.SizeRole.SizeRoleNone
+vLayout = dtkUI.VerticalLayout(context)
+vLayout.marginRole = dtkUI.SizeRole.Margin
+vLayout.spacingRole = dtkUI.SizeRole.SizeRoleNone
 icons = [
     "Audio",
     "Close",
@@ -47,19 +47,19 @@ icons = [
     "Volume"
 ]
 for i in range(0, 10):
-    button = tgUI.ToolButton(context, "Tool Button {}".format(i), vLayout)
+    button = dtkUI.ToolButton(context, "Tool Button {}".format(i), vLayout)
     if i < len(icons):
         button.icon = icons[i]
-bellows = tgUI.Bellows(context, "Tool Buttons", layout)
+bellows = dtkUI.Bellows(context, "Tool Buttons", layout)
 bellows.widget = vLayout
 
 # Add a bellows.
-vLayout = tgUI.VerticalLayout(context)
-vLayout.marginRole = tgUI.SizeRole.Margin
-vLayout.spacingRole = tgUI.SizeRole.SizeRoleNone
+vLayout = dtkUI.VerticalLayout(context)
+vLayout.marginRole = dtkUI.SizeRole.Margin
+vLayout.spacingRole = dtkUI.SizeRole.SizeRoleNone
 for i in range(0, 10):
-    tgUI.CheckBox(context, "Check Box {}".format(i), vLayout)
-bellows = tgUI.Bellows(context, "Check Boxes", layout)
+    dtkUI.CheckBox(context, "Check Box {}".format(i), vLayout)
+bellows = dtkUI.Bellows(context, "Check Boxes", layout)
 bellows.widget = vLayout
 
 window.show()

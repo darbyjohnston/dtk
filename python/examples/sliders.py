@@ -2,59 +2,59 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from tinygfx import *
+from dtk import *
 
 import sys
         
-context = tgCore.Context()
-app = tgUIApp.App(context, sys.argv, "buttons", "Buttons example")
+context = dtkCore.Context()
+app = dtkUIApp.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = tgUIApp.Window(context, "buttons", tgCore.Size2I(1280, 960))
+window = dtkUIApp.Window(context, "buttons", dtkCore.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
-layout = tgUI.VerticalLayout(context)
-layout.marginRole = tgUI.SizeRole.Margin
-scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both, window)
+layout = dtkUI.VerticalLayout(context)
+layout.marginRole = dtkUI.SizeRole.Margin
+scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both, window)
 scrollWidget.widget = layout
         
 # Create integer sliders.
-groupBox = tgUI.GroupBox(context, "Integer sliders", layout)
-vLayout = tgUI.VerticalLayout(context, groupBox)
-intEditSlider = tgUI.IntEditSlider(context, None, vLayout)
+groupBox = dtkUI.GroupBox(context, "Integer sliders", layout)
+vLayout = dtkUI.VerticalLayout(context, groupBox)
+intEditSlider = dtkUI.IntEditSlider(context, None, vLayout)
 intEditSlider.setCallback(lambda value: print("Int:", value))
-intEditSlider = tgUI.IntEditSlider(context, None, vLayout)
-intEditSlider.range = tgCore.RangeI(100, 200)
+intEditSlider = dtkUI.IntEditSlider(context, None, vLayout)
+intEditSlider.range = dtkCore.RangeI(100, 200)
 intEditSlider.setCallback(lambda value: print("Int:", value))
-intEditSlider = tgUI.IntEditSlider(context, None, vLayout)
-intEditSlider.range = tgCore.RangeI(-100, 100)
+intEditSlider = dtkUI.IntEditSlider(context, None, vLayout)
+intEditSlider.range = dtkCore.RangeI(-100, 100)
 intEditSlider.setCallback(lambda value: print("Int:", value))
         
 # Create float sliders.
-groupBox = tgUI.GroupBox(context, "Float sliders", layout)
-vLayout = tgUI.VerticalLayout(context, groupBox)
-floatEditSlider = tgUI.FloatEditSlider(context, None, vLayout)
+groupBox = dtkUI.GroupBox(context, "Float sliders", layout)
+vLayout = dtkUI.VerticalLayout(context, groupBox)
+floatEditSlider = dtkUI.FloatEditSlider(context, None, vLayout)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
-floatEditSlider = tgUI.FloatEditSlider(context, None, vLayout)
-floatEditSlider.range = tgCore.RangeF(100, 200)
+floatEditSlider = dtkUI.FloatEditSlider(context, None, vLayout)
+floatEditSlider.range = dtkCore.RangeF(100, 200)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
-floatEditSlider = tgUI.FloatEditSlider(context, None, vLayout)
-floatEditSlider.range = tgCore.RangeF(-100, 100)
+floatEditSlider = dtkUI.FloatEditSlider(context, None, vLayout)
+floatEditSlider.range = dtkCore.RangeF(-100, 100)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
         
 # Create double sliders.
-groupBox = tgUI.GroupBox(context, "Double sliders", layout)
-vLayout = tgUI.VerticalLayout(context, groupBox)
-doubleEditSlider = tgUI.DoubleEditSlider(context, None, vLayout)
+groupBox = dtkUI.GroupBox(context, "Double sliders", layout)
+vLayout = dtkUI.VerticalLayout(context, groupBox)
+doubleEditSlider = dtkUI.DoubleEditSlider(context, None, vLayout)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
-doubleEditSlider = tgUI.DoubleEditSlider(context, None, vLayout)
-doubleEditSlider.range = tgCore.RangeD(100, 200)
+doubleEditSlider = dtkUI.DoubleEditSlider(context, None, vLayout)
+doubleEditSlider.range = dtkCore.RangeD(100, 200)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
-doubleEditSlider = tgUI.DoubleEditSlider(context, None, vLayout)
-doubleEditSlider.range = tgCore.RangeD(-100, 100)
+doubleEditSlider = dtkUI.DoubleEditSlider(context, None, vLayout)
+doubleEditSlider.range = dtkCore.RangeD(-100, 100)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
 
 window.show()

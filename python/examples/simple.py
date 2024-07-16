@@ -2,38 +2,38 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from tinygfx import *
+from dtk import *
 
 import sys
 
-class Window(tgUIApp.Window):
+class Window(dtkUIApp.Window):
     def __init__(self, context, name, size):
-        tgUIApp.Window.__init__(self, context, name, size)
+        dtkUIApp.Window.__init__(self, context, name, size)
     
     def drawEvent(self, drawRect, event):
-        tgUIApp.Window.drawEvent(self, drawRect, event)
+        dtkUIApp.Window.drawEvent(self, drawRect, event)
         
         text = "Hello world"
-        fontInfo = tgCore.FontInfo()
+        fontInfo = dtkCore.FontInfo()
         fontInfo.size = 0
-        textSize = tgCore.Size2I()
-        g = tgCore.margin(self.geometry, -100)
+        textSize = dtkCore.Size2I()
+        g = dtkCore.margin(self.geometry, -100)
         while textSize.w < g.w and textSize.h < g.h:
             fontInfo.size += 10
             textSize = event.fontSystem.getSize(text, fontInfo)
-        glyphs = event.fontSystem.getGlyphs(text, fontInfo)
+        glyphs = event.fontSystem.gedtklyphs(text, fontInfo)
         fontMetrics = event.fontSystem.getMetrics(fontInfo)
         event.render.drawText(
             glyphs,
             fontMetrics,
-            tgCore.convert(tgCore.center(g) - tgCore.V2I(textSize.w, textSize.h) / 2),
-            tgCore.Color4F(1, 1, 1))
+            dtkCore.convert(dtkCore.center(g) - dtkCore.V2I(textSize.w, textSize.h) / 2),
+            dtkCore.Color4F(1, 1, 1))
     
-context = tgCore.Context()
-app = tgUIApp.App(context, sys.argv, "simple", "Simple example")
+context = dtkCore.Context()
+app = dtkUIApp.App(context, sys.argv, "simple", "Simple example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
-window = Window(context, "simple", tgCore.Size2I(1280, 960))
+window = Window(context, "simple", dtkCore.Size2I(1280, 960))
 app.addWindow(window)
 window.show()
 app.run()

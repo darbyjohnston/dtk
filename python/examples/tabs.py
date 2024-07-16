@@ -2,36 +2,36 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from tinygfx import *
+from dtk import *
 
 import sys
         
-context = tgCore.Context()
-app = tgUIApp.App(context, sys.argv, "tabs", "Tabs example")
+context = dtkCore.Context()
+app = dtkUIApp.App(context, sys.argv, "tabs", "Tabs example")
 if app.getExit() != 0:
     sys.exit(1)
 
 # Create the window.
-window = tgUIApp.Window(context, "tabs", tgCore.Size2I(1280, 960))
+window = dtkUIApp.Window(context, "tabs", dtkCore.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the tab widget.
-tabWidget = tgUI.TabWidget(context, window)
+tabWidget = dtkUI.TabWidget(context, window)
         
 # Add a tab.
-layout = tgUI.VerticalLayout(context)
-layout.marginRole = tgUI.SizeRole.Margin
-layout.spacingRole = tgUI.SizeRole.SpacingSmall
+layout = dtkUI.VerticalLayout(context)
+layout.marginRole = dtkUI.SizeRole.Margin
+layout.spacingRole = dtkUI.SizeRole.SpacingSmall
 for i in range(0, 10):
-    tgUI.PushButton(context, "Push Button {}".format(i), layout)
-scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both)
+    dtkUI.PushButton(context, "Push Button {}".format(i), layout)
+scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both)
 scrollWidget.widget = layout
 tabWidget.addTab("Push Buttons", scrollWidget)
 
 # Add a tab.
-layout = tgUI.VerticalLayout(context)
-layout.marginRole = tgUI.SizeRole.Margin
-layout.spacingRole = tgUI.SizeRole.SizeRoleNone
+layout = dtkUI.VerticalLayout(context)
+layout.marginRole = dtkUI.SizeRole.Margin
+layout.spacingRole = dtkUI.SizeRole.SizeRoleNone
 icons = [
     "Audio",
     "Close",
@@ -45,20 +45,20 @@ icons = [
     "Volume"
 ]
 for i in range(0, 10):
-    button = tgUI.ToolButton(context, "Tool Button {}".format(i), layout)
+    button = dtkUI.ToolButton(context, "Tool Button {}".format(i), layout)
     if i < len(icons):
         button.icon = icons[i]
-scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both)
+scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both)
 scrollWidget.widget = layout
 tabWidget.addTab("Tool Buttons", scrollWidget)
 
 # Add a tab.
-layout = tgUI.VerticalLayout(context)
-layout.marginRole = tgUI.SizeRole.Margin
-layout.spacingRole = tgUI.SizeRole.SizeRoleNone
+layout = dtkUI.VerticalLayout(context)
+layout.marginRole = dtkUI.SizeRole.Margin
+layout.spacingRole = dtkUI.SizeRole.SizeRoleNone
 for i in range(0, 10):
-    tgUI.CheckBox(context, "Check Box {}".format(i), layout)
-scrollWidget = tgUI.ScrollWidget(context, tgUI.ScrollType.Both)
+    dtkUI.CheckBox(context, "Check Box {}".format(i), layout)
+scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both)
 scrollWidget.widget = layout
 tabWidget.addTab("Check Boxes", scrollWidget)
 

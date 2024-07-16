@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import tinygfx.tgCore as tg
+import dtk.dtkCore as dtk
 
 import unittest
 
@@ -13,8 +13,8 @@ class ObservableValueTest(unittest.TestCase):
 
     def test_value(self):
         self.valueI = 0
-        ovalueI = tg.ObservableValueI(0)
-        observerI = tg.ValueObserverI(ovalueI, self.callbackI)
+        ovalueI = dtk.ObservableValueI(0)
+        observerI = dtk.ValueObserverI(ovalueI, self.callbackI)
         self.assertTrue(ovalueI.setIfChanged(1))
         self.assertFalse(ovalueI.setIfChanged(1))
         self.assertEqual(self.valueI, 1)
@@ -26,8 +26,8 @@ class ObservableValueTest(unittest.TestCase):
 
     def test_list(self):
         self.listI = []
-        olistI = tg.ObservableListI([])
-        observerI = tg.ListObserverI(olistI, self.callbackListI)
+        olistI = dtk.ObservableListI([])
+        observerI = dtk.ListObserverI(olistI, self.callbackListI)
         self.assertTrue(olistI.setIfChanged([ 1 ]))
         self.assertFalse(olistI.setIfChanged([ 1 ]))
         self.assertEqual(self.listI, [ 1 ])
@@ -39,8 +39,8 @@ class ObservableValueTest(unittest.TestCase):
 
     def test_map(self):
         self.mapStringI = {}
-        omapStringI = tg.ObservableMapStringI({})
-        observerI = tg.MapObserverStringI(omapStringI, self.callbackMapStringI)
+        omapStringI = dtk.ObservableMapStringI({})
+        observerI = dtk.MapObserverStringI(omapStringI, self.callbackMapStringI)
         self.assertTrue(omapStringI.setIfChanged({ "a": 1 }))
         self.assertFalse(omapStringI.setIfChanged({ "a": 1 }))
         self.assertEqual(self.mapStringI, { "a": 1 })
