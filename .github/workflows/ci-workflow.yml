@@ -1,0 +1,218 @@
+name: CI
+
+on: [push]
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-latest
+
+    env:
+      DTK_API: GL_4_1
+      DTK_NFD: OFF
+      DTK_PYTHON: ON
+      DTK_TESTS: ON
+      DTK_EXAMPLES: ON
+      DTK_GCOV: ON
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        bash etc/Linux/linux-setup-gha.sh
+
+    - name: Build
+      run: bash etc/Linux/linux-build-gha.sh Debug
+
+    - name: Run tests
+      run: |
+        cd build
+        cd dtk/src/dtk-build
+        #xvfb-run cmake --build . --target test
+        xvfb-run ctest --verbose -C Debug
+    
+    - name: Code coverage
+      if: env.DTK_GCOV == 'ON'
+      run: |
+        cd build/dtk/src/dtk-build
+        bash ../../../../etc/Linux/lcov.sh
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: ${{ github.workspace }}/build/dtk/src/dtk-build/coverage_filtered.info
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+
+  linux-gles2-build:
+    runs-on: ubuntu-latest
+
+    env:
+      DTK_API: GLES_2
+      DTK_NFD: OFF
+      DTK_PYTHON: ON
+      DTK_TESTS: ON
+      DTK_EXAMPLES: ON
+      DTK_GCOV: OFF
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        bash etc/Linux/linux-setup-gha.sh
+
+    - name: Build
+      run: bash etc/Linux/linux-build-gha.sh Debug
+
+    - name: Run tests
+      run: |
+        cd build
+        cd dtk/src/dtk-build
+        #xvfb-run cmake --build . --target test
+        xvfb-run ctest --verbose -C Debug
+
+  macos-12-build:
+    runs-on: macos-12
+
+    env:
+      DTK_API: GL_4_1
+      DTK_NFD: OFF
+      DTK_PYTHON: ON
+      DTK_TESTS: ON
+      DTK_EXAMPLES: OFF
+      DTK_GCOV: OFF
+      CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
+      CMAKE_OSX_ARCHITECTURES: x86_64
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # \bug DYLD_LIBRARY_PATH is not being set here?
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        bash etc/macOS/macos-build-gha.sh Debug
+
+    - name: Run tests
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        cd build
+        cd dtk/src/dtk-build
+        #cmake --build . --target test
+        ctest --verbose -C Debug
+
+  macos-14-build:
+    runs-on: macos-14
+
+    env:
+      DTK_API: GL_4_1
+      DTK_NFD: OFF
+      DTK_PYTHON: ON
+      DTK_TESTS: ON
+      DTK_EXAMPLES: OFF
+      DTK_GCOV: OFF
+      CMAKE_OSX_DEPLOYMENT_TARGET: 14
+      CMAKE_OSX_ARCHITECTURES: arm64
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # \bug DYLD_LIBRARY_PATH is not being set here?
+    - name: Setup environment
+      run: |
+        echo "$PWD/build/install/bin" >> $GITHUB_PATH
+        echo "DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+        echo "PYTHONPATH=$PWD/build/install/lib:$PYTHONPATH" >> $GITHUB_ENV
+        cmake --version
+        python --version
+
+    - name: Build
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        bash etc/macOS/macos-build-gha.sh Debug
+
+    - name: Run tests
+      run: |
+        export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+        cd build
+        cd dtk/src/dtk-build
+        #cmake --build . --target test
+        ctest --verbose -C Debug
+
+  windows-build:
+    runs-on: windows-latest
+
+    env:
+      DTK_API: GL_4_1
+      DTK_NFD: OFF
+      DTK_PYTHON: ON
+      DTK_TESTS: ON
+      DTK_EXAMPLES: OFF
+      DTK_GCOV: OFF
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # \bug Any spaces before the ">>" will be considered part of the path.
+    - name: Setup environment
+      shell: cmd
+      run: |
+        echo %CD%\build\install\bin>> %GITHUB_PATH%
+        echo %CD%\build\install\lib>> %GITHUB_PATH%
+        echo PYTHONPATH=%CD%\build\install\lib >> %GITHUB_ENV%
+        echo CTEST_OUTPUT_ON_FAILURE=1 >> %GITHUB_ENV%
+        cmake --version
+
+    - name: Build
+      shell: cmd
+      run: |
+        etc\Windows\windows-build-gha.bat Debug
+
+    - name: Run tests
+      shell: cmd
+      run: |
+        cd build
+        cd dtk\src\dtk-build
+        #cmake --build . --target RUN_TESTS
+        ctest --verbose -C Debug
+

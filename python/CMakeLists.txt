@@ -1,0 +1,7 @@
+add_subdirectory(lib)
+if(dtk_TESTS)
+    add_subdirectory(tests)
+endif()
+if(dtk_EXAMPLES)
+    add_subdirectory(examples)
+endif()
