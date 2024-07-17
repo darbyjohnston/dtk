@@ -17,7 +17,7 @@ namespace dtk
     {
         void bind(py::module_& m)
         {
-            auto sm = m.def_submodule("tgBaseApp");
+            auto sm = m.def_submodule("dtkBaseApp");
             sm.doc() = "Applications";
 
             cmdLine(sm);

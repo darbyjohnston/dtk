@@ -17,7 +17,7 @@ namespace dtk
     {
         void bind(py::module_& m)
         {
-            auto sm = m.def_submodule("tgUIApp");
+            auto sm = m.def_submodule("dtkUIApp");
             sm.doc() = "User interface applications";
 
             app(sm);

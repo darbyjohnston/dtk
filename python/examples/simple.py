@@ -21,7 +21,7 @@ class Window(dtkUIApp.Window):
         while textSize.w < g.w and textSize.h < g.h:
             fontInfo.size += 10
             textSize = event.fontSystem.getSize(text, fontInfo)
-        glyphs = event.fontSystem.gedtklyphs(text, fontInfo)
+        glyphs = event.fontSystem.getGlyphs(text, fontInfo)
         fontMetrics = event.fontSystem.getMetrics(fontInfo)
         event.render.drawText(
             glyphs,

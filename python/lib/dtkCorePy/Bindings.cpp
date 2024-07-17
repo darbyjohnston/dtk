@@ -35,7 +35,7 @@ namespace dtk
     {
         void bind(py::module_& m)
         {
-            auto sm = m.def_submodule("tgCore");
+            auto sm = m.def_submodule("dtkCore");
             sm.doc() = "Core functionality";
 
             sm.def("init", &init, "Initialize the library.");

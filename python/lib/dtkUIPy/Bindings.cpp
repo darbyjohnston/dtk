@@ -58,7 +58,7 @@ namespace dtk
     {
         void bind(py::module_& m)
         {
-            auto sm = m.def_submodule("tgUI");
+            auto sm = m.def_submodule("dtkUI");
             sm.doc() = "User interface";
 
             sm.def("init", &init, "Initialize the library.");
