@@ -9,16 +9,16 @@ find_dependency(ZLIB)
 find_dependency(nlohmann_json)
 find_dependency(PNG)
 find_dependency(Freetype)
-if(@PACKAGE_dtk_API@ STREQUAL "GL_4_1" OR
-    @PACKAGE_dtk_API@ STREQUAL "GL_4_1_Debug" OR
-    @PACKAGE_dtk_API@ STREQUAL "GLES_2")
+if(@dtk_API@ STREQUAL "GL_4_1" OR
+    @dtk_API@ STREQUAL "GL_4_1_Debug" OR
+    @dtk_API@ STREQUAL "GLES_2")
     find_dependency(OpenGL)
     find_dependency(glfw3)
 endif()
-if(@dtk_NFD)
+if(@dtk_NFD@)
     find_dependency(NFD)
 endif()
-if(@dtk_PYTHON)
+if(@dtk_PYTHON@)
     find_dependency(Python3)
     find_dependency(pybind11)
 endif()
