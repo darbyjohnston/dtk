@@ -153,7 +153,7 @@ install(
     FILES cmake/Modules/FindNFD.cmake
     DESTINATION lib/cmake/dtk)
 include(CMakePackageConfigHelpers)
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/dtk)
+set(INCLUDE_INSTALL_DIR include/dtk)
 configure_package_config_file(
     dtkConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/dtkConfig.cmake
