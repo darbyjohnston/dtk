@@ -48,5 +48,5 @@ install(
 install(
     EXPORT dtkGLTargets
     FILE dtkGLTargets.cmake
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    DESTINATION "lib/cmake/dtk"
     NAMESPACE dtk::)

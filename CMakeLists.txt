@@ -137,20 +137,20 @@ endif()
 
 install(
     FILES cmake/Modules/FindZLIB.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+    DESTINATION lib/cmake/dtk)
 install(
     FILES cmake/Modules/FindPNG.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+    DESTINATION lib/cmake/dtk)
 install(
     FILES cmake/Modules/FindNFD.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+    DESTINATION lib/cmake/dtk)
 include(CMakePackageConfigHelpers)
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/dtk)
 configure_package_config_file(
     dtkConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/dtkConfig.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk
+    INSTALL_DESTINATION lib/cmake/dtk
     PATH_VARS INCLUDE_INSTALL_DIR)
 install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/dtkConfig.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+    DESTINATION lib/cmake/dtk)

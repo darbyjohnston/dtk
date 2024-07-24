@@ -181,5 +181,5 @@ install(
 install(
     EXPORT dtkUITargets
     FILE dtkUITargets.cmake
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    DESTINATION "lib/cmake/dtk"
     NAMESPACE dtk::)
