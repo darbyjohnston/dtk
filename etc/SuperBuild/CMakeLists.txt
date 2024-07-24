@@ -20,6 +20,10 @@ set(dtk_NFD ${dtk_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialog
 set(dtk_PYTHON OFF CACHE BOOL "Enable support for Python")
 set(dtk_TESTS ON CACHE BOOL "Enable tests")
 set(dtk_EXAMPLES ON CACHE BOOL "Enable examples")
+if(APPLE)
+    set(dtk_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
+endif()
+set(dtk_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
 set(dtk_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 
@@ -39,9 +43,15 @@ endif()
 if(NOT CMAKE_POSITION_INDEPENDENT_CODE)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
-
-set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
-set(CMAKE_FIND_FRAMEWORK LAST)
+if(dtk_IGNORE_PREFIX_PATH)
+    set(CMAKE_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH})
+endif()
+if(WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
+endif()
+if(APPLE)
+    set(CMAKE_FIND_FRAMEWORK LAST)
+endif()
 
 # https://stackoverflow.com/questions/45414507/pass-a-list-of-prefix-paths-to-externalproject-add-in-cmake-args
 string(REPLACE ";" "|" CMAKE_MODULE_PATH_TMP "${CMAKE_MODULE_PATH}")
@@ -52,6 +62,7 @@ set(dtk_DEPS_ARGS
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH_TMP}
+    -DCMAKE_IGNORE_PREFIX_PATH=${CMAKE_IGNORE_PREFIX_PATH}
     -DCMAKE_POLICY_DEFAULT_CMP0091:STRING=NEW
     -DCMAKE_POLICY_DEFAULT_CMP0114:STRING=NEW
     -DCMAKE_FIND_FRAMEWORK=${CMAKE_FIND_FRAMEWORK}

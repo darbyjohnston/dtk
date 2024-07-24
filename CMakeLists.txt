@@ -23,6 +23,10 @@ set(dtk_NFD ${dtk_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialog
 set(dtk_PYTHON OFF CACHE BOOL "Enable support for Python")
 set(dtk_TESTS ON CACHE BOOL "Enable tests")
 set(dtk_EXAMPLES ON CACHE BOOL "Enable examples")
+if(APPLE)
+    set(dtk_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
+endif()
+set(dtk_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
 set(dtk_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 
@@ -46,6 +50,10 @@ else()
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
     set(CMAKE_INSTALL_RPATH "../lib")
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+
+if(dtk_IGNORE_PREFIX_PATH)
+    set(CMAKE_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH})
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
