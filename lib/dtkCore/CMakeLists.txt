@@ -109,12 +109,19 @@ endif()
 add_library(dtkCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(dtkCore
     PUBLIC nlohmann_json::nlohmann_json
-    PRIVATE Freetype::Freetype PNG ZLIB::ZLIB)
+    PRIVATE Freetype::Freetype PNG::png ZLIB::ZLIB)
 set_target_properties(dtkCore PROPERTIES FOLDER lib)
 set_target_properties(dtkCore PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkCore
+install(
+    TARGETS dtkCore
+    EXPORT dtkCoreTargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/dtk/dtkCore)
+install(
+    EXPORT dtkCoreTargets
+    FILE dtkCoreTargets.cmake
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    NAMESPACE dtk::)

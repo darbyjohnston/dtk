@@ -163,7 +163,7 @@ set(SOURCE
 
 set(LIBRARIES_PRIVATE)
 if(dtk_NFD)
-    list(APPEND LIBRARIES_PRIVATE NFD)
+    list(APPEND LIBRARIES_PRIVATE NFD::NFD)
 endif()
 
 add_library(dtkUI ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
@@ -171,9 +171,15 @@ target_link_libraries(dtkUI PUBLIC dtkCore PRIVATE ${LIBRARIES_PRIVATE})
 set_target_properties(dtkUI PROPERTIES FOLDER lib)
 set_target_properties(dtkUI PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkUI
+install(
+    TARGETS dtkUI
+    EXPORT dtkUITargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/dtk/dtkUI)
-
+install(
+    EXPORT dtkUITargets
+    FILE dtkUITargets.cmake
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    NAMESPACE dtk::)

@@ -25,9 +25,15 @@ target_link_libraries(dtkUIApp ${LIBRARIES})
 set_target_properties(dtkUIApp PROPERTIES FOLDER lib)
 set_target_properties(dtkUIApp PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkUIApp
+install(
+    TARGETS dtkUIApp
+    EXPORT dtkUIAppTargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/dtk/dtkUIApp)
-
+install(
+    EXPORT dtkUIAppTargets
+    FILE dtkUIAppTargets.cmake
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    NAMESPACE dtk::)

@@ -7,6 +7,7 @@ endif()
 
 project(
     dtk
+    VERSION 0.1.0
     LANGUAGES CXX C)
 
 #-------------------------------------------------------------------------------
@@ -29,7 +30,6 @@ set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 # Configuration
 
 set(CMAKE_MODULE_PATH
-    ${PROJECT_SOURCE_DIR}/../../cmake/Modules
     ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -134,3 +134,23 @@ endif()
 if(dtk_EXAMPLES)
     add_subdirectory(examples)
 endif()
+
+install(
+    FILES cmake/Modules/FindZLIB.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+install(
+    FILES cmake/Modules/FindPNG.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+install(
+    FILES cmake/Modules/FindNFD.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)
+include(CMakePackageConfigHelpers)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/dtk)
+configure_package_config_file(
+    dtkConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/dtkConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk
+    PATH_VARS INCLUDE_INSTALL_DIR)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/dtkConfig.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dtk)

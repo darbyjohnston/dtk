@@ -38,9 +38,15 @@ target_link_libraries(dtkGL dtkCore glad glfw)
 set_target_properties(dtkGL PROPERTIES FOLDER lib)
 set_target_properties(dtkGL PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkGL
+install(
+    TARGETS dtkGL
+    EXPORT dtkGLTargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/dtk/dtkGL)
-
+install(
+    EXPORT dtkGLTargets
+    FILE dtkGLTargets.cmake
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    NAMESPACE dtk::)

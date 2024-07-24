@@ -1,0 +1,29 @@
+@PACKAGE_INIT@
+
+# \todo Is this the correct way to locate the custom Find*.cmake files?
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
+
+include(CMakeFindDependencyMacro)
+find_dependency(Threads)
+find_dependency(ZLIB)
+find_dependency(nlohmann_json)
+find_dependency(PNG)
+find_dependency(Freetype)
+find_dependency(OpenGL)
+find_dependency(glfw3)
+find_dependency(NFD)
+find_dependency(Python3)
+find_dependency(pybind11)
+
+include("${CMAKE_CURRENT_LIST_DIR}/gladTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkCoreTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkGLTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkBaseAppTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkResourceAppTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkUITargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkUIAppTargets.cmake")
+
+# \todo Is this the correct way to add the include directory?
+include_directories("@PACKAGE_INCLUDE_INSTALL_DIR@")
+
+check_required_components(dtk)

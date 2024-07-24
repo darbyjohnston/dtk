@@ -13,9 +13,15 @@ target_link_libraries(dtkBaseApp dtkCore)
 set_target_properties(dtkBaseApp PROPERTIES FOLDER lib)
 set_target_properties(dtkBaseApp PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkBaseApp
+install(
+    TARGETS dtkBaseApp
+    EXPORT dtkBaseAppTargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/dtk/dtkBaseApp)
-
+install(
+    EXPORT dtkBaseAppTargets
+    FILE dtkBaseAppTargets.cmake
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dtk"
+    NAMESPACE dtk::)
