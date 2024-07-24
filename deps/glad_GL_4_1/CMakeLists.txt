@@ -20,7 +20,6 @@ install(
     FILE gladTargets.cmake
     DESTINATION "lib/cmake/dtk"
     NAMESPACE dtk::)
-
 install(
     DIRECTORY
     "${CMAKE_CURRENT_SOURCE_DIR}/include/glad"
