@@ -97,7 +97,6 @@ endif()
 if(dtk_PYTHON)
     list(APPEND dtk_DEPS pybind11)
 endif()
-
 foreach(DEP ${dtk_DEPS})
     include(Build${DEP})
 endforeach()
