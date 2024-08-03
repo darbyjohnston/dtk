@@ -26,7 +26,7 @@ cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-./Release/dtk/src/dtk-build/examples/render/simple/simple
+Release/dtk/src/dtk-build/examples/simple/simple
 ```
 
 Building on macOS
@@ -45,7 +45,7 @@ cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-./dtk/src/dtk-build/examples/render/simple/simple
+Release/dtk/src/dtk-build/examples/simple/simple
 ```
 
 Notes for building on macOS
@@ -68,7 +68,6 @@ git clone https://github.com/darbyjohnston/dtk.git
 Run CMake:
 ```
 cmake -S dtk\etc\SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=%CD%\Release\install -DCMAKE_PREFIX_PATH=%CD%\Release\install -DCMAKE_BUILD_TYPE=Release
-
 ```
 Start the build:
 ```
@@ -76,6 +75,6 @@ cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-.\Release\dtk\src\dtk-build\examples\render\simple\Release\simple
+Release\dtk\src\dtk-build\examples\simple\Release\simple
 ```
 
