@@ -10,6 +10,7 @@ project(dtk-SuperBuild)
 #-------------------------------------------------------------------------------
 # Options
 
+set(dtk_DEPS_ONLY OFF CACHE BOOL "Build the dependencies only")
 set(dtk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
 if(WIN32 OR APPLE)
     set(dtk_NFD_DEFAULT TRUE)
@@ -101,4 +102,6 @@ foreach(DEP ${dtk_DEPS})
     include(Build${DEP})
 endforeach()
 
-include(Builddtk)
+if(NOT dtk_DEPS_ONLY)
+    include(Builddtk)
+endif()
