@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/codecov/example-cpp11-cmake/branch/master/graph/badge.svg)](https://codecov.io/gh/darbyjohnston/dtk)
 
 dtk
-=======
+===
 A toolkit for building DJV and other applications.
 
 
