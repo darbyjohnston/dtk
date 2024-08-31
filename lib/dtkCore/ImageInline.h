@@ -126,12 +126,12 @@ namespace dtk
 
         inline const uint8_t* Image::getData() const
         {
-            return _data.data();
+            return _dataP;
         }
 
         inline uint8_t* Image::getData()
         {
-            return _data.data();
+            return _dataP;
         }
     }
 }

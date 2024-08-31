@@ -167,13 +167,16 @@ namespace dtk
             DTK_NON_COPYABLE(Image);
 
         protected:
-            Image(const ImageInfo&);
+            Image(const ImageInfo&, uint8_t* externalData = nullptr);
 
         public:
             ~Image();
 
             //! Create a new image.
             static std::shared_ptr<Image> create(const ImageInfo&);
+
+            //! Create a new image.
+            static std::shared_ptr<Image> create(const ImageInfo&, uint8_t* externalData);
 
             //! Create a new image.
             static std::shared_ptr<Image> create(const Size2I&, ImageType);
@@ -225,6 +228,7 @@ namespace dtk
             ImageTags _tags;
             size_t _byteCount = 0;
             std::vector<uint8_t> _data;
+            uint8_t* _dataP = nullptr;
         };
 
         ///@}

@@ -146,19 +146,32 @@ namespace dtk
             return out;
         }
         
-        Image::Image(const ImageInfo& info) :
+        Image::Image(const ImageInfo& info, uint8_t* externalData) :
             _info(info)
         {
             _byteCount = info.getByteCount();
-            _data.reserve(_byteCount);
+            if (externalData)
+            {
+                _dataP = externalData;
+            }
+            else
+            {
+                _data.reserve(_byteCount);
+                _dataP = _data.data();
+            }
         }
 
         Image::~Image()
         {}
 
-        std::shared_ptr<Image> Image::create(const ImageInfo& info)
+        std::shared_ptr<Image> Image::create(const ImageInfo & info)
         {
             return std::shared_ptr<Image>(new Image(info));
+        }
+
+        std::shared_ptr<Image> Image::create(const ImageInfo& info, uint8_t* externalData)
+        {
+            return std::shared_ptr<Image>(new Image(info, externalData));
         }
 
         std::shared_ptr<Image> Image::create(const Size2I& size, ImageType type)
@@ -178,7 +191,7 @@ namespace dtk
         
         void Image::zero()
         {
-            memset(_data.data(), 0, _byteCount);
+            memset(_dataP, 0, _byteCount);
         }
     }
 }
