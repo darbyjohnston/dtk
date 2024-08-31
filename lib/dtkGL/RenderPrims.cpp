@@ -337,6 +337,9 @@ namespace dtk
             DTK_P();
 
             const auto& info = image->getInfo();
+            if (!info.isValid())
+                return;
+
             std::vector<std::shared_ptr<Texture> > textures;
             if (!imageOptions.cache)
             {
