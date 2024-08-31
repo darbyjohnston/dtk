@@ -109,7 +109,7 @@ endif()
 add_library(dtkCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
 target_link_libraries(dtkCore
     PUBLIC nlohmann_json::nlohmann_json
-    PRIVATE Freetype::Freetype PNG::png ZLIB::ZLIB)
+    PRIVATE Freetype::Freetype PNG::PNG ZLIB::ZLIB)
 set_target_properties(dtkCore PROPERTIES FOLDER lib)
 set_target_properties(dtkCore PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
