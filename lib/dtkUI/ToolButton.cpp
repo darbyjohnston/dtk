@@ -20,7 +20,7 @@ namespace dtk
                 float displayScale = 0.F;
                 int margin = 0;
                 int spacing = 0;
-                int border = 0;
+                int borderFocus = 0;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -103,7 +103,7 @@ namespace dtk
             IButton::setGeometry(value);
             DTK_P();
             p.draw.g = value;
-            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
             p.draw.g3 = margin(p.draw.g2, -p.size.margin);
         }
 
@@ -119,7 +119,7 @@ namespace dtk
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+                p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
                 p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -147,7 +147,7 @@ namespace dtk
                 sizeHint.w += _iconImage->getWidth();
                 sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
             }
-            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
+            sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
             _setSizeHint(sizeHint);
         }
 
@@ -172,7 +172,7 @@ namespace dtk
             if (hasKeyFocus())
             {
                 event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
+                    border(p.draw.g, p.size.borderFocus),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 

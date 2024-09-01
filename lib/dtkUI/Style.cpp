@@ -29,6 +29,7 @@ namespace dtk
             "SpacingLarge",
             "SpacingTool",
             "Border",
+            "BorderFocus",
             "ScrollArea",
             "Slider",
             "Handle",
@@ -51,6 +52,7 @@ namespace dtk
             out[SizeRole::SpacingLarge] = 20;
             out[SizeRole::SpacingTool] = 2;
             out[SizeRole::Border] = 1;
+            out[SizeRole::BorderFocus] = 2;
             out[SizeRole::ScrollArea] = 200;
             out[SizeRole::Slider] = 100;
             out[SizeRole::Handle] = 8;
@@ -100,8 +102,8 @@ namespace dtk
             out[ColorRole::Border] = Color4F(.13F, .13F, .13F);
             out[ColorRole::Hover] = Color4F(1.F, 1.F, 1.F, .1F);
             out[ColorRole::Pressed] = Color4F(1.F, 1.F, 1.F, .2F);
-            out[ColorRole::Checked] = Color4F(.6F, .4F, .2F);
-            out[ColorRole::KeyFocus] = Color4F(.8F, .8F, .8F);
+            out[ColorRole::Checked] = Color4F(.56F, .36F, .15F);
+            out[ColorRole::KeyFocus] = Color4F(.8F, .6F, .3F);
             out[ColorRole::Overlay] = Color4F(0.F, 0.F, 0.F, .5F);
             out[ColorRole::TooltipWindow] = Color4F(1.F, .95F, .7F);
             out[ColorRole::TooltipText] = Color4F(0.F, 0.F, 0.F);
@@ -112,6 +114,7 @@ namespace dtk
             out[ColorRole::Cyan] = Color4F(.3F, .6F, .6F);
             out[ColorRole::Magenta] = Color4F(.6F, .3F, .6F);
             out[ColorRole::Yellow] = Color4F(.6F, .6F, .3F);
+
             return out;
         }
 

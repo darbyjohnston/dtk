@@ -7,7 +7,7 @@ do
         base=$(basename -s .svg $f)
         png=${base}_${dpi}dpi.png
         inkscape $f -o $png -d $dpi
-        bin/tgresource/tgresource $png $1/${base}_${dpi}.h ${base}_${dpi}_png
+        bin/dtkresource/Debug/dtkresource.exe $png $1/${base}_${dpi}.h ${base}_${dpi}_png
     done
 done
 

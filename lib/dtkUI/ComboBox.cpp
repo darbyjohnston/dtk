@@ -47,6 +47,7 @@ namespace dtk
                 int margin = 0;
                 int spacing = 0;
                 int border = 0;
+                int borderFocus = 0;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -58,7 +59,6 @@ namespace dtk
                 Box2I g;
                 Box2I g2;
                 Box2I g3;
-                TriMesh2F border;
                 std::vector<std::shared_ptr<Glyph> > glyphs;
                 float iconScale = 1.F;
                 std::shared_ptr<Image> iconImage;
@@ -197,9 +197,8 @@ namespace dtk
             IWidget::setGeometry(value);
             DTK_P();
             p.draw.g = value;
-            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
             p.draw.g3 = margin(p.draw.g2, -p.size.margin);
-            p.draw.border = border(p.draw.g, p.size.border);
         }
 
         void ComboBox::sizeHintEvent(const SizeHintEvent& event)
@@ -214,6 +213,7 @@ namespace dtk
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+                p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
                 p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = Size2I();
@@ -262,7 +262,7 @@ namespace dtk
                 sizeHint.w += p.draw.arrowIconImage->getWidth();
                 sizeHint.h = std::max(sizeHint.h, p.draw.arrowIconImage->getHeight());
             }
-            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
+            sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
             _setSizeHint(sizeHint);
         }
 
@@ -274,10 +274,19 @@ namespace dtk
             DTK_P();
 
             // Draw the focus and border.
-            event.render->drawMesh(
-                p.draw.border,
-                event.style->getColorRole(
-                    hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
+            const Box2I& g = getGeometry();
+            if (hasKeyFocus())
+            {
+                event.render->drawMesh(
+                    border(g, p.size.borderFocus),
+                    event.style->getColorRole(ColorRole::KeyFocus));
+            }
+            else
+            {
+                event.render->drawMesh(
+                    border(margin(g, p.size.border - p.size.borderFocus), p.size.border),
+                    event.style->getColorRole(ColorRole::Border));
+            }
 
             // Draw the background.
             event.render->drawRect(

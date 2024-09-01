@@ -25,6 +25,7 @@ namespace dtk
                 float displayScale = 0.F;
                 int size = 0;
                 int border = 0;
+                int borderFocus = 0;
                 int handle = 0;
                 FontMetrics fontMetrics;
             };
@@ -36,7 +37,6 @@ namespace dtk
                 Box2I g2;
                 Box2I g3;
                 Box2I g4;
-                TriMesh2F border;
             };
             DrawData draw;
         };
@@ -153,7 +153,7 @@ namespace dtk
             IWidget::setGeometry(value);
             DTK_P();
             p.draw.g = value;
-            p.draw.g2 = margin(p.draw.g, -p.size.border);
+            p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
             p.draw.g3 = _getSliderGeometry();
             int pos = 0;
             if (p.model)
@@ -165,7 +165,6 @@ namespace dtk
                 p.draw.g3.y(),
                 p.size.handle,
                 p.draw.g3.h());
-            p.draw.border = border(p.draw.g, p.size.border);
         }
 
         void IntSlider::sizeHintEvent(const SizeHintEvent& event)
@@ -178,12 +177,13 @@ namespace dtk
                 p.size.displayScale = event.displayScale;
                 p.size.size = event.style->getSizeRole(SizeRole::Slider, p.size.displayScale);
                 p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+                p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
                 p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
                 auto fontInfo = event.style->getFontRole(FontRole::Label, p.size.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
             }
             Size2I sizeHint(p.size.size, p.size.fontMetrics.lineHeight);
-            sizeHint = margin(sizeHint, p.size.border * 2);
+            sizeHint = margin(sizeHint, p.size.borderFocus * 2);
             _setSizeHint(sizeHint);
         }
 
@@ -195,10 +195,19 @@ namespace dtk
             DTK_P();
 
             // Draw the focus and border.
-            event.render->drawMesh(
-                p.draw.border,
-                event.style->getColorRole(
-                    hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
+            const Box2I& g = getGeometry();
+            if (hasKeyFocus())
+            {
+                event.render->drawMesh(
+                    border(g, p.size.borderFocus),
+                    event.style->getColorRole(ColorRole::KeyFocus));
+            }
+            else
+            {
+                event.render->drawMesh(
+                    border(margin(g, p.size.border - p.size.borderFocus), p.size.border),
+                    event.style->getColorRole(ColorRole::Border));
+            }
 
             // Draw the background.
             event.render->drawRect(
@@ -323,10 +332,10 @@ namespace dtk
             DTK_P();
             return margin(
                 getGeometry(),
-                -(p.size.border * 2 + p.size.handle / 2),
-                -(p.size.border * 2),
-                -(p.size.border * 2 + p.size.handle / 2),
-                -(p.size.border * 2));
+                -(p.size.borderFocus * 2 + p.size.handle / 2),
+                -(p.size.borderFocus * 2),
+                -(p.size.borderFocus * 2 + p.size.handle / 2),
+                -(p.size.borderFocus * 2));
         }
 
         int IntSlider::_posToValue(int pos) const

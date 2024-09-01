@@ -29,7 +29,7 @@ namespace dtk
                 float displayScale = 0.F;
                 int margin = 0;
                 int spacing = 0;
-                int border = 0;
+                int borderFocus = 0;
                 FontInfo fontInfo;
                 FontMetrics fontMetrics;
                 Size2I textSize;
@@ -121,7 +121,7 @@ namespace dtk
             IButton::setGeometry(value);
             DTK_P();
             p.draw.g = value;
-            p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
+            p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.borderFocus));
         }
 
         void MenuButton::sizeHintEvent(const SizeHintEvent& event)
@@ -136,7 +136,7 @@ namespace dtk
                 p.size.displayScale = event.displayScale;
                 p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
                 p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, event.displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+                p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, event.displayScale);
                 p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
                 p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
                 p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -176,7 +176,7 @@ namespace dtk
                 sizeHint.w += p.size.spacing + p.subMenuImage->getWidth();
                 sizeHint.h = std::max(sizeHint.h, p.subMenuImage->getHeight());
             }
-            sizeHint = margin(sizeHint, p.size.margin + p.size.border);
+            sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
             _setSizeHint(sizeHint);
         }
 
@@ -225,7 +225,7 @@ namespace dtk
             if (p.current)
             {
                 event.render->drawMesh(
-                    border(p.draw.g, p.size.border),
+                    border(p.draw.g, p.size.borderFocus),
                     event.style->getColorRole(ColorRole::KeyFocus));
             }
 

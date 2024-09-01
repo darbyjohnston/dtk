@@ -46,10 +46,14 @@ namespace
 #include <Icons/FileCloseAll_96.h>
 #include <Icons/FileOpen_192.h>
 #include <Icons/FileOpen_96.h>
+#include <Icons/FrameEnd_192.h>
+#include <Icons/FrameEnd_96.h>
 #include <Icons/FrameNext_192.h>
 #include <Icons/FrameNext_96.h>
 #include <Icons/FramePrev_192.h>
 #include <Icons/FramePrev_96.h>
+#include <Icons/FrameStart_192.h>
+#include <Icons/FrameStart_96.h>
 #include <Icons/Increment_192.h>
 #include <Icons/Increment_96.h>
 #include <Icons/MenuArrow_192.h>
@@ -161,8 +165,10 @@ namespace dtk
             p.iconData[std::make_pair("FileClose", 96)] = FileClose_96_png;
             p.iconData[std::make_pair("FileCloseAll", 96)] = FileCloseAll_96_png;
             p.iconData[std::make_pair("FileOpen", 96)] = FileOpen_96_png;
+            p.iconData[std::make_pair("FrameEnd", 96)] = FrameEnd_96_png;
             p.iconData[std::make_pair("FrameNext", 96)] = FrameNext_96_png;
             p.iconData[std::make_pair("FramePrev", 96)] = FramePrev_96_png;
+            p.iconData[std::make_pair("FrameStart", 96)] = FrameStart_96_png;
             p.iconData[std::make_pair("Increment", 96)] = Increment_96_png;
             p.iconData[std::make_pair("MenuArrow", 96)] = MenuArrow_96_png;
             p.iconData[std::make_pair("Mute", 96)] = Mute_96_png;
@@ -199,8 +205,10 @@ namespace dtk
             p.iconData[std::make_pair("FileClose", 192)] = FileClose_192_png;
             p.iconData[std::make_pair("FileCloseAll", 192)] = FileCloseAll_192_png;
             p.iconData[std::make_pair("FileOpen", 192)] = FileOpen_192_png;
+            p.iconData[std::make_pair("FrameEnd", 192)] = FrameEnd_192_png;
             p.iconData[std::make_pair("FrameNext", 192)] = FrameNext_192_png;
             p.iconData[std::make_pair("FramePrev", 192)] = FramePrev_192_png;
+            p.iconData[std::make_pair("FrameStart", 192)] = FrameStart_192_png;
             p.iconData[std::make_pair("Increment", 192)] = Increment_192_png;
             p.iconData[std::make_pair("MenuArrow", 192)] = MenuArrow_192_png;
             p.iconData[std::make_pair("Mute", 192)] = Mute_192_png;

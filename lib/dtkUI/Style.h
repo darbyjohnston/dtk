@@ -30,6 +30,7 @@ namespace dtk
             SpacingLarge,
             SpacingTool,
             Border,
+            BorderFocus,
             ScrollArea,
             Slider,
             Handle,

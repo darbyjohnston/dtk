@@ -50,7 +50,7 @@ namespace dtk
             void clearButtons();
 
             //! Set whether the button is checked.
-            void setChecked(int, bool);
+            void setChecked(int, bool = true);
 
             //! Set the clicked callback.
             void setClickedCallback(const std::function<void(int)>&);
