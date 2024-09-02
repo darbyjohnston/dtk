@@ -6,8 +6,6 @@
 
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     std::string vertexSource()
@@ -109,7 +107,7 @@ namespace dtk
     namespace
     {
         const std::string imageType =
-            "// enum dtk::core::ImageType\n"
+            "// enum dtk::ImageType\n"
             "const int ImageType_None              = 0;\n"
             "const int ImageType_L_U8              = 1;\n"
             "const int ImageType_L_U16             = 2;\n"
@@ -141,7 +139,7 @@ namespace dtk
             "const int ImageType_ARGB_4444_Premult = 28;\n";
 
         const std::string videoLevels =
-            "// enum dtk::core::VideoLevels\n"
+            "// enum dtk::VideoLevels\n"
             "const int VideoLevels_FullRange  = 0;\n"
             "const int VideoLevels_LegalRange = 1;\n";
 
