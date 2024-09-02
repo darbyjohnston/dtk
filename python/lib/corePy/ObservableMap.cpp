@@ -12,11 +12,8 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void observableMap(py::module_& m)
     {
-        void observableMap(py::module_& m)
-        {
-            observableMap<std::string, int>(m, "StringI");
-        }
+        observableMap<std::string, int>(m, "StringI");
     }
 }

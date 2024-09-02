@@ -8,12 +8,9 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        template<typename T>
-        void observableList(pybind11::module_&, const std::string& type);
-        void observableList(pybind11::module_&);
-    }
+    template<typename T>
+    void observableList(pybind11::module_&, const std::string& type);
+    void observableList(pybind11::module_&);
 }
 
 #include <corePy/ObservableListInline.h>

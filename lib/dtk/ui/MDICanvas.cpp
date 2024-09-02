@@ -6,8 +6,6 @@
 
 #include <dtk/ui/MDIWidget.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -91,7 +89,7 @@ namespace dtk
 
         std::shared_ptr<MDIWidget> MDICanvas::addWidget(
             const std::string& title,
-            const core::V2I& pos,
+            const V2I& pos,
             const std::shared_ptr<IWidget>& value)
         {
             DTK_P();

@@ -13,13 +13,13 @@ namespace dtk
         class ShaderTest : public test::ITest
         {
         protected:
-            ShaderTest(const std::shared_ptr<core::Context>&);
+            ShaderTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ShaderTest();
 
             static std::shared_ptr<ShaderTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

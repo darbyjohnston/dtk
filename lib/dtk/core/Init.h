@@ -8,13 +8,9 @@
 
 namespace dtk
 {
-    //! Core functionality
-    namespace core
-    {
-        class Context;
+    class Context;
 
-        //! Initialize the library.
-        void init(const std::shared_ptr<Context>&);
-    }
+    //! Initialize the core library.
+    void coreInit(const std::shared_ptr<Context>&);
 }
 

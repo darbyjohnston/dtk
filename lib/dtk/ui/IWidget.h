@@ -22,7 +22,7 @@ namespace dtk
 
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& objectName,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -80,7 +80,7 @@ namespace dtk
             ///@{
 
             //! Get the size hint.
-            const core::Size2I& getSizeHint() const;
+            const Size2I& getSizeHint() const;
 
             //! Get the horizontal layout stretch.
             Stretch getHStretch() const;
@@ -116,16 +116,16 @@ namespace dtk
             void setAlign(HAlign, VAlign);
 
             //! Get the geometry.
-            const core::Box2I& getGeometry() const;
+            const Box2I& getGeometry() const;
 
             //! Set the geometry.
-            virtual void setGeometry(const core::Box2I&);
+            virtual void setGeometry(const Box2I&);
             
             //! Set the position.
-            void setPos(const core::V2I&);
+            void setPos(const V2I&);
             
             //! Set the size.
-            void setSize(const core::Size2I&);
+            void setSize(const Size2I&);
 
             ///@}
 
@@ -149,7 +149,7 @@ namespace dtk
 
             //! Get the clipping rect applied to the child widgets. By
             //! default this is the same as the widget geometry.
-            virtual core::Box2I getChildrenClipRect() const;
+            virtual Box2I getChildrenClipRect() const;
 
             ///@}
 
@@ -222,13 +222,13 @@ namespace dtk
             virtual void sizeHintEvent(const SizeHintEvent&);
 
             //! Clip event.
-            virtual void clipEvent(const core::Box2I&, bool clipped);
+            virtual void clipEvent(const Box2I&, bool clipped);
 
             //! Draw event.
-            virtual void drawEvent(const core::Box2I&, const DrawEvent&);
+            virtual void drawEvent(const Box2I&, const DrawEvent&);
 
             //! Draw overlay event.
-            virtual void drawOverlayEvent(const core::Box2I&, const DrawEvent&);
+            virtual void drawOverlayEvent(const Box2I&, const DrawEvent&);
 
             //! Mouse enter event.
             virtual void mouseEnterEvent();
@@ -275,34 +275,34 @@ namespace dtk
             ///@}
 
         protected:
-            const std::weak_ptr<core::Context>& _getContext() const;
+            const std::weak_ptr<Context>& _getContext() const;
 
             void _setDrawUpdate();
             void _setSizeUpdate();
 
-            void _setSizeHint(const core::Size2I&);
+            void _setSizeHint(const Size2I&);
 
             void _setMouseHoverEnabled(bool);
             void _setMousePressEnabled(bool, int button = -1, int modifiers = -1);
             virtual void _releaseMouse();
             bool _isMouseInside() const;
-            const core::V2I& _getMousePos() const;
+            const V2I& _getMousePos() const;
             bool _isMousePressed() const;
-            const core::V2I& _getMousePressPos() const;
+            const V2I& _getMousePressPos() const;
 
         private:
-            std::weak_ptr<core::Context> _context;
+            std::weak_ptr<Context> _context;
             std::string _objectName;
             ColorRole _backgroundRole = ColorRole::None;
             int _updates = 0;
             std::weak_ptr<IWidget> _parent;
             std::list<std::shared_ptr<IWidget> > _children;
-            core::Size2I _sizeHint;
+            Size2I _sizeHint;
             Stretch _hStretch = Stretch::Fixed;
             Stretch _vStretch = Stretch::Fixed;
             HAlign _hAlign = HAlign::Center;
             VAlign _vAlign = VAlign::Center;
-            core::Box2I _geometry;
+            Box2I _geometry;
             bool _visible = true;
             bool _parentsVisible = true;
             bool _clipped = false;
@@ -313,9 +313,9 @@ namespace dtk
             int _mousePressButton = -1;
             int _mousePressModifiers = -1;
             bool _mouseInside = false;
-            core::V2I _mousePos;
+            V2I _mousePos;
             bool _mousePress = false;
-            core::V2I _mousePressPos;
+            V2I _mousePressPos;
             bool _acceptsKeyFocus = false;
             bool _keyFocus = false;
             std::string _tooltip;

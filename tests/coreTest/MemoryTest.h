@@ -13,13 +13,13 @@ namespace dtk
         class MemoryTest : public test::ITest
         {
         protected:
-            MemoryTest(const std::shared_ptr<core::Context>&);
+            MemoryTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~MemoryTest();
 
             static std::shared_ptr<MemoryTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

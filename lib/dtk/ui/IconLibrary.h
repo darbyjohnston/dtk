@@ -22,7 +22,7 @@ namespace dtk
             DTK_NON_COPYABLE(IconLibrary);
 
         protected:
-            void _init(const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<Context>&);
 
             IconLibrary();
 
@@ -31,10 +31,10 @@ namespace dtk
 
             //! Create a new icon library.
             static std::shared_ptr<IconLibrary> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! Request an icon.
-            std::future<std::shared_ptr<core::Image> > request(
+            std::future<std::shared_ptr<Image> > request(
                 const std::string& name,
                 float displayScale);
 

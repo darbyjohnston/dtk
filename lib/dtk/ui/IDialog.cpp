@@ -7,8 +7,6 @@
 #include <dtk/ui/DrawUtil.h>
 #include <dtk/ui/IWindow.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

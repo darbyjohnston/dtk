@@ -13,7 +13,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/Time.h>
 
-using namespace dtk::core;
 using namespace dtk::ui;
 
 namespace dtk

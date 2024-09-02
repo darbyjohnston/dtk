@@ -22,15 +22,15 @@ namespace dtk
     {
         void app(py::module_& m)
         {
-            py::class_<App, core::IApp, std::shared_ptr<App> >(m, "App")
+            py::class_<App, IApp, std::shared_ptr<App> >(m, "App")
                 .def(
                     py::init(&App::create),
                     py::arg("context"),
                     py::arg("argv"),
                     py::arg("name"),
                     py::arg("summary"),
-                    py::arg("cmdLineArgs") = std::vector<std::shared_ptr<core::ICmdLineArg> >(),
-                    py::arg("cmdLineOptions") = std::vector<std::shared_ptr<core::ICmdLineOption> >())
+                    py::arg("cmdLineArgs") = std::vector<std::shared_ptr<ICmdLineArg> >(),
+                    py::arg("cmdLineOptions") = std::vector<std::shared_ptr<ICmdLineOption> >())
                 .def("addWindow", &App::addWindow, py::arg("window"))
                 .def("removeWindow", &App::removeWindow, py::arg("window"))
                 .def("exit", &App::exit);

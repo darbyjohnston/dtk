@@ -13,13 +13,13 @@ namespace dtk
         class ImageIOTest : public test::ITest
         {
         protected:
-            ImageIOTest(const std::shared_ptr<core::Context>&);
+            ImageIOTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ImageIOTest();
 
             static std::shared_ptr<ImageIOTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
             

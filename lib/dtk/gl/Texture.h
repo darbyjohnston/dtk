@@ -14,13 +14,13 @@ namespace dtk
         ///@{
         
         //! Get the OpenGL texture format.
-        unsigned int getTextureFormat(core::ImageType);
+        unsigned int getTextureFormat(ImageType);
 
         //! Get the OpenGL internal texture format.
-        unsigned int getTextureInternalFormat(core::ImageType);
+        unsigned int getTextureInternalFormat(ImageType);
 
         //! Get the OpenGL texture type.
-        unsigned int getTextureType(core::ImageType);
+        unsigned int getTextureType(ImageType);
 
         //! Texture filtering.
         enum class TextureFilter
@@ -63,7 +63,7 @@ namespace dtk
 
         protected:
             Texture(
-                const core::ImageInfo&,
+                const ImageInfo&,
                 const TextureOptions&);
 
         public:
@@ -71,14 +71,14 @@ namespace dtk
 
             //! Create a new texture.
             static std::shared_ptr<Texture> create(
-                const core::ImageInfo&,
+                const ImageInfo&,
                 const TextureOptions& = TextureOptions());
 
             //! Get the image information.
-            const core::ImageInfo& getInfo() const;
+            const ImageInfo& getInfo() const;
 
             //! Get the size.
-            const core::Size2I& getSize() const;
+            const Size2I& getSize() const;
 
             //! Get the width.
             int getWidth() const;
@@ -87,7 +87,7 @@ namespace dtk
             int getHeight() const;
 
             //! Get the image type.
-            core::ImageType getType() const;
+            ImageType getType() const;
 
             //! Get the OpenGL texture ID.
             unsigned int getID() const;
@@ -96,9 +96,9 @@ namespace dtk
             //! Copy image data to the texture.
             ///@{
 
-            void copy(const std::shared_ptr<core::Image>&);
-            void copy(const std::shared_ptr<core::Image>&, int x, int y);
-            void copy(const uint8_t*, const core::ImageInfo&);
+            void copy(const std::shared_ptr<Image>&);
+            void copy(const std::shared_ptr<Image>&, int x, int y);
+            void copy(const uint8_t*, const ImageInfo&);
 
             ///@}
 

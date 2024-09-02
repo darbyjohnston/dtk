@@ -11,8 +11,6 @@
 
 #include <dtk/core/RenderUtil.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

@@ -8,8 +8,6 @@
 #include <dtk/core/OS.h>
 #include <dtk/core/String.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

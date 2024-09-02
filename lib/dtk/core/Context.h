@@ -13,43 +13,40 @@
 
 namespace dtk
 {
-    namespace core
+    class ISystem;
+
+    //! The context provides centralized access to systems and other
+    //! resources.
+    class Context : public std::enable_shared_from_this<Context>
     {
-        class ISystem;
+        DTK_NON_COPYABLE(Context);
 
-        //! The context provides centralized access to systems and other
-        //! resources.
-        class Context : public std::enable_shared_from_this<Context>
-        {
-            DTK_NON_COPYABLE(Context);
+    protected:
+        Context() = default;
 
-        protected:
-            Context() = default;
+    public:
+        ~Context();
 
-        public:
-            ~Context();
+        //! Create a new context.
+        static std::shared_ptr<Context> create();
 
-            //! Create a new context.
-            static std::shared_ptr<Context> create();
+        //! Add a system.
+        void addSystem(const std::shared_ptr<ISystem>&);
 
-            //! Add a system.
-            void addSystem(const std::shared_ptr<ISystem>&);
+        //! Get the systems.
+        const std::list<std::shared_ptr<ISystem> >& getSystems() const;
 
-            //! Get the systems.
-            const std::list<std::shared_ptr<ISystem> >& getSystems() const;
+        //! Get a system.
+        template<typename T>
+        std::shared_ptr<T> getSystem() const;
 
-            //! Get a system.
-            template<typename T>
-            std::shared_ptr<T> getSystem() const;
+        //! Tick the context.
+        void tick();
 
-            //! Tick the context.
-            void tick();
-
-        private:
-            std::list<std::shared_ptr<ISystem> > _systems;
-            std::map<std::shared_ptr<ISystem>, std::chrono::steady_clock::time_point> _systemTimes;
-        };
-    }
+    private:
+        std::list<std::shared_ptr<ISystem> > _systems;
+        std::map<std::shared_ptr<ISystem>, std::chrono::steady_clock::time_point> _systemTimes;
+    };
 }
 
 #include <dtk/core/ContextInline.h>

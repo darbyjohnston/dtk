@@ -13,13 +13,13 @@ namespace dtk
         class OffscreenBufferTest : public test::ITest
         {
         protected:
-            OffscreenBufferTest(const std::shared_ptr<core::Context>&);
+            OffscreenBufferTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~OffscreenBufferTest();
 
             static std::shared_ptr<OffscreenBufferTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

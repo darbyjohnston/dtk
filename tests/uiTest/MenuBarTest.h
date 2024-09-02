@@ -13,13 +13,13 @@ namespace dtk
         class MenuBarTest : public test::ITest
         {
         protected:
-            MenuBarTest(const std::shared_ptr<core::Context>&);
+            MenuBarTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~MenuBarTest();
 
             static std::shared_ptr<MenuBarTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

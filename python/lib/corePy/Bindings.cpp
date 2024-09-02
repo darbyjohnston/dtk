@@ -33,35 +33,29 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void coreBind(py::module_& m)
     {
-        void bind(py::module_& m)
-        {
-            auto sm = m.def_submodule("dtkCore");
-            sm.doc() = "Core functionality";
+        m.def("init", &coreInit, "Initialize the library.");
 
-            sm.def("init", &init, "Initialize the library.");
+        iSystem(m);
 
-            iSystem(sm);
-
-            box(sm);
-            cmdLine(sm);
-            color(sm);
-            context(sm);
-            fontSystem(sm);
-            iApp(sm);
-            iRender(sm);
-            image(sm);
-            memory(sm);
-            observable(sm);
-            observableList(sm);
-            observableMap(sm);
-            observableValue(sm);
-            os(sm);
-            random(sm);
-            range(sm);
-            size(sm);
-            vector(sm);
-        }
+        box(m);
+        cmdLine(m);
+        color(m);
+        context(m);
+        fontSystem(m);
+        iApp(m);
+        iRender(m);
+        image(m);
+        memory(m);
+        observable(m);
+        observableList(m);
+        observableMap(m);
+        observableValue(m);
+        os(m);
+        random(m);
+        range(m);
+        size(m);
+        vector(m);
     }
 }

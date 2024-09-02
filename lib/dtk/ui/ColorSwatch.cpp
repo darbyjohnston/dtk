@@ -7,8 +7,6 @@
 #include <dtk/ui/ColorPopup.h>
 #include <dtk/ui/DrawUtil.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

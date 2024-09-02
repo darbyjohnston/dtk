@@ -9,8 +9,6 @@
 #include <dtk/ui/ScrollArea.h>
 #include <dtk/ui/ScrollBar.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

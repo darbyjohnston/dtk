@@ -13,12 +13,9 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void cmdLine(py::module_& m)
     {
-        void cmdLine(py::module_& m)
-        {
-            py::class_<ICmdLineOption, std::shared_ptr<ICmdLineOption> >(m, "ICmdLineOption");
-            py::class_<ICmdLineArg, std::shared_ptr<ICmdLineArg> >(m, "ICmdLineArg");
-        }
+        py::class_<ICmdLineOption, std::shared_ptr<ICmdLineOption> >(m, "ICmdLineOption");
+        py::class_<ICmdLineArg, std::shared_ptr<ICmdLineArg> >(m, "ICmdLineArg");
     }
 }

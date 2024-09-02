@@ -13,13 +13,13 @@ namespace dtk
         class RandomTest : public test::ITest
         {
         protected:
-            RandomTest(const std::shared_ptr<core::Context>&);
+            RandomTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~RandomTest();
 
             static std::shared_ptr<RandomTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

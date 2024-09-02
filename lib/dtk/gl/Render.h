@@ -18,16 +18,16 @@ namespace dtk
         ///@{
 
         //! Texture cache.
-        typedef core::LRUCache<
-            std::shared_ptr<core::Image>,
+        typedef LRUCache<
+            std::shared_ptr<Image>,
             std::vector<std::shared_ptr<Texture> > > TextureCache;
         
         //! OpenGL renderer.
-        class Render : public core::IRender
+        class Render : public IRender
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<TextureCache>&);
 
             Render();
@@ -37,76 +37,76 @@ namespace dtk
 
             //! Create a new renderer.
             static std::shared_ptr<Render> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<TextureCache>& = nullptr);
 
             //! Get the texture cache.
             const std::shared_ptr<TextureCache>& getTextureCache() const;
 
             void begin(
-                const core::Size2I&,
-                const core::RenderOptions& = core::RenderOptions()) override;
+                const Size2I&,
+                const RenderOptions& = RenderOptions()) override;
             void end() override;
-            core::Size2I getRenderSize() const override;
-            void setRenderSize(const core::Size2I&) override;
-            core::Box2I getViewport() const override;
-            void setViewport(const core::Box2I&) override;
-            void clearViewport(const core::Color4F&) override;
+            Size2I getRenderSize() const override;
+            void setRenderSize(const Size2I&) override;
+            Box2I getViewport() const override;
+            void setViewport(const Box2I&) override;
+            void clearViewport(const Color4F&) override;
             bool getClipRectEnabled() const override;
             void setClipRectEnabled(bool) override;
-            core::Box2I getClipRect() const override;
-            void setClipRect(const core::Box2I&) override;
-            core::M44F getTransform() const override;
-            void setTransform(const core::M44F&) override;
+            Box2I getClipRect() const override;
+            void setClipRect(const Box2I&) override;
+            M44F getTransform() const override;
+            void setTransform(const M44F&) override;
             void drawRect(
-                const core::Box2F&,
-                const core::Color4F&) override;
+                const Box2F&,
+                const Color4F&) override;
             void drawRects(
-                const std::vector<core::Box2F>&,
-                const core::Color4F&) override;
+                const std::vector<Box2F>&,
+                const Color4F&) override;
             void drawLine(
-                const core::V2F&,
-                const core::V2F&,
-                const core::Color4F&,
-                const core::LineOptions& = core::LineOptions()) override;
+                const V2F&,
+                const V2F&,
+                const Color4F&,
+                const LineOptions& = LineOptions()) override;
             void drawLines(
-                const std::vector<std::pair<core::V2F, core::V2F> >&,
-                const core::Color4F&,
-                const core::LineOptions& = core::LineOptions()) override;
+                const std::vector<std::pair<V2F, V2F> >&,
+                const Color4F&,
+                const LineOptions& = LineOptions()) override;
             void drawMesh(
-                const core::TriMesh2F&,
-                const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
-                const core::V2F& pos = core::V2F()) override;
+                const TriMesh2F&,
+                const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+                const V2F& pos = V2F()) override;
             void drawColorMesh(
-                const core::TriMesh2F&,
-                const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
-                const core::V2F& pos = core::V2F()) override;
+                const TriMesh2F&,
+                const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+                const V2F& pos = V2F()) override;
             void drawText(
-                const std::vector<std::shared_ptr<core::Glyph> >&,
-                const core::FontMetrics&,
-                const core::V2F& position,
-                const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F)) override;
+                const std::vector<std::shared_ptr<Glyph> >&,
+                const FontMetrics&,
+                const V2F& position,
+                const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) override;
             void drawImage(
-                const std::shared_ptr<core::Image>&,
-                const core::Box2F&,
-                const core::Color4F& = core::Color4F(1.F, 1.F, 1.F, 1.F),
-                const core::ImageOptions& = core::ImageOptions()) override;
+                const std::shared_ptr<Image>&,
+                const Box2F&,
+                const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+                const ImageOptions& = ImageOptions()) override;
 
         private:
             std::vector<std::shared_ptr<Texture> > _getTextures(
-                const core::ImageInfo&,
-                const core::ImageFilters&,
+                const ImageInfo&,
+                const ImageFilters&,
                 size_t offset = 0);
             void _copyTextures(
-                const std::shared_ptr<core::Image>&,
+                const std::shared_ptr<Image>&,
                 const std::vector<std::shared_ptr<Texture> >&,
                 size_t offset = 0);
             void _setActiveTextures(
-                const core::ImageInfo& info,
+                const ImageInfo& info,
                 const std::vector<std::shared_ptr<Texture> >&,
                 size_t offset = 0);
 
-            void _drawTextMesh(const core::TriMesh2F&);
+            void _drawTextMesh(const TriMesh2F&);
             
             void _log();
 

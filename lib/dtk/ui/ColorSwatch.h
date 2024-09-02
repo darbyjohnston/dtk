@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ColorSwatch();
@@ -28,14 +28,14 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ColorSwatch> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the color.
-            const core::Color4F& getColor() const;
+            const Color4F& getColor() const;
 
             //! Set the color.
-            void setColor(const core::Color4F&);
+            void setColor(const Color4F&);
 
             //! Get whether the color is editable.
             bool isEditable() const;
@@ -44,7 +44,7 @@ namespace dtk
             void setEditable(bool);
 
             //! Set the color callback.
-            void setCallback(const std::function<void(const core::Color4F&)>&);
+            void setCallback(const std::function<void(const Color4F&)>&);
 
             //! Get the size role.
             SizeRole getSizeRole() const;
@@ -52,9 +52,9 @@ namespace dtk
             //! Set the size role.
             void setSizeRole(SizeRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void mousePressEvent(MouseClickEvent&) override;
 
         private:

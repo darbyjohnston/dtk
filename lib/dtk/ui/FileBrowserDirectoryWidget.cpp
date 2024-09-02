@@ -11,8 +11,6 @@
 
 #include <filesystem>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -303,7 +301,7 @@ namespace dtk
                             keep = contains(
                                 fileName,
                                 options.search,
-                                Compare::CaseInsensitive);
+                                CaseCompare::Insensitive);
                         }
                         const bool isDir = std::filesystem::is_directory(path);
                         std::string extension;
@@ -316,7 +314,7 @@ namespace dtk
                             keep = compare(
                                 extension,
                                 options.extension,
-                                Compare::CaseInsensitive);
+                                CaseCompare::Insensitive);
                         }
                         if (keep)
                         {

@@ -13,13 +13,13 @@ namespace dtk
         class BellowsTest : public test::ITest
         {
         protected:
-            BellowsTest(const std::shared_ptr<core::Context>&);
+            BellowsTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~BellowsTest();
 
             static std::shared_ptr<BellowsTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

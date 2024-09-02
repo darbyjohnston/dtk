@@ -22,7 +22,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             IncButton();
@@ -32,11 +32,11 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<IncButton> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
 
         private:
             DTK_PRIVATE();
@@ -47,7 +47,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             IncButtons();
@@ -57,7 +57,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<IncButtons> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the increment callback.
@@ -66,7 +66,7 @@ namespace dtk
             //! Set the decrement callback.
             void setDecCallback(const std::function<void(void)>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         protected:

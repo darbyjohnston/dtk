@@ -6,8 +6,6 @@
 
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl
@@ -115,7 +113,7 @@ namespace dtk
         namespace
         {
             const std::string imageType =
-                "// enum dtk::core::ImageType\n"
+                "// enum dtk::ImageType\n"
                 "const uint ImageType_None              = 0;\n"
                 "const uint ImageType_L_U8              = 1;\n"
                 "const uint ImageType_L_U16             = 2;\n"
@@ -147,7 +145,7 @@ namespace dtk
                 "const uint ImageType_ARGB_4444_Premult = 28;\n";
 
             const std::string videoLevels =
-                "// enum dtk::core::VideoLevels\n"
+                "// enum dtk::VideoLevels\n"
                 "const uint VideoLevels_FullRange  = 0;\n"
                 "const uint VideoLevels_LegalRange = 1;\n";
 

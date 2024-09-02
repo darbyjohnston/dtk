@@ -8,28 +8,25 @@
 
 namespace dtk
 {
-    namespace core
+    bool getEnv(const std::string& name, int& out)
     {
-        bool getEnv(const std::string& name, int& out)
+        std::string value;
+        if (getEnv(name, value))
         {
-            std::string value;
-            if (getEnv(name, value))
-            {
-                out = !value.empty() ? std::stoi(value) : 0;
-                return true;
-            }
-            return false;
+            out = !value.empty() ? std::stoi(value) : 0;
+            return true;
         }
+        return false;
+    }
 
-        bool getEnv(const std::string& name, std::vector<std::string>& out)
+    bool getEnv(const std::string& name, std::vector<std::string>& out)
+    {
+        std::string value;
+        if (getEnv(name, value))
         {
-            std::string value;
-            if (getEnv(name, value))
-            {
-                out = split(value, envListSeparator);
-                return true;
-            }
-            return false;
+            out = split(value, envListSeparator);
+            return true;
         }
+        return false;
     }
 }

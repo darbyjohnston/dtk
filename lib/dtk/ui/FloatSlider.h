@@ -19,7 +19,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<FloatModel>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<FloatSlider> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<FloatModel>& = nullptr,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -44,10 +44,10 @@ namespace dtk
             void setCallback(const std::function<void(float)>&);
 
             //! Get the range.
-            const core::RangeF& getRange() const;
+            const RangeF& getRange() const;
 
             //! Set the range.
-            void setRange(const core::RangeF&);
+            void setRange(const RangeF&);
 
             //! Get the step.
             float getStep() const;
@@ -64,9 +64,9 @@ namespace dtk
             //! Get the model.
             const std::shared_ptr<FloatModel>& getModel() const;
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;
             void mouseLeaveEvent() override;
             void mouseMoveEvent(MouseMoveEvent&) override;
@@ -76,7 +76,7 @@ namespace dtk
             void keyReleaseEvent(KeyEvent&) override;
 
         private:
-            core::Box2I _getSliderGeometry() const;
+            Box2I _getSliderGeometry() const;
 
             float _posToValue(int) const;
             int _valueToPos(float) const;

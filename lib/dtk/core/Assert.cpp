@@ -10,12 +10,9 @@
 
 namespace dtk
 {
-    namespace core
+    void _assert(const char* file, int line)
     {
-        void _assert(const char* file, int line)
-        {
-            std::cout << "ASSERT: " << file << ":" << line << std::endl;
-            abort();
-        }
+        std::cout << "ASSERT: " << file << ":" << line << std::endl;
+        abort();
     }
 }

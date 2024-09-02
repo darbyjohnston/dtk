@@ -13,13 +13,13 @@ namespace dtk
         class IntSliderTest : public test::ITest
         {
         protected:
-            IntSliderTest(const std::shared_ptr<core::Context>&);
+            IntSliderTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~IntSliderTest();
 
             static std::shared_ptr<IntSliderTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

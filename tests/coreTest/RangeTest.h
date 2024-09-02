@@ -13,13 +13,13 @@ namespace dtk
         class RangeTest : public test::ITest
         {
         protected:
-            RangeTest(const std::shared_ptr<core::Context>&);
+            RangeTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~RangeTest();
 
             static std::shared_ptr<RangeTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

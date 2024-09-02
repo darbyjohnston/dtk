@@ -7,8 +7,6 @@
 #include <dtk/ui/ButtonGroup.h>
 #include <dtk/ui/RowLayout.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

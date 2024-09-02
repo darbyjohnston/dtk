@@ -8,8 +8,6 @@
 
 #include <dtk/ui/ScrollWidget.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

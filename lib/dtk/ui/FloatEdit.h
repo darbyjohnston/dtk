@@ -19,7 +19,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<FloatModel>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<FloatEdit> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<FloatModel>& = nullptr,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -44,10 +44,10 @@ namespace dtk
             void setCallback(const std::function<void(float)>&);
 
             //! Get the range.
-            const core::RangeF& getRange() const;
+            const RangeF& getRange() const;
 
             //! Set the range.
-            void setRange(const core::RangeF&);
+            void setRange(const RangeF&);
 
             //! Get the step.
             float getStep() const;
@@ -76,7 +76,7 @@ namespace dtk
             //! Set the font role.
             void setFontRole(FontRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;

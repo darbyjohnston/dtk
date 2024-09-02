@@ -13,13 +13,13 @@ namespace dtk
         class IntModelTest : public test::ITest
         {
         protected:
-            IntModelTest(const std::shared_ptr<core::Context>&);
+            IntModelTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~IntModelTest();
 
             static std::shared_ptr<IntModelTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

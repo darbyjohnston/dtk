@@ -20,13 +20,13 @@ namespace dtk
             py::class_<GroupBox, IWidget, std::shared_ptr<GroupBox> >(m, "GroupBox")
                 .def(
                     py::init(py::overload_cast<
-                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<Context>&,
                         const std::shared_ptr<IWidget>&>(&GroupBox::create)),
                     py::arg("context"),
                     py::arg("parent") = nullptr)
                 .def(
                     py::init(py::overload_cast<
-                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<Context>&,
                         const std::string&,
                         const std::shared_ptr<IWidget>&>(&GroupBox::create)),
                     py::arg("context"),

@@ -16,29 +16,25 @@
 
 namespace dtk
 {
-    namespace core
+    std::string getLastError()
     {
-        std::string getLastError()
+        std::string out;
+        const DWORD dw = GetLastError();
+        if (dw != ERROR_SUCCESS)
         {
-            std::string out;
-            const DWORD dw = GetLastError();
-            if (dw != ERROR_SUCCESS)
-            {
-                TCHAR buf[cStringSize];
-                FormatMessage(
-                    FORMAT_MESSAGE_FROM_SYSTEM |
-                    FORMAT_MESSAGE_IGNORE_INSERTS,
-                    NULL,
-                    dw,
-                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                    buf,
-                    cStringSize,
-                    NULL);
-                out = std::string(buf, lstrlen(buf));
-                removeTrailingNewlines(out);
-            }
-            return out;
+            TCHAR buf[cStringSize];
+            FormatMessage(
+                FORMAT_MESSAGE_FROM_SYSTEM |
+                FORMAT_MESSAGE_IGNORE_INSERTS,
+                NULL,
+                dw,
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                buf,
+                cStringSize,
+                NULL);
+            out = std::string(buf, lstrlen(buf));
+            removeTrailingNewlines(out);
         }
+        return out;
     }
 }
-

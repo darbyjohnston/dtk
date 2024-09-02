@@ -12,7 +12,6 @@
 #include <filesystem>
 //#include <format>
 
-using namespace dtk::core;
 
 namespace dtk
 {

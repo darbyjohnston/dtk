@@ -13,13 +13,13 @@ namespace dtk
         class WidgetOptionsTest : public test::ITest
         {
         protected:
-            WidgetOptionsTest(const std::shared_ptr<core::Context>&);
+            WidgetOptionsTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~WidgetOptionsTest();
 
             static std::shared_ptr<WidgetOptionsTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

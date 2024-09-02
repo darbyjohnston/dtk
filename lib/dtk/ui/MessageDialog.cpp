@@ -8,8 +8,6 @@
 #include <dtk/ui/Spacer.h>
 #include <dtk/ui/ScrollWidget.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

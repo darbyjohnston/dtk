@@ -13,13 +13,13 @@ namespace dtk
         class ButtonGroupTest : public test::ITest
         {
         protected:
-            ButtonGroupTest(const std::shared_ptr<core::Context>&);
+            ButtonGroupTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ButtonGroupTest();
 
             static std::shared_ptr<ButtonGroupTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

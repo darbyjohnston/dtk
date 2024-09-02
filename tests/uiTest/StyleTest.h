@@ -13,13 +13,13 @@ namespace dtk
         class StyleTest : public test::ITest
         {
         protected:
-            StyleTest(const std::shared_ptr<core::Context>&);
+            StyleTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~StyleTest();
 
             static std::shared_ptr<StyleTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

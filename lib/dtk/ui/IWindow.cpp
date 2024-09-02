@@ -7,8 +7,6 @@
 #include <dtk/ui/Tooltip.h>
 #include <dtk/ui/IClipboard.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

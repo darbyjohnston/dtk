@@ -6,8 +6,6 @@
 
 #include <dtk/core/Math.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

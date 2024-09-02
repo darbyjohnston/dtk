@@ -12,15 +12,15 @@ namespace dtk
             return i != _sizeRoles.end() ? (i->second * scale) : 0;
         }
 
-        inline core::Color4F Style::getColorRole(ColorRole role) const
+        inline Color4F Style::getColorRole(ColorRole role) const
         {
             const auto i = _colorRoles.find(role);
-            return i != _colorRoles.end() ? i->second : core::Color4F();
+            return i != _colorRoles.end() ? i->second : Color4F();
         }
 
-        inline core::FontInfo Style::getFontRole(FontRole role, float scale) const
+        inline FontInfo Style::getFontRole(FontRole role, float scale) const
         {
-            core::FontInfo out;
+            FontInfo out;
             const auto i = _fontRoles.find(role);
             if (i != _fontRoles.end())
             {

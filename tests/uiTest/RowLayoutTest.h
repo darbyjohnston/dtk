@@ -18,19 +18,19 @@ namespace dtk
         class RowLayoutTest : public test::ITest
         {
         protected:
-            RowLayoutTest(const std::shared_ptr<core::Context>&);
+            RowLayoutTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~RowLayoutTest();
 
             static std::shared_ptr<RowLayoutTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 
         private:
             void _test(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<Window>&,
                 const std::shared_ptr<ui::RowLayout>&,

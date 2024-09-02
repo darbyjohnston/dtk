@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             Bellows();
@@ -28,12 +28,12 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<Bellows> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Create a new widget.
             static std::shared_ptr<Bellows> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -55,7 +55,7 @@ namespace dtk
             //! Set whether the bellows is open.
             void setOpen(bool);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

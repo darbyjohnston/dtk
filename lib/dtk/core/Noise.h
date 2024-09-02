@@ -8,26 +8,23 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        //! \name Noise
-        ///@{
+    //! \name Noise
+    ///@{
         
-        //! Noise
-        //! 
-        //! References:
-        //! - https://mrl.cs.nyu.edu/~perlin/noise/
-        class Noise
-        {
-        public:
-            Noise();
+    //! Noise
+    //! 
+    //! References:
+    //! - https://mrl.cs.nyu.edu/~perlin/noise/
+    class Noise
+    {
+    public:
+        Noise();
 
-            double get(double x, double y, double z);
+        double get(double x, double y, double z);
 
-        private:
-            std::vector<int> _p;
-        };
+    private:
+        std::vector<int> _p;
+    };
 
-        ///@}
-    }
+    ///@}
 }

@@ -23,7 +23,7 @@ namespace dtk
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
 
                 App() = default;
@@ -32,21 +32,21 @@ namespace dtk
                 virtual ~App() = default;
 
                 static std::shared_ptr<App> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
 
-                std::shared_ptr<core::IObservableValue<ui::FontRole> > observeFont() const;
+                std::shared_ptr<IObservableValue<ui::FontRole> > observeFont() const;
 
                 void setFont(ui::FontRole);
 
-                std::shared_ptr<core::IObservableValue<std::string> > observeText() const;
+                std::shared_ptr<IObservableValue<std::string> > observeText() const;
 
                 void open(const std::filesystem::path&);
 
             private:
                 std::filesystem::path _path;
-                std::shared_ptr<core::ObservableValue<ui::FontRole> > _font;
-                std::shared_ptr<core::ObservableValue<std::string> > _text;
+                std::shared_ptr<ObservableValue<ui::FontRole> > _font;
+                std::shared_ptr<ObservableValue<std::string> > _text;
                 std::shared_ptr<Window> _window;
             };
         }

@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 Orientation,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<Splitter> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 Orientation,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -39,11 +39,11 @@ namespace dtk
             //! Set the split values.
             void setSplit(const std::vector<float>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void childAddEvent(const ChildAddEvent&) override;
             void childRemoveEvent(const ChildRemoveEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;
             void mouseLeaveEvent() override;
             void mouseMoveEvent(MouseMoveEvent&) override;

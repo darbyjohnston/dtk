@@ -12,19 +12,16 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void random(py::module_& m)
     {
-        void random(py::module_& m)
-        {
-            py::class_<Random>(m, "Random")
-                .def(py::init<>())
-                .def("getF", py::overload_cast<>(&Random::getF))
-                .def("getF", py::overload_cast<float>(&Random::getF))
-                .def("getF", py::overload_cast<float, float>(&Random::getF), py::arg("min"), py::arg("max"))
-                .def("getI", py::overload_cast<int>(&Random::getI))
-                .def("getI", py::overload_cast<int, int>(&Random::getI), py::arg("min"), py::arg("max"))
-                .def("setSeed", py::overload_cast<unsigned int>(&Random::setSeed))
-                .def("setSeed", py::overload_cast<>(&Random::setSeed));
-        }
+        py::class_<Random>(m, "Random")
+            .def(py::init<>())
+            .def("getF", py::overload_cast<>(&Random::getF))
+            .def("getF", py::overload_cast<float>(&Random::getF))
+            .def("getF", py::overload_cast<float, float>(&Random::getF), py::arg("min"), py::arg("max"))
+            .def("getI", py::overload_cast<int>(&Random::getI))
+            .def("getI", py::overload_cast<int, int>(&Random::getI), py::arg("min"), py::arg("max"))
+            .def("setSeed", py::overload_cast<unsigned int>(&Random::setSeed))
+            .def("setSeed", py::overload_cast<>(&Random::setSeed));
     }
 }

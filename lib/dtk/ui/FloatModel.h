@@ -9,10 +9,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class Context;
-    }
+    class Context;
     
     namespace ui
     {
@@ -24,7 +21,7 @@ namespace dtk
         {
             DTK_NON_COPYABLE(FloatModel);
 
-            void _init(const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<Context>&);
 
         protected:
             FloatModel();
@@ -34,7 +31,7 @@ namespace dtk
 
             //! Create a new model.
             static std::shared_ptr<FloatModel> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! \name Value
             ///@{
@@ -46,7 +43,7 @@ namespace dtk
             void setValue(float);
 
             //! Observe the value.
-            std::shared_ptr<core::IObservableValue<float> > observeValue() const;
+            std::shared_ptr<IObservableValue<float> > observeValue() const;
 
             ///@}
 
@@ -54,13 +51,13 @@ namespace dtk
             ///@{
 
             //! Get the range.
-            const core::RangeF& getRange() const;
+            const RangeF& getRange() const;
 
             //! Set the range.
-            void setRange(const core::RangeF&);
+            void setRange(const RangeF&);
 
             //! Observe the range.
-            std::shared_ptr<core::IObservableValue<core::RangeF> > observeRange() const;
+            std::shared_ptr<IObservableValue<RangeF> > observeRange() const;
 
             ///@}
 
@@ -100,7 +97,7 @@ namespace dtk
             bool hasDefaultValue() const;
 
             //! Observe the default value.
-            std::shared_ptr<core::IObservableValue<bool> > observeHasDefaultValue() const;
+            std::shared_ptr<IObservableValue<bool> > observeHasDefaultValue() const;
 
             //! Get the default value.
             float getDefaultValue() const;

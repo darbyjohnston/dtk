@@ -11,8 +11,6 @@
 
 #include <map>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl
@@ -128,7 +126,7 @@ namespace dtk
             {
                 if (node->id != boxPackInvalidID)
                 {
-                    area += core::area(node->box.size());
+                    area += dtk::area(node->box.size());
                 }
             }
             return area / static_cast<float>(p.textureSize * p.textureSize);

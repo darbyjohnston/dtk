@@ -37,8 +37,8 @@
 //! Implementation macro for enum utilities.
 //! 
 //! Required includes:
-//! * dtkCore/Error.h
-//! * dtkCore/String.h
+//! * dtk/core/Error.h
+//! * dtk/core/String.h
 //! * algorithm
 //! * array
 #define DTK_ENUM_IMPL(ENUM, ...) \
@@ -78,11 +78,11 @@
             labels.end(), \
             [s](const std::string& value) \
             { \
-                return dtk::core::compare(s, value, dtk::core::Compare::CaseInsensitive); \
+                return dtk::compare(s, value, dtk::CaseCompare::Insensitive); \
             }); \
         if (i == labels.end()) \
         { \
-            throw dtk::core::ParseError(); \
+            throw dtk::ParseError(); \
         } \
         out = static_cast<ENUM>(i - labels.begin()); \
         return is; \

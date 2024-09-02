@@ -10,8 +10,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/ImageIO.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

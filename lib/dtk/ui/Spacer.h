@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 Orientation,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<Spacer> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 Orientation,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 

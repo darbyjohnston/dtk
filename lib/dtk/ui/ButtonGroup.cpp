@@ -4,8 +4,6 @@
 
 #include <dtk/ui/ButtonGroup.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

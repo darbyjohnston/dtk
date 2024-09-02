@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ScrollType,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ScrollWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ScrollType = ScrollType::Both,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -40,22 +40,22 @@ namespace dtk
             void setWidget(const std::shared_ptr<IWidget>&);
 
             //! Get the viewport geometry.
-            core::Box2I getViewport() const;
+            Box2I getViewport() const;
 
             //! Get the scroll size.
-            const core::Size2I& getScrollSize() const;
+            const Size2I& getScrollSize() const;
 
             //! Get the scroll position.
-            const core::V2I& getScrollPos() const;
+            const V2I& getScrollPos() const;
 
             //! Set the scroll position.
-            void setScrollPos(const core::V2I&, bool clamp = true);
+            void setScrollPos(const V2I&, bool clamp = true);
 
             //! Scroll to make the given box visible.
-            void scrollTo(const core::Box2I&);
+            void scrollTo(const Box2I&);
 
             //! Set the scroll position callback.
-            void setScrollPosCallback(const std::function<void(const core::V2I&)>&);
+            void setScrollPosCallback(const std::function<void(const V2I&)>&);
 
             //! Get whether the scroll bars are visible.
             bool areScrollBarsVisible() const;
@@ -81,7 +81,7 @@ namespace dtk
             //! Set the margin role.
             void setMarginRole(SizeRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void scrollEvent(ScrollEvent&) override;
             void keyPressEvent(KeyEvent&) override;

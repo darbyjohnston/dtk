@@ -14,10 +14,7 @@ struct GLFWwindow;
 
 namespace dtk
 {
-    namespace core
-    {
-        class Context;
-    }
+    class Context;
 
     namespace gl
     {
@@ -40,9 +37,9 @@ namespace dtk
 
         protected:
             Window(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& name,
-                const core::Size2I&,
+                const Size2I&,
                 int options,
                 const std::shared_ptr<Window>& share);
 
@@ -51,9 +48,9 @@ namespace dtk
 
             //! Create a new window.
             static std::shared_ptr<Window> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& name,
-                const core::Size2I&,
+                const Size2I&,
                 int options =
                     static_cast<int>(WindowOptions::Visible) |
                     static_cast<int>(WindowOptions::DoubleBuffer) |
@@ -64,16 +61,16 @@ namespace dtk
             GLFWwindow* getGLFW() const;
 
             //! Get the window size.
-            const core::Size2I& getSize() const;
+            const Size2I& getSize() const;
 
             //! Set the window size.
-            void setSize(const core::Size2I&);
+            void setSize(const Size2I&);
 
             //! Get the frame buffer size.
-            const core::Size2I& getFrameBufferSize() const;
+            const Size2I& getFrameBufferSize() const;
 
             //! Get the window content scale.
-            const core::V2F& getContentScale() const;
+            const V2F& getContentScale() const;
 
             //! Show the window.
             void show();
@@ -110,15 +107,15 @@ namespace dtk
 
             //! Set the window size callback.
             void setSizeCallback(
-                const std::function<void(const core::Size2I&)>&);
+                const std::function<void(const Size2I&)>&);
 
             //! Set the frame buffer size callback.
             void setFrameBufferSizeCallback(
-                const std::function<void(const core::Size2I&)>&);
+                const std::function<void(const Size2I&)>&);
 
             //! Set the content scale callback.
             void setContentScaleCallback(
-                const std::function<void(const core::V2F&)>&);
+                const std::function<void(const V2F&)>&);
 
             //! Set the window refresh callback.
             void setRefreshCallback(const std::function<void(void)>&);
@@ -127,13 +124,13 @@ namespace dtk
             void setCursorEnterCallback(const std::function<void(bool)>&);
 
             //! Set the cursor position callback.
-            void setCursorPosCallback(const std::function<void(const core::V2F&)>&);
+            void setCursorPosCallback(const std::function<void(const V2F&)>&);
 
             //! Set the mouse button callback.
             void setButtonCallback(const std::function<void(int, int, int)>&);
 
             //! Set the scroll callback.
-            void setScrollCallback(const std::function<void(const core::V2F&)>&);
+            void setScrollCallback(const std::function<void(const V2F&)>&);
 
             //! Set the key callback.
             void setKeyCallback(const std::function<void(int, int, int, int)>&);

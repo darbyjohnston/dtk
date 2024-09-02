@@ -17,9 +17,9 @@ namespace dtk
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const Size2I&);
 
                 Window() = default;
 
@@ -27,9 +27,9 @@ namespace dtk
                 virtual ~Window();
 
                 static std::shared_ptr<Window> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const Size2I&);
 
                 void keyPressEvent(ui::KeyEvent&) override;
                 void keyReleaseEvent(ui::KeyEvent&) override;

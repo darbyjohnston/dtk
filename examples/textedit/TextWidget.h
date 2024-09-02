@@ -16,7 +16,7 @@ namespace dtk
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::shared_ptr<IWidget>& parent);
 
                 TextWidget();
@@ -25,7 +25,7 @@ namespace dtk
                 virtual ~TextWidget();
 
                 static std::shared_ptr<TextWidget> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
             private:

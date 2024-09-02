@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 Orientation,
                 const std::string& objectName,
                 const std::shared_ptr<IWidget>& parent);
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new layout.
             static std::shared_ptr<RowLayout> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 Orientation,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -46,8 +46,8 @@ namespace dtk
             //! Set the spacing role.
             void setSpacingRole(SizeRole);
 
-            void setGeometry(const core::Box2I&) override;
-            core::Box2I getChildrenClipRect() const override;
+            void setGeometry(const Box2I&) override;
+            Box2I getChildrenClipRect() const override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void childAddEvent(const ChildAddEvent&) override;
             void childRemoveEvent(const ChildRemoveEvent&) override;
@@ -61,7 +61,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             HorizontalLayout();
@@ -71,7 +71,7 @@ namespace dtk
 
             //! Create a new layout.
             static std::shared_ptr<HorizontalLayout> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
 
@@ -80,7 +80,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             VerticalLayout();
@@ -90,7 +90,7 @@ namespace dtk
 
             //! Create a new layout.
             static std::shared_ptr<VerticalLayout> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
         };
         

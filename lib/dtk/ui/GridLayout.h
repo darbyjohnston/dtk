@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             GridLayout();
@@ -28,7 +28,7 @@ namespace dtk
 
             //! Create a new layout.
             static std::shared_ptr<GridLayout> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set a child position within the grid.
@@ -49,7 +49,7 @@ namespace dtk
             //! Set the spacing role.
             void setSpacingRole(SizeRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void childRemoveEvent(const ChildRemoveEvent&) override;
 

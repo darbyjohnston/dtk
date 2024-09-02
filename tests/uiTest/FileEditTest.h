@@ -13,13 +13,13 @@ namespace dtk
         class FileEditTest : public test::ITest
         {
         protected:
-            FileEditTest(const std::shared_ptr<core::Context>&);
+            FileEditTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FileEditTest();
 
             static std::shared_ptr<FileEditTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

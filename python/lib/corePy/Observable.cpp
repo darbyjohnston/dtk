@@ -14,14 +14,11 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void observable(py::module_& m)
     {
-        void observable(py::module_& m)
-        {
-            py::enum_<ObserverAction>(m, "ObserverAction")
-                .value("Trigger", ObserverAction::Trigger)
-                .value("Suppress", ObserverAction::Suppress)
-                .export_values();
-        }
+        py::enum_<ObserverAction>(m, "ObserverAction")
+            .value("Trigger", ObserverAction::Trigger)
+            .value("Suppress", ObserverAction::Suppress)
+            .export_values();
     }
 }

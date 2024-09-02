@@ -13,8 +13,6 @@
 #include <array>
 #include <sstream>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl

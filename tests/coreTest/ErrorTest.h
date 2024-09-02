@@ -13,13 +13,13 @@ namespace dtk
         class ErrorTest : public test::ITest
         {
         protected:
-            ErrorTest(const std::shared_ptr<core::Context>&);
+            ErrorTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ErrorTest();
 
             static std::shared_ptr<ErrorTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

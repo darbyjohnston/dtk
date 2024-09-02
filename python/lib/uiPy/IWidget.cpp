@@ -19,7 +19,7 @@ namespace dtk
         class PyIWidget : public IWidget
         {
         public:
-            virtual void drawEvent(const core::Box2I& drawRect, const DrawEvent& event) override
+            virtual void drawEvent(const Box2I& drawRect, const DrawEvent& event) override
             {
                 PYBIND11_OVERRIDE(
                     void,

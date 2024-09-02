@@ -13,13 +13,13 @@ namespace dtk
         class DrawUtilTest : public test::ITest
         {
         protected:
-            DrawUtilTest(const std::shared_ptr<core::Context>&);
+            DrawUtilTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~DrawUtilTest();
 
             static std::shared_ptr<DrawUtilTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

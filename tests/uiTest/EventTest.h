@@ -13,13 +13,13 @@ namespace dtk
         class EventTest : public test::ITest
         {
         protected:
-            EventTest(const std::shared_ptr<core::Context>&);
+            EventTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~EventTest();
 
             static std::shared_ptr<EventTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

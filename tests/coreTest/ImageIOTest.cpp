@@ -9,8 +9,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/ImageIO.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test
@@ -70,11 +68,11 @@ namespace dtk
         
         void ImageIOTest::_functions()
         {
-            Options options;
+            ImageIOOptions options;
             options["Layer"] = "1";
-            Options options2;
+            ImageIOOptions options2;
             options2["Compression"] = "RLE";
-            Options options3 = merge(options, options2);
+            ImageIOOptions options3 = merge(options, options2);
             DTK_ASSERT(2 == options3.size());
             DTK_ASSERT(options3["Layer"] == "1");
             DTK_ASSERT(options3["Compression"] == "RLE");

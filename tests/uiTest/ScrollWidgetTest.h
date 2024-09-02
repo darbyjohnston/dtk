@@ -18,19 +18,19 @@ namespace dtk
         class ScrollWidgetTest : public test::ITest
         {
         protected:
-            ScrollWidgetTest(const std::shared_ptr<core::Context>&);
+            ScrollWidgetTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ScrollWidgetTest();
 
             static std::shared_ptr<ScrollWidgetTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 
         private:
             void _test(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<Window>&,
                 ui::ScrollType);

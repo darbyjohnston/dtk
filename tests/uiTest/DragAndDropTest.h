@@ -13,13 +13,13 @@ namespace dtk
         class DragAndDropTest : public test::ITest
         {
         protected:
-            DragAndDropTest(const std::shared_ptr<core::Context>&);
+            DragAndDropTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~DragAndDropTest();
 
             static std::shared_ptr<DragAndDropTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

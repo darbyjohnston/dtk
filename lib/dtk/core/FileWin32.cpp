@@ -19,64 +19,61 @@
 
 namespace dtk
 {
-    namespace core
+    std::filesystem::path getUserPath(UserPath value)
     {
-        std::filesystem::path getUserPath(UserPath value)
+        std::filesystem::path out;
+        KNOWNFOLDERID id;
+        memset(&id, 0, sizeof(KNOWNFOLDERID));
+        switch (value)
         {
-            std::filesystem::path out;
-            KNOWNFOLDERID id;
-            memset(&id, 0, sizeof(KNOWNFOLDERID));
-            switch (value)
-            {
-            case UserPath::Home:      id = FOLDERID_Profile;   break;
-            case UserPath::Desktop:   id = FOLDERID_Desktop;   break;
-            case UserPath::Documents: id = FOLDERID_Documents; break;
-            case UserPath::Downloads: id = FOLDERID_Downloads; break;
-            default: break;
-            }
-            wchar_t* path = nullptr;
-            HRESULT result = SHGetKnownFolderPath(id, 0, NULL, &path);
-            if (S_OK == result && path)
-            {
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                out = utf16.to_bytes(path);
-            }
-            CoTaskMemFree(path);
-            return out;
+        case UserPath::Home:      id = FOLDERID_Profile;   break;
+        case UserPath::Desktop:   id = FOLDERID_Desktop;   break;
+        case UserPath::Documents: id = FOLDERID_Documents; break;
+        case UserPath::Downloads: id = FOLDERID_Downloads; break;
+        default: break;
         }
-
-        std::vector<std::filesystem::path> getDrives()
+        wchar_t* path = nullptr;
+        HRESULT result = SHGetKnownFolderPath(id, 0, NULL, &path);
+        if (S_OK == result && path)
         {
-            std::vector<std::filesystem::path> out;
-            if (DWORD result = GetLogicalDriveStringsW(0, NULL))
+            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+            out = utf16.to_bytes(path);
+        }
+        CoTaskMemFree(path);
+        return out;
+    }
+
+    std::vector<std::filesystem::path> getDrives()
+    {
+        std::vector<std::filesystem::path> out;
+        if (DWORD result = GetLogicalDriveStringsW(0, NULL))
+        {
+            std::vector<WCHAR> buf(result);
+            result = GetLogicalDriveStringsW(result, buf.data());
+            if (result)
             {
-                std::vector<WCHAR> buf(result);
-                result = GetLogicalDriveStringsW(result, buf.data());
-                if (result)
+                try
                 {
-                    try
+                    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                    for (WCHAR* p = buf.data(), *end = buf.data() + result; p < end && *p; ++p)
                     {
-                        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                        for (WCHAR* p = buf.data(), * end = buf.data() + result; p < end && *p; ++p)
+                        WCHAR* p2 = p;
+                        for (; p2 < end && *p2 && *p2 != '\\'; ++p2)
+                            ;
+                        out.push_back(utf16.to_bytes(std::wstring(p, p2 - p)));
+                        if ('\\' == *p2)
                         {
-                            WCHAR* p2 = p;
-                            for (; p2 < end && *p2 && *p2 != '\\'; ++p2)
-                                ;
-                            out.push_back(utf16.to_bytes(std::wstring(p, p2 - p)));
-                            if ('\\' == *p2)
-                            {
-                                p2++;
-                            }
-                            p = p2;
+                            p2++;
                         }
-                    }
-                    catch (const std::exception&)
-                    {
-                        //! \bug How should we handle this error?
+                        p = p2;
                     }
                 }
+                catch (const std::exception&)
+                {
+                    //! \bug How should we handle this error?
+                }
             }
-            return out;
         }
+        return out;
     }
 }

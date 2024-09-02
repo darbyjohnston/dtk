@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void size(pybind11::module_&);
-    }
+    void size(pybind11::module_&);
 }

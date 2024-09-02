@@ -48,7 +48,7 @@ namespace dtk
             return out;
         }
 
-        inline const core::Size2I& IWidget::getSizeHint() const
+        inline const Size2I& IWidget::getSizeHint() const
         {
             return _sizeHint;
         }
@@ -73,7 +73,7 @@ namespace dtk
             return _vAlign;
         }
 
-        inline const core::Box2I& IWidget::getGeometry() const
+        inline const Box2I& IWidget::getGeometry() const
         {
             return _geometry;
         }
@@ -123,7 +123,7 @@ namespace dtk
             return _tooltip;
         }
 
-        inline const std::weak_ptr<core::Context>& IWidget::_getContext() const
+        inline const std::weak_ptr<Context>& IWidget::_getContext() const
         {
             return _context;
         }
@@ -138,7 +138,7 @@ namespace dtk
             _updates |= Update::Size;
         }
 
-        inline void IWidget::_setSizeHint(const core::Size2I& value)
+        inline void IWidget::_setSizeHint(const Size2I& value)
         {
             _sizeHint = value;
         }
@@ -148,7 +148,7 @@ namespace dtk
             return _mouseInside;
         }
 
-        inline const core::V2I& IWidget::_getMousePos() const
+        inline const V2I& IWidget::_getMousePos() const
         {
             return _mousePos;
         }
@@ -158,7 +158,7 @@ namespace dtk
             return _mousePress;
         }
 
-        inline const core::V2I& IWidget::_getMousePressPos() const
+        inline const V2I& IWidget::_getMousePressPos() const
         {
             return _mousePressPos;
         }

@@ -4,19 +4,16 @@
 
 namespace dtk
 {
-    namespace core
+    template<typename T>
+    inline std::shared_ptr<T> Context::getSystem() const
     {
-        template<typename T>
-        inline std::shared_ptr<T> Context::getSystem() const
+        for (const auto& i : _systems)
         {
-            for (const auto& i : _systems)
+            if (auto system = std::dynamic_pointer_cast<T>(i))
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    return system;
-                }
+                return system;
             }
-            return nullptr;
         }
+        return nullptr;
     }
 }

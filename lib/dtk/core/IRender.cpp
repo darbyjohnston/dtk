@@ -6,15 +6,11 @@
 
 namespace dtk
 {
-    namespace core
+    void IRender::_init(const std::shared_ptr<Context>& context)
     {
-        void IRender::_init(const std::shared_ptr<Context>& context)
-        {
-            _context = context;
-        }
-
-        IRender::~IRender()
-        {}
+        _context = context;
     }
-}
 
+    IRender::~IRender()
+    {}
+}

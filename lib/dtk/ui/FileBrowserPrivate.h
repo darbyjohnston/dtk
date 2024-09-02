@@ -16,7 +16,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             FileBrowserPathsWidget();
@@ -25,14 +25,14 @@ namespace dtk
             virtual ~FileBrowserPathsWidget();
 
             static std::shared_ptr<FileBrowserPathsWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
             void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
@@ -53,7 +53,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const FileBrowserInfo&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -63,7 +63,7 @@ namespace dtk
             virtual ~FileBrowserButton();
 
             static std::shared_ptr<FileBrowserButton> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const FileBrowserInfo&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -73,10 +73,10 @@ namespace dtk
 
             void setCurrent(bool);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const core::Box2I&, bool) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void clipEvent(const Box2I&, bool) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
 
         private:
             DTK_PRIVATE();
@@ -86,7 +86,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             FileBrowserDirectoryWidget();
@@ -95,7 +95,7 @@ namespace dtk
             virtual ~FileBrowserDirectoryWidget();
 
             static std::shared_ptr<FileBrowserDirectoryWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             const std::filesystem::path& getPath() const;
@@ -108,11 +108,11 @@ namespace dtk
             const FileBrowserOptions& getOptions() const;
             void setOptions(const FileBrowserOptions&);
 
-            std::shared_ptr<core::IObservableValue<int> > observeCurrent() const;
+            std::shared_ptr<IObservableValue<int> > observeCurrent() const;
 
-            core::Box2I getRect(int) const;
+            Box2I getRect(int) const;
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void keyFocusEvent(bool) override;
             void keyPressEvent(KeyEvent&) override;

@@ -13,13 +13,13 @@ namespace dtk
         class MDIWidgetTest : public test::ITest
         {
         protected:
-            MDIWidgetTest(const std::shared_ptr<core::Context>&);
+            MDIWidgetTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~MDIWidgetTest();
 
             static std::shared_ptr<MDIWidgetTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

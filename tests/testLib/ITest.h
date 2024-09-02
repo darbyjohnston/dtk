@@ -11,10 +11,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class Context;
-    }
+    class Context;
 
     namespace test
     {
@@ -25,7 +22,7 @@ namespace dtk
 
         protected:
             ITest(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& name);
 
         public:
@@ -39,7 +36,7 @@ namespace dtk
             void _print(const std::string&);
             void _error(const std::string&);
 
-            std::weak_ptr<core::Context> _context;
+            std::weak_ptr<Context> _context;
             std::string _name;
         };
     }

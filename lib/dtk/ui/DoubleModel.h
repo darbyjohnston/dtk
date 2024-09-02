@@ -9,10 +9,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class Context;
-    }
+    class Context;
     
     namespace ui
     {
@@ -24,7 +21,7 @@ namespace dtk
         {
             DTK_NON_COPYABLE(DoubleModel);
 
-            void _init(const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<Context>&);
 
         protected:
             DoubleModel();
@@ -34,7 +31,7 @@ namespace dtk
 
             //! Create a new model.
             static std::shared_ptr<DoubleModel> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! \name Value
             ///@{
@@ -46,7 +43,7 @@ namespace dtk
             void setValue(double);
 
             //! Observe the value.
-            std::shared_ptr<core::IObservableValue<double> > observeValue() const;
+            std::shared_ptr<IObservableValue<double> > observeValue() const;
 
             ///@}
 
@@ -54,13 +51,13 @@ namespace dtk
             ///@{
 
             //! Get the range.
-            const core::RangeD& getRange() const;
+            const RangeD& getRange() const;
 
             //! Set the range.
-            void setRange(const core::RangeD&);
+            void setRange(const RangeD&);
 
             //! Observe the range.
-            std::shared_ptr<core::IObservableValue<core::RangeD> > observeRange() const;
+            std::shared_ptr<IObservableValue<RangeD> > observeRange() const;
 
             ///@}
 
@@ -100,7 +97,7 @@ namespace dtk
             bool hasDefaultValue() const;
 
             //! Observe the default value.
-            std::shared_ptr<core::IObservableValue<bool> > observeHasDefaultValue() const;
+            std::shared_ptr<IObservableValue<bool> > observeHasDefaultValue() const;
 
             //! Get the default value.
             double getDefaultValue() const;

@@ -14,13 +14,10 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void iApp(py::module_& m)
     {
-        void iApp(py::module_& m)
-        {
-            py::class_<IApp, std::shared_ptr<IApp> >(m, "IApp")
-                .def("getExit", &IApp::getExit)
-                .def("run", &IApp::run);
-        }
+        py::class_<IApp, std::shared_ptr<IApp> >(m, "IApp")
+            .def("getExit", &IApp::getExit)
+            .def("run", &IApp::run);
     }
 }

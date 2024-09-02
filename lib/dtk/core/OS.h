@@ -9,64 +9,61 @@
 
 namespace dtk
 {
-    namespace core
+    //! \name Operating System
+    ///@{
+
+    //! Operating system information.
+    struct SystemInfo
     {
-        //! \name Operating System
-        ///@{
+        std::string name;
+        size_t      cores = 0;
+        size_t      ram   = 0;
+        size_t      ramGB = 0;
+    };
 
-        //! Operating system information.
-        struct SystemInfo
-        {
-            std::string name;
-            size_t      cores = 0;
-            size_t      ram   = 0;
-            size_t      ramGB = 0;
-        };
+    //! Get operating system information.
+    SystemInfo getSystemInfo();
 
-        //! Get operating system information.
-        SystemInfo getSystemInfo();
+    //! Environment variable list separators.
+    const std::vector<char> envListSeparators = { ':', ';' };
 
-        //! Environment variable list separators.
-        const std::vector<char> envListSeparators = { ':', ';' };
-
-        //! Environment variable list separator.
+    //! Environment variable list separator.
 #if defined(_WINDOWS)
-        const char envListSeparator = ';';
+    const char envListSeparator = ';';
 #else // _WINDOWS
-        const char envListSeparator = ':';
+    const char envListSeparator = ':';
 #endif // _WINDOWS
 
-        //! Get an environment variable.
-        //! 
-        //! Throws:
-        //! - std::exception
-        bool getEnv(const std::string& name, std::string&);
+    //! Get an environment variable.
+    //! 
+    //! Throws:
+    //! - std::exception
+    bool getEnv(const std::string& name, std::string&);
 
-        //! Get an environment variable and convert it to an integer. If the
-        //! variable is empty then zero is returned.
-        //!
-        //! Throws:
-        //! - std::exception
-        bool getEnv(const std::string& name, int& value);
+    //! Get an environment variable and convert it to an integer. If the
+    //! variable is empty then zero is returned.
+    //!
+    //! Throws:
+    //! - std::exception
+    bool getEnv(const std::string& name, int& value);
 
-        //! Get an environment variable and convert it to a list of strings.
-        //!
-        //! Throws:
-        //! - std::exception
-        bool getEnv(const std::string& name, std::vector<std::string>&);
+    //! Get an environment variable and convert it to a list of strings.
+    //!
+    //! Throws:
+    //! - std::exception
+    bool getEnv(const std::string& name, std::vector<std::string>&);
 
-        //! Set an environment variable.
-        //! 
-        //! Throws:
-        //! - std::exception
-        bool setEnv(const std::string& name, const std::string&);
+    //! Set an environment variable.
+    //! 
+    //! Throws:
+    //! - std::exception
+    bool setEnv(const std::string& name, const std::string&);
 
-        //! Delete an environment variable.
-        //! 
-        //! Throws:
-        //! - std::exception
-        bool delEnv(const std::string& name);
+    //! Delete an environment variable.
+    //! 
+    //! Throws:
+    //! - std::exception
+    bool delEnv(const std::string& name);
 
-        ///@}
-    }
+    ///@}
 }

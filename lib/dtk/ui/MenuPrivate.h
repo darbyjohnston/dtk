@@ -16,7 +16,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             MenuButton();
@@ -25,7 +25,7 @@ namespace dtk
             virtual ~MenuButton();
 
             static std::shared_ptr<MenuButton> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setCurrent(bool);
@@ -34,11 +34,11 @@ namespace dtk
 
             void setText(const std::string&) override;
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const core::Box2I&, bool) override;
+            void clipEvent(const Box2I&, bool) override;
             void drawEvent(
-                const core::Box2I&,
+                const Box2I&,
                 const DrawEvent&) override;
 
         private:

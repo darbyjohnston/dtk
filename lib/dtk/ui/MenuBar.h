@@ -20,7 +20,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             MenuBar();
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<MenuBar> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Add a menu.
@@ -41,7 +41,7 @@ namespace dtk
             //! Handle keyboard shortcuts.
             bool shortcut(Key, int);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void keyFocusEvent(bool) override;
             void keyPressEvent(KeyEvent&) override;

@@ -109,9 +109,6 @@
 
 #include <iostream>
 
-using namespace dtk;
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace tests
@@ -290,9 +287,9 @@ DTK_MAIN()
     int r = 0;
     try
     {
-        auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = tests::App::create(context, args);
+        auto context = dtk::Context::create();
+        auto args = dtk::convert(argc, argv);
+        auto app = dtk::tests::App::create(context, args);
         r = app->getExit();
         if (0 == r)
         {

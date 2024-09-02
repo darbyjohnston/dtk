@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void iSystem(pybind11::module_&);
-    }
+    void iSystem(pybind11::module_&);
 }

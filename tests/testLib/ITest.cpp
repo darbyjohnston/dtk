@@ -11,7 +11,7 @@ namespace dtk
     namespace test
     {
         ITest::ITest(
-            const std::shared_ptr<core::Context>& context,
+            const std::shared_ptr<Context>& context,
             const std::string& name) :
             _context(context),
             _name(name)

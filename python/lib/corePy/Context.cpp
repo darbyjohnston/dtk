@@ -14,15 +14,12 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void context(py::module_& m)
     {
-        void context(py::module_& m)
-        {
-            py::class_<Context, std::shared_ptr<Context> >(m, "Context")
-                .def(py::init(&Context::create))
-                .def("addSystem", &Context::addSystem)
-                .def_property_readonly("systems", &Context::getSystems)
-                .def("tick", &Context::tick);
-        }
+        py::class_<Context, std::shared_ptr<Context> >(m, "Context")
+            .def(py::init(&Context::create))
+            .def("addSystem", &Context::addSystem)
+            .def_property_readonly("systems", &Context::getSystems)
+            .def("tick", &Context::tick);
     }
 }

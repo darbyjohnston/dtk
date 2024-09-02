@@ -12,30 +12,27 @@
 
 namespace dtk
 {
-    namespace core
+    //! \name Files
+    ///@{
+
+    //! Get the list of file system drives.
+    std::vector<std::filesystem::path> getDrives();
+
+    //! User paths.
+    enum class UserPath
     {
-        //! \name Files
-        ///@{
+        Home,
+        Desktop,
+        Documents,
+        Downloads,
 
-        //! Get the list of file system drives.
-        std::vector<std::filesystem::path> getDrives();
+        Count,
+        First = Home
+    };
+    DTK_ENUM(UserPath);
 
-        //! User paths.
-        enum class UserPath
-        {
-            Home,
-            Desktop,
-            Documents,
-            Downloads,
-
-            Count,
-            First = Home
-        };
-        DTK_ENUM(UserPath);
-
-        //! Get a user path.
-        std::filesystem::path getUserPath(UserPath);
+    //! Get a user path.
+    std::filesystem::path getUserPath(UserPath);
         
-        ///@}
-    }
+    ///@}
 }

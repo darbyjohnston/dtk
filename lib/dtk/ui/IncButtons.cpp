@@ -8,8 +8,6 @@
 #include <dtk/ui/FloatModel.h>
 #include <dtk/ui/IntModel.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

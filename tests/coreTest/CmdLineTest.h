@@ -13,13 +13,13 @@ namespace dtk
         class CmdLineTest : public test::ITest
         {
         protected:
-            CmdLineTest(const std::shared_ptr<core::Context>&);
+            CmdLineTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~CmdLineTest();
 
             static std::shared_ptr<CmdLineTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

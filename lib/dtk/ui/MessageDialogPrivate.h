@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent);
@@ -29,12 +29,12 @@ namespace dtk
             virtual ~MessageDialogWidget();
 
             static std::shared_ptr<MessageDialogWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
             void setCallback(const std::function<void(void)>&);
@@ -51,7 +51,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent);
@@ -62,14 +62,14 @@ namespace dtk
             virtual ~ConfirmDialogWidget();
 
             static std::shared_ptr<ConfirmDialogWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             void setCallback(const std::function<void(bool)>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

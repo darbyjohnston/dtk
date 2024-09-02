@@ -11,7 +11,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
 using namespace dtk::gl;
 
 namespace dtk
@@ -102,7 +101,7 @@ namespace dtk
             {
                 auto window = createWindow(context);
                 {
-                    auto mesh = core::mesh(Box2F(0.F, 0.F, 1.F, 1.F));
+                    auto mesh = dtk::mesh(Box2F(0.F, 0.F, 1.F, 1.F));
                     for (auto type : getVBOTypeEnums())
                     {
                         const size_t size = mesh.triangles.size() * 3;
@@ -125,7 +124,7 @@ namespace dtk
         void MeshTest::_functions()
         {
             {
-                const auto mesh = core::mesh(Box2F(0.F, 0.F, 1.F, 1.F));
+                const auto mesh = dtk::mesh(Box2F(0.F, 0.F, 1.F, 1.F));
                 for (auto type : getVBOTypeEnums())
                 {
                     auto data = convert(mesh, type);

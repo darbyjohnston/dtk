@@ -13,13 +13,13 @@ namespace dtk
         class ObservableTest : public test::ITest
         {
         protected:
-            ObservableTest(const std::shared_ptr<core::Context>&);
+            ObservableTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ObservableTest();
 
             static std::shared_ptr<ObservableTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

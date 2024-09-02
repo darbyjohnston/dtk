@@ -56,33 +56,33 @@ namespace dtk
 
             void setUniform(int, int);
             void setUniform(int, float);
-            void setUniform(int, const core::V2F&);
-            void setUniform(int, const core::V3F&);
-            void setUniform(int, const core::V4F&);
-            void setUniform(int, const core::M33F&);
-            void setUniform(int, const core::M44F&);
-            void setUniform(int, const core::Color4F&);
+            void setUniform(int, const V2F&);
+            void setUniform(int, const V3F&);
+            void setUniform(int, const V4F&);
+            void setUniform(int, const M33F&);
+            void setUniform(int, const M44F&);
+            void setUniform(int, const Color4F&);
             void setUniform(int, const float[4]);
 
             void setUniform(int, const std::vector<int>&);
             void setUniform(int, const std::vector<float>&);
-            void setUniform(int, const std::vector<core::V3F>&);
-            void setUniform(int, const std::vector<core::V4F>&);
+            void setUniform(int, const std::vector<V3F>&);
+            void setUniform(int, const std::vector<V4F>&);
 
             void setUniform(const std::string&, int);
             void setUniform(const std::string&, float);
-            void setUniform(const std::string&, const core::V2F&);
-            void setUniform(const std::string&, const core::V3F&);
-            void setUniform(const std::string&, const core::V4F&);
-            void setUniform(const std::string&, const core::M33F&);
-            void setUniform(const std::string&, const core::M44F&);
-            void setUniform(const std::string&, const core::Color4F&);
+            void setUniform(const std::string&, const V2F&);
+            void setUniform(const std::string&, const V3F&);
+            void setUniform(const std::string&, const V4F&);
+            void setUniform(const std::string&, const M33F&);
+            void setUniform(const std::string&, const M44F&);
+            void setUniform(const std::string&, const Color4F&);
             void setUniform(const std::string&, const float[4]);
 
             void setUniform(const std::string&, const std::vector<int>&);
             void setUniform(const std::string&, const std::vector<float>&);
-            void setUniform(const std::string&, const std::vector<core::V3F>&);
-            void setUniform(const std::string&, const std::vector<core::V4F>&);
+            void setUniform(const std::string&, const std::vector<V3F>&);
+            void setUniform(const std::string&, const std::vector<V4F>&);
 
             ///@}
 

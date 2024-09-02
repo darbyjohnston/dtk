@@ -6,8 +6,6 @@
 
 #include <dtk/ui/LayoutUtil.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

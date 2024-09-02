@@ -13,7 +13,7 @@
 
 #include <dtk/core/FileIO.h>
 
-using namespace dtk::core;
+using namespace dtk;
 using namespace dtk::ui;
 
 namespace dtk
@@ -68,7 +68,7 @@ namespace dtk
                 return out;
             }
 
-            std::shared_ptr<core::IObservableValue<FontRole> > App::observeFont() const
+            std::shared_ptr<IObservableValue<FontRole> > App::observeFont() const
             {
                 return _font;
             }
@@ -78,7 +78,7 @@ namespace dtk
                 _font->setIfChanged(value);
             }
 
-            std::shared_ptr<core::IObservableValue<std::string> > App::observeText() const
+            std::shared_ptr<IObservableValue<std::string> > App::observeText() const
             {
                 return _text;
             }

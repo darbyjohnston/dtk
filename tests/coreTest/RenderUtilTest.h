@@ -13,13 +13,13 @@ namespace dtk
         class RenderUtilTest : public test::ITest
         {
         protected:
-            RenderUtilTest(const std::shared_ptr<core::Context>&);
+            RenderUtilTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~RenderUtilTest();
 
             static std::shared_ptr<RenderUtilTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

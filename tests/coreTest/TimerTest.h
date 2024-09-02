@@ -13,13 +13,13 @@ namespace dtk
         class TimerTest : public test::ITest
         {
         protected:
-            TimerTest(const std::shared_ptr<core::Context>&);
+            TimerTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~TimerTest();
 
             static std::shared_ptr<TimerTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

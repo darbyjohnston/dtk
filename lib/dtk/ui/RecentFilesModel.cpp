@@ -4,8 +4,6 @@
 
 #include <dtk/ui/RecentFilesModel.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

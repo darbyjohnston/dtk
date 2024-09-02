@@ -11,10 +11,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class Context;
-    }
+    class Context;
 
     namespace ui
     {
@@ -27,7 +24,7 @@ namespace dtk
             DTK_NON_COPYABLE(RecentFilesModel);
 
         protected:
-            void _init(const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<Context>&);
 
             RecentFilesModel();
 
@@ -36,13 +33,13 @@ namespace dtk
 
             //! Create a new model.
             static std::shared_ptr<RecentFilesModel> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! Get the maximum number of recent files.
             size_t getRecentMax() const;
 
             //! Observe the maximum number of recent files.
-            std::shared_ptr<core::IObservableValue<size_t> > observeRecentMax() const;
+            std::shared_ptr<IObservableValue<size_t> > observeRecentMax() const;
 
             //! Set the maximum number of recent files.
             void setRecentMax(size_t);
@@ -51,7 +48,7 @@ namespace dtk
             const std::vector<std::filesystem::path>& getRecent() const;
 
             //! Observe the list of recent files.
-            std::shared_ptr<core::IObservableList<std::filesystem::path> > observeRecent() const;
+            std::shared_ptr<IObservableList<std::filesystem::path> > observeRecent() const;
 
             //! Set the recent files.
             void setRecent(const std::vector<std::filesystem::path>&);

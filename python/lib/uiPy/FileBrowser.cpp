@@ -20,7 +20,7 @@ namespace dtk
     {
         void fileBrowser(py::module_& m)
         {
-            py::class_<FileBrowserSystem, core::ISystem, std::shared_ptr<FileBrowserSystem> >(m, "FileBrowserSystem")
+            py::class_<FileBrowserSystem, ISystem, std::shared_ptr<FileBrowserSystem> >(m, "FileBrowserSystem")
                 .def(
                     py::init(&FileBrowserSystem::create),
                     py::arg("context"))

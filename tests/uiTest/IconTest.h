@@ -13,13 +13,13 @@ namespace dtk
         class IconTest : public test::ITest
         {
         protected:
-            IconTest(const std::shared_ptr<core::Context>&);
+            IconTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~IconTest();
 
             static std::shared_ptr<IconTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

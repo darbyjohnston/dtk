@@ -17,9 +17,9 @@ namespace dtk
         
         //! Default offscreen buffer color type.
 #if defined(dtk_API_GL_4_1)
-        const core::ImageType offscreenColorDefault = core::ImageType::RGBA_F32;
+        const ImageType offscreenColorDefault = ImageType::RGBA_F32;
 #elif defined(dtk_API_GLES_2)
-        const core::ImageType offscreenColorDefault = core::ImageType::RGBA_U8;
+        const ImageType offscreenColorDefault = ImageType::RGBA_U8;
 #endif // dtk_API_GL_4_1
 
         //! Offscreen buffer depth size.
@@ -70,7 +70,7 @@ namespace dtk
         //! Offscreen buffer options.
         struct OffscreenBufferOptions
         {
-            core::ImageType color = core::ImageType::None;
+            ImageType color = ImageType::None;
             TextureFilters colorFilters;
             OffscreenDepth depth = OffscreenDepth::None;
             OffscreenStencil stencil = OffscreenStencil::None;
@@ -87,7 +87,7 @@ namespace dtk
 
         protected:
             void _init(
-                const core::Size2I&,
+                const Size2I&,
                 const OffscreenBufferOptions&);
 
             OffscreenBuffer();
@@ -97,11 +97,11 @@ namespace dtk
 
             //! Create a new offscreen buffer.
             static std::shared_ptr<OffscreenBuffer> create(
-                const core::Size2I&,
+                const Size2I&,
                 const OffscreenBufferOptions&);
 
             //! Get the offscreen buffer size.
-            const core::Size2I& getSize() const;
+            const Size2I& getSize() const;
 
             //! Get the offscreen buffer width.
             int getWidth() const;
@@ -128,7 +128,7 @@ namespace dtk
         //! Check whether the offscreen buffer should be created or re-created.
         bool doCreate(
             const std::shared_ptr<OffscreenBuffer>&,
-            const core::Size2I&,
+            const Size2I&,
             const OffscreenBufferOptions&);
 
         //! Offscreen buffer binding.

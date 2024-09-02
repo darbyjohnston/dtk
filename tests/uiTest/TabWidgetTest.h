@@ -13,13 +13,13 @@ namespace dtk
         class TabWidgetTest : public test::ITest
         {
         protected:
-            TabWidgetTest(const std::shared_ptr<core::Context>&);
+            TabWidgetTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~TabWidgetTest();
 
             static std::shared_ptr<TabWidgetTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

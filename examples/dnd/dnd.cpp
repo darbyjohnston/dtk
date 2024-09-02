@@ -13,7 +13,7 @@
 #include <iomanip>
 #include <sstream>
 
-using namespace dtk::core;
+using namespace dtk;
 using namespace dtk::ui;
 
 namespace dtk
@@ -135,7 +135,7 @@ namespace dtk
                 IWidget::mouseMoveEvent(event);
                 if (_isMousePressed())
                 {
-                    const float length = core::length(event.pos - _getMousePressPos());
+                    const float length = dtk::length(event.pos - _getMousePressPos());
                     if (length > _dragLength)
                     {
                         event.dndData = std::make_shared<DragAndDropData>(_number);

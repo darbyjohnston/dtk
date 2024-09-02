@@ -10,16 +10,13 @@
 
 namespace dtk
 {
-    namespace core
+    namespace png
     {
-        namespace png
+        //! PNG error.
+        struct ErrorStruct
         {
-            //! PNG error.
-            struct ErrorStruct
-            {
-                std::string message;
-            };
-        }
+            std::string message;
+        };
     }
 }
 

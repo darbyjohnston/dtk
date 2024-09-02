@@ -13,13 +13,13 @@ namespace dtk
         class ScrollAreaTest : public test::ITest
         {
         protected:
-            ScrollAreaTest(const std::shared_ptr<core::Context>&);
+            ScrollAreaTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ScrollAreaTest();
 
             static std::shared_ptr<ScrollAreaTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

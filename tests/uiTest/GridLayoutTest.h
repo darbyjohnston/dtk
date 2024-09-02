@@ -13,13 +13,13 @@ namespace dtk
         class GridLayoutTest : public test::ITest
         {
         protected:
-            GridLayoutTest(const std::shared_ptr<core::Context>&);
+            GridLayoutTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~GridLayoutTest();
 
             static std::shared_ptr<GridLayoutTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

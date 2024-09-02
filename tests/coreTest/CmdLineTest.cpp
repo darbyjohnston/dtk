@@ -8,8 +8,6 @@
 
 #include <dtk/core/Assert.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace app_test

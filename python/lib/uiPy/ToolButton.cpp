@@ -20,13 +20,13 @@ namespace dtk
             py::class_<ToolButton, IButton, std::shared_ptr<ToolButton> >(m, "ToolButton")
                 .def(
                     py::init(py::overload_cast<
-                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<Context>&,
                         const std::shared_ptr<IWidget>&>(&ToolButton::create)),
                     py::arg("context"),
                     py::arg("parent") = nullptr)
                 .def(
                     py::init(py::overload_cast<
-                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<Context>&,
                         const std::string&,
                         const std::shared_ptr<IWidget>&>(&ToolButton::create)),
                     py::arg("context"),

@@ -13,13 +13,13 @@ namespace dtk
         class NoiseTest : public test::ITest
         {
         protected:
-            NoiseTest(const std::shared_ptr<core::Context>&);
+            NoiseTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~NoiseTest();
 
             static std::shared_ptr<NoiseTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

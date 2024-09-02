@@ -12,13 +12,13 @@ namespace dtk
     namespace resource
     {
         //! Resource application.
-        class App : public core::IApp
+        class App : public IApp
         {
             DTK_NON_COPYABLE(App);
 
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>& argv);
 
             App();
@@ -27,7 +27,7 @@ namespace dtk
             virtual ~App();
             
             static std::shared_ptr<App> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>& argv);
 
             void run() override;

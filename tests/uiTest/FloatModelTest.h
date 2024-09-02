@@ -13,13 +13,13 @@ namespace dtk
         class FloatModelTest : public test::ITest
         {
         protected:
-            FloatModelTest(const std::shared_ptr<core::Context>&);
+            FloatModelTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FloatModelTest();
 
             static std::shared_ptr<FloatModelTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

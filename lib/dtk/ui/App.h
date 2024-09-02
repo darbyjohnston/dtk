@@ -10,10 +10,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class FontSystem;
-    }
+    class FontSystem;
 
     namespace ui
     {
@@ -24,16 +21,16 @@ namespace dtk
         class Window;
 
         //! Base class for user interface applications.
-        class App : public core::IApp
+        class App : public IApp
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>&,
                 const std::string& name,
                 const std::string& summary,
-                const std::vector<std::shared_ptr<core::ICmdLineArg> >& = {},
-                const std::vector<std::shared_ptr<core::ICmdLineOption> >& = {});
+                const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
+                const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
 
             App();
 
@@ -42,12 +39,12 @@ namespace dtk
 
             //! Create a new application.
             static std::shared_ptr<App> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>&,
                 const std::string& name,
                 const std::string& summary,
-                const std::vector<std::shared_ptr<core::ICmdLineArg> >& = {},
-                const std::vector<std::shared_ptr<core::ICmdLineOption> >& = {});
+                const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
+                const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
 
             //! Add a window.
             void addWindow(const std::shared_ptr<Window>&);
@@ -59,7 +56,7 @@ namespace dtk
             const std::list<std::shared_ptr<Window> >& getWindows() const;
 
             //! Get the font system.
-            const std::shared_ptr<core::FontSystem>& getFontSystem() const;
+            const std::shared_ptr<FontSystem>& getFontSystem() const;
 
             //! Get the style.
             const std::shared_ptr<ui::Style>& getStyle() const;

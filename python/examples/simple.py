@@ -2,7 +2,8 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from dtk import *
+import dtk
+from dtk import dtkUI
 
 import sys
 
@@ -14,10 +15,10 @@ class Window(dtkUI.Window):
         dtkUI.Window.drawEvent(self, drawRect, event)
         
         text = "Hello world"
-        fontInfo = dtkCore.FontInfo()
+        fontInfo = dtk.FontInfo()
         fontInfo.size = 0
-        textSize = dtkCore.Size2I()
-        g = dtkCore.margin(self.geometry, -100)
+        textSize = dtk.Size2I()
+        g = dtk.margin(self.geometry, -100)
         while textSize.w < g.w and textSize.h < g.h:
             fontInfo.size += 10
             textSize = event.fontSystem.getSize(text, fontInfo)
@@ -26,14 +27,14 @@ class Window(dtkUI.Window):
         event.render.drawText(
             glyphs,
             fontMetrics,
-            dtkCore.convert(dtkCore.center(g) - dtkCore.V2I(textSize.w, textSize.h) / 2),
-            dtkCore.Color4F(1, 1, 1))
+            dtk.convert(dtk.center(g) - dtk.V2I(textSize.w, textSize.h) / 2),
+            dtk.Color4F(1, 1, 1))
     
-context = dtkCore.Context()
+context = dtk.Context()
 app = dtkUI.App(context, sys.argv, "simple", "Simple example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
-window = Window(context, "simple", dtkCore.Size2I(1280, 960))
+window = Window(context, "simple", dtk.Size2I(1280, 960))
 app.addWindow(window)
 window.show()
 app.run()

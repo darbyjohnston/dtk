@@ -13,13 +13,13 @@ namespace dtk
         class MeshTest : public test::ITest
         {
         protected:
-            MeshTest(const std::shared_ptr<core::Context>&);
+            MeshTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~MeshTest();
 
             static std::shared_ptr<MeshTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

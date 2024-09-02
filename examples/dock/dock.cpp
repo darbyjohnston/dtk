@@ -13,7 +13,7 @@
 
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
+using namespace dtk;
 using namespace dtk::ui;
 
 int widgetCount = 0;

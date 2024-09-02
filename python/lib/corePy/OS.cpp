@@ -12,17 +12,14 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void os(py::module_& m)
     {
-        void os(py::module_& m)
-        {
-            py::class_<SystemInfo>(m, "SystemInfo")
-                .def_readwrite("name", &SystemInfo::name)
-                .def_readwrite("cores", &SystemInfo::cores)
-                .def_readwrite("ram", &SystemInfo::ram)
-                .def_readwrite("ramGB", &SystemInfo::ramGB);
+        py::class_<SystemInfo>(m, "SystemInfo")
+            .def_readwrite("name", &SystemInfo::name)
+            .def_readwrite("cores", &SystemInfo::cores)
+            .def_readwrite("ram", &SystemInfo::ram)
+            .def_readwrite("ramGB", &SystemInfo::ramGB);
 
-            m.def("getSystemInfo", &getSystemInfo, "Get operating system information.");
-        }
+        m.def("getSystemInfo", &getSystemInfo, "Get operating system information.");
     }
 }

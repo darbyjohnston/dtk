@@ -9,8 +9,6 @@
 #include <iomanip>
 #include <sstream>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

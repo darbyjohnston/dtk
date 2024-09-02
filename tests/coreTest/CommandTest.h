@@ -13,13 +13,13 @@ namespace dtk
         class CommandTest : public test::ITest
         {
         protected:
-            CommandTest(const std::shared_ptr<core::Context>&);
+            CommandTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~CommandTest();
 
             static std::shared_ptr<CommandTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

@@ -20,7 +20,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent);
@@ -32,7 +32,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<MessageDialog> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
@@ -49,7 +49,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent);
@@ -61,7 +61,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ConfirmDialog> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent = nullptr);
@@ -74,17 +74,17 @@ namespace dtk
         };
 
         //! Message dialog system.
-        class MessageDialogSystem : public core::ISystem
+        class MessageDialogSystem : public ISystem
         {
         protected:
-            MessageDialogSystem(const std::shared_ptr<core::Context>&);
+            MessageDialogSystem(const std::shared_ptr<Context>&);
 
         public:
             virtual ~MessageDialogSystem();
 
             //! Create a new system.
             static std::shared_ptr<MessageDialogSystem> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! Open a message dialog.
             void message(

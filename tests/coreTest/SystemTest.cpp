@@ -9,8 +9,6 @@
 #include <dtk/core/ISystem.h>
 #include <dtk/core/LogSystem.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

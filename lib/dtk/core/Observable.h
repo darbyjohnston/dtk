@@ -6,18 +6,15 @@
 
 namespace dtk
 {
-    namespace core
+    //! \name Observables
+    ///@{
+        
+    //! Observer actions.
+    enum class ObserverAction
     {
-        //! \name Observables
-        ///@{
+        Trigger,
+        Suppress
+    };
         
-        //! Observer actions.
-        enum class ObserverAction
-        {
-            Trigger,
-            Suppress
-        };
-        
-        ///@}
-    }
+    ///@}
 }

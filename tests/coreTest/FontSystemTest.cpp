@@ -9,8 +9,6 @@
 #include <dtk/core/FontSystem.h>
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

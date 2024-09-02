@@ -80,7 +80,7 @@ namespace dtk
         DTK_ENUM(ColorRole);
 
         //! Get default color roles.
-        std::map<ColorRole, core::Color4F> defaultColorRoles();
+        std::map<ColorRole, Color4F> defaultColorRoles();
 
         //! Font roles.
         enum class FontRole
@@ -96,7 +96,7 @@ namespace dtk
         DTK_ENUM(FontRole);
 
         //! Get default font roles.
-        std::map<FontRole, core::FontInfo> defaultFontRoles();
+        std::map<FontRole, FontInfo> defaultFontRoles();
 
         //! Style.
         class Style : public std::enable_shared_from_this<Style>
@@ -104,7 +104,7 @@ namespace dtk
             DTK_NON_COPYABLE(Style);
 
         protected:
-            void _init(const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<Context>&);
 
             Style();
 
@@ -113,7 +113,7 @@ namespace dtk
 
             //! Create a new style.
             static std::shared_ptr<Style> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! Get a size role.
             int getSizeRole(SizeRole, float scale) const;
@@ -125,30 +125,30 @@ namespace dtk
             void setSizeRoles(const std::map<SizeRole, int>&);
 
             //! Get a color role.
-            core::Color4F getColorRole(ColorRole) const;
+            Color4F getColorRole(ColorRole) const;
 
             //! Set a color role.
-            void setColorRole(ColorRole, const core::Color4F&);
+            void setColorRole(ColorRole, const Color4F&);
 
             //! Set the color roles.
-            void setColorRoles(const std::map<ColorRole, core::Color4F>&);
+            void setColorRoles(const std::map<ColorRole, Color4F>&);
 
             //! Get a font role.
-            core::FontInfo getFontRole(FontRole, float scale) const;
+            FontInfo getFontRole(FontRole, float scale) const;
 
             //! Set a font role.
-            void setFontRole(FontRole, const core::FontInfo&);
+            void setFontRole(FontRole, const FontInfo&);
 
             //! Set the font roles.
-            void setFontRoles(const std::map<FontRole, core::FontInfo>&);
+            void setFontRoles(const std::map<FontRole, FontInfo>&);
 
             //! Observe style changes.
-            std::shared_ptr<core::IObservableValue<bool> > observeChanged() const;
+            std::shared_ptr<IObservableValue<bool> > observeChanged() const;
 
         private:
             std::map<SizeRole, int> _sizeRoles;
-            std::map<ColorRole, core::Color4F> _colorRoles;
-            std::map<FontRole, core::FontInfo> _fontRoles;
+            std::map<ColorRole, Color4F> _colorRoles;
+            std::map<FontRole, FontInfo> _fontRoles;
 
             DTK_PRIVATE();
         };

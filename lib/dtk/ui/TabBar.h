@@ -20,7 +20,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             TabBar();
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<TabBar> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the tabs.
@@ -54,7 +54,7 @@ namespace dtk
             //! Set the callback.
             void setCallback(const std::function<void(int)>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void keyFocusEvent(bool) override;
             void keyPressEvent(KeyEvent&) override;

@@ -12,14 +12,11 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void observableList(py::module_& m)
     {
-        void observableList(py::module_& m)
-        {
-            observableList<int>(m, "I");
-            observableList<float>(m, "F");
-            observableList<double>(m, "D");
-            observableList<bool>(m, "Bool");
-        }
+        observableList<int>(m, "I");
+        observableList<float>(m, "F");
+        observableList<double>(m, "D");
+        observableList<bool>(m, "Bool");
     }
 }

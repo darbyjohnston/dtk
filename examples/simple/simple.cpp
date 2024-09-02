@@ -6,7 +6,7 @@
 
 #include <dtk/ui/App.h>
 
-using namespace dtk::core;
+using namespace dtk;
 using namespace dtk::ui;
 
 namespace dtk

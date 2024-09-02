@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             SearchBox();
@@ -28,7 +28,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<SearchBox> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the text.
@@ -40,7 +40,7 @@ namespace dtk
             //! Set the callback.
             void setCallback(const std::function<void(const std::string&)>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

@@ -11,20 +11,17 @@
 
 namespace dtk
 {
-    namespace core
+    void sleep(const std::chrono::microseconds& value)
     {
-        void sleep(const std::chrono::microseconds& value)
+        if (HANDLE h = CreateWaitableTimer(NULL, TRUE, NULL))
         {
-            if (HANDLE h = CreateWaitableTimer(NULL, TRUE, NULL))
+            LARGE_INTEGER l;
+            l.QuadPart = -std::chrono::duration_cast<std::chrono::nanoseconds>(value).count() / 100;
+            if (SetWaitableTimer(h, &l, 0, NULL, NULL, FALSE))
             {
-                LARGE_INTEGER l;
-                l.QuadPart = -std::chrono::duration_cast<std::chrono::nanoseconds>(value).count() / 100;
-                if (SetWaitableTimer(h, &l, 0, NULL, NULL, FALSE))
-                {
-                    WaitForSingleObject(h, INFINITE);
-                }
-                CloseHandle(h);
+                WaitForSingleObject(h, INFINITE);
             }
+            CloseHandle(h);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             Menu();
@@ -29,7 +29,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<Menu> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Add a menu item.

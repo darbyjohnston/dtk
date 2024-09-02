@@ -13,13 +13,13 @@ namespace dtk
         class LayoutUtilTest : public test::ITest
         {
         protected:
-            LayoutUtilTest(const std::shared_ptr<core::Context>&);
+            LayoutUtilTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~LayoutUtilTest();
 
             static std::shared_ptr<LayoutUtilTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

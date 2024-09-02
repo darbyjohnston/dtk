@@ -22,7 +22,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ColorWidget();
@@ -32,19 +32,19 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ColorWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the color.
-            const core::Color4F& getColor() const;
+            const Color4F& getColor() const;
 
             //! Set the color.
-            void setColor(const core::Color4F&);
+            void setColor(const Color4F&);
 
             //! Set the color callback.
-            void setCallback(const std::function<void(const core::Color4F&)>&);
+            void setCallback(const std::function<void(const Color4F&)>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

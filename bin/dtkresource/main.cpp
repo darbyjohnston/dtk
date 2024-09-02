@@ -9,7 +9,6 @@
 #include <iostream>
 
 using namespace dtk;
-using namespace dtk::core;
 using namespace dtk::resource;
 
 DTK_MAIN()

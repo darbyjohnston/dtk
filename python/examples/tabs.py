@@ -2,17 +2,18 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from dtk import *
+import dtk
+from dtk import dtkUI
 
 import sys
         
-context = dtkCore.Context()
+context = dtk.Context()
 app = dtkUI.App(context, sys.argv, "tabs", "Tabs example")
 if app.getExit() != 0:
     sys.exit(1)
 
 # Create the window.
-window = dtkUI.Window(context, "tabs", dtkCore.Size2I(1280, 960))
+window = dtkUI.Window(context, "tabs", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the tab widget.

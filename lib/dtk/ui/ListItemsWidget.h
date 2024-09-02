@@ -34,7 +34,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ButtonGroupType,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -45,7 +45,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ListItemsWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ButtonGroupType,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -68,7 +68,7 @@ namespace dtk
             void setCallback(const std::function<void(int, bool)>&);
 
             //! Observer the current item.
-            std::shared_ptr<core::IObservableValue<int> > observeCurrent() const;
+            std::shared_ptr<IObservableValue<int> > observeCurrent() const;
 
             //! Get the search.
             const std::string& getSearch() const;
@@ -80,9 +80,9 @@ namespace dtk
             void clearSearch();
 
             //! Get an item rectangle.
-            core::Box2I getRect(int) const;
+            Box2I getRect(int) const;
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void keyFocusEvent(bool) override;
             void keyPressEvent(KeyEvent&) override;

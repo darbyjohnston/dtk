@@ -14,8 +14,6 @@
 #include <cstring>
 #include <stdexcept>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl

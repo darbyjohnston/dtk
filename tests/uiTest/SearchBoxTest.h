@@ -13,13 +13,13 @@ namespace dtk
         class SearchBoxTest : public test::ITest
         {
         protected:
-            SearchBoxTest(const std::shared_ptr<core::Context>&);
+            SearchBoxTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~SearchBoxTest();
 
             static std::shared_ptr<SearchBoxTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

@@ -15,20 +15,20 @@ namespace dtk
         class BoxPackTest : public test::ITest
         {
         protected:
-            BoxPackTest(const std::shared_ptr<core::Context>&);
+            BoxPackTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~BoxPackTest();
 
             static std::shared_ptr<BoxPackTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 
         private:
-            void _printPack(const std::shared_ptr<core::BoxPack>&);
+            void _printPack(const std::shared_ptr<BoxPack>&);
             void _printNode(
-                const std::shared_ptr<core::BoxPackNode>&,
+                const std::shared_ptr<BoxPackNode>&,
                 int indent = 0,
                 char pad = ' ');
         };

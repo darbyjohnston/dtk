@@ -8,8 +8,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/LogSystem.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl

@@ -13,13 +13,13 @@ namespace dtk
         class ComboBoxTest : public test::ITest
         {
         protected:
-            ComboBoxTest(const std::shared_ptr<core::Context>&);
+            ComboBoxTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ComboBoxTest();
 
             static std::shared_ptr<ComboBoxTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

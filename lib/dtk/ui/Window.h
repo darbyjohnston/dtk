@@ -15,9 +15,9 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& name,
-                const core::Size2I&);
+                const Size2I&);
 
             Window();
 
@@ -26,18 +26,18 @@ namespace dtk
             
             //! Create a new window.
             static std::shared_ptr<Window> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& name,
-                const core::Size2I&);
+                const Size2I&);
 
             //! Get the window size.
-            const core::Size2I& getSize() const;
+            const Size2I& getSize() const;
 
             //! Set the window size.
-            void setSize(const core::Size2I&);
+            void setSize(const Size2I&);
             
             //! Get the window frame buffer size.
-            const core::Size2I& getFrameBufferSize() const;
+            const Size2I& getFrameBufferSize() const;
             
             //! Get the display scale.
             float getDisplayScale() const;
@@ -47,11 +47,11 @@ namespace dtk
 
             //! Update the window.
             void update(
-                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<FontSystem>&,
                 const std::shared_ptr<Style>&,
                 const std::shared_ptr<IconLibrary>&);
         
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void setVisible(bool) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 

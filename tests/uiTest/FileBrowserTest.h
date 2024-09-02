@@ -13,13 +13,13 @@ namespace dtk
         class FileBrowserTest : public test::ITest
         {
         protected:
-            FileBrowserTest(const std::shared_ptr<core::Context>&);
+            FileBrowserTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FileBrowserTest();
 
             static std::shared_ptr<FileBrowserTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

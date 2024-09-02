@@ -9,7 +9,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
 using namespace dtk::gl;
 
 namespace dtk
@@ -44,14 +43,14 @@ namespace dtk
                 _print(Format("Full screen: {0}").arg(window->isFullScreen()));
                 _print(Format("Float on top: {0}").arg(window->isFloatOnTop()));
 
-                window->setSizeCallback([](const core::Size2I&){});
-                window->setFrameBufferSizeCallback([](const core::Size2I&){});
-                window->setContentScaleCallback([](const core::V2F&){});
+                window->setSizeCallback([](const Size2I&){});
+                window->setFrameBufferSizeCallback([](const Size2I&){});
+                window->setContentScaleCallback([](const V2F&){});
                 window->setRefreshCallback([]{});
                 window->setCursorEnterCallback([](bool){});
-                window->setCursorPosCallback([](const core::V2F&){});
+                window->setCursorPosCallback([](const V2F&){});
                 window->setButtonCallback([](int, int, int){});
-                window->setScrollCallback([](const core::V2F&){});
+                window->setScrollCallback([](const V2F&){});
                 window->setKeyCallback([](int, int, int, int){});
                 window->setCharCallback([](unsigned int){});
                 window->setDropCallback([](int, const char**){});

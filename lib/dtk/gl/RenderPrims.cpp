@@ -4,8 +4,6 @@
 
 #include <dtk/gl/RenderPrivate.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl
@@ -23,7 +21,7 @@ namespace dtk
 
             if (p.vbos["rect"])
             {
-                const auto mesh = core::mesh(rect);
+                const auto mesh = dtk::mesh(rect);
                 p.vbos["rect"]->copy(convert(mesh, p.vbos["rect"]->getType()));
                 p.stats.triCount += mesh.triangles.size();
             }
@@ -417,7 +415,7 @@ namespace dtk
 
             if (p.vbos["image"])
             {
-                const auto mesh = core::mesh(box);
+                const auto mesh = dtk::mesh(box);
                 p.vbos["image"]->copy(convert(mesh, p.vbos["image"]->getType()));
                 p.stats.triCount += mesh.triangles.size();
             }

@@ -15,8 +15,6 @@
 
 #include <filesystem>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -144,7 +142,7 @@ namespace dtk
             }
         }
 
-        void FileBrowserPathsWidget::setGeometry(const core::Box2I& value)
+        void FileBrowserPathsWidget::setGeometry(const Box2I& value)
         {
             IWidget::setGeometry(value);
             _p->layout->setGeometry(value);

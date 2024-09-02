@@ -8,46 +8,43 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        //! \name Math
-        ///@{
+    //! \name Math
+    ///@{
 
-        //! Approximate value of PI.
-        constexpr float pi = 3.14159265359F;
+    //! Approximate value of PI.
+    constexpr float pi = 3.14159265359F;
 
-        //! Approximate value of PI times two.
-        constexpr float pi2 = pi * 2.F;
+    //! Approximate value of PI times two.
+    constexpr float pi2 = pi * 2.F;
 
-        //! Convert degrees to radians.
-        constexpr float deg2rad(float);
+    //! Convert degrees to radians.
+    constexpr float deg2rad(float);
 
-        //! Convert radians to degrees.
-        constexpr float rad2deg(float);
+    //! Convert radians to degrees.
+    constexpr float rad2deg(float);
 
-        //! Clamp a value.
-        template<typename T>
-        constexpr T clamp(T value, T min, T max);
+    //! Clamp a value.
+    template<typename T>
+    constexpr T clamp(T value, T min, T max);
 
-        //! Linear interpolation.
-        template<typename T, typename U>
-        constexpr T lerp(U value, T min, T max);
+    //! Linear interpolation.
+    template<typename T, typename U>
+    constexpr T lerp(U value, T min, T max);
 
-        //! Smooth step function.
-        template<typename T>
-        constexpr T smoothStep(T value, T min, T max);
+    //! Smooth step function.
+    template<typename T>
+    constexpr T smoothStep(T value, T min, T max);
 
-        //! Count the number of digits.
-        size_t digits(int);
+    //! Count the number of digits.
+    size_t digits(int);
 
-        //! Fuzzy double comparison.
-        bool fuzzyCompare(double a, double b, double e = .1e-9);
+    //! Fuzzy double comparison.
+    bool fuzzyCompare(double a, double b, double e = .1e-9);
 
-        //! Fuzzy float comparison.
-        bool fuzzyCompare(float a, float b, float e = .1e-6F);
+    //! Fuzzy float comparison.
+    bool fuzzyCompare(float a, float b, float e = .1e-6F);
         
-        ///@}
-    }
+    ///@}
 }
 
 #include <dtk/core/MathInline.h>

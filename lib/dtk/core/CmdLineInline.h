@@ -9,182 +9,179 @@
 
 namespace dtk
 {
-    namespace core
+    inline const std::string& ICmdLineOption::getMatchedName() const
     {
-        inline const std::string& ICmdLineOption::getMatchedName() const
-        {
-            return _matchedName;
-        }
+        return _matchedName;
+    }
 
-        template<typename T>
-        inline CmdLineValueOption<T>::CmdLineValueOption(
-            T& value,
-            const std::vector<std::string>& names,
-            const std::string& help,
-            const std::string& defaultValue,
-            const std::string& possibleValues) :
-            ICmdLineOption(names, help),
-            _value(value),
-            _defaultValue(defaultValue),
-            _possibleValues(possibleValues)
-        {}
+    template<typename T>
+    inline CmdLineValueOption<T>::CmdLineValueOption(
+        T& value,
+        const std::vector<std::string>& names,
+        const std::string& help,
+        const std::string& defaultValue,
+        const std::string& possibleValues) :
+        ICmdLineOption(names, help),
+        _value(value),
+        _defaultValue(defaultValue),
+        _possibleValues(possibleValues)
+    {}
         
-        template<typename T>
-        inline std::shared_ptr<CmdLineValueOption<T> > CmdLineValueOption<T>::create(
-            T& value,
-            const std::vector<std::string>& names,
-            const std::string& help,
-            const std::string& defaultValue,
-            const std::string& possibleValues)
-        {
-            return std::shared_ptr<CmdLineValueOption<T> >(new CmdLineValueOption<T>(
-                value,
-                names,
-                help,
-                defaultValue,
-                possibleValues));
-        }
+    template<typename T>
+    inline std::shared_ptr<CmdLineValueOption<T> > CmdLineValueOption<T>::create(
+        T& value,
+        const std::vector<std::string>& names,
+        const std::string& help,
+        const std::string& defaultValue,
+        const std::string& possibleValues)
+    {
+        return std::shared_ptr<CmdLineValueOption<T> >(new CmdLineValueOption<T>(
+            value,
+            names,
+            help,
+            defaultValue,
+            possibleValues));
+    }
 
-        template<typename T>
-        inline void CmdLineValueOption<T>::parse(std::vector<std::string>& args)
+    template<typename T>
+    inline void CmdLineValueOption<T>::parse(std::vector<std::string>& args)
+    {
+        for (const auto& name : _names)
         {
-            for (const auto& name : _names)
+            auto i = std::find(args.begin(), args.end(), name);
+            if (i != args.end())
             {
-                auto i = std::find(args.begin(), args.end(), name);
+                _matchedName = name;
+                i = args.erase(i);
                 if (i != args.end())
                 {
-                    _matchedName = name;
+                    std::stringstream ss(*i);
+                    ss >> _value;
                     i = args.erase(i);
-                    if (i != args.end())
-                    {
-                        std::stringstream ss(*i);
-                        ss >> _value;
-                        i = args.erase(i);
-                    }
-                    else
-                    {
-                        throw ParseError();
-                    }
+                }
+                else
+                {
+                    throw ParseError();
                 }
             }
         }
+    }
 
-        template<>
-        inline void CmdLineValueOption<std::string>::parse(std::vector<std::string>& args)
+    template<>
+    inline void CmdLineValueOption<std::string>::parse(std::vector<std::string>& args)
+    {
+        for (const auto& name : _names)
         {
-            for (const auto& name : _names)
+            auto i = std::find(args.begin(), args.end(), name);
+            if (i != args.end())
             {
-                auto i = std::find(args.begin(), args.end(), name);
+                _matchedName = name;
+                i = args.erase(i);
                 if (i != args.end())
                 {
-                    _matchedName = name;
+                    _value = *i;
                     i = args.erase(i);
-                    if (i != args.end())
-                    {
-                        _value = *i;
-                        i = args.erase(i);
-                    }
-                    else
-                    {
-                        throw ParseError();
-                    }
+                }
+                else
+                {
+                    throw ParseError();
                 }
             }
         }
+    }
 
-        template<typename T>
-        inline std::vector<std::string> CmdLineValueOption<T>::getHelp() const
+    template<typename T>
+    inline std::vector<std::string> CmdLineValueOption<T>::getHelp() const
+    {
+        std::vector<std::string> out;
+        out.push_back(join(_names, ", ") + " (value)");
+        out.push_back(_help);
+        if (!_defaultValue.empty())
         {
-            std::vector<std::string> out;
-            out.push_back(join(_names, ", ") + " (value)");
-            out.push_back(_help);
-            if (!_defaultValue.empty())
-            {
-                out.push_back("Default value: " + _defaultValue);
-            }
-            if (!_possibleValues.empty())
-            {
-                out.push_back("Possible values: " + _possibleValues);
-            }
-            return out;
+            out.push_back("Default value: " + _defaultValue);
         }
-
-        inline ICmdLineArg::ICmdLineArg(
-            const std::string& name,
-            const std::string& help,
-            bool optional) :
-            _name(name),
-            _help(help),
-            _optional(optional)
-        {}
-
-        inline ICmdLineArg::~ICmdLineArg()
-        {}
-
-        inline const std::string& ICmdLineArg::getName() const
+        if (!_possibleValues.empty())
         {
-            return _name;
+            out.push_back("Possible values: " + _possibleValues);
         }
+        return out;
+    }
 
-        inline const std::string& ICmdLineArg::getHelp() const
+    inline ICmdLineArg::ICmdLineArg(
+        const std::string& name,
+        const std::string& help,
+        bool optional) :
+        _name(name),
+        _help(help),
+        _optional(optional)
+    {}
+
+    inline ICmdLineArg::~ICmdLineArg()
+    {}
+
+    inline const std::string& ICmdLineArg::getName() const
+    {
+        return _name;
+    }
+
+    inline const std::string& ICmdLineArg::getHelp() const
+    {
+        return _help;
+    }
+
+    inline bool ICmdLineArg::isOptional() const
+    {
+        return _optional;
+    }
+
+    template<typename T>
+    inline CmdLineValueArg<T>::CmdLineValueArg(
+        T& value,
+        const std::string& name,
+        const std::string& help,
+        bool optional) :
+        ICmdLineArg(name, help, optional),
+        _value(value)
+    {}
+
+    template<typename T>
+    inline std::shared_ptr<CmdLineValueArg<T> > CmdLineValueArg<T>::create(
+        T& value,
+        const std::string& name,
+        const std::string& help,
+        bool optional)
+    {
+        return std::shared_ptr<CmdLineValueArg<T> >(new CmdLineValueArg<T>(value, name, help, optional));
+    }
+
+    template<typename T>
+    inline void CmdLineValueArg<T>::parse(std::vector<std::string>& args)
+    {
+        auto i = args.begin();
+        if (i != args.end())
         {
-            return _help;
+            std::stringstream ss(*i);
+            ss >> _value;
+            i = args.erase(i);
         }
-
-        inline bool ICmdLineArg::isOptional() const
+        else
         {
-            return _optional;
+            throw ParseError();
         }
+    }
 
-        template<typename T>
-        inline CmdLineValueArg<T>::CmdLineValueArg(
-            T& value,
-            const std::string& name,
-            const std::string& help,
-            bool optional) :
-            ICmdLineArg(name, help, optional),
-            _value(value)
-        {}
-
-        template<typename T>
-        inline std::shared_ptr<CmdLineValueArg<T> > CmdLineValueArg<T>::create(
-            T& value,
-            const std::string& name,
-            const std::string& help,
-            bool optional)
+    template<>
+    inline void CmdLineValueArg<std::string>::parse(std::vector<std::string>& args)
+    {
+        auto i = args.begin();
+        if (i != args.end())
         {
-            return std::shared_ptr<CmdLineValueArg<T> >(new CmdLineValueArg<T>(value, name, help, optional));
+            _value = *i;
+            i = args.erase(i);
         }
-
-        template<typename T>
-        inline void CmdLineValueArg<T>::parse(std::vector<std::string>& args)
+        else
         {
-            auto i = args.begin();
-            if (i != args.end())
-            {
-                std::stringstream ss(*i);
-                ss >> _value;
-                i = args.erase(i);
-            }
-            else
-            {
-                throw ParseError();
-            }
-        }
-
-        template<>
-        inline void CmdLineValueArg<std::string>::parse(std::vector<std::string>& args)
-        {
-            auto i = args.begin();
-            if (i != args.end())
-            {
-                _value = *i;
-                i = args.erase(i);
-            }
-            else
-            {
-                throw ParseError();
-            }
+            throw ParseError();
         }
     }
 }

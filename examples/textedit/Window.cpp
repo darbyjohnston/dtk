@@ -11,7 +11,7 @@
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
 
-using namespace dtk::core;
+using namespace dtk;
 using namespace dtk::ui;
 
 namespace dtk

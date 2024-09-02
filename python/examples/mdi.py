@@ -2,17 +2,18 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-from dtk import *
+import dtk
+from dtk import dtkUI
 
 import sys
         
-context = dtkCore.Context()
+context = dtk.Context()
 app = dtkUI.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-size = dtkCore.Size2I(1280, 960)
+size = dtk.Size2I(1280, 960)
 window = dtkUI.Window(context, "buttons", size)
 app.addWindow(window)
 
@@ -24,16 +25,16 @@ canvas = dtkUI.MDICanvas(context)
 scrollWidget.widget = canvas
         
 # Create the MDI widgets.
-random = dtkCore.Random()
+random = dtk.Random()
 for i in range(0, 10):
     colorWidget = dtkUI.ColorWidget(context)
-    colorWidget.color = dtkCore.Color4F(
+    colorWidget.color = dtk.Color4F(
         random.getF(),
         random.getF(),
         random.getF())
     canvas.addWidget(
         "Color {0}".format(i),
-        dtkCore.V2I(random.getI(0, size[0]), random.getI(0, size[1])),
+        dtk.V2I(random.getI(0, size[0]), random.getI(0, size[1])),
         colorWidget)
 
 window.show()

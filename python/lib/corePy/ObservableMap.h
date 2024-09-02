@@ -8,12 +8,9 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        template<typename T, typename U>
-        void observableMap(pybind11::module_&, const std::string& type);
-        void observableMap(pybind11::module_&);
-    }
+    template<typename T, typename U>
+    void observableMap(pybind11::module_&, const std::string& type);
+    void observableMap(pybind11::module_&);
 }
 
 #include <corePy/ObservableMapInline.h>

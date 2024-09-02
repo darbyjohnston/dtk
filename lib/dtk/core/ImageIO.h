@@ -12,16 +12,14 @@
 
 namespace dtk
 {
-    namespace core
-    {
         //! \name Image I/O
         ///@{
 
         //! Image I/O options.
-        typedef std::map<std::string, std::string> Options;
+        typedef std::map<std::string, std::string> ImageIOOptions;
 
         //! Merge image I/O options.
-        Options merge(const Options&, const Options&);
+        ImageIOOptions merge(const ImageIOOptions&, const ImageIOOptions&);
         
         //! Base class for image readers.
         class IImageReader
@@ -29,16 +27,16 @@ namespace dtk
         public:
             IImageReader(
                 const std::filesystem::path&,
-                const core::InMemoryFile*,
-                const Options&);
+                const InMemoryFile*,
+                const ImageIOOptions&);
             
             virtual ~IImageReader() = 0;
 
             //! Get information about the image.
-            virtual const core::ImageInfo& getInfo() const = 0;
+            virtual const ImageInfo& getInfo() const = 0;
 
             //! Read the image.
-            virtual std::shared_ptr<core::Image> read() = 0;
+            virtual std::shared_ptr<Image> read() = 0;
 
         protected:
             std::filesystem::path _path;
@@ -50,12 +48,12 @@ namespace dtk
         public:
             IImageWriter(
                 const std::filesystem::path&,
-                const Options&);
+                const ImageIOOptions&);
 
             virtual ~IImageWriter() = 0;
             
             //! Write the image.
-            virtual void write(const std::shared_ptr<core::Image>&) = 0;
+            virtual void write(const std::shared_ptr<Image>&) = 0;
 
         protected:
             std::filesystem::path _path;
@@ -76,42 +74,42 @@ namespace dtk
             
             virtual bool canRead(
                 const std::filesystem::path&,
-                const Options& = Options());
+                const ImageIOOptions& = ImageIOOptions());
 
             virtual std::shared_ptr<IImageReader> read(
                 const std::filesystem::path&,
-                const Options& = Options());
+                const ImageIOOptions& = ImageIOOptions());
             
             virtual std::shared_ptr<IImageReader> read(
                 const std::filesystem::path&,
-                const core::InMemoryFile&,
-                const Options& = Options());
+                const InMemoryFile&,
+                const ImageIOOptions& = ImageIOOptions());
 
             virtual bool canWrite(
                 const std::filesystem::path&,
-                const core::ImageInfo&,
-                const Options& = Options());
+                const ImageInfo&,
+                const ImageIOOptions& = ImageIOOptions());
 
             virtual std::shared_ptr<IImageWriter> write(
                 const std::filesystem::path&,
-                const core::ImageInfo&,
-                const Options& = Options());
+                const ImageInfo&,
+                const ImageIOOptions& = ImageIOOptions());
                 
         private:
             std::string _name;
         };
         
         //! Image I/O system.
-        class ImageIO : public core::ISystem
+        class ImageIO : public ISystem
         {
         protected:
-            ImageIO(const std::shared_ptr<core::Context>&);
+            ImageIO(const std::shared_ptr<Context>&);
 
         public:
             virtual ~ImageIO();
 
             //! Create a new system.
-            static std::shared_ptr<ImageIO> create(const std::shared_ptr<core::Context>&);
+            static std::shared_ptr<ImageIO> create(const std::shared_ptr<Context>&);
 
             //! Get the plugins.
             const std::list<std::shared_ptr<IImagePlugin> >& getPlugins() const;
@@ -122,25 +120,24 @@ namespace dtk
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
                 const std::filesystem::path&,
-                const Options& = Options());
+                const ImageIOOptions& = ImageIOOptions());
 
             //! Get an image reader.
             std::shared_ptr<IImageReader> read(
                 const std::filesystem::path&,
-                const core::InMemoryFile&,
-                const Options& = Options());
+                const InMemoryFile&,
+                const ImageIOOptions& = ImageIOOptions());
             
             //! Get an image writer.
             std::shared_ptr<IImageWriter> write(
                 const std::filesystem::path&,
-                const core::ImageInfo&,
-                const Options& = Options());
+                const ImageInfo&,
+                const ImageIOOptions& = ImageIOOptions());
 
         private:
             std::list<std::shared_ptr<IImagePlugin> > _plugins;
         };
         
         ///@}
-    }
 }
 

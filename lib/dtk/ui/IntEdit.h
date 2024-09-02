@@ -19,7 +19,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IntModel>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<IntEdit> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IntModel>& = nullptr,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -44,10 +44,10 @@ namespace dtk
             void setCallback(const std::function<void(int)>&);
 
             //! Get the range.
-            const core::RangeI& getRange() const;
+            const RangeI& getRange() const;
 
             //! Set the range.
-            void setRange(const core::RangeI&);
+            void setRange(const RangeI&);
 
             //! Get the step.
             int getStep() const;
@@ -70,7 +70,7 @@ namespace dtk
             //! Set the font role.
             void setFontRole(FontRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;

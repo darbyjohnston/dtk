@@ -18,7 +18,7 @@ namespace dtk
         class PyIWindow : public IWindow
         {
         public:
-            virtual void drawEvent(const core::Box2I& drawRect, const ui::DrawEvent& event) override
+            virtual void drawEvent(const Box2I& drawRect, const ui::DrawEvent& event) override
             {
                 PYBIND11_OVERRIDE(
                     void,

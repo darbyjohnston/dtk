@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ButtonGroupType,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -29,7 +29,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ListWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ButtonGroupType,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -60,7 +60,7 @@ namespace dtk
             //! Clear the search.
             void clearSearch();
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

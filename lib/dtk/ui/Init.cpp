@@ -9,8 +9,6 @@
 
 #include <dtk/core/Context.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

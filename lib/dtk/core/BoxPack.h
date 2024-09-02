@@ -14,72 +14,69 @@
 
 namespace dtk
 {
-    namespace core
+    //! \name Box Packing
+    ///@{
+
+    //! Box packing ID.
+    typedef int64_t BoxPackID;
+
+    //! Invalid box packing ID.
+    constexpr BoxPackID boxPackInvalidID = -1;
+
+    //! Box packing timestamp.
+    typedef uint64_t BoxPackTimestamp;
+
+    //! Box packing node.
+    //!
+    //! References:
+    //! - http://blackpawn.com/texts/lightmaps/
+    struct BoxPackNode
     {
-        //! \name Box Packing
-        ///@{
+        Box2I box;
+        BoxPackID id = boxPackInvalidID;
+        BoxPackTimestamp timestamp = 0;
+        std::array<std::shared_ptr<BoxPackNode>, 2> children;
 
-        //! Box packing ID.
-        typedef int64_t BoxPackID;
+        bool isBranch() const;
+        bool isOccupied() const;
+    };
 
-        //! Invalid box packing ID.
-        constexpr BoxPackID boxPackInvalidID = -1;
+    //! Pack boxes together.
+    class BoxPack : public std::enable_shared_from_this<BoxPack>
+    {
+        DTK_NON_COPYABLE(BoxPack);
 
-        //! Box packing timestamp.
-        typedef uint64_t BoxPackTimestamp;
+    private:
+        BoxPack() = default;
 
-        //! Box packing node.
-        //!
-        //! References:
-        //! - http://blackpawn.com/texts/lightmaps/
-        struct BoxPackNode
-        {
-            Box2I box;
-            BoxPackID id = boxPackInvalidID;
-            BoxPackTimestamp timestamp = 0;
-            std::array<std::shared_ptr<BoxPackNode>, 2> children;
+    public:
+        static std::shared_ptr<BoxPack> create(const Size2I&, int border = 0);
 
-            bool isBranch() const;
-            bool isOccupied() const;
-        };
+        const std::shared_ptr<BoxPackNode>& getRoot() const;
 
-        //! Pack boxes together.
-        class BoxPack : public std::enable_shared_from_this<BoxPack>
-        {
-            DTK_NON_COPYABLE(BoxPack);
+        std::vector<std::shared_ptr<BoxPackNode> > getNodes() const;
 
-        private:
-            BoxPack() = default;
+        std::shared_ptr<BoxPackNode> getNode(BoxPackID);
 
-        public:
-            static std::shared_ptr<BoxPack> create(const Size2I&, int border = 0);
+        std::shared_ptr<BoxPackNode> insert(const Size2I&);
 
-            const std::shared_ptr<BoxPackNode>& getRoot() const;
+    private:
+        void _getNodes(
+            const std::shared_ptr<BoxPackNode>&,
+            std::vector<std::shared_ptr<BoxPackNode> >&) const;
 
-            std::vector<std::shared_ptr<BoxPackNode> > getNodes() const;
+        std::shared_ptr<BoxPackNode> _insert(
+            std::shared_ptr<BoxPackNode>,
+            const Size2I&);
 
-            std::shared_ptr<BoxPackNode> getNode(BoxPackID);
+        void _removeFromMap(const std::shared_ptr<BoxPackNode>&);
 
-            std::shared_ptr<BoxPackNode> insert(const Size2I&);
+        int _border = 0;
+        std::shared_ptr<BoxPackNode> _root;
+        BoxPackID _id = 0;
+        BoxPackTimestamp _timestamp = 0;
+        std::map<BoxPackID, std::shared_ptr<BoxPackNode>> _idToNode;
+    };
 
-        private:
-            void _getNodes(
-                const std::shared_ptr<BoxPackNode>&,
-                std::vector<std::shared_ptr<BoxPackNode> >&) const;
-
-            std::shared_ptr<BoxPackNode> _insert(
-                std::shared_ptr<BoxPackNode>,
-                const Size2I&);
-
-            void _removeFromMap(const std::shared_ptr<BoxPackNode>&);
-
-            int _border = 0;
-            std::shared_ptr<BoxPackNode> _root;
-            BoxPackID _id = 0;
-            BoxPackTimestamp _timestamp = 0;
-            std::map<BoxPackID, std::shared_ptr<BoxPackNode>> _idToNode;
-        };
-
-        ///@}
-    }
+    ///@}
 }

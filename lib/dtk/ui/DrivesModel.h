@@ -10,10 +10,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class Context;
-    }
+    class Context;
 
     namespace ui
     {
@@ -26,7 +23,7 @@ namespace dtk
             DTK_NON_COPYABLE(DrivesModel);
 
         protected:
-            void _init(const std::shared_ptr<core::Context>&);
+            void _init(const std::shared_ptr<Context>&);
 
             DrivesModel();
 
@@ -35,10 +32,10 @@ namespace dtk
 
             //! Create a new model.
             static std::shared_ptr<DrivesModel> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! Observe the list of drives.
-            std::shared_ptr<core::IObservableList<std::filesystem::path> > observeDrives() const;
+            std::shared_ptr<IObservableList<std::filesystem::path> > observeDrives() const;
 
         private:
             DTK_PRIVATE();

@@ -14,8 +14,6 @@
 
 #include <filesystem>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

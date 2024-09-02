@@ -16,9 +16,9 @@ namespace dtk
         ///@{
         
         //! Align within the given box.
-        core::Box2I align(
-            const core::Box2I&  box,
-            const core::Size2I& sizeHint,
+        Box2I align(
+            const Box2I&  box,
+            const Size2I& sizeHint,
             Stretch             hStretch,
             Stretch             vStretch,
             HAlign              hAlign,

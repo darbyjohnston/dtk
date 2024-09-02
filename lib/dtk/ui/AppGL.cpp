@@ -24,8 +24,6 @@
 #include <algorithm>
 #include <iostream>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -131,7 +129,7 @@ namespace dtk
             return _p->windows;
         }
 
-        const std::shared_ptr<core::FontSystem>& App::getFontSystem() const
+        const std::shared_ptr<FontSystem>& App::getFontSystem() const
         {
             return _p->fontSystem;
         }

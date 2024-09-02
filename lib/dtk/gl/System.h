@@ -11,16 +11,16 @@ namespace dtk
     namespace gl
     {
         //! OpenGL system.
-        class System : public core::ISystem
+        class System : public ISystem
         {
         protected:
-            System(const std::shared_ptr<core::Context>&);
+            System(const std::shared_ptr<Context>&);
 
         public:
             virtual ~System();
 
             //! Create a new system.
-            static std::shared_ptr<System> create(const std::shared_ptr<core::Context>&);
+            static std::shared_ptr<System> create(const std::shared_ptr<Context>&);
         
         private:
             DTK_PRIVATE();

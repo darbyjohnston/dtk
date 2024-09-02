@@ -21,13 +21,13 @@ namespace dtk
             py::class_<Bellows, IWidget, std::shared_ptr<Bellows> >(m, "Bellows")
                 .def(
                     py::init(py::overload_cast<
-                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<Context>&,
                         const std::shared_ptr<IWidget>&>(&Bellows::create)),
                     py::arg("context"),
                     py::arg("parent") = nullptr)
                 .def(
                     py::init(py::overload_cast<
-                        const std::shared_ptr<core::Context>&,
+                        const std::shared_ptr<Context>&,
                         const std::string&,
                         const std::shared_ptr<IWidget>&>(&Bellows::create)),
                     py::arg("context"),

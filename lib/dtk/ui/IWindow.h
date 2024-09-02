@@ -45,7 +45,7 @@ namespace dtk
                 bool parentsEnabled,
                 const TickEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawOverlayEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawOverlayEvent(const Box2I&, const DrawEvent&) override;
 
         protected:
             bool _hasSizeUpdate(const std::shared_ptr<IWidget>&) const;
@@ -56,19 +56,19 @@ namespace dtk
             bool _hasDrawUpdate(const std::shared_ptr<IWidget>&) const;
             void _drawEventRecursive(
                 const std::shared_ptr<IWidget>&,
-                const core::Box2I&,
+                const Box2I&,
                 const DrawEvent&);
 
             bool _key(Key, bool press, int modifiers);
             void _text(const std::string&);
             void _cursorEnter(bool enter);
-            void _cursorPos(const core::V2I&);
+            void _cursorPos(const V2I&);
             void _mouseButton(int button, bool press, int modifiers);
-            void _scroll(const core::V2F&, int modifiers);
+            void _scroll(const V2F&, int modifiers);
 
             void _clipEventRecursive(
                 const std::shared_ptr<IWidget>&,
-                const core::Box2I&,
+                const Box2I&,
                 bool clipped);
 
             virtual void _drop(const std::vector<std::string>&);
@@ -81,11 +81,11 @@ namespace dtk
             };
             std::list<std::shared_ptr<IWidget> > _getUnderCursor(
                 UnderCursor,
-                const core::V2I&);
+                const V2I&);
             void _getUnderCursor(
                 UnderCursor,
                 const std::shared_ptr<IWidget>&,
-                const core::V2I&,
+                const V2I&,
                 std::list<std::shared_ptr<IWidget> >&);
 
             void _setHover(const std::shared_ptr<IWidget>&);

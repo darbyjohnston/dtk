@@ -8,62 +8,59 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        //! \name Commands
-        ///@{
+    //! \name Commands
+    ///@{
         
-        //! Base class for commands.
-        class ICommand : public std::enable_shared_from_this<ICommand>
-        {
-            DTK_NON_COPYABLE(ICommand);
+    //! Base class for commands.
+    class ICommand : public std::enable_shared_from_this<ICommand>
+    {
+        DTK_NON_COPYABLE(ICommand);
 
-        protected:
-            ICommand() = default;
+    protected:
+        ICommand() = default;
 
-        public:
-            virtual ~ICommand() = 0;
+    public:
+        virtual ~ICommand() = 0;
 
-            virtual void exec() = 0;
-            virtual void undo() = 0;
-        };
+        virtual void exec() = 0;
+        virtual void undo() = 0;
+    };
 
-        //! Command stack.
-        class CommandStack : public std::enable_shared_from_this<CommandStack>
-        {
-            DTK_NON_COPYABLE(CommandStack);
+    //! Command stack.
+    class CommandStack : public std::enable_shared_from_this<CommandStack>
+    {
+        DTK_NON_COPYABLE(CommandStack);
 
-        protected:
-            CommandStack();
+    protected:
+        CommandStack();
 
-        public:
-            ~CommandStack();
+    public:
+        ~CommandStack();
 
-            //! Create a new command stack.
-            static std::shared_ptr<CommandStack> create();
+        //! Create a new command stack.
+        static std::shared_ptr<CommandStack> create();
 
-            //! Execute a command and push it onto the stack.
-            void push(const std::shared_ptr<ICommand>&);
+        //! Execute a command and push it onto the stack.
+        void push(const std::shared_ptr<ICommand>&);
 
-            //! Clear the stack.
-            void clear();
+        //! Clear the stack.
+        void clear();
 
-            //! Observer whether the stack can undo a command.
-            std::shared_ptr<IObservableValue<bool> > observeHasUndo() const;
+        //! Observer whether the stack can undo a command.
+        std::shared_ptr<IObservableValue<bool> > observeHasUndo() const;
 
-            //! Observer whether the stack can redo a command.
-            std::shared_ptr<IObservableValue<bool> > observeHasRedo() const;
+        //! Observer whether the stack can redo a command.
+        std::shared_ptr<IObservableValue<bool> > observeHasRedo() const;
 
-            //! Undo a command.
-            void undo();
+        //! Undo a command.
+        void undo();
 
-            //! Redo a command.
-            void redo();
+        //! Redo a command.
+        void redo();
 
-        private:
-            DTK_PRIVATE();
-        };
+    private:
+        DTK_PRIVATE();
+    };
 
-        ///@}
-    }
+    ///@}
 }

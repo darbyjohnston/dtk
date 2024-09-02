@@ -16,19 +16,19 @@ namespace dtk
         class SplitterTest : public test::ITest
         {
         protected:
-            SplitterTest(const std::shared_ptr<core::Context>&);
+            SplitterTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~SplitterTest();
 
             static std::shared_ptr<SplitterTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 
         private:
             void _test(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<Window>&,
                 ui::Orientation);

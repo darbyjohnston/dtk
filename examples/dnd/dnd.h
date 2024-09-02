@@ -29,7 +29,7 @@ namespace dtk
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     int number,
                     const std::shared_ptr<IWidget>& parent);
 
@@ -39,13 +39,13 @@ namespace dtk
                 virtual ~DragAndDropWidget();
 
                 static std::shared_ptr<DragAndDropWidget> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     int number,
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
-                void setGeometry(const core::Box2I&) override;
+                void setGeometry(const Box2I&) override;
                 void sizeHintEvent(const ui::SizeHintEvent&) override;
-                void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+                void drawEvent(const Box2I&, const ui::DrawEvent&) override;
                 void mouseEnterEvent() override;
                 void mouseLeaveEvent() override;
                 void mouseMoveEvent(ui::MouseMoveEvent&) override;

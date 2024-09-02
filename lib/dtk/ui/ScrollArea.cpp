@@ -9,8 +9,6 @@
 #include <dtk/core/Error.h>
 #include <dtk/core/String.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -91,8 +89,8 @@ namespace dtk
             {
                 const Box2I g = margin(getGeometry(), -p.size.border);
                 tmp = V2I(
-                    core::clamp(tmp.x, 0, std::max(0, p.scrollSize.w - g.w())),
-                    core::clamp(tmp.y, 0, std::max(0, p.scrollSize.h - g.h())));
+                    dtk::clamp(tmp.x, 0, std::max(0, p.scrollSize.w - g.w())),
+                    dtk::clamp(tmp.y, 0, std::max(0, p.scrollSize.h - g.h())));
             }
             if (tmp == p.scrollPos)
                 return;

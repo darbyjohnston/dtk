@@ -31,7 +31,7 @@ namespace dtk
 
             py::class_<SizeHintEvent>(m, "SizeHintEvent")
                 .def(py::init<
-                    const std::shared_ptr<core::FontSystem>&,
+                    const std::shared_ptr<FontSystem>&,
                     float,
                     const std::shared_ptr<Style>&,
                     const std::shared_ptr<IconLibrary>& >())
@@ -42,11 +42,11 @@ namespace dtk
 
             py::class_<DrawEvent>(m, "DrawEvent")
                 .def(py::init<
-                    const std::shared_ptr<core::FontSystem>&,
+                    const std::shared_ptr<FontSystem>&,
                     float,
                     const std::shared_ptr<Style>&,
                     const std::shared_ptr<IconLibrary>&,
-                    const std::shared_ptr<core::IRender>& >())
+                    const std::shared_ptr<IRender>& >())
                 .def_readwrite("fontSystem", &DrawEvent::fontSystem)
                 .def_readwrite("displayScale", &DrawEvent::displayScale)
                 .def_readwrite("style", &DrawEvent::style)
@@ -56,7 +56,7 @@ namespace dtk
             py::class_<DragAndDropData, std::shared_ptr<DragAndDropData> >(m, "DragAndDropData");
 
             py::class_<MouseMoveEvent>(m, "MouseMoveEvent")
-                .def(py::init<const core::V2I&, const core::V2I&>())
+                .def(py::init<const V2I&, const V2I&>())
                 .def_readwrite("pos", &MouseMoveEvent::pos)
                 .def_readwrite("prev", &MouseMoveEvent::prev)
                 .def_readwrite("accept", &MouseMoveEvent::accept)
@@ -76,14 +76,14 @@ namespace dtk
 
             py::class_<MouseClickEvent>(m, "MouseClickEvent")
                 .def(py::init<>())
-                .def(py::init<int, int, const core::V2I&>())
+                .def(py::init<int, int, const V2I&>())
                 .def_readwrite("button", &MouseClickEvent::button)
                 .def_readwrite("modifiers", &MouseClickEvent::modifiers)
                 .def_readwrite("pos", &MouseClickEvent::pos)
                 .def_readwrite("accept", &MouseClickEvent::accept);
 
             py::class_<ScrollEvent>(m, "ScrollEvent")
-                .def(py::init<const core::V2F&, int, const core::V2I&>())
+                .def(py::init<const V2F&, int, const V2I&>())
                 .def_readwrite("value", &ScrollEvent::value)
                 .def_readwrite("modifiers", &ScrollEvent::modifiers)
                 .def_readwrite("pos", &ScrollEvent::pos)
@@ -187,7 +187,7 @@ namespace dtk
 
             py::class_<KeyEvent>(m, "KeyEvent")
                 .def(py::init<>())
-                .def(py::init<Key, int, const core::V2I&>())
+                .def(py::init<Key, int, const V2I&>())
                 .def_readwrite("key", &KeyEvent::key)
                 .def_readwrite("modifiers", &KeyEvent::modifiers)
                 .def_readwrite("pos", &KeyEvent::pos)
@@ -204,8 +204,8 @@ namespace dtk
 
             py::class_<DragAndDropEvent>(m, "DragAndDropEvent")
                 .def(py::init<
-                    const core::V2I&,
-                    const core::V2I&,
+                    const V2I&,
+                    const V2I&,
                     const std::shared_ptr<DragAndDropData>&>())
                 .def_readwrite("pos", &DragAndDropEvent::pos)
                 .def_readwrite("prev", &DragAndDropEvent::prev)

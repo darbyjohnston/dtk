@@ -13,13 +13,13 @@ namespace dtk
         class FloatEditSliderTest : public test::ITest
         {
         protected:
-            FloatEditSliderTest(const std::shared_ptr<core::Context>&);
+            FloatEditSliderTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FloatEditSliderTest();
 
             static std::shared_ptr<FloatEditSliderTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

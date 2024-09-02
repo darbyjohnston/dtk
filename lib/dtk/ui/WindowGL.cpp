@@ -28,8 +28,6 @@
 #include <codecvt>
 #include <locale>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -352,7 +350,7 @@ namespace dtk
             return out;
         }
 
-        const core::Size2I& Window::getSize() const
+        const Size2I& Window::getSize() const
         {
             return _p->window->getSize();
         }
@@ -542,7 +540,7 @@ namespace dtk
                     glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
                     glBindTexture(GL_TEXTURE_2D, p.buffer->getColorID());
 
-                    auto mesh = core::mesh(Box2I(
+                    auto mesh = mesh(Box2I(
                         0,
                         0,
                         p.bufferSize.w,

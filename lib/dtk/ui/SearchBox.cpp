@@ -8,8 +8,6 @@
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ToolButton.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

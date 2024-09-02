@@ -7,16 +7,13 @@
 //! Project namespace
 namespace dtk
 {
-    namespace core
-    {
-        //! \name Assert
-        ///@{
+    //! \name Assert
+    ///@{
         
-        //! Assert (for convenience use the DTK_ASSERT macro).
-        void _assert(const char* file, int line);
+    //! Assert (for convenience use the DTK_ASSERT macro).
+    void _assert(const char* file, int line);
 
-        ///@}
-    }
+    ///@}
 }
 
 //! Assert macro.
@@ -24,7 +21,7 @@ namespace dtk
 #undef DTK_ASSERT
 #define DTK_ASSERT(value) \
     if (!(value)) \
-        dtk::core::_assert(__FILE__, __LINE__)
+        dtk::_assert(__FILE__, __LINE__)
 #else // DTK_ASSERT
 #define DTK_ASSERT(value)
 #endif // DTK_ASSERT

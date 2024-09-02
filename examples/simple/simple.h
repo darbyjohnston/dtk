@@ -21,11 +21,11 @@ namespace dtk
                 virtual ~Window();
 
                 static std::shared_ptr<Window> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const Size2I&);
 
-                void drawEvent(const core::Box2I&, const ui::DrawEvent&) override;
+                void drawEvent(const Box2I&, const ui::DrawEvent&) override;
             };
         }
     }

@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void color(pybind11::module_&);
-    }
+    void color(pybind11::module_&);
 }

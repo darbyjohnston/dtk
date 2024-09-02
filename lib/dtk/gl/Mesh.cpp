@@ -12,8 +12,6 @@
 
 #include <array>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl

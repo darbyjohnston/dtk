@@ -13,8 +13,6 @@
 #include <dtk/core/Error.h>
 #include <dtk/core/String.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -175,7 +173,7 @@ namespace dtk
             DTK_P();
 
             const int margin = std::max(p.size.handle, p.size.shadow);
-            Box2I g = core::margin(
+            Box2I g = dtk::margin(
                 value,
                 -(margin + p.size.border),
                 -(p.size.handle + p.size.border),
@@ -225,9 +223,9 @@ namespace dtk
                 p.size.handle * 2,
                 p.size.handle * 2);
 
-            const Box2I g2 = core::margin(value, -margin, -p.size.handle, -margin, -margin);
-            p.draw.g = core::margin(g2, -p.size.border);
-            p.draw.shadow = shadow(core::margin(g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow);
+            const Box2I g2 = dtk::margin(value, -margin, -p.size.handle, -margin, -margin);
+            p.draw.g = dtk::margin(g2, -p.size.border);
+            p.draw.shadow = shadow(dtk::margin(g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow);
             p.draw.border = border(g2, p.size.border);
         }
 
@@ -349,14 +347,14 @@ namespace dtk
         {
             DTK_P();
             const int margin = std::max(p.size.handle, p.size.shadow);
-            return core::margin(value, margin, p.size.handle, margin, margin);
+            return dtk::margin(value, margin, p.size.handle, margin, margin);
         }
 
         Box2I MDIWidget::_removeMargins(const Box2I& value) const
         {
             DTK_P();
             const int margin = std::max(p.size.handle, p.size.shadow);
-            return core::margin(value, -margin, -p.size.handle, -margin, -margin);
+            return dtk::margin(value, -margin, -p.size.handle, -margin, -margin);
         }
 
         Size2I MDIWidget::_removeMargins(const Size2I& value) const

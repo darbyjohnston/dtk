@@ -10,8 +10,6 @@
 
 #include <iostream>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

@@ -12,7 +12,6 @@
 #include <dtk/core/Context.h>
 #include <dtk/core/FontSystem.h>
 
-using namespace dtk::core;
 using namespace dtk::gl;
 
 namespace dtk
@@ -104,12 +103,12 @@ namespace dtk
                 render->drawLine(min, max, Color4F(0.F, 1.F, 0.F, 1.F));
 
                 {
-                    core::TriMesh2F mesh;
-                    mesh.v.push_back(core::V2F(min.x, min.y));
-                    mesh.v.push_back(core::V2F(max.x, min.y));
-                    mesh.v.push_back(core::V2F(max.x, max.y));
-                    mesh.v.push_back(core::V2F(min.x, max.y));
-                    core::Triangle2 triangle;
+                    TriMesh2F mesh;
+                    mesh.v.push_back(V2F(min.x, min.y));
+                    mesh.v.push_back(V2F(max.x, min.y));
+                    mesh.v.push_back(V2F(max.x, max.y));
+                    mesh.v.push_back(V2F(min.x, max.y));
+                    Triangle2 triangle;
                     triangle.v[0].v = 1;
                     triangle.v[1].v = 2;
                     triangle.v[2].v = 3;
@@ -122,16 +121,16 @@ namespace dtk
                 }
                 
                 {
-                    core::TriMesh2F mesh;
-                    mesh.v.push_back(core::V2F(min.x, min.y));
-                    mesh.v.push_back(core::V2F(max.x, min.y));
-                    mesh.v.push_back(core::V2F(max.x, max.y));
-                    mesh.v.push_back(core::V2F(min.x, max.y));
-                    mesh.c.push_back(core::V4F(0.F, 0.F, 0.F, 1.F));
-                    mesh.c.push_back(core::V4F(0.F, 0.F, 0.F, 1.F));
-                    mesh.c.push_back(core::V4F(1.F, 1.F, 1.F, 1.F));
-                    mesh.c.push_back(core::V4F(1.F, 1.F, 1.F, 1.F));
-                    core::Triangle2 triangle;
+                    TriMesh2F mesh;
+                    mesh.v.push_back(V2F(min.x, min.y));
+                    mesh.v.push_back(V2F(max.x, min.y));
+                    mesh.v.push_back(V2F(max.x, max.y));
+                    mesh.v.push_back(V2F(min.x, max.y));
+                    mesh.c.push_back(V4F(0.F, 0.F, 0.F, 1.F));
+                    mesh.c.push_back(V4F(0.F, 0.F, 0.F, 1.F));
+                    mesh.c.push_back(V4F(1.F, 1.F, 1.F, 1.F));
+                    mesh.c.push_back(V4F(1.F, 1.F, 1.F, 1.F));
+                    Triangle2 triangle;
                     triangle.v[0].v = 1;
                     triangle.v[1].v = 2;
                     triangle.v[2].v = 3;

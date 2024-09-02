@@ -12,6 +12,6 @@ namespace py = pybind11;
 PYBIND11_MODULE(dtk, m)
 {
     m.doc() = "A toolkit for building DJV and other applications";
-    dtk::core::bind(m);
+    dtk::coreBind(m);
     dtk::ui::bind(m);
 }

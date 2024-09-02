@@ -38,7 +38,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -49,7 +49,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<MDIWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& title,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -69,23 +69,23 @@ namespace dtk
             void setPressCallback(const std::function<void(bool)>&);
 
             //! Set the move callback.
-            void setMoveCallback(const std::function<void(const core::V2I&)>&);
+            void setMoveCallback(const std::function<void(const V2I&)>&);
 
             //! Set the resize callback.
-            void setResizeCallback(const std::function<void(MDIResize, const core::V2I&)>&);
+            void setResizeCallback(const std::function<void(MDIResize, const V2I&)>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void mouseLeaveEvent() override;
             void mouseMoveEvent(MouseMoveEvent&) override;
             void mousePressEvent(MouseClickEvent&) override;
             void mouseReleaseEvent(MouseClickEvent&) override;
 
         private:
-            core::Box2I _addMargins(const core::Box2I&) const;
-            core::Box2I _removeMargins(const core::Box2I&) const;
-            core::Size2I _removeMargins(const core::Size2I&) const;
+            Box2I _addMargins(const Box2I&) const;
+            Box2I _removeMargins(const Box2I&) const;
+            Size2I _removeMargins(const Size2I&) const;
 
             friend class MDICanvas;
 

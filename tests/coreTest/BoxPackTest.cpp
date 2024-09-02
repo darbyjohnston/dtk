@@ -9,8 +9,6 @@
 
 #include <sstream>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test
@@ -72,7 +70,7 @@ namespace dtk
         }
         
         void BoxPackTest::_printNode(
-            const std::shared_ptr<core::BoxPackNode>& node,
+            const std::shared_ptr<BoxPackNode>& node,
             int indent,
             char pad)
         {

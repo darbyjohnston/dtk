@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void random(pybind11::module_&);
-    }
+    void random(pybind11::module_&);
 }

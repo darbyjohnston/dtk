@@ -16,10 +16,10 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::string& name,
-                const core::Size2I&);
+                const Size2I&);
 
             Window();
 
@@ -27,28 +27,28 @@ namespace dtk
             virtual ~Window();
 
             static std::shared_ptr<Window> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::string& name,
-                const core::Size2I& = core::Size2I(1280, 960));
+                const Size2I& = Size2I(1280, 960));
 
             void setDisplayScale(float);
             void setCursorEnter(bool);
-            void setCursorPos(const core::V2I&);
+            void setCursorPos(const V2I&);
             void setButton(int button, int modifiers = 0);
             void setButton(int button, bool press, int modifiers = 0);
-            void setScroll(const core::V2F&);
+            void setScroll(const V2F&);
             void setKey(ui::Key, int modifiers = 0);
             void setKey(ui::Key, bool press, int modifiers = 0);
             void setText(const std::string&);
             void setDrop(const std::vector<std::string>&);
 
             void update(
-                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<FontSystem>&,
                 const std::shared_ptr<ui::Style>&,
                 const std::shared_ptr<ui::IconLibrary>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const ui::SizeHintEvent&) override;
 
         private:

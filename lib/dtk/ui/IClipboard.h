@@ -20,7 +20,7 @@ namespace dtk
 
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             IClipboard();
 
@@ -34,7 +34,7 @@ namespace dtk
             virtual void setText(const std::string&) = 0;
 
         private:
-            std::weak_ptr<core::Context> _context;
+            std::weak_ptr<Context> _context;
         };
         
         ///@}

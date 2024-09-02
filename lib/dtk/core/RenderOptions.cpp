@@ -12,23 +12,20 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        DTK_ENUM_IMPL(
-            InputVideoLevels,
-            "FromFile",
-            "FullRange",
-            "LegalRange");
+    DTK_ENUM_IMPL(
+        InputVideoLevels,
+        "FromFile",
+        "FullRange",
+        "LegalRange");
 
-        DTK_ENUM_IMPL(
-            AlphaBlend,
-            "None",
-            "Straight",
-            "Premultiplied");
+    DTK_ENUM_IMPL(
+        AlphaBlend,
+        "None",
+        "Straight",
+        "Premultiplied");
 
-        DTK_ENUM_IMPL(
-            ImageFilter,
-            "Nearest",
-            "Linear");
-    }
+    DTK_ENUM_IMPL(
+        ImageFilter,
+        "Nearest",
+        "Linear");
 }

@@ -6,34 +6,31 @@
 
 namespace dtk
 {
-    namespace core
+    template<typename T>
+    inline Format& Format::arg(T value)
     {
-        template<typename T>
-        inline Format& Format::arg(T value)
-        {
-            std::stringstream ss;
-            ss << value;
-            return arg(ss.str());
-        }
+        std::stringstream ss;
+        ss << value;
+        return arg(ss.str());
+    }
 
-        inline const std::string& Format::str() const
-        {
-            return _text;
-        }
+    inline const std::string& Format::str() const
+    {
+        return _text;
+    }
 
-        inline bool Format::hasError() const
-        {
-            return _error.size() > 0;
-        }
+    inline bool Format::hasError() const
+    {
+        return _error.size() > 0;
+    }
 
-        inline const std::string& Format::getError() const
-        {
-            return _error;
-        }
+    inline const std::string& Format::getError() const
+    {
+        return _error;
+    }
 
-        inline Format::operator std::string() const
-        {
-            return _text;
-        }
+    inline Format::operator std::string() const
+    {
+        return _text;
     }
 }

@@ -10,10 +10,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        class FontSystem;
-    }
+    class FontSystem;
 
     namespace ui
     {
@@ -27,16 +24,16 @@ namespace dtk
     {
         class Window;
 
-        class App : public core::IApp
+        class App : public IApp
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>&,
                 const std::string& name,
                 const std::string& summary,
-                const std::vector<std::shared_ptr<core::ICmdLineArg> >& = {},
-                const std::vector<std::shared_ptr<core::ICmdLineOption> >& = {});
+                const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
+                const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
 
             App();
 
@@ -44,18 +41,18 @@ namespace dtk
             virtual ~App();
 
             static std::shared_ptr<App> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>&,
                 const std::string& name,
                 const std::string& summary,
-                const std::vector<std::shared_ptr<core::ICmdLineArg> >& = {},
-                const std::vector<std::shared_ptr<core::ICmdLineOption> >& = {});
+                const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
+                const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
 
             void addWindow(const std::shared_ptr<Window>&);
             void removeWindow(const std::shared_ptr<Window>&);
             const std::list<std::shared_ptr<Window> >& getWindows() const;
 
-            const std::shared_ptr<core::FontSystem>& getFontSystem() const;
+            const std::shared_ptr<FontSystem>& getFontSystem() const;
             const std::shared_ptr<ui::Style>& getStyle() const;
             const std::shared_ptr<ui::IconLibrary>& getIconLibrary() const;
             void setDisplayScale(float);

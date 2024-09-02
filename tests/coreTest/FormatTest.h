@@ -13,13 +13,13 @@ namespace dtk
         class FormatTest : public test::ITest
         {
         protected:
-            FormatTest(const std::shared_ptr<core::Context>&);
+            FormatTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FormatTest();
 
             static std::shared_ptr<FormatTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

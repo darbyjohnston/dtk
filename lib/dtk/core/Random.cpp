@@ -9,77 +9,74 @@
 
 namespace dtk
 {
-    namespace core
+    struct Random::Private
     {
-        struct Random::Private
-        {
-            std::random_device rd;
-            std::unique_ptr<std::mt19937> rng;
-        };
+        std::random_device rd;
+        std::unique_ptr<std::mt19937> rng;
+    };
 
-        Random::Random() :
-            _p(new Private)
-        {
-            DTK_P();
-            p.rng = std::make_unique<std::mt19937>(p.rd());
-        }
+    Random::Random() :
+        _p(new Private)
+    {
+        DTK_P();
+        p.rng = std::make_unique<std::mt19937>(p.rd());
+    }
 
-        Random::~Random()
-        {}
+    Random::~Random()
+    {}
 
-        float Random::getF()
-        {
-            DTK_P();
-            std::uniform_int_distribution<uint32_t> uint_dist;
-            return uint_dist(*(p.rng)) / static_cast<float>(uint_dist.max());
-        }
+    float Random::getF()
+    {
+        DTK_P();
+        std::uniform_int_distribution<uint32_t> uint_dist;
+        return uint_dist(*(p.rng)) / static_cast<float>(uint_dist.max());
+    }
 
-        float Random::getF(float value)
-        {
-            return value * getF();
-        }
+    float Random::getF(float value)
+    {
+        return value * getF();
+    }
 
-        float Random::getF(float min, float max)
-        {
-            return min + (max - min) * getF();
-        }
+    float Random::getF(float min, float max)
+    {
+        return min + (max - min) * getF();
+    }
 
-        int Random::getI(int value)
-        {
-            DTK_P();
-            std::uniform_int_distribution<uint32_t> uint_dist;
-            const float r =
-                static_cast<float>(uint_dist(*(p.rng))) /
-                static_cast<float>(uint_dist.max());
-            return static_cast<int>(static_cast<float>(value + 1) * r);
-        }
+    int Random::getI(int value)
+    {
+        DTK_P();
+        std::uniform_int_distribution<uint32_t> uint_dist;
+        const float r =
+            static_cast<float>(uint_dist(*(p.rng))) /
+            static_cast<float>(uint_dist.max());
+        return static_cast<int>(static_cast<float>(value + 1) * r);
+    }
 
-        int Random::getI(int min, int max)
-        {
-            DTK_P();
-            std::uniform_int_distribution<uint32_t> uint_dist;
-            const float r =
-                static_cast<float>(uint_dist(*(p.rng))) /
-                static_cast<float>(uint_dist.max());
-            return min + static_cast<int>(static_cast<float>(max - min + 1) * r);
-        }
+    int Random::getI(int min, int max)
+    {
+        DTK_P();
+        std::uniform_int_distribution<uint32_t> uint_dist;
+        const float r =
+            static_cast<float>(uint_dist(*(p.rng))) /
+            static_cast<float>(uint_dist.max());
+        return min + static_cast<int>(static_cast<float>(max - min + 1) * r);
+    }
 
-        void Random::setSeed(unsigned int value)
-        {
-            _p->rng->seed(value);
-        }
+    void Random::setSeed(unsigned int value)
+    {
+        _p->rng->seed(value);
+    }
 
-        void Random::setSeed()
-        {
-            DTK_P();
-            const std::time_t t = std::time(nullptr);
-            std::tm tm;
+    void Random::setSeed()
+    {
+        DTK_P();
+        const std::time_t t = std::time(nullptr);
+        std::tm tm;
 #if defined(_WINDOWS)
-            localtime_s(&tm, &t);
+        localtime_s(&tm, &t);
 #else // _WINDOWS
-            localtime_r(&t, &tm);
+        localtime_r(&t, &tm);
 #endif // _WINDOWS
-            setSeed(tm.tm_sec);
-        }
+        setSeed(tm.tm_sec);
     }
 }

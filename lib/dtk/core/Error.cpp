@@ -6,10 +6,7 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        ParseError::ParseError() :
-            invalid_argument("Cannot parse value")
-        {}
-    }
+    ParseError::ParseError() :
+        invalid_argument("Cannot parse value")
+    {}
 }

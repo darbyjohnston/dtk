@@ -10,7 +10,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/Math.h>
 
-using namespace dtk::core;
 using namespace dtk::ui;
 
 namespace dtk

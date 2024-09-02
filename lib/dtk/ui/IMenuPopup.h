@@ -28,7 +28,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& objectName,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -40,7 +40,7 @@ namespace dtk
             //! Open the popup.
             virtual void open(
                 const std::shared_ptr<IWindow>&,
-                const core::Box2I& buttonGeometry);
+                const Box2I& buttonGeometry);
 
             //! Get whether the popup is open.
             bool isOpen() const;
@@ -60,9 +60,9 @@ namespace dtk
             //! Set the widget.
             void setWidget(const std::shared_ptr<IWidget>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void keyPressEvent(KeyEvent&) override;
             void keyReleaseEvent(KeyEvent&) override;
 

@@ -9,8 +9,6 @@
 #include <dtk/core/ObservableMap.h>
 #include <dtk/core/ObservableValue.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

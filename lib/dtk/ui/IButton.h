@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& objectName,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -113,9 +113,9 @@ namespace dtk
             std::string _text;
             FontRole _fontRole = FontRole::Label;
             std::string _icon;
-            std::shared_ptr<core::Image> _iconImage;
+            std::shared_ptr<Image> _iconImage;
             std::string _checkedIcon;
-            std::shared_ptr<core::Image> _checkedIconImage;
+            std::shared_ptr<Image> _checkedIconImage;
             ColorRole _buttonRole = ColorRole::Button;
             ColorRole _checkedRole = ColorRole::Checked;
             bool _checked = false;

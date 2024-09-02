@@ -12,14 +12,11 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        DTK_ENUM_IMPL(
-            UserPath,
-            "Home",
-            "Desktop",
-            "Documents",
-            "Downloads");
-    }
+    DTK_ENUM_IMPL(
+        UserPath,
+        "Home",
+        "Desktop",
+        "Documents",
+        "Downloads");
 }
 

@@ -13,101 +13,98 @@
 
 namespace dtk
 {
-    namespace core
+    //! \name Observables
+    ///@{
+
+    template<typename T>
+    class IObservableValue;
+
+    //! Value observer.
+    template<typename T>
+    class ValueObserver : public std::enable_shared_from_this<ValueObserver<T> >
     {
-        //! \name Observables
-        ///@{
+        DTK_NON_COPYABLE(ValueObserver);
 
-        template<typename T>
-        class IObservableValue;
+    protected:
+        void _init(
+            const std::shared_ptr<IObservableValue<T> >&,
+            const std::function<void(const T&)>&,
+            ObserverAction);
 
-        //! Value observer.
-        template<typename T>
-        class ValueObserver : public std::enable_shared_from_this<ValueObserver<T> >
-        {
-            DTK_NON_COPYABLE(ValueObserver);
+        ValueObserver() = default;
 
-        protected:
-            void _init(
-                const std::shared_ptr<IObservableValue<T> >&,
-                const std::function<void(const T&)>&,
-                ObserverAction);
+    public:
+        ~ValueObserver();
 
-            ValueObserver() = default;
+        //! Create a new value observer.
+        static std::shared_ptr<ValueObserver<T> > create(
+            const std::shared_ptr<IObservableValue<T> >&,
+            const std::function<void(const T&)>&,
+            ObserverAction = ObserverAction::Trigger);
 
-        public:
-            ~ValueObserver();
+        //! Execute the callback.
+        void doCallback(const T&);
 
-            //! Create a new value observer.
-            static std::shared_ptr<ValueObserver<T> > create(
-                const std::shared_ptr<IObservableValue<T> >&,
-                const std::function<void(const T&)>&,
-                ObserverAction = ObserverAction::Trigger);
+    private:
+        std::function<void(const T&)> _callback;
+        std::weak_ptr<IObservableValue<T> > _value;
+    };
 
-            //! Execute the callback.
-            void doCallback(const T&);
+    //! Base class for observable values.
+    template<typename T>
+    class IObservableValue : public std::enable_shared_from_this<IObservableValue<T> >
+    {
+    public:
+        virtual ~IObservableValue() = 0;
 
-        private:
-            std::function<void(const T&)> _callback;
-            std::weak_ptr<IObservableValue<T> > _value;
-        };
+        //! Get the value.
+        virtual const T& get() const = 0;
 
-        //! Base class for observable values.
-        template<typename T>
-        class IObservableValue : public std::enable_shared_from_this<IObservableValue<T> >
-        {
-        public:
-            virtual ~IObservableValue() = 0;
+        //! Get the number of observers.
+        std::size_t getObserversCount() const;
 
-            //! Get the value.
-            virtual const T& get() const = 0;
+    protected:
+        void _add(const std::weak_ptr<ValueObserver<T> >&);
+        void _removeExpired();
 
-            //! Get the number of observers.
-            std::size_t getObserversCount() const;
+        std::vector<std::weak_ptr<ValueObserver<T> > > _observers;
 
-        protected:
-            void _add(const std::weak_ptr<ValueObserver<T> >&);
-            void _removeExpired();
+        friend class ValueObserver<T>;
+    };
 
-            std::vector<std::weak_ptr<ValueObserver<T> > > _observers;
+    //! Observable value.
+    template<typename T>
+    class ObservableValue : public IObservableValue<T>
+    {
+        DTK_NON_COPYABLE(ObservableValue);
 
-            friend class ValueObserver<T>;
-        };
+    protected:
+        ObservableValue() = default;
+        explicit ObservableValue(const T&);
 
-        //! Observable value.
-        template<typename T>
-        class ObservableValue : public IObservableValue<T>
-        {
-            DTK_NON_COPYABLE(ObservableValue);
+    public:
+        //! Create a new value.
+        static std::shared_ptr<ObservableValue<T> > create();
 
-        protected:
-            ObservableValue() = default;
-            explicit ObservableValue(const T&);
+        //! Create a new value.
+        static std::shared_ptr<ObservableValue<T> > create(const T&);
 
-        public:
-            //! Create a new value.
-            static std::shared_ptr<ObservableValue<T> > create();
+        //! Set the value.
+        void setAlways(const T&);
 
-            //! Create a new value.
-            static std::shared_ptr<ObservableValue<T> > create(const T&);
+        //! Set the value only if it has changed.
+        bool setIfChanged(const T&);
 
-            //! Set the value.
-            void setAlways(const T&);
+        const T& get() const override;
 
-            //! Set the value only if it has changed.
-            bool setIfChanged(const T&);
+    private:
+        T _value = T();
+    };
 
-            const T& get() const override;
-
-        private:
-            T _value = T();
-        };
-
-        typedef ValueObserver<int> IntValueObserver;
-        typedef ObservableValue<int> IntObservableValue;
+    typedef ValueObserver<int> IntValueObserver;
+    typedef ObservableValue<int> IntObservableValue;
         
-        ///@}
-    }
+    ///@}
 }
 
 #include <dtk/core/ObservableValueInline.h>

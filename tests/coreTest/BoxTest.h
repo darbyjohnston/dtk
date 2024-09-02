@@ -13,13 +13,13 @@ namespace dtk
         class BoxTest : public test::ITest
         {
         protected:
-            BoxTest(const std::shared_ptr<core::Context>&);
+            BoxTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~BoxTest();
 
             static std::shared_ptr<BoxTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

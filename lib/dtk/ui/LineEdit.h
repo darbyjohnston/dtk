@@ -21,7 +21,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             LineEdit();
@@ -31,7 +31,7 @@ namespace dtk
 
             //! Create a new widget
             static std::shared_ptr<LineEdit> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the text.
@@ -64,16 +64,16 @@ namespace dtk
             //! Set the font role.
             void setFontRole(FontRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void setVisible(bool) override;
             void setEnabled(bool) override;
             void tickEvent(
                 bool,
                 bool,
                 const TickEvent&) override;
-            void clipEvent(const core::Box2I&, bool) override;
+            void clipEvent(const Box2I&, bool) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void mouseMoveEvent(MouseMoveEvent&) override;
             void mousePressEvent(MouseClickEvent&) override;
             void keyFocusEvent(bool) override;
@@ -82,9 +82,9 @@ namespace dtk
             void textEvent(TextEvent&) override;
 
         private:
-            core::Box2I _getAlignGeometry() const;
+            Box2I _getAlignGeometry() const;
 
-            int _getCursorPos(const core::V2I&);
+            int _getCursorPos(const V2I&);
 
             void _textUpdate();
 

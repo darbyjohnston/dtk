@@ -14,7 +14,6 @@
 #include <dtk/core/Time.h>
 #include <dtk/core/Timer.h>
 
-using namespace dtk::core;
 using namespace dtk::ui;
 
 namespace dtk

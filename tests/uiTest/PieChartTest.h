@@ -13,13 +13,13 @@ namespace dtk
         class PieChartTest : public test::ITest
         {
         protected:
-            PieChartTest(const std::shared_ptr<core::Context>&);
+            PieChartTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~PieChartTest();
 
             static std::shared_ptr<PieChartTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

@@ -13,13 +13,13 @@ namespace dtk
         class TextureAtlasTest : public test::ITest
         {
         protected:
-            TextureAtlasTest(const std::shared_ptr<core::Context>&);
+            TextureAtlasTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~TextureAtlasTest();
 
             static std::shared_ptr<TextureAtlasTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

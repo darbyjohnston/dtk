@@ -15,7 +15,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Format.h>
 
-using namespace dtk::core;
 using namespace dtk::ui;
 
 namespace dtk

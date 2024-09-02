@@ -49,7 +49,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::filesystem::path&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -60,7 +60,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<FileBrowserWidget> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::filesystem::path&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -88,7 +88,7 @@ namespace dtk
             //! Set the recent files model.
             void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
@@ -105,7 +105,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::filesystem::path&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -116,7 +116,7 @@ namespace dtk
 
             //! Create a new dialog.
             static std::shared_ptr<FileBrowser> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::filesystem::path&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -143,17 +143,17 @@ namespace dtk
         };
 
         //! File browser system.
-        class FileBrowserSystem : public core::ISystem
+        class FileBrowserSystem : public ISystem
         {
         protected:
-            FileBrowserSystem(const std::shared_ptr<core::Context>&);
+            FileBrowserSystem(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FileBrowserSystem();
 
             //! Create a new system.
             static std::shared_ptr<FileBrowserSystem> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             //! Open the file browser.
             void open(

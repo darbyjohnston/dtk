@@ -13,13 +13,13 @@ namespace dtk
         class StringTest : public test::ITest
         {
         protected:
-            StringTest(const std::shared_ptr<core::Context>&);
+            StringTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~StringTest();
 
             static std::shared_ptr<StringTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

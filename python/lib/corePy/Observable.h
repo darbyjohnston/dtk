@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void observable(pybind11::module_&);
-    }
+    void observable(pybind11::module_&);
 }

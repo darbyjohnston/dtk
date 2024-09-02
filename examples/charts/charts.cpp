@@ -8,7 +8,7 @@
 #include <dtk/ui/ScrollWidget.h>
 #include <dtk/ui/Window.h>
 
-using namespace dtk::core;
+using namespace dtk;
 using namespace dtk::ui;
 
 DTK_MAIN()

@@ -13,13 +13,13 @@ namespace dtk
         class WindowTest : public test::ITest
         {
         protected:
-            WindowTest(const std::shared_ptr<core::Context>&);
+            WindowTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~WindowTest();
 
             static std::shared_ptr<WindowTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

@@ -13,13 +13,13 @@ namespace dtk
         class FontSystemTest : public test::ITest
         {
         protected:
-            FontSystemTest(const std::shared_ptr<core::Context>&);
+            FontSystemTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~FontSystemTest();
 
             static std::shared_ptr<FontSystemTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         

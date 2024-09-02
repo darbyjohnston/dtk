@@ -13,13 +13,13 @@ namespace dtk
         class LabelTest : public test::ITest
         {
         protected:
-            LabelTest(const std::shared_ptr<core::Context>&);
+            LabelTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~LabelTest();
 
             static std::shared_ptr<LabelTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

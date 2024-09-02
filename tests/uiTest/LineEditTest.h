@@ -13,13 +13,13 @@ namespace dtk
         class LineEditTest : public test::ITest
         {
         protected:
-            LineEditTest(const std::shared_ptr<core::Context>&);
+            LineEditTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~LineEditTest();
 
             static std::shared_ptr<LineEditTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

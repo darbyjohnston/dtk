@@ -7,8 +7,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/String.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test
@@ -92,12 +90,12 @@ namespace dtk
         void StringTest::_compare()
         {
             {
-                DTK_ASSERT(!compare("abc", "ABC", Compare::CaseSensitive));
-                DTK_ASSERT(compare("abc", "ABC", Compare::CaseInsensitive));
+                DTK_ASSERT(!compare("abc", "ABC", CaseCompare::Sensitive));
+                DTK_ASSERT(compare("abc", "ABC", CaseCompare::Insensitive));
             }
             {
-                DTK_ASSERT(!contains("abc", "AB", Compare::CaseSensitive));
-                DTK_ASSERT(contains("abc", "AB", Compare::CaseInsensitive));
+                DTK_ASSERT(!contains("abc", "AB", CaseCompare::Sensitive));
+                DTK_ASSERT(contains("abc", "AB", CaseCompare::Insensitive));
             }
         }
         

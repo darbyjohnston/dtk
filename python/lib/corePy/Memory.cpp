@@ -13,22 +13,19 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace core
+    void memory(py::module_& m)
     {
-        void memory(py::module_& m)
-        {
-            m.attr("kilobyte") = kilobyte;
-            m.attr("megabyte") = megabyte;
-            m.attr("gigabyte") = gigabyte;
-            m.attr("terabyte") = terabyte;
+        m.attr("kilobyte") = kilobyte;
+        m.attr("megabyte") = megabyte;
+        m.attr("gigabyte") = gigabyte;
+        m.attr("terabyte") = terabyte;
 
-            py::enum_<Endian>(m, "Endian")
-                .value("MSB", Endian::MSB)
-                .value("LSB", Endian::LSB)
-                .export_values();
+        py::enum_<Endian>(m, "Endian")
+            .value("MSB", Endian::MSB)
+            .value("LSB", Endian::LSB)
+            .export_values();
 
-            m.def("getEndian", &getEndian);
-            m.def("oppositeEndian", &opposite);
-        }
+        m.def("getEndian", &getEndian);
+        m.def("oppositeEndian", &opposite);
     }
 }

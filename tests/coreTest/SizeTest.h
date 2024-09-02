@@ -13,13 +13,13 @@ namespace dtk
         class SizeTest : public test::ITest
         {
         protected:
-            SizeTest(const std::shared_ptr<core::Context>&);
+            SizeTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~SizeTest();
 
             static std::shared_ptr<SizeTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

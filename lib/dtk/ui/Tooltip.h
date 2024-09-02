@@ -20,9 +20,9 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& text,
-                const core::V2I& pos,
+                const V2I& pos,
                 const std::shared_ptr<IWidget>&);
 
             Tooltip();
@@ -32,16 +32,16 @@ namespace dtk
 
             //! Create a new tooltip.
             static std::shared_ptr<Tooltip> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::string& text,
-                const core::V2I& pos,
+                const V2I& pos,
                 const std::shared_ptr<IWidget>&);
 
             void close() override;
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
 
         private:
             DTK_PRIVATE();

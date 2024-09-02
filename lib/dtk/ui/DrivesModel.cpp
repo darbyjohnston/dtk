@@ -12,8 +12,6 @@
 #include <mutex>
 #include <thread>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui

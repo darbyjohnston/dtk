@@ -18,8 +18,8 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
-                const core::Color4F&,
+                const std::shared_ptr<Context>&,
+                const Color4F&,
                 const std::shared_ptr<IWidget>& parent);
 
             ColorPopup();
@@ -29,12 +29,12 @@ namespace dtk
 
             //! Create a new popup.
             static std::shared_ptr<ColorPopup> create(
-                const std::shared_ptr<core::Context>&,
-                const core::Color4F&,
+                const std::shared_ptr<Context>&,
+                const Color4F&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Set the callback.
-            void setCallback(const std::function<void(const core::Color4F&)>&);
+            void setCallback(const std::function<void(const Color4F&)>&);
 
         private:
             DTK_PRIVATE();

@@ -13,13 +13,13 @@ namespace dtk
         class OSTest : public test::ITest
         {
         protected:
-            OSTest(const std::shared_ptr<core::Context>&);
+            OSTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~OSTest();
 
             static std::shared_ptr<OSTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
 

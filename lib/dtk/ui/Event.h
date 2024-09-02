@@ -45,12 +45,12 @@ namespace dtk
         struct SizeHintEvent
         {
             SizeHintEvent(
-                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<FontSystem>&,
                 float displayScale,
                 const std::shared_ptr<Style>&,
                 const std::shared_ptr<IconLibrary>&);
 
-            std::shared_ptr<core::FontSystem> fontSystem;
+            std::shared_ptr<FontSystem> fontSystem;
             float                             displayScale = 1.F;
             std::shared_ptr<Style>            style;
             std::shared_ptr<IconLibrary>      iconLibrary;
@@ -60,17 +60,17 @@ namespace dtk
         struct DrawEvent
         {
             DrawEvent(
-                const std::shared_ptr<core::FontSystem>&,
+                const std::shared_ptr<FontSystem>&,
                 float displayScale,
                 const std::shared_ptr<Style>&,
                 const std::shared_ptr<IconLibrary>&,
-                const std::shared_ptr<core::IRender>&);
+                const std::shared_ptr<IRender>&);
 
-            std::shared_ptr<core::FontSystem> fontSystem;
+            std::shared_ptr<FontSystem> fontSystem;
             float                             displayScale = 1.F;
             std::shared_ptr<Style>            style;
             std::shared_ptr<IconLibrary>      iconLibrary;
-            std::shared_ptr<core::IRender>    render;
+            std::shared_ptr<IRender>    render;
         };
 
         //! Drag and drop data.
@@ -84,15 +84,15 @@ namespace dtk
         struct MouseMoveEvent
         {
             MouseMoveEvent(
-                const core::V2I& pos,
-                const core::V2I& prev);
+                const V2I& pos,
+                const V2I& prev);
 
-            core::V2I                        pos;
-            core::V2I                        prev;
+            V2I                        pos;
+            V2I                        prev;
             bool                             accept = false;
             std::shared_ptr<DragAndDropData> dndData;
-            std::shared_ptr<core::Image>     dndCursor;
-            core::V2I                        dndCursorHotspot;
+            std::shared_ptr<Image>     dndCursor;
+            V2I                        dndCursorHotspot;
         };
 
         //! Keyboard modifiers.
@@ -122,11 +122,11 @@ namespace dtk
             MouseClickEvent(
                 int              button,
                 int              modifiers,
-                const core::V2I& pos);
+                const V2I& pos);
 
             int       button    = 0;
             int       modifiers = 0;
-            core::V2I pos;
+            V2I pos;
             bool      accept    = false;
         };
 
@@ -134,13 +134,13 @@ namespace dtk
         struct ScrollEvent
         {
             ScrollEvent(
-                const core::V2F& value,
+                const V2F& value,
                 int              modifiers,
-                const core::V2I& pos);
+                const V2I& pos);
 
-            core::V2F value;
+            V2F value;
             int       modifiers = 0;
-            core::V2I pos;
+            V2I pos;
             bool      accept    = false;
         };
 
@@ -251,11 +251,11 @@ namespace dtk
             KeyEvent(
                 Key              key,
                 int              modifiers,
-                const core::V2I& pos);
+                const V2I& pos);
 
             Key       key       = Key::Unknown;
             int       modifiers = 0;
-            core::V2I pos;
+            V2I pos;
             bool      accept    = false;
         };
 
@@ -286,12 +286,12 @@ namespace dtk
         struct DragAndDropEvent
         {
             DragAndDropEvent(
-                const core::V2I&                        pos,
-                const core::V2I&                        prev,
+                const V2I&                        pos,
+                const V2I&                        prev,
                 const std::shared_ptr<DragAndDropData>& data);
 
-            core::V2I                        pos;
-            core::V2I                        prev;
+            V2I                        pos;
+            V2I                        prev;
             std::shared_ptr<DragAndDropData> data;
             bool                             accept = false;
         };

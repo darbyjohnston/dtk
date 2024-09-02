@@ -6,54 +6,51 @@
 
 namespace dtk
 {
-    namespace core
+    ICmdLineOption::ICmdLineOption(
+        const std::vector<std::string>& names,
+        const std::string& help) :
+        _names(names),
+        _help(help)
+    {}
+
+    ICmdLineOption::~ICmdLineOption()
+    {}
+
+    CmdLineFlagOption::CmdLineFlagOption(
+        bool& value,
+        const std::vector<std::string>& names,
+        const std::string& help) :
+        ICmdLineOption(names, help),
+        _value(value)
+    {}
+
+    std::shared_ptr<CmdLineFlagOption> CmdLineFlagOption::create(
+        bool& value,
+        const std::vector<std::string>& names,
+        const std::string& help)
     {
-        ICmdLineOption::ICmdLineOption(
-            const std::vector<std::string>& names,
-            const std::string& help) :
-            _names(names),
-            _help(help)
-        {}
+        return std::shared_ptr<CmdLineFlagOption>(new CmdLineFlagOption(value, names, help));
+    }
 
-        ICmdLineOption::~ICmdLineOption()
-        {}
-
-        CmdLineFlagOption::CmdLineFlagOption(
-            bool& value,
-            const std::vector<std::string>&names,
-            const std::string & help) :
-            ICmdLineOption(names, help),
-            _value(value)
-        {}
-
-        std::shared_ptr<CmdLineFlagOption> CmdLineFlagOption::create(
-            bool& value,
-            const std::vector<std::string>& names,
-            const std::string& help)
+    void CmdLineFlagOption::parse(std::vector<std::string>& args)
+    {
+        for (const auto& name : _names)
         {
-            return std::shared_ptr<CmdLineFlagOption>(new CmdLineFlagOption(value, names, help));
-        }
-
-        void CmdLineFlagOption::parse(std::vector<std::string>&args)
-        {
-            for (const auto& name : _names)
+            auto i = std::find(args.begin(), args.end(), name);
+            if (i != args.end())
             {
-                auto i = std::find(args.begin(), args.end(), name);
-                if (i != args.end())
-                {
-                    _matchedName = name;
-                    _value = true;
-                    i = args.erase(i);
-                }
+                _matchedName = name;
+                _value = true;
+                i = args.erase(i);
             }
         }
+    }
 
-        std::vector<std::string> CmdLineFlagOption::getHelp() const
-        {
-            std::vector<std::string> out;
-            out.push_back(join(_names, ", "));
-            out.push_back(_help);
-            return out;
-        }
+    std::vector<std::string> CmdLineFlagOption::getHelp() const
+    {
+        std::vector<std::string> out;
+        out.push_back(join(_names, ", "));
+        out.push_back(_help);
+        return out;
     }
 }

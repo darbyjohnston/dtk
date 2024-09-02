@@ -33,7 +33,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             ComboBox();
@@ -43,18 +43,18 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<ComboBox> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Create a new widget.
             static std::shared_ptr<ComboBox> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::vector<ComboBoxItem>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Create a new widget.
             static std::shared_ptr<ComboBox> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::vector<std::string>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -85,9 +85,9 @@ namespace dtk
             //! Set the font role.
             void setFontRole(FontRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const core::Box2I&, const DrawEvent&) override;
+            void drawEvent(const Box2I&, const DrawEvent&) override;
             void mouseEnterEvent() override;
             void mouseLeaveEvent() override;
             void mousePressEvent(MouseClickEvent&) override;

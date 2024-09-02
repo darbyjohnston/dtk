@@ -7,8 +7,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Command.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace core_test

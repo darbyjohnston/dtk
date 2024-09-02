@@ -19,7 +19,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<DoubleModel>&,
                 const std::shared_ptr<IWidget>& parent);
 
@@ -30,7 +30,7 @@ namespace dtk
 
             //! Create a new widget.
             static std::shared_ptr<DoubleEditSlider> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<DoubleModel>& = nullptr,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -44,10 +44,10 @@ namespace dtk
             void setCallback(const std::function<void(double)>&);
 
             //! Get the range.
-            const core::RangeD& getRange() const;
+            const RangeD& getRange() const;
 
             //! Set the range.
-            void setRange(const core::RangeD&);
+            void setRange(const RangeD&);
 
             //! Get the step.
             double getStep() const;
@@ -82,7 +82,7 @@ namespace dtk
             //! Set the font role.
             void setFontRole(FontRole);
 
-            void setGeometry(const core::Box2I&) override;
+            void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:

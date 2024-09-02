@@ -8,8 +8,6 @@
 #include <dtk/ui/IWindow.h>
 #include <dtk/ui/Label.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace ui
@@ -115,7 +113,7 @@ namespace dtk
             std::vector<Intersect> intersect;
             for (const auto& box : boxes)
             {
-                intersect.push_back({ box, core::intersect(box, value) });
+                intersect.push_back({ box, dtk::intersect(box, value) });
             }
             std::stable_sort(
                 intersect.begin(),

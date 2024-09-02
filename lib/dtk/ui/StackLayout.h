@@ -18,7 +18,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent);
 
             StackLayout();
@@ -28,7 +28,7 @@ namespace dtk
 
             //! Create a new layout.
             static std::shared_ptr<StackLayout> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 const std::shared_ptr<IWidget>& parent = nullptr);
 
             //! Get the current index.
@@ -46,8 +46,8 @@ namespace dtk
             //! Set the margin role.
             void setMarginRole(SizeRole);
 
-            void setGeometry(const core::Box2I&) override;
-            core::Box2I getChildrenClipRect() const override;
+            void setGeometry(const Box2I&) override;
+            Box2I getChildrenClipRect() const override;
             void childAddEvent(const ChildAddEvent&) override;
             void childRemoveEvent(const ChildRemoveEvent&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

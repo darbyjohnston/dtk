@@ -10,8 +10,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Memory.h>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace app_test
@@ -35,7 +33,7 @@ namespace dtk
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
 
                 App() = default;
@@ -44,7 +42,7 @@ namespace dtk
                 virtual ~App();
                 
                 static std::shared_ptr<App> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
                 
                 void run() override;
@@ -55,7 +53,7 @@ namespace dtk
             };
 
             void App::_init(
-                const std::shared_ptr<core::Context>& context,
+                const std::shared_ptr<Context>& context,
                 std::vector<std::string>& argv)
             {
                 IApp::_init(
@@ -81,7 +79,7 @@ namespace dtk
             {}
             
             std::shared_ptr<App> App::create(
-                const std::shared_ptr<core::Context>& context,
+                const std::shared_ptr<Context>& context,
                 std::vector<std::string>& argv)
             {
                 auto out = std::shared_ptr<App>(new App);

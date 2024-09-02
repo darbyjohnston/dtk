@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void cmdLine(pybind11::module_&);
-    }
+    void cmdLine(pybind11::module_&);
 }

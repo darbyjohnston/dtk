@@ -19,8 +19,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace dtk::core;
-
 namespace dtk
 {
     namespace gl

@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace core
-    {
-        void fontSystem(pybind11::module_&);
-    }
+    void fontSystem(pybind11::module_&);
 }

@@ -13,13 +13,13 @@ namespace dtk
         class MessageDialogTest : public test::ITest
         {
         protected:
-            MessageDialogTest(const std::shared_ptr<core::Context>&);
+            MessageDialogTest(const std::shared_ptr<Context>&);
 
         public:
             virtual ~MessageDialogTest();
 
             static std::shared_ptr<MessageDialogTest> create(
-                const std::shared_ptr<core::Context>&);
+                const std::shared_ptr<Context>&);
 
             void run() override;
         };

@@ -28,17 +28,17 @@ namespace dtk
 
         struct Render::Private
         {
-            core::Size2I size;
-            core::RenderOptions options;
-            core::Box2I viewport;
+            Size2I size;
+            RenderOptions options;
+            Box2I viewport;
             bool clipRectEnabled = false;
-            core::Box2I clipRect;
-            core::M44F transform;
+            Box2I clipRect;
+            M44F transform;
             
             std::map<std::string, std::shared_ptr<gl::Shader> > shaders;
             std::shared_ptr<TextureCache> textureCache;
             std::shared_ptr<gl::TextureAtlas> glyphTextureAtlas;
-            std::map<core::GlyphInfo, core::BoxPackID> glyphIDs;
+            std::map<GlyphInfo, BoxPackID> glyphIDs;
             std::map<std::string, std::shared_ptr<gl::VBO> > vbos;
             std::map<std::string, std::shared_ptr<gl::VAO> > vaos;
 
@@ -52,7 +52,7 @@ namespace dtk
             };
             Stats stats;
             std::list<Stats> statsList;
-            std::shared_ptr<core::Timer> logTimer;
+            std::shared_ptr<Timer> logTimer;
         };
     }
 }

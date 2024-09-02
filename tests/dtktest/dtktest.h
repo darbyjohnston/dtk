@@ -11,11 +11,11 @@ namespace dtk
     namespace tests
     {
         //! Test application.
-        class App : public core::IApp
+        class App : public IApp
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>& argv);
 
             App();
@@ -24,7 +24,7 @@ namespace dtk
             virtual ~App();
 
             static std::shared_ptr<App> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 std::vector<std::string>&);
 
             void run() override;

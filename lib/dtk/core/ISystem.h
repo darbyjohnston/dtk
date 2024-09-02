@@ -12,40 +12,37 @@
 
 namespace dtk
 {
-    namespace core
+    class Context;
+
+    //! Base class for systems.
+    class ISystem : public std::enable_shared_from_this<ISystem>
     {
-        class Context;
+        DTK_NON_COPYABLE(ISystem);
 
-        //! Base class for systems.
-        class ISystem : public std::enable_shared_from_this<ISystem>
-        {
-            DTK_NON_COPYABLE(ISystem);
+    protected:
+        ISystem(
+            const std::shared_ptr<Context>&,
+            const std::string& name);
 
-        protected:
-            ISystem(
-                const std::shared_ptr<Context>&,
-                const std::string& name);
+    public:
+        virtual ~ISystem() = 0;
 
-        public:
-            virtual ~ISystem() = 0;
+        //! Get the context.
+        const std::weak_ptr<Context>& getContext() const;
 
-            //! Get the context.
-            const std::weak_ptr<Context>& getContext() const;
+        //! Get the system name.
+        const std::string& getName() const;
 
-            //! Get the system name.
-            const std::string& getName() const;
+        //! Tick the system.
+        virtual void tick();
 
-            //! Tick the system.
-            virtual void tick();
+        //! Get the system tick time interval.
+        virtual std::chrono::milliseconds getTickTime() const;
 
-            //! Get the system tick time interval.
-            virtual std::chrono::milliseconds getTickTime() const;
-
-        protected:
-            std::weak_ptr<Context> _context;
-            std::string _name;
-        };
-    }
+    protected:
+        std::weak_ptr<Context> _context;
+        std::string _name;
+    };
 }
 
 #include <dtk/core/ISystemInline.h>

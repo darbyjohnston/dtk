@@ -41,22 +41,16 @@ namespace dtk
         std::size_t getByteCount(VBOType);
 
         //! Convert a triangle mesh to vertex buffer data.
-        std::vector<uint8_t> convert(const core::TriMesh2F&, VBOType);
+        std::vector<uint8_t> convert(const TriMesh2F&, VBOType);
 
         //! Convert a triangle mesh to vertex buffer data.
-        std::vector<uint8_t> convert(
-            const core::TriMesh2F&,
-            VBOType,
-            const core::RangeSizeT&);
+        std::vector<uint8_t> convert(const TriMesh2F&, VBOType, const RangeSizeT&);
 
         //! Convert a triangle mesh to vertex buffer data.
-        std::vector<uint8_t> convert(const core::TriMesh3F&, VBOType);
+        std::vector<uint8_t> convert(const TriMesh3F&, VBOType);
 
         //! Convert a triangle mesh to vertex buffer data.
-        std::vector<uint8_t> convert(
-            const core::TriMesh3F&,
-            VBOType,
-            const core::RangeSizeT&);
+        std::vector<uint8_t> convert(const TriMesh3F&, VBOType, const RangeSizeT&);
 
         //! Vertex buffer object.
         class VBO : public std::enable_shared_from_this<VBO>

@@ -27,7 +27,7 @@ namespace dtk
         {
         protected:
             void _init(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ButtonGroupType);
 
             ButtonGroup();
@@ -37,7 +37,7 @@ namespace dtk
 
             //! Create a new button group.
             static std::shared_ptr<ButtonGroup> create(
-                const std::shared_ptr<core::Context>&,
+                const std::shared_ptr<Context>&,
                 ButtonGroupType);
 
             //! Get the buttons in the group.

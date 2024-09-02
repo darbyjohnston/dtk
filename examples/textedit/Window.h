@@ -20,10 +20,10 @@ namespace dtk
             {
             protected:
                 void _init(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::shared_ptr<App>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const Size2I&);
 
                 Window() = default;
 
@@ -31,10 +31,10 @@ namespace dtk
                 virtual ~Window();
 
                 static std::shared_ptr<Window> create(
-                    const std::shared_ptr<core::Context>&,
+                    const std::shared_ptr<Context>&,
                     const std::shared_ptr<App>&,
                     const std::string& name,
-                    const core::Size2I&);
+                    const Size2I&);
 
                 void keyPressEvent(ui::KeyEvent&) override;
                 void keyReleaseEvent(ui::KeyEvent&) override;
@@ -44,8 +44,8 @@ namespace dtk
                 std::map<std::string, std::shared_ptr<ui::Menu> > _menus;
                 std::shared_ptr<ui::MenuBar> _menuBar;
                 std::shared_ptr<ui::Label> _textWidget;
-                std::shared_ptr<core::ValueObserver<ui::FontRole> > _fontObserver;
-                std::shared_ptr<core::ValueObserver<std::string> > _textObserver;
+                std::shared_ptr<ValueObserver<ui::FontRole> > _fontObserver;
+                std::shared_ptr<ValueObserver<std::string> > _textObserver;
             };
         }
     }

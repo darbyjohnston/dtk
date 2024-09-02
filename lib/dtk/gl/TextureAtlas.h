@@ -20,10 +20,10 @@ namespace dtk
         //! Texture atlas item.
         struct TextureAtlasItem
         {
-            core::BoxPackID id = core::boxPackInvalidID;
-            core::Size2I size;
-            core::RangeF textureU;
-            core::RangeF textureV;
+            BoxPackID id = boxPackInvalidID;
+            Size2I size;
+            RangeF textureU;
+            RangeF textureV;
         };
 
         //! Texture atlas.
@@ -34,7 +34,7 @@ namespace dtk
         protected:
             void _init(
                 int textureSize,
-                core::ImageType textureType,
+                ImageType textureType,
                 TextureFilter filter,
                 int border);
 
@@ -46,26 +46,22 @@ namespace dtk
             //! Create a new texture atlas.
             static std::shared_ptr<TextureAtlas> create(
                 int textureSize,
-                core::ImageType textureType,
+                ImageType textureType,
                 TextureFilter filter = TextureFilter::Linear,
                 int border = 1);
 
             int getTextureSize() const;
-            core::ImageType getTextureType() const;
+            ImageType getTextureType() const;
             unsigned int getTexture() const;
 
-            bool getItem(core::BoxPackID, TextureAtlasItem&);
+            bool getItem(BoxPackID, TextureAtlasItem&);
 
-            bool addItem(
-                const std::shared_ptr<core::Image>&,
-                TextureAtlasItem&);
+            bool addItem(const std::shared_ptr<Image>&, TextureAtlasItem&);
 
             float getPercentageUsed() const;
 
         private:
-            void _toTextureAtlasItem(
-                const std::shared_ptr<core::BoxPackNode>&,
-                TextureAtlasItem&);
+            void _toTextureAtlasItem(const std::shared_ptr<BoxPackNode>&, TextureAtlasItem&);
 
             DTK_PRIVATE();
         };

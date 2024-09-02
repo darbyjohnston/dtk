@@ -19,16 +19,16 @@ namespace dtk
         {
         public:
             static std::shared_ptr<PyWindow> create(
-                const std::shared_ptr<core::Context>& context,
+                const std::shared_ptr<Context>& context,
                 const std::string& name,
-                const core::Size2I& size)
+                const Size2I& size)
             {
                 auto out = std::shared_ptr<PyWindow>(new PyWindow);
                 out->_init(context, name, size);
                 return out;
             }
 
-            virtual void drawEvent(const core::Box2I& drawRect, const DrawEvent& event) override
+            virtual void drawEvent(const Box2I& drawRect, const DrawEvent& event) override
             {
                 PYBIND11_OVERRIDE(
                     void,
