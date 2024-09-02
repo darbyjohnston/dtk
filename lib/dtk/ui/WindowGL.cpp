@@ -538,7 +538,7 @@ namespace dtk
                 glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
                 glBindTexture(GL_TEXTURE_2D, p.buffer->getColorID());
 
-                auto mesh = mesh(Box2I(
+                auto mesh = dtk::mesh(Box2I(
                     0,
                     0,
                     p.bufferSize.w,
