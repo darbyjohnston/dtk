@@ -162,6 +162,7 @@ namespace dtk
                                 }
                                 if (auto button = buttonWeak.lock())
                                 {
+                                    button->takeKeyFocus();
                                     out->open(getWindow(), button->getGeometry());
                                 }
                             }
@@ -179,6 +180,7 @@ namespace dtk
                             }
                             if (auto button = buttonWeak.lock())
                             {
+                                button->takeKeyFocus();
                                 out->open(getWindow(), button->getGeometry());
                             }
                         }
@@ -273,6 +275,7 @@ namespace dtk
                         const auto i = p.subMenus.find(button);
                         if (i != p.subMenus.end())
                         {
+                            button->takeKeyFocus();
                             i->second->open(getWindow(), button->getGeometry());
                         }
                         else
