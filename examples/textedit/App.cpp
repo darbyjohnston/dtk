@@ -6,12 +6,12 @@
 
 #include "Window.h"
 
-#include <dtkUI/FileBrowser.h>
-#include <dtkUI/MessageDialog.h>
+#include <dtk/ui/FileBrowser.h>
+#include <dtk/ui/MessageDialog.h>
 
-#include <dtkBaseApp/CmdLine.h>
+#include <dtk/core/CmdLine.h>
 
-#include <dtkCore/FileIO.h>
+#include <dtk/core/FileIO.h>
 
 using namespace dtk::core;
 using namespace dtk::ui;
@@ -32,7 +32,7 @@ namespace dtk
                     "textedit",
                     "Text edit example",
                     {
-                        app::CmdLineValueArg<std::filesystem::path>::create(
+                        CmdLineValueArg<std::filesystem::path>::create(
                             _path,
                             "input",
                             "Input path.",

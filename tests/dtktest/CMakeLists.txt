@@ -3,10 +3,7 @@ set(HEADERS dtktest.h)
 set(SOURCE dtktest.cpp)
 
 set(LIBRARIES
-    dtkUIAppTest
     dtkUITest
-    dtkBaseAppTest
-    dtkBaseApp
     dtkCoreTest)
 if ("${dtk_API}" STREQUAL "GL_4_1" OR
     "${dtk_API}" STREQUAL "GL_4_1_Debug" OR

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtkUI/IWidget.h>
+#include <dtk/ui/IWidget.h>
 
 namespace dtk
 {

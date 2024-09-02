@@ -7,13 +7,13 @@ from dtk import *
 import sys
         
 context = dtkCore.Context()
-app = dtkUIApp.App(context, sys.argv, "buttons", "Buttons example")
+app = dtkUI.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
 size = dtkCore.Size2I(1280, 960)
-window = dtkUIApp.Window(context, "buttons", size)
+window = dtkUI.Window(context, "buttons", size)
 app.addWindow(window)
 
 # Create the scroll widget.

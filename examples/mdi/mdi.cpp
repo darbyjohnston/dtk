@@ -2,16 +2,15 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <dtkUIApp/App.h>
-#include <dtkUIApp/Window.h>
+#include <dtk/ui/App.h>
+#include <dtk/ui/ColorWidget.h>
+#include <dtk/ui/MDICanvas.h>
+#include <dtk/ui/MDIWidget.h>
+#include <dtk/ui/ScrollWidget.h>
+#include <dtk/ui/Window.h>
 
-#include <dtkUI/ColorWidget.h>
-#include <dtkUI/MDICanvas.h>
-#include <dtkUI/MDIWidget.h>
-#include <dtkUI/ScrollWidget.h>
-
-#include <dtkCore/Format.h>
-#include <dtkCore/Random.h>
+#include <dtk/core/Format.h>
+#include <dtk/core/Random.h>
 
 using namespace dtk::core;
 using namespace dtk::ui;
@@ -21,7 +20,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = dtk::app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = App::create(context, args, "mdi", "MDI example");
         if (app->getExit() != 0)
             return app->getExit();

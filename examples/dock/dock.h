@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtkUI/DockLayout.h>
+#include <dtk/ui/DockLayout.h>
 
 namespace dtk
 {

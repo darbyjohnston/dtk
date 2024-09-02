@@ -4,15 +4,14 @@
 
 #include "popups.h"
 
-#include <dtkUIApp/App.h>
-
-#include <dtkUI/Action.h>
-#include <dtkUI/ComboBox.h>
-#include <dtkUI/ColorSwatch.h>
-#include <dtkUI/GroupBox.h>
-#include <dtkUI/Menu.h>
-#include <dtkUI/RowLayout.h>
-#include <dtkUI/ScrollWidget.h>
+#include <dtk/ui/App.h>
+#include <dtk/ui/Action.h>
+#include <dtk/ui/ComboBox.h>
+#include <dtk/ui/ColorSwatch.h>
+#include <dtk/ui/GroupBox.h>
+#include <dtk/ui/Menu.h>
+#include <dtk/ui/RowLayout.h>
+#include <dtk/ui/ScrollWidget.h>
 
 using namespace dtk::core;
 using namespace dtk::ui;
@@ -179,7 +178,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = dtk::app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = App::create(context, args, "popups", "Popups example");
         if (app->getExit() != 0)
             return app->getExit();

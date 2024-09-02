@@ -10,12 +10,7 @@ set(SOURCE
     main.cpp)
 
 add_executable(textedit ${HEADERS} ${SOURCE})
-target_link_libraries(textedit dtkUIApp)
+target_link_libraries(textedit dtkUI)
 set_target_properties(textedit PROPERTIES FOLDER examples)
-
-install(TARGETS textedit
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin)
 
 add_test(NAME textedit COMMAND textedit -exit -log)

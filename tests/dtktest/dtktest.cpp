@@ -4,109 +4,108 @@
 
 #include "dtktest.h"
 
-#include <dtkUIAppTest/AppTest.h>
-
-#include <dtkUITest/ActionTest.h>
-#include <dtkUITest/BellowsTest.h>
-#include <dtkUITest/ButtonGroupTest.h>
-#include <dtkUITest/ButtonTest.h>
-#include <dtkUITest/ColorWidgetTest.h>
-#include <dtkUITest/ComboBoxTest.h>
-#include <dtkUITest/DoubleEditTest.h>
-#include <dtkUITest/DoubleEditSliderTest.h>
-#include <dtkUITest/DoubleSliderTest.h>
-#include <dtkUITest/DoubleModelTest.h>
-#include <dtkUITest/DragAndDropTest.h>
-#include <dtkUITest/DrawUtilTest.h>
-#include <dtkUITest/EventTest.h>
-#include <dtkUITest/FileBrowserTest.h>
-#include <dtkUITest/FileEditTest.h>
-#include <dtkUITest/FloatEditTest.h>
-#include <dtkUITest/FloatEditSliderTest.h>
-#include <dtkUITest/FloatSliderTest.h>
-#include <dtkUITest/FloatModelTest.h>
-#include <dtkUITest/GridLayoutTest.h>
-#include <dtkUITest/GroupBoxTest.h>
-#include <dtkUITest/IconTest.h>
-#include <dtkUITest/IntEditTest.h>
-#include <dtkUITest/IntEditSliderTest.h>
-#include <dtkUITest/IntSliderTest.h>
-#include <dtkUITest/IntModelTest.h>
-#include <dtkUITest/LabelTest.h>
-#include <dtkUITest/LayoutUtilTest.h>
-#include <dtkUITest/LineEditTest.h>
-#include <dtkUITest/ListWidgetTest.h>
-#include <dtkUITest/MDIWidgetTest.h>
-#include <dtkUITest/MenuBarTest.h>
-#include <dtkUITest/MessageDialogTest.h>
-#include <dtkUITest/PieChartTest.h>
-#include <dtkUITest/RecentFilesModelTest.h>
-#include <dtkUITest/RowLayoutTest.h>
-#include <dtkUITest/ScrollAreaTest.h>
-#include <dtkUITest/ScrollBarTest.h>
-#include <dtkUITest/ScrollWidgetTest.h>
-#include <dtkUITest/SearchBoxTest.h>
-#include <dtkUITest/SplitterTest.h>
-#include <dtkUITest/StackLayoutTest.h>
-#include <dtkUITest/StyleTest.h>
-#include <dtkUITest/TabWidgetTest.h>
-#include <dtkUITest/WidgetOptionsTest.h>
-
-#include <dtkBaseAppTest/AppTest.h>
-#include <dtkBaseAppTest/CmdLineTest.h>
+#include <uiTest/ActionTest.h>
+#include <uiTest/AppTest.h>
+#include <uiTest/BellowsTest.h>
+#include <uiTest/ButtonGroupTest.h>
+#include <uiTest/ButtonTest.h>
+#include <uiTest/ColorWidgetTest.h>
+#include <uiTest/ComboBoxTest.h>
+#include <uiTest/DoubleEditTest.h>
+#include <uiTest/DoubleEditSliderTest.h>
+#include <uiTest/DoubleSliderTest.h>
+#include <uiTest/DoubleModelTest.h>
+#include <uiTest/DragAndDropTest.h>
+#include <uiTest/DrawUtilTest.h>
+#include <uiTest/EventTest.h>
+#include <uiTest/FileBrowserTest.h>
+#include <uiTest/FileEditTest.h>
+#include <uiTest/FloatEditTest.h>
+#include <uiTest/FloatEditSliderTest.h>
+#include <uiTest/FloatSliderTest.h>
+#include <uiTest/FloatModelTest.h>
+#include <uiTest/GridLayoutTest.h>
+#include <uiTest/GroupBoxTest.h>
+#include <uiTest/IconTest.h>
+#include <uiTest/IntEditTest.h>
+#include <uiTest/IntEditSliderTest.h>
+#include <uiTest/IntSliderTest.h>
+#include <uiTest/IntModelTest.h>
+#include <uiTest/LabelTest.h>
+#include <uiTest/LayoutUtilTest.h>
+#include <uiTest/LineEditTest.h>
+#include <uiTest/ListWidgetTest.h>
+#include <uiTest/MDIWidgetTest.h>
+#include <uiTest/MenuBarTest.h>
+#include <uiTest/MessageDialogTest.h>
+#include <uiTest/PieChartTest.h>
+#include <uiTest/RecentFilesModelTest.h>
+#include <uiTest/RowLayoutTest.h>
+#include <uiTest/ScrollAreaTest.h>
+#include <uiTest/ScrollBarTest.h>
+#include <uiTest/ScrollWidgetTest.h>
+#include <uiTest/SearchBoxTest.h>
+#include <uiTest/SplitterTest.h>
+#include <uiTest/StackLayoutTest.h>
+#include <uiTest/StyleTest.h>
+#include <uiTest/TabWidgetTest.h>
+#include <uiTest/WidgetOptionsTest.h>
 
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
-#include <dtkGLTest/MeshTest.h>
-#include <dtkGLTest/OffscreenBufferTest.h>
-#include <dtkGLTest/TextureAtlasTest.h>
-#include <dtkGLTest/TextureTest.h>
-#include <dtkGLTest/RenderTest.h>
-#include <dtkGLTest/ShaderTest.h>
-#include <dtkGLTest/WindowTest.h>
+#include <glTest/MeshTest.h>
+#include <glTest/OffscreenBufferTest.h>
+#include <glTest/TextureAtlasTest.h>
+#include <glTest/TextureTest.h>
+#include <glTest/RenderTest.h>
+#include <glTest/ShaderTest.h>
+#include <glTest/WindowTest.h>
 #endif // dtk_API_GL_4_1
 
-#include <dtkCoreTest/BoxPackTest.h>
-#include <dtkCoreTest/BoxTest.h>
-#include <dtkCoreTest/ColorTest.h>
-#include <dtkCoreTest/CommandTest.h>
-#include <dtkCoreTest/ErrorTest.h>
-#include <dtkCoreTest/FileIOTest.h>
-#include <dtkCoreTest/FileTest.h>
-#include <dtkCoreTest/FontSystemTest.h>
-#include <dtkCoreTest/FormatTest.h>
-#include <dtkCoreTest/ImageIOTest.h>
-#include <dtkCoreTest/ImageTest.h>
-#include <dtkCoreTest/LRUCacheTest.h>
-#include <dtkCoreTest/MathTest.h>
-#include <dtkCoreTest/MatrixTest.h>
-#include <dtkCoreTest/MemoryTest.h>
-#include <dtkCoreTest/MeshTest.h>
-#include <dtkCoreTest/NoiseTest.h>
-#include <dtkCoreTest/OSTest.h>
-#include <dtkCoreTest/ObservableTest.h>
-#include <dtkCoreTest/PNGTest.h>
-#include <dtkCoreTest/RandomTest.h>
-#include <dtkCoreTest/RangeTest.h>
-#include <dtkCoreTest/RenderOptionsTest.h>
-#include <dtkCoreTest/RenderUtilTest.h>
-#include <dtkCoreTest/SizeTest.h>
-#include <dtkCoreTest/StringTest.h>
-#include <dtkCoreTest/SystemTest.h>
-#include <dtkCoreTest/TimeTest.h>
-#include <dtkCoreTest/TimerTest.h>
-#include <dtkCoreTest/VectorTest.h>
+#include <coreTest/AppTest.h>
+#include <coreTest/BoxPackTest.h>
+#include <coreTest/BoxTest.h>
+#include <coreTest/CmdLineTest.h>
+#include <coreTest/ColorTest.h>
+#include <coreTest/CommandTest.h>
+#include <coreTest/ErrorTest.h>
+#include <coreTest/FileIOTest.h>
+#include <coreTest/FileTest.h>
+#include <coreTest/FontSystemTest.h>
+#include <coreTest/FormatTest.h>
+#include <coreTest/ImageIOTest.h>
+#include <coreTest/ImageTest.h>
+#include <coreTest/LRUCacheTest.h>
+#include <coreTest/MathTest.h>
+#include <coreTest/MatrixTest.h>
+#include <coreTest/MemoryTest.h>
+#include <coreTest/MeshTest.h>
+#include <coreTest/NoiseTest.h>
+#include <coreTest/OSTest.h>
+#include <coreTest/ObservableTest.h>
+#include <coreTest/PNGTest.h>
+#include <coreTest/RandomTest.h>
+#include <coreTest/RangeTest.h>
+#include <coreTest/RenderOptionsTest.h>
+#include <coreTest/RenderUtilTest.h>
+#include <coreTest/SizeTest.h>
+#include <coreTest/StringTest.h>
+#include <coreTest/SystemTest.h>
+#include <coreTest/TimeTest.h>
+#include <coreTest/TimerTest.h>
+#include <coreTest/VectorTest.h>
 
-#include <dtkUI/Init.h>
+#include <testLib/ITest.h>
 
-#include <dtkBaseApp/CmdLine.h>
+#include <dtk/ui/Init.h>
 
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
-#include <dtkGL/Init.h>
+#include <dtk/gl/Init.h>
 #endif // dtk_API_GL_4_1
 
-#include <dtkCore/Context.h>
-#include <dtkCore/Format.h>
-#include <dtkCore/Time.h>
+#include <dtk/core/CmdLine.h>
+#include <dtk/core/Context.h>
+#include <dtk/core/Format.h>
+#include <dtk/core/Time.h>
 
 #include <iostream>
 
@@ -128,13 +127,13 @@ namespace dtk
             const std::shared_ptr<Context>& context,
             std::vector<std::string>& argv)
         {
-            app::IApp::_init(
+            IApp::_init(
                 context,
                 argv,
                 "dtktest",
                 "Test application",
                 {
-                    app::CmdLineValueArg<std::string>::create(
+                    CmdLineValueArg<std::string>::create(
                         _p->testName,
                         "Test",
                         "Name of the test to run.",
@@ -292,7 +291,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = tests::App::create(context, args);
         r = app->getExit();
         if (0 == r)

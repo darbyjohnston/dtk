@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtkUI/Label.h>
+#include <dtk/ui/Label.h>
 
 namespace dtk
 {

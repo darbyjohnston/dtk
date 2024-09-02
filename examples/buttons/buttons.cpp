@@ -2,18 +2,17 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <dtkUIApp/App.h>
-#include <dtkUIApp/Window.h>
+#include <dtk/ui/App.h>
+#include <dtk/ui/ButtonGroup.h>
+#include <dtk/ui/CheckBox.h>
+#include <dtk/ui/GroupBox.h>
+#include <dtk/ui/PushButton.h>
+#include <dtk/ui/RowLayout.h>
+#include <dtk/ui/ScrollWidget.h>
+#include <dtk/ui/ToolButton.h>
+#include <dtk/ui/Window.h>
 
-#include <dtkUI/ButtonGroup.h>
-#include <dtkUI/CheckBox.h>
-#include <dtkUI/GroupBox.h>
-#include <dtkUI/PushButton.h>
-#include <dtkUI/RowLayout.h>
-#include <dtkUI/ScrollWidget.h>
-#include <dtkUI/ToolButton.h>
-
-#include <dtkCore/Format.h>
+#include <dtk/core/Format.h>
 
 using namespace dtk::core;
 using namespace dtk::ui;
@@ -23,7 +22,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = dtk::app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = App::create(context, args, "buttons", "Buttons example");
         if (app->getExit() != 0)
             return app->getExit();

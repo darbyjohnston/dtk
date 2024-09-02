@@ -1,5 +1,3 @@
-add_subdirectory(dtkBaseAppPy)
-add_subdirectory(dtkCorePy)
-add_subdirectory(dtkUIAppPy)
-add_subdirectory(dtkUIPy)
+add_subdirectory(corePy)
+add_subdirectory(uiPy)
 add_subdirectory(dtk)

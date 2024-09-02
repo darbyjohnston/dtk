@@ -4,12 +4,11 @@
 
 #include "dnd.h"
 
-#include <dtkUIApp/App.h>
-#include <dtkUIApp/Window.h>
-
-#include <dtkUI/DrawUtil.h>
-#include <dtkUI/GridLayout.h>
-#include <dtkUI/ScrollWidget.h>
+#include <dtk/ui/App.h>
+#include <dtk/ui/DrawUtil.h>
+#include <dtk/ui/GridLayout.h>
+#include <dtk/ui/ScrollWidget.h>
+#include <dtk/ui/Window.h>
 
 #include <iomanip>
 #include <sstream>
@@ -214,7 +213,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = dtk::app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = App::create(context, args, "dnd", "Drag and drop example");
         if (app->getExit() != 0)
             return app->getExit();

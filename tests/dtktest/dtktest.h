@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <dtkBaseApp/IApp.h>
+#include <dtk/core/IApp.h>
 
 namespace dtk
 {
     namespace tests
     {
         //! Test application.
-        class App : public app::IApp
+        class App : public core::IApp
         {
         protected:
             void _init(

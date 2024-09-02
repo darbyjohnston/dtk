@@ -4,11 +4,10 @@
 
 #pragma once
 
-#include <dtkUIApp/App.h>
+#include <dtk/ui/App.h>
+#include <dtk/ui/Style.h>
 
-#include <dtkUI/Style.h>
-
-#include <dtkCore/ObservableValue.h>
+#include <dtk/core/ObservableValue.h>
 
 #include <filesystem>
 

@@ -7,7 +7,7 @@ from dtk import *
 import sys
         
 context = dtkCore.Context()
-app = dtkUIApp.App(context, sys.argv, "buttons", "Buttons example")
+app = dtkUI.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(1)
 
@@ -17,7 +17,7 @@ for system in context.systems:
         system.nativeFileDialog = False
 
 # Create the window.
-window = dtkUIApp.Window(context, "buttons", dtkCore.Size2I(1280, 960))
+window = dtkUI.Window(context, "buttons", dtkCore.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.

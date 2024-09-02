@@ -2,9 +2,9 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <dtkResourceApp/App.h>
+#include "App.h"
 
-#include <dtkCore/Context.h>
+#include <dtk/core/Context.h>
 
 #include <iostream>
 
@@ -18,7 +18,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = App::create(context, args);
         r = app->getExit();
         if (0 == r)

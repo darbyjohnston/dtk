@@ -7,12 +7,12 @@ from dtk import *
 import sys
         
 context = dtkCore.Context()
-app = dtkUIApp.App(context, sys.argv, "tabs", "Tabs example")
+app = dtkUI.App(context, sys.argv, "tabs", "Tabs example")
 if app.getExit() != 0:
     sys.exit(1)
 
 # Create the window.
-window = dtkUIApp.Window(context, "tabs", dtkCore.Size2I(1280, 960))
+window = dtkUI.Window(context, "tabs", dtkCore.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the tab widget.

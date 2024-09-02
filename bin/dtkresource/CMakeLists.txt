@@ -1,11 +1,13 @@
-set(HEADERS)
+set(HEADERS
+    App.h)
 set(PRIVATE_HEADERS)
 
 set(SOURCE
+    App.cpp
     main.cpp)
 
 add_executable(dtkresource ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(dtkresource dtkResourceApp)
+target_link_libraries(dtkresource dtkCore)
 set_target_properties(dtkresource PROPERTIES FOLDER bin)
 
 install(TARGETS dtkresource

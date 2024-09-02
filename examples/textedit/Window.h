@@ -4,10 +4,9 @@
 
 #pragma once
 
-#include <dtkUIApp/Window.h>
-
-#include <dtkUI/Label.h>
-#include <dtkUI/MenuBar.h>
+#include <dtk/ui/Label.h>
+#include <dtk/ui/MenuBar.h>
+#include <dtk/ui/Window.h>
 
 namespace dtk
 {

@@ -4,7 +4,7 @@
 
 #include "simple.h"
 
-#include <dtkUIApp/App.h>
+#include <dtk/ui/App.h>
 
 using namespace dtk::core;
 using namespace dtk::ui;
@@ -58,7 +58,7 @@ DTK_MAIN()
     try
     {
         auto context = Context::create();
-        auto args = dtk::app::convert(argc, argv);
+        auto args = convert(argc, argv);
         auto app = App::create(context, args, "simple", "Simple example");
         if (app->getExit() != 0)
             return app->getExit();

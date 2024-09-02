@@ -6,10 +6,10 @@
 
 #include "App.h"
 
-#include <dtkUI/FileBrowser.h>
-#include <dtkUI/Menu.h>
-#include <dtkUI/RowLayout.h>
-#include <dtkUI/ScrollWidget.h>
+#include <dtk/ui/FileBrowser.h>
+#include <dtk/ui/Menu.h>
+#include <dtk/ui/RowLayout.h>
+#include <dtk/ui/ScrollWidget.h>
 
 using namespace dtk::core;
 using namespace dtk::ui;
