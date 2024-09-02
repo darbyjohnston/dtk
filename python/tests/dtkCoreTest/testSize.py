@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import dtk.dtkCore as dtk
+import dtk
 
 import unittest
 
