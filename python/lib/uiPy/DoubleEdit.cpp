@@ -14,24 +14,21 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void doubleEdit(py::module_& m)
     {
-        void doubleEdit(py::module_& m)
-        {
-            py::class_<DoubleEdit, IWidget, std::shared_ptr<DoubleEdit> >(m, "DoubleEdit")
-                .def(
-                    py::init(&DoubleEdit::create),
-                    py::arg("context"),
-                    py::arg("model") = nullptr,
-                    py::arg("parent") = nullptr)
-                .def_property("value", &DoubleEdit::getValue, &DoubleEdit::setValue)
-                .def("setCallback", &DoubleEdit::setCallback)
-                .def_property("range", &DoubleEdit::getRange, &DoubleEdit::setRange)
-                .def_property("step", &DoubleEdit::getStep, &DoubleEdit::setStep)
-                .def_property("largeStep", &DoubleEdit::getLargeStep, &DoubleEdit::setLargeStep)
-                .def("getModel", &DoubleEdit::getModel)
-                .def_property("precision", &DoubleEdit::getPrecision, &DoubleEdit::setPrecision)
-                .def_property("fontRole", &DoubleEdit::getFontRole, &DoubleEdit::setFontRole);
-        }
+        py::class_<DoubleEdit, IWidget, std::shared_ptr<DoubleEdit> >(m, "DoubleEdit")
+            .def(
+                py::init(&DoubleEdit::create),
+                py::arg("context"),
+                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def_property("value", &DoubleEdit::getValue, &DoubleEdit::setValue)
+            .def("setCallback", &DoubleEdit::setCallback)
+            .def_property("range", &DoubleEdit::getRange, &DoubleEdit::setRange)
+            .def_property("step", &DoubleEdit::getStep, &DoubleEdit::setStep)
+            .def_property("largeStep", &DoubleEdit::getLargeStep, &DoubleEdit::setLargeStep)
+            .def("getModel", &DoubleEdit::getModel)
+            .def_property("precision", &DoubleEdit::getPrecision, &DoubleEdit::setPrecision)
+            .def_property("fontRole", &DoubleEdit::getFontRole, &DoubleEdit::setFontRole);
     }
 }

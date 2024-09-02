@@ -15,13 +15,10 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void doubleModel(py::module_& m)
     {
-        void doubleModel(py::module_& m)
-        {
-            py::class_<DoubleModel, std::shared_ptr<DoubleModel> >(m, "DoubleModel")
-                .def(py::init(&DoubleModel::create),
-                    py::arg("context"));
-        }
+        py::class_<DoubleModel, std::shared_ptr<DoubleModel> >(m, "DoubleModel")
+            .def(py::init(&DoubleModel::create),
+                py::arg("context"));
     }
 }

@@ -8,7 +8,7 @@
 
 namespace dtk
 {
-    namespace app_test
+    namespace core_test
     {
         class CmdLineTest : public test::ITest
         {

@@ -13,5 +13,5 @@ PYBIND11_MODULE(dtk, m)
 {
     m.doc() = "A toolkit for building DJV and other applications";
     dtk::coreBind(m);
-    dtk::ui::bind(m);
+    dtk::uiBind(m);
 }

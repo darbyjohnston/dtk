@@ -9,78 +9,75 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Numeric Widgets
+    ///@{
+
+    //! Integer value editor.
+    class IntEdit : public IWidget
     {
-        //! \name Numeric Widgets
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IntModel>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! Integer value editor.
-        class IntEdit : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IntModel>&,
-                const std::shared_ptr<IWidget>& parent);
+        IntEdit();
 
-            IntEdit();
+    public:
+        virtual ~IntEdit();
 
-        public:
-            virtual ~IntEdit();
+        //! Create a new widget.
+        static std::shared_ptr<IntEdit> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IntModel>& = nullptr,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Create a new widget.
-            static std::shared_ptr<IntEdit> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IntModel>& = nullptr,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Get the value.
+        int getValue() const;
 
-            //! Get the value.
-            int getValue() const;
+        //! Set the value.
+        void setValue(int);
 
-            //! Set the value.
-            void setValue(int);
+        //! Set the callback.
+        void setCallback(const std::function<void(int)>&);
 
-            //! Set the callback.
-            void setCallback(const std::function<void(int)>&);
+        //! Get the range.
+        const RangeI& getRange() const;
 
-            //! Get the range.
-            const RangeI& getRange() const;
+        //! Set the range.
+        void setRange(const RangeI&);
 
-            //! Set the range.
-            void setRange(const RangeI&);
+        //! Get the step.
+        int getStep() const;
 
-            //! Get the step.
-            int getStep() const;
+        //! Set the step.
+        void setStep(int);
 
-            //! Set the step.
-            void setStep(int);
+        //! Get the large step.
+        int getLargeStep() const;
 
-            //! Get the large step.
-            int getLargeStep() const;
+        //! Set the large step.
+        void setLargeStep(int);
 
-            //! Set the large step.
-            void setLargeStep(int);
+        //! Get the model.
+        const std::shared_ptr<IntModel>& getModel() const;
 
-            //! Get the model.
-            const std::shared_ptr<IntModel>& getModel() const;
+        //! Get the font role.
+        FontRole getFontRole() const;
 
-            //! Get the font role.
-            FontRole getFontRole() const;
+        //! Set the font role.
+        void setFontRole(FontRole);
 
-            //! Set the font role.
-            void setFontRole(FontRole);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
+    private:
+        void _textUpdate();
 
-        private:
-            void _textUpdate();
-
-            DTK_PRIVATE();
-        };
+        DTK_PRIVATE();
+    };
         
-        ///@}
-    }
+    ///@}
 }

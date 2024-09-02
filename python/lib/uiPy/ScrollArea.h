@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void scrollArea(pybind11::module_&);
-    }
+    void scrollArea(pybind11::module_&);
 }

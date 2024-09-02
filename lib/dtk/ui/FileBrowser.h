@@ -12,179 +12,176 @@
 
 namespace dtk
 {
-    namespace ui
+    class RecentFilesModel;
+
+    //! \name File Widgets
+    ///@{
+
+    //! Directory sorting.
+    enum class FileBrowserSort
     {
-        class RecentFilesModel;
+        Name,
+        Extension,
+        Size,
+        Time,
 
-        //! \name File Widgets
-        ///@{
+        Count,
+        First = Name
+    };
+    DTK_ENUM(FileBrowserSort);
 
-        //! Directory sorting.
-        enum class FileBrowserSort
-        {
-            Name,
-            Extension,
-            Size,
-            Time,
+    //! File browser options.
+    struct FileBrowserOptions
+    {
+        std::string     search;
+        std::string     extension;
+        FileBrowserSort sort        = FileBrowserSort::Name;
+        bool            reverseSort = false;
 
-            Count,
-            First = Name
-        };
-        DTK_ENUM(FileBrowserSort);
+        bool operator == (const FileBrowserOptions&) const;
+        bool operator != (const FileBrowserOptions&) const;
+    };
 
-        //! File browser options.
-        struct FileBrowserOptions
-        {
-            std::string     search;
-            std::string     extension;
-            FileBrowserSort sort        = FileBrowserSort::Name;
-            bool            reverseSort = false;
+    //! File browser widget.
+    class FileBrowserWidget : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::filesystem::path&,
+            const std::shared_ptr<IWidget>& parent);
 
-            bool operator == (const FileBrowserOptions&) const;
-            bool operator != (const FileBrowserOptions&) const;
-        };
+        FileBrowserWidget();
 
-        //! File browser widget.
-        class FileBrowserWidget : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::filesystem::path&,
-                const std::shared_ptr<IWidget>& parent);
+    public:
+        virtual ~FileBrowserWidget();
 
-            FileBrowserWidget();
+        //! Create a new widget.
+        static std::shared_ptr<FileBrowserWidget> create(
+            const std::shared_ptr<Context>&,
+            const std::filesystem::path&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        public:
-            virtual ~FileBrowserWidget();
+        //! Set the callback.
+        void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
-            //! Create a new widget.
-            static std::shared_ptr<FileBrowserWidget> create(
-                const std::shared_ptr<Context>&,
-                const std::filesystem::path&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Set the cancel callback.
+        void setCancelCallback(const std::function<void(void)>&);
 
-            //! Set the callback.
-            void setCallback(const std::function<void(const std::filesystem::path&)>&);
+        //! Get the path.
+        std::filesystem::path getPath() const;
 
-            //! Set the cancel callback.
-            void setCancelCallback(const std::function<void(void)>&);
+        //! Get the options.
+        const FileBrowserOptions& getOptions() const;
 
-            //! Get the path.
-            std::filesystem::path getPath() const;
+        //! Set the options.
+        void setOptions(const FileBrowserOptions&);
 
-            //! Get the options.
-            const FileBrowserOptions& getOptions() const;
+        //! Set the options callback.
+        void setOptionsCallback(const std::function<void(const FileBrowserOptions&)>&);
 
-            //! Set the options.
-            void setOptions(const FileBrowserOptions&);
+        //! Get the recent files model.
+        const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
 
-            //! Set the options callback.
-            void setOptionsCallback(const std::function<void(const FileBrowserOptions&)>&);
+        //! Set the recent files model.
+        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
-            //! Get the recent files model.
-            const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
-            //! Set the recent files model.
-            void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
+    private:
+        void _setPath(const std::filesystem::path&);
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
+        void _pathUpdate();
+        void _optionsUpdate();
 
-        private:
-            void _setPath(const std::filesystem::path&);
+        DTK_PRIVATE();
+    };
 
-            void _pathUpdate();
-            void _optionsUpdate();
+    //! File browser dialog.
+    class FileBrowser : public IDialog
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::filesystem::path&,
+            const std::shared_ptr<IWidget>& parent);
 
-            DTK_PRIVATE();
-        };
+        FileBrowser();
 
-        //! File browser dialog.
-        class FileBrowser : public IDialog
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::filesystem::path&,
-                const std::shared_ptr<IWidget>& parent);
+    public:
+        virtual ~FileBrowser();
 
-            FileBrowser();
+        //! Create a new dialog.
+        static std::shared_ptr<FileBrowser> create(
+            const std::shared_ptr<Context>&,
+            const std::filesystem::path&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        public:
-            virtual ~FileBrowser();
+        //! Set the callback.
+        void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
-            //! Create a new dialog.
-            static std::shared_ptr<FileBrowser> create(
-                const std::shared_ptr<Context>&,
-                const std::filesystem::path&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Get the path.
+        std::filesystem::path getPath() const;
 
-            //! Set the callback.
-            void setCallback(const std::function<void(const std::filesystem::path&)>&);
+        //! Get the options.
+        const FileBrowserOptions& getOptions() const;
 
-            //! Get the path.
-            std::filesystem::path getPath() const;
+        //! Set the options.
+        void setOptions(const FileBrowserOptions&);
 
-            //! Get the options.
-            const FileBrowserOptions& getOptions() const;
+        //! Get the recent files model.
+        const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
 
-            //! Set the options.
-            void setOptions(const FileBrowserOptions&);
+        //! Set the recent files model.
+        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
-            //! Get the recent files model.
-            const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
+    private:
+        DTK_PRIVATE();
+    };
 
-            //! Set the recent files model.
-            void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
+    //! File browser system.
+    class FileBrowserSystem : public ISystem
+    {
+    protected:
+        FileBrowserSystem(const std::shared_ptr<Context>&);
 
-        private:
-            DTK_PRIVATE();
-        };
+    public:
+        virtual ~FileBrowserSystem();
 
-        //! File browser system.
-        class FileBrowserSystem : public ISystem
-        {
-        protected:
-            FileBrowserSystem(const std::shared_ptr<Context>&);
+        //! Create a new system.
+        static std::shared_ptr<FileBrowserSystem> create(
+            const std::shared_ptr<Context>&);
 
-        public:
-            virtual ~FileBrowserSystem();
+        //! Open the file browser.
+        void open(
+            const std::shared_ptr<IWindow>&,
+            const std::function<void(const std::filesystem::path&)>&);
 
-            //! Create a new system.
-            static std::shared_ptr<FileBrowserSystem> create(
-                const std::shared_ptr<Context>&);
+        //! Get whether the native file dialog is used.
+        bool isNativeFileDialog() const;
 
-            //! Open the file browser.
-            void open(
-                const std::shared_ptr<IWindow>&,
-                const std::function<void(const std::filesystem::path&)>&);
+        //! Set whether the native file dialog is used.
+        void setNativeFileDialog(bool);
 
-            //! Get whether the native file dialog is used.
-            bool isNativeFileDialog() const;
+        //! Get the path.
+        const std::filesystem::path& getPath() const;
 
-            //! Set whether the native file dialog is used.
-            void setNativeFileDialog(bool);
+        //! Set the path.
+        void setPath(const std::filesystem::path&);
 
-            //! Get the path.
-            const std::filesystem::path& getPath() const;
+        //! Get the options.
+        const FileBrowserOptions& getOptions() const;
 
-            //! Set the path.
-            void setPath(const std::filesystem::path&);
+        //! Set the options.
+        void setOptions(const FileBrowserOptions&);
 
-            //! Get the options.
-            const FileBrowserOptions& getOptions() const;
+        //! Get the recent files model.
+        const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
 
-            //! Set the options.
-            void setOptions(const FileBrowserOptions&);
+    private:
+        DTK_PRIVATE();
+    };
 
-            //! Get the recent files model.
-            const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
-
-        private:
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

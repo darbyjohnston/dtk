@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void colorPopup(pybind11::module_&);
-    }
+    void colorPopup(pybind11::module_&);
 }

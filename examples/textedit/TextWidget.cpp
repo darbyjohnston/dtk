@@ -5,7 +5,6 @@
 #include "TextWidget.h"
 
 using namespace dtk;
-using namespace dtk::ui;
 
 namespace dtk
 {
@@ -20,7 +19,7 @@ namespace dtk
                 const std::shared_ptr<Context>& context,
                 const std::shared_ptr<IWidget>& parent)
             {
-                ui::IWidget::_init(context, "dtk::examples::textedit::TextWidget", parent);
+                IWidget::_init(context, "dtk::examples::textedit::TextWidget", parent);
             }
 
             TextWidget::TextWidget() :

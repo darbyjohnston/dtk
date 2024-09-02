@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void fileBrowser(pybind11::module_&);
-    }
+    void fileBrowser(pybind11::module_&);
 }

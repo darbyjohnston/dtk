@@ -9,180 +9,177 @@
 
 namespace dtk
 {
-    namespace ui
+    struct ColorSwatch::Private
     {
-        struct ColorSwatch::Private
+        Color4F color;
+        bool editable = false;
+        std::function<void(const Color4F&)> callback;
+        SizeRole sizeRole = SizeRole::Swatch;
+        std::shared_ptr<ColorPopup> popup;
+
+        struct SizeData
         {
-            Color4F color;
-            bool editable = false;
-            std::function<void(const Color4F&)> callback;
-            SizeRole sizeRole = SizeRole::Swatch;
-            std::shared_ptr<ColorPopup> popup;
-
-            struct SizeData
-            {
-                bool init = true;
-                float displayScale = 0.F;
-                int size = 0;
-                int border = 0;
-            };
-            SizeData size;
-
-            struct DrawData
-            {
-                Box2I g;
-                Box2I g2;
-            };
-            DrawData draw;
+            bool init = true;
+            float displayScale = 0.F;
+            int size = 0;
+            int border = 0;
         };
+        SizeData size;
 
-        void ColorSwatch::_init(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
+        struct DrawData
         {
-            IWidget::_init(context, "dtk::ui::ColorSwatch", parent);
+            Box2I g;
+            Box2I g2;
+        };
+        DrawData draw;
+    };
+
+    void ColorSwatch::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "dtk::ColorSwatch", parent);
+    }
+
+    ColorSwatch::ColorSwatch() :
+        _p(new Private)
+    {}
+
+    ColorSwatch::~ColorSwatch()
+    {}
+
+    std::shared_ptr<ColorSwatch> ColorSwatch::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<ColorSwatch>(new ColorSwatch);
+        out->_init(context, parent);
+        return out;
+    }
+
+    const Color4F& ColorSwatch::getColor() const
+    {
+        return _p->color;
+    }
+
+    void ColorSwatch::setColor(const Color4F& value)
+    {
+        DTK_P();
+        if (value == p.color)
+            return;
+        p.color = value;
+        _setDrawUpdate();
+    }
+
+    bool ColorSwatch::isEditable() const
+    {
+        return _p->editable;
+    }
+
+    void ColorSwatch::setEditable(bool value)
+    {
+        DTK_P();
+        if (value == p.editable)
+            return;
+        p.editable = value;
+        _setMouseHoverEnabled(p.editable);
+        _setMousePressEnabled(p.editable);
+    }
+
+    void ColorSwatch::setCallback(const std::function<void(const Color4F&)>& value)
+    {
+        _p->callback = value;
+    }
+
+    SizeRole ColorSwatch::getSizeRole() const
+    {
+        return _p->sizeRole;
+    }
+
+    void ColorSwatch::setSizeRole(SizeRole value)
+    {
+        DTK_P();
+        if (value == p.sizeRole)
+            return;
+        p.sizeRole = value;
+        p.size.init = true;
+        _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
+    void ColorSwatch::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        DTK_P();
+        p.draw.g = value;
+        p.draw.g2 = margin(p.draw.g, -p.size.border);
+    }
+
+    void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        DTK_P();
+        if (p.size.init || event.displayScale != p.size.displayScale)
+        {
+            p.size.init = false;
+            p.size.displayScale = event.displayScale;
+            p.size.size = event.style->getSizeRole(p.sizeRole, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
         }
+        _setSizeHint(Size2I(p.size.size, p.size.size));
+    }
 
-        ColorSwatch::ColorSwatch() :
-            _p(new Private)
-        {}
+    void ColorSwatch::drawEvent(
+        const Box2I& drawRect,
+        const DrawEvent& event)
+    {
+        IWidget::drawEvent(drawRect, event);
+        DTK_P();
+        event.render->drawMesh(
+            border(p.draw.g, p.size.border),
+            event.style->getColorRole(ColorRole::Border));
+        event.render->drawRect(convert(p.draw.g2), p.color);
+    }
 
-        ColorSwatch::~ColorSwatch()
-        {}
-
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
+    void ColorSwatch::mousePressEvent(MouseClickEvent& event)
+    {
+        IWidget::mousePressEvent(event);
+        DTK_P();
+        if (p.editable)
         {
-            auto out = std::shared_ptr<ColorSwatch>(new ColorSwatch);
-            out->_init(context, parent);
-            return out;
+            _showPopup();
         }
+    }
 
-        const Color4F& ColorSwatch::getColor() const
+    void ColorSwatch::_showPopup()
+    {
+        DTK_P();
+        if (auto context = _getContext().lock())
         {
-            return _p->color;
-        }
-
-        void ColorSwatch::setColor(const Color4F& value)
-        {
-            DTK_P();
-            if (value == p.color)
-                return;
-            p.color = value;
-            _setDrawUpdate();
-        }
-
-        bool ColorSwatch::isEditable() const
-        {
-            return _p->editable;
-        }
-
-        void ColorSwatch::setEditable(bool value)
-        {
-            DTK_P();
-            if (value == p.editable)
-                return;
-            p.editable = value;
-            _setMouseHoverEnabled(p.editable);
-            _setMousePressEnabled(p.editable);
-        }
-
-        void ColorSwatch::setCallback(const std::function<void(const Color4F&)>& value)
-        {
-            _p->callback = value;
-        }
-
-        SizeRole ColorSwatch::getSizeRole() const
-        {
-            return _p->sizeRole;
-        }
-
-        void ColorSwatch::setSizeRole(SizeRole value)
-        {
-            DTK_P();
-            if (value == p.sizeRole)
-                return;
-            p.sizeRole = value;
-            p.size.init = true;
-            _setSizeUpdate();
-            _setDrawUpdate();
-        }
-
-        void ColorSwatch::setGeometry(const Box2I& value)
-        {
-            IWidget::setGeometry(value);
-            DTK_P();
-            p.draw.g = value;
-            p.draw.g2 = margin(p.draw.g, -p.size.border);
-        }
-
-        void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
-        {
-            IWidget::sizeHintEvent(event);
-            DTK_P();
-            if (p.size.init || event.displayScale != p.size.displayScale)
+            if (!p.popup)
             {
-                p.size.init = false;
-                p.size.displayScale = event.displayScale;
-                p.size.size = event.style->getSizeRole(p.sizeRole, p.size.displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            }
-            _setSizeHint(Size2I(p.size.size, p.size.size));
-        }
-
-        void ColorSwatch::drawEvent(
-            const Box2I& drawRect,
-            const DrawEvent& event)
-        {
-            IWidget::drawEvent(drawRect, event);
-            DTK_P();
-            event.render->drawMesh(
-                border(p.draw.g, p.size.border),
-                event.style->getColorRole(ColorRole::Border));
-            event.render->drawRect(convert(p.draw.g2), p.color);
-        }
-
-        void ColorSwatch::mousePressEvent(MouseClickEvent& event)
-        {
-            IWidget::mousePressEvent(event);
-            DTK_P();
-            if (p.editable)
-            {
-                _showPopup();
-            }
-        }
-
-        void ColorSwatch::_showPopup()
-        {
-            DTK_P();
-            if (auto context = _getContext().lock())
-            {
-                if (!p.popup)
-                {
-                    p.popup = ColorPopup::create(context, p.color);
-                    p.popup->open(getWindow(), getGeometry());
-                    p.popup->setCallback(
-                        [this](const Color4F& value)
+                p.popup = ColorPopup::create(context, p.color);
+                p.popup->open(getWindow(), getGeometry());
+                p.popup->setCallback(
+                    [this](const Color4F& value)
+                    {
+                        _p->color = value;
+                        _setDrawUpdate();
+                        if (_p->callback)
                         {
-                            _p->color = value;
-                            _setDrawUpdate();
-                            if (_p->callback)
-                            {
-                                _p->callback(value);
-                            }
-                        });
-                    p.popup->setCloseCallback(
-                        [this]
-                        {
-                            _p->popup.reset();
-                        });
-                }
-                else
-                {
-                    p.popup->close();
-                    p.popup.reset();
-                }
+                            _p->callback(value);
+                        }
+                    });
+                p.popup->setCloseCallback(
+                    [this]
+                    {
+                        _p->popup.reset();
+                    });
+            }
+            else
+            {
+                p.popup->close();
+                p.popup.reset();
             }
         }
     }

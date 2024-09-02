@@ -14,12 +14,9 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void iPopup(py::module_& m)
     {
-        void iPopup(py::module_& m)
-        {
-            py::class_<IPopup, IWidget, std::shared_ptr<IPopup> >(m, "IPopup")
-                .def("close", &IPopup::close);
-        }
+        py::class_<IPopup, IWidget, std::shared_ptr<IPopup> >(m, "IPopup")
+            .def("close", &IPopup::close);
     }
 }

@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void mdiCanvas(pybind11::module_&);
-    }
+    void mdiCanvas(pybind11::module_&);
 }

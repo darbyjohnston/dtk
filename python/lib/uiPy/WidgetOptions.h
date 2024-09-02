@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void widgetOptions(pybind11::module_&);
-    }
+    void widgetOptions(pybind11::module_&);
 }

@@ -8,71 +8,68 @@
 
 namespace dtk
 {
-    namespace ui
+    class IWindow;
+    class ScrollWidget;
+
+    //! \name Menu Widgets
+    ///@{
+
+    //! Menu popup type.
+    enum class MenuPopup
     {
-        class IWindow;
-        class ScrollWidget;
+        Menu,
+        SubMenu
+    };
 
-        //! \name Menu Widgets
-        ///@{
+    //! Base class for popup menus.
+    class IMenuPopup : public IPopup
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string& objectName,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! Menu popup type.
-        enum class MenuPopup
-        {
-            Menu,
-            SubMenu
-        };
+        IMenuPopup();
 
-        //! Base class for popup menus.
-        class IMenuPopup : public IPopup
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string& objectName,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+    public:
+        virtual ~IMenuPopup() = 0;
 
-            IMenuPopup();
+        //! Open the popup.
+        virtual void open(
+            const std::shared_ptr<IWindow>&,
+            const Box2I& buttonGeometry);
 
-        public:
-            virtual ~IMenuPopup() = 0;
+        //! Get whether the popup is open.
+        bool isOpen() const;
 
-            //! Open the popup.
-            virtual void open(
-                const std::shared_ptr<IWindow>&,
-                const Box2I& buttonGeometry);
+        //! Close the popup.
+        void close() override;
 
-            //! Get whether the popup is open.
-            bool isOpen() const;
+        //! Set the close callback.
+        void setCloseCallback(const std::function<void(void)>&);
 
-            //! Close the popup.
-            void close() override;
+        //! Set the popup type.
+        void setPopup(MenuPopup);
 
-            //! Set the close callback.
-            void setCloseCallback(const std::function<void(void)>&);
+        //! Set the popup color role.
+        void setPopupRole(ColorRole);
 
-            //! Set the popup type.
-            void setPopup(MenuPopup);
+        //! Set the widget.
+        void setWidget(const std::shared_ptr<IWidget>&);
 
-            //! Set the popup color role.
-            void setPopupRole(ColorRole);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-            //! Set the widget.
-            void setWidget(const std::shared_ptr<IWidget>&);
+    protected:
+        const std::shared_ptr<ScrollWidget>& _getScrollWidget() const;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
-
-        protected:
-            const std::shared_ptr<ScrollWidget>& _getScrollWidget() const;
-
-        private:
-            DTK_PRIVATE();
-        };
+    private:
+        DTK_PRIVATE();
+    };
         
-        ///@}
-    }
+    ///@}
 }

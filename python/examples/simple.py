@@ -3,16 +3,15 @@
 # All rights reserved.
 
 import dtk
-from dtk import dtkUI
 
 import sys
 
-class Window(dtkUI.Window):
+class Window(dtk.Window):
     def __init__(self, context, name, size):
-        dtkUI.Window.__init__(self, context, name, size)
+        dtk.Window.__init__(self, context, name, size)
     
     def drawEvent(self, drawRect, event):
-        dtkUI.Window.drawEvent(self, drawRect, event)
+        dtk.Window.drawEvent(self, drawRect, event)
         
         text = "Hello world"
         fontInfo = dtk.FontInfo()
@@ -31,7 +30,7 @@ class Window(dtkUI.Window):
             dtk.Color4F(1, 1, 1))
     
 context = dtk.Context()
-app = dtkUI.App(context, sys.argv, "simple", "Simple example")
+app = dtk.App(context, sys.argv, "simple", "Simple example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 window = Window(context, "simple", dtk.Size2I(1280, 960))

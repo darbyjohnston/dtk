@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void checkBox(pybind11::module_&);
-    }
+    void checkBox(pybind11::module_&);
 }

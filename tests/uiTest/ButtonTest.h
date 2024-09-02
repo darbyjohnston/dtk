@@ -33,8 +33,8 @@ namespace dtk
             void _test(
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<Window>&,
-                const std::shared_ptr<ui::VerticalLayout>&,
-                const std::shared_ptr<ui::IButton>&);
+                const std::shared_ptr<VerticalLayout>&,
+                const std::shared_ptr<IButton>&);
         };
     }
 }

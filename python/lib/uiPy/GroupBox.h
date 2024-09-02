@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void groupBox(pybind11::module_&);
-    }
+    void groupBox(pybind11::module_&);
 }

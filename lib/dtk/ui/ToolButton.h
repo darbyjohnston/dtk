@@ -8,49 +8,46 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Buttons
+    ///@{
+
+    //! Tool button.
+    class ToolButton : public IButton
     {
-        //! \name Buttons
-        ///@{
-        
-        //! Tool button.
-        class ToolButton : public IButton
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-            ToolButton();
+        ToolButton();
 
-        public:
-            virtual ~ToolButton();
+    public:
+        virtual ~ToolButton();
 
-            //! Create a new widget.
-            static std::shared_ptr<ToolButton> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Create a new widget.
+        static std::shared_ptr<ToolButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Create a new widget.
-            static std::shared_ptr<ToolButton> create(
-                const std::shared_ptr<Context>&,
-                const std::string& text,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Create a new widget.
+        static std::shared_ptr<ToolButton> create(
+            const std::shared_ptr<Context>&,
+            const std::string& text,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setText(const std::string&) override;
-            void setFontRole(FontRole) override;
+        void setText(const std::string&) override;
+        void setFontRole(FontRole) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const Box2I&, bool) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void clipEvent(const Box2I&, bool) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-        private:
-            DTK_PRIVATE();
-        };
-        
-        ///@}
-    }
+    private:
+        DTK_PRIVATE();
+    };
+
+    ///@}
 }

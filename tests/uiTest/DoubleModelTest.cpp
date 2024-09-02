@@ -10,8 +10,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/Math.h>
 
-using namespace dtk::ui;
-
 namespace dtk
 {
     namespace ui_test

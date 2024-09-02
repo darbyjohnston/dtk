@@ -14,24 +14,21 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void intEditSlider(py::module_& m)
     {
-        void intEditSlider(py::module_& m)
-        {
-            py::class_<IntEditSlider, IWidget, std::shared_ptr<IntEditSlider> >(m, "IntEditSlider")
-                .def(
-                    py::init(&IntEditSlider::create),
-                    py::arg("context"),
-                    py::arg("model") = nullptr,
-                    py::arg("parent") = nullptr)
-                .def_property("value", &IntEditSlider::getValue, &IntEditSlider::setValue)
-                .def("setCallback", &IntEditSlider::setCallback)
-                .def_property("range", &IntEditSlider::getRange, &IntEditSlider::setRange)
-                .def_property("step", &IntEditSlider::getStep, &IntEditSlider::setStep)
-                .def_property("largeStep", &IntEditSlider::getLargeStep, &IntEditSlider::setLargeStep)
-                .def_property("defaultValue", &IntEditSlider::getDefaultValue, &IntEditSlider::setDefaultValue)
-                .def("getModel", &IntEditSlider::getModel)
-                .def_property("fontRole", &IntEditSlider::getFontRole, &IntEditSlider::setFontRole);
-        }
+        py::class_<IntEditSlider, IWidget, std::shared_ptr<IntEditSlider> >(m, "IntEditSlider")
+            .def(
+                py::init(&IntEditSlider::create),
+                py::arg("context"),
+                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def_property("value", &IntEditSlider::getValue, &IntEditSlider::setValue)
+            .def("setCallback", &IntEditSlider::setCallback)
+            .def_property("range", &IntEditSlider::getRange, &IntEditSlider::setRange)
+            .def_property("step", &IntEditSlider::getStep, &IntEditSlider::setStep)
+            .def_property("largeStep", &IntEditSlider::getLargeStep, &IntEditSlider::setLargeStep)
+            .def_property("defaultValue", &IntEditSlider::getDefaultValue, &IntEditSlider::setDefaultValue)
+            .def("getModel", &IntEditSlider::getModel)
+            .def_property("fontRole", &IntEditSlider::getFontRole, &IntEditSlider::setFontRole);
     }
 }

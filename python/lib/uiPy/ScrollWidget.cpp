@@ -13,24 +13,21 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void scrollWidget(py::module_& m)
     {
-        void scrollWidget(py::module_& m)
-        {
-            py::class_<ScrollWidget, IWidget, std::shared_ptr<ScrollWidget> >(m, "ScrollWidget")
-                .def(
-                    py::init(&ScrollWidget::create),
-                    py::arg("context"),
-                    py::arg("type"),
-                    py::arg("parent") = nullptr)
-                .def_property("widget", &ScrollWidget::getWidget, &ScrollWidget::setWidget)
-                .def_property_readonly("viewport", &ScrollWidget::getViewport)
-                .def_property("scrollPos", &ScrollWidget::getScrollPos, &ScrollWidget::setScrollPos)
-                .def("setScrollPosCallback", &ScrollWidget::setScrollPosCallback)
-                .def_property("scrollBarsVisible", &ScrollWidget::areScrollBarsVisible, &ScrollWidget::setScrollBarsVisible)
-                .def("setScrollEventsEnabled", &ScrollWidget::setScrollEventsEnabled)
-                .def_property("border", &ScrollWidget::hasBorder, &ScrollWidget::setBorder)
-                .def_property("marginRole", &ScrollWidget::getMarginRole, &ScrollWidget::setMarginRole);
-        }
+        py::class_<ScrollWidget, IWidget, std::shared_ptr<ScrollWidget> >(m, "ScrollWidget")
+            .def(
+                py::init(&ScrollWidget::create),
+                py::arg("context"),
+                py::arg("type"),
+                py::arg("parent") = nullptr)
+            .def_property("widget", &ScrollWidget::getWidget, &ScrollWidget::setWidget)
+            .def_property_readonly("viewport", &ScrollWidget::getViewport)
+            .def_property("scrollPos", &ScrollWidget::getScrollPos, &ScrollWidget::setScrollPos)
+            .def("setScrollPosCallback", &ScrollWidget::setScrollPosCallback)
+            .def_property("scrollBarsVisible", &ScrollWidget::areScrollBarsVisible, &ScrollWidget::setScrollBarsVisible)
+            .def("setScrollEventsEnabled", &ScrollWidget::setScrollEventsEnabled)
+            .def_property("border", &ScrollWidget::hasBorder, &ScrollWidget::setBorder)
+            .def_property("marginRole", &ScrollWidget::getMarginRole, &ScrollWidget::setMarginRole);
     }
 }

@@ -14,19 +14,16 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void colorSwatch(py::module_& m)
     {
-        void colorSwatch(py::module_& m)
-        {
-            py::class_<ColorSwatch, IWidget, std::shared_ptr<ColorSwatch> >(m, "ColorSwatch")
-                .def(
-                    py::init(&ColorSwatch::create),
-                    py::arg("context"),
-                    py::arg("parent") = nullptr)
-                .def_property("color", &ColorSwatch::getColor, &ColorSwatch::setColor)
-                .def_property("editable", &ColorSwatch::isEditable, &ColorSwatch::setEditable)
-                .def("setCallback", &ColorSwatch::setCallback)
-                .def_property("sizeRole", &ColorSwatch::getSizeRole, &ColorSwatch::setSizeRole);
-        }
+        py::class_<ColorSwatch, IWidget, std::shared_ptr<ColorSwatch> >(m, "ColorSwatch")
+            .def(
+                py::init(&ColorSwatch::create),
+                py::arg("context"),
+                py::arg("parent") = nullptr)
+            .def_property("color", &ColorSwatch::getColor, &ColorSwatch::setColor)
+            .def_property("editable", &ColorSwatch::isEditable, &ColorSwatch::setEditable)
+            .def("setCallback", &ColorSwatch::setCallback)
+            .def_property("sizeRole", &ColorSwatch::getSizeRole, &ColorSwatch::setSizeRole);
     }
 }

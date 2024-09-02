@@ -11,150 +11,147 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Style
+    ///@{
+
+    //! Size roles.
+    enum class SizeRole
     {
-        //! \name Style
-        ///@{
-        
-        //! Size roles.
-        enum class SizeRole
-        {
-            None,
-            Margin,
-            MarginSmall,
-            MarginLarge,
-            MarginInside,
-            MarginDialog,
-            Spacing,
-            SpacingSmall,
-            SpacingLarge,
-            SpacingTool,
-            Border,
-            BorderFocus,
-            ScrollArea,
-            Slider,
-            Handle,
-            HandleSmall,
-            Swatch,
-            SwatchLarge,
-            Shadow,
-            DragLength,
+        None,
+        Margin,
+        MarginSmall,
+        MarginLarge,
+        MarginInside,
+        MarginDialog,
+        Spacing,
+        SpacingSmall,
+        SpacingLarge,
+        SpacingTool,
+        Border,
+        BorderFocus,
+        ScrollArea,
+        Slider,
+        Handle,
+        HandleSmall,
+        Swatch,
+        SwatchLarge,
+        Shadow,
+        DragLength,
 
-            Count,
-            First = None
-        };
-        DTK_ENUM(SizeRole);
+        Count,
+        First = None
+    };
+    DTK_ENUM(SizeRole);
 
-        //! Get the default size roles.
-        std::map<SizeRole, int> defaultSizeRoles();
+    //! Get the default size roles.
+    std::map<SizeRole, int> defaultSizeRoles();
 
-        //! Color roles.
-        enum class ColorRole
-        {
-            None,
+    //! Color roles.
+    enum class ColorRole
+    {
+        None,
 
-            Window,
-            Base,
-            Button,
-            Text,
-            TextDisabled,
-            Border,
-            Hover,
-            Pressed,
-            Checked,
-            KeyFocus,
-            Overlay,
-            TooltipWindow,
-            TooltipText,
-            
-            Red,
-            Green,
-            Blue,
-            Cyan,
-            Magenta,
-            Yellow,
+        Window,
+        Base,
+        Button,
+        Text,
+        TextDisabled,
+        Border,
+        Hover,
+        Pressed,
+        Checked,
+        KeyFocus,
+        Overlay,
+        TooltipWindow,
+        TooltipText,
 
-            Count,
-            First = None
-        };
-        DTK_ENUM(ColorRole);
+        Red,
+        Green,
+        Blue,
+        Cyan,
+        Magenta,
+        Yellow,
 
-        //! Get default color roles.
-        std::map<ColorRole, Color4F> defaultColorRoles();
+        Count,
+        First = None
+    };
+    DTK_ENUM(ColorRole);
 
-        //! Font roles.
-        enum class FontRole
-        {
-            None,
-            Label,
-            Mono,
-            Title,
+    //! Get default color roles.
+    std::map<ColorRole, Color4F> defaultColorRoles();
 
-            Count,
-            First = None
-        };
-        DTK_ENUM(FontRole);
+    //! Font roles.
+    enum class FontRole
+    {
+        None,
+        Label,
+        Mono,
+        Title,
 
-        //! Get default font roles.
-        std::map<FontRole, FontInfo> defaultFontRoles();
+        Count,
+        First = None
+    };
+    DTK_ENUM(FontRole);
 
-        //! Style.
-        class Style : public std::enable_shared_from_this<Style>
-        {
-            DTK_NON_COPYABLE(Style);
+    //! Get default font roles.
+    std::map<FontRole, FontInfo> defaultFontRoles();
 
-        protected:
-            void _init(const std::shared_ptr<Context>&);
+    //! Style.
+    class Style : public std::enable_shared_from_this<Style>
+    {
+        DTK_NON_COPYABLE(Style);
 
-            Style();
+    protected:
+        void _init(const std::shared_ptr<Context>&);
 
-        public:
-            ~Style();
+        Style();
 
-            //! Create a new style.
-            static std::shared_ptr<Style> create(
-                const std::shared_ptr<Context>&);
+    public:
+        ~Style();
 
-            //! Get a size role.
-            int getSizeRole(SizeRole, float scale) const;
+        //! Create a new style.
+        static std::shared_ptr<Style> create(
+            const std::shared_ptr<Context>&);
 
-            //! Set a size role.
-            void setSizeRole(SizeRole, int);
+        //! Get a size role.
+        int getSizeRole(SizeRole, float scale) const;
 
-            //! Set the size roles.
-            void setSizeRoles(const std::map<SizeRole, int>&);
+        //! Set a size role.
+        void setSizeRole(SizeRole, int);
 
-            //! Get a color role.
-            Color4F getColorRole(ColorRole) const;
+        //! Set the size roles.
+        void setSizeRoles(const std::map<SizeRole, int>&);
 
-            //! Set a color role.
-            void setColorRole(ColorRole, const Color4F&);
+        //! Get a color role.
+        Color4F getColorRole(ColorRole) const;
 
-            //! Set the color roles.
-            void setColorRoles(const std::map<ColorRole, Color4F>&);
+        //! Set a color role.
+        void setColorRole(ColorRole, const Color4F&);
 
-            //! Get a font role.
-            FontInfo getFontRole(FontRole, float scale) const;
+        //! Set the color roles.
+        void setColorRoles(const std::map<ColorRole, Color4F>&);
 
-            //! Set a font role.
-            void setFontRole(FontRole, const FontInfo&);
+        //! Get a font role.
+        FontInfo getFontRole(FontRole, float scale) const;
 
-            //! Set the font roles.
-            void setFontRoles(const std::map<FontRole, FontInfo>&);
+        //! Set a font role.
+        void setFontRole(FontRole, const FontInfo&);
 
-            //! Observe style changes.
-            std::shared_ptr<IObservableValue<bool> > observeChanged() const;
+        //! Set the font roles.
+        void setFontRoles(const std::map<FontRole, FontInfo>&);
 
-        private:
-            std::map<SizeRole, int> _sizeRoles;
-            std::map<ColorRole, Color4F> _colorRoles;
-            std::map<FontRole, FontInfo> _fontRoles;
+        //! Observe style changes.
+        std::shared_ptr<IObservableValue<bool> > observeChanged() const;
 
-            DTK_PRIVATE();
-        };
-        
-        ///@}
-    }
+    private:
+        std::map<SizeRole, int> _sizeRoles;
+        std::map<ColorRole, Color4F> _colorRoles;
+        std::map<FontRole, FontInfo> _fontRoles;
+
+        DTK_PRIVATE();
+    };
+
+    ///@}
 }
 
 #include <dtk/ui/StyleInline.h>

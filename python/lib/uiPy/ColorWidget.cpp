@@ -14,17 +14,14 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void colorWidget(py::module_& m)
     {
-        void colorWidget(py::module_& m)
-        {
-            py::class_<ColorWidget, IWidget, std::shared_ptr<ColorWidget> >(m, "ColorWidget")
-                .def(
-                    py::init(&ColorWidget::create),
-                    py::arg("context"),
-                    py::arg("parent") = nullptr)
-                .def_property("color", &ColorWidget::getColor, &ColorWidget::setColor)
-                .def("setCallback", &ColorWidget::setCallback);
-        }
+        py::class_<ColorWidget, IWidget, std::shared_ptr<ColorWidget> >(m, "ColorWidget")
+            .def(
+                py::init(&ColorWidget::create),
+                py::arg("context"),
+                py::arg("parent") = nullptr)
+            .def_property("color", &ColorWidget::getColor, &ColorWidget::setColor)
+            .def("setCallback", &ColorWidget::setCallback);
     }
 }

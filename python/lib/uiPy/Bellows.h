@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void bellows(pybind11::module_&);
-    }
+    void bellows(pybind11::module_&);
 }

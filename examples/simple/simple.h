@@ -12,7 +12,7 @@ namespace dtk
     {
         namespace simple
         {
-            class Window : public ui::Window
+            class Window : public dtk::Window
             {
             protected:
                 Window() = default;
@@ -25,7 +25,7 @@ namespace dtk
                     const std::string& name,
                     const Size2I&);
 
-                void drawEvent(const Box2I&, const ui::DrawEvent&) override;
+                void drawEvent(const Box2I&, const DrawEvent&) override;
             };
         }
     }

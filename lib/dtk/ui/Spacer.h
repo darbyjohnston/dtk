@@ -8,43 +8,40 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Layouts
+    ///@{
+
+    //! Spacer widget.
+    class Spacer : public IWidget
     {
-        //! \name Layouts
-        ///@{
-        
-        //! Spacer widget.
-        class Spacer : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                Orientation,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            Orientation,
+            const std::shared_ptr<IWidget>& parent);
 
-            Spacer();
+        Spacer();
 
-        public:
-            virtual ~Spacer();
+    public:
+        virtual ~Spacer();
 
-            //! Create a new widget.
-            static std::shared_ptr<Spacer> create(
-                const std::shared_ptr<Context>&,
-                Orientation,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Create a new widget.
+        static std::shared_ptr<Spacer> create(
+            const std::shared_ptr<Context>&,
+            Orientation,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Get the spacing role.
-            SizeRole getSpacingRole() const;
+        //! Get the spacing role.
+        SizeRole getSpacingRole() const;
 
-            //! Set the spacing role.
-            void setSpacingRole(SizeRole);
+        //! Set the spacing role.
+        void setSpacingRole(SizeRole);
 
-            void sizeHintEvent(const SizeHintEvent&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
-        private:
-            DTK_PRIVATE();
-        };
-        
-        ///@}
-    }
+    private:
+        DTK_PRIVATE();
+    };
+
+    ///@}
 }

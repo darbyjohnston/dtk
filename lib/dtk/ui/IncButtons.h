@@ -8,72 +8,69 @@
 
 namespace dtk
 {
-    namespace ui
+    class DoubleModel;
+    class FloatModel;
+    class IntModel;
+
+    //! \name Buttons
+    ///@{
+
+    //! Button for incrementing a value.
+    class IncButton : public IButton
     {
-        class DoubleModel;
-        class FloatModel;
-        class IntModel;
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! \name Buttons
-        ///@{
+        IncButton();
 
-        //! Button for incrementing a value.
-        class IncButton : public IButton
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    public:
+        virtual ~IncButton();
 
-            IncButton();
+        //! Create a new widget.
+        static std::shared_ptr<IncButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        public:
-            virtual ~IncButton();
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
 
-            //! Create a new widget.
-            static std::shared_ptr<IncButton> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+    private:
+        DTK_PRIVATE();
+    };
 
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
+    //! Buttons for incrementing and decrementing a value.
+    class IncButtons : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        private:
-            DTK_PRIVATE();
-        };
+        IncButtons();
 
-        //! Buttons for incrementing and decrementing a value.
-        class IncButtons : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    public:
+        virtual ~IncButtons();
 
-            IncButtons();
+        //! Create a new widget.
+        static std::shared_ptr<IncButtons> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        public:
-            virtual ~IncButtons();
+        //! Set the increment callback.
+        void setIncCallback(const std::function<void(void)>&);
 
-            //! Create a new widget.
-            static std::shared_ptr<IncButtons> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Set the decrement callback.
+        void setDecCallback(const std::function<void(void)>&);
 
-            //! Set the increment callback.
-            void setIncCallback(const std::function<void(void)>&);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
-            //! Set the decrement callback.
-            void setDecCallback(const std::function<void(void)>&);
-
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-
-        protected:
-            std::shared_ptr<IncButton> _incButton;
-            std::shared_ptr<IncButton> _decButton;
-        };
+    protected:
+        std::shared_ptr<IncButton> _incButton;
+        std::shared_ptr<IncButton> _decButton;
+    };
         
-        ///@}
-    }
+    ///@}
 }

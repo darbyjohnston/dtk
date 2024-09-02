@@ -9,73 +9,70 @@
 
 namespace dtk
 {
-    namespace ui
+    struct IDockWidget::Private
     {
-        struct IDockWidget::Private
-        {
-        };
+    };
 
-        void IDockWidget::_init(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
-        {
-            IWidget::_init(context, "dtk::ui::IDockWidget", parent);
-            DTK_P();
-        }
+    void IDockWidget::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "dtk::IDockWidget", parent);
+        DTK_P();
+    }
 
-        IDockWidget::IDockWidget() :
-            _p(new Private)
-        {}
+    IDockWidget::IDockWidget() :
+        _p(new Private)
+    {}
 
-        IDockWidget::~IDockWidget()
-        {}
+    IDockWidget::~IDockWidget()
+    {}
 
-        void IDockWidget::setGeometry(const Box2I& value)
-        {
-            IWidget::setGeometry(value);
-        }
+    void IDockWidget::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+    }
 
-        void IDockWidget::sizeHintEvent(const SizeHintEvent& event)
-        {
-            IWidget::sizeHintEvent(event);
-        }
+    void IDockWidget::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+    }
 
-        struct DockLayout::Private
-        {
-        };
+    struct DockLayout::Private
+    {
+    };
 
-        void DockLayout::_init(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
-        {
-            IWidget::_init(context, "dtk::ui::DockLayout", parent);
-            DTK_P();
-        }
+    void DockLayout::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "dtk::DockLayout", parent);
+        DTK_P();
+    }
 
-        DockLayout::DockLayout() :
-            _p(new Private)
-        {}
+    DockLayout::DockLayout() :
+        _p(new Private)
+    {}
 
-        DockLayout::~DockLayout()
-        {}
+    DockLayout::~DockLayout()
+    {}
 
-        std::shared_ptr<DockLayout> DockLayout::create(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
-        {
-            auto out = std::shared_ptr<DockLayout>(new DockLayout);
-            out->_init(context, parent);
-            return out;
-        }
+    std::shared_ptr<DockLayout> DockLayout::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<DockLayout>(new DockLayout);
+        out->_init(context, parent);
+        return out;
+    }
 
-        void DockLayout::setGeometry(const Box2I& value)
-        {
-            IWidget::setGeometry(value);
-        }
+    void DockLayout::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+    }
 
-        void DockLayout::sizeHintEvent(const SizeHintEvent& event)
-        {
-            IWidget::sizeHintEvent(event);
-        }
+    void DockLayout::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
     }
 }

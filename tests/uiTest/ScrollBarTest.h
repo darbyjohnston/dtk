@@ -33,8 +33,8 @@ namespace dtk
                 const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<Window>&,
-                const std::shared_ptr<ui::VerticalLayout>&,
-                ui::Orientation);
+                const std::shared_ptr<VerticalLayout>&,
+                Orientation);
         };
     }
 }

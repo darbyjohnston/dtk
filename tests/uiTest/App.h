@@ -11,14 +11,10 @@
 namespace dtk
 {
     class FontSystem;
-
-    namespace ui
-    {
-        class IWidget;
-        class IconLibrary;
-        class Style;
-        class TickEvent;
-    }
+    class IWidget;
+    class IconLibrary;
+    class Style;
+    class TickEvent;
 
     namespace ui_test
     {
@@ -53,8 +49,8 @@ namespace dtk
             const std::list<std::shared_ptr<Window> >& getWindows() const;
 
             const std::shared_ptr<FontSystem>& getFontSystem() const;
-            const std::shared_ptr<ui::Style>& getStyle() const;
-            const std::shared_ptr<ui::IconLibrary>& getIconLibrary() const;
+            const std::shared_ptr<Style>& getStyle() const;
+            const std::shared_ptr<IconLibrary>& getIconLibrary() const;
             void setDisplayScale(float);
 
             void tick(size_t count = 1);
@@ -64,10 +60,10 @@ namespace dtk
 
         private:
             void _tickRecursive(
-                const std::shared_ptr<ui::IWidget>&,
+                const std::shared_ptr<IWidget>&,
                 bool visible,
                 bool enabled,
-                const ui::TickEvent&);
+                const TickEvent&);
             
             void _log();
 

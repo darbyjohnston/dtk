@@ -9,61 +9,58 @@
 
 namespace dtk
 {
-    namespace ui
+    struct ColorPopup::Private
     {
-        struct ColorPopup::Private
-        {
-            std::shared_ptr<ColorWidget> widget;
-            std::shared_ptr<VerticalLayout> layout;
-            std::function<void(const Color4F&)> callback;
-        };
+        std::shared_ptr<ColorWidget> widget;
+        std::shared_ptr<VerticalLayout> layout;
+        std::function<void(const Color4F&)> callback;
+    };
 
-        void ColorPopup::_init(
-            const std::shared_ptr<Context>& context,
-            const Color4F& color,
-            const std::shared_ptr<IWidget>& parent)
-        {
-            IWidgetPopup::_init(context, "dtk::ui::ColorPopup", parent);
-            DTK_P();
+    void ColorPopup::_init(
+        const std::shared_ptr<Context>& context,
+        const Color4F& color,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidgetPopup::_init(context, "dtk::ColorPopup", parent);
+        DTK_P();
 
-            p.widget = ColorWidget::create(context);
-            p.widget->setColor(color);
+        p.widget = ColorWidget::create(context);
+        p.widget->setColor(color);
 
-            p.layout = VerticalLayout::create(context);
-            p.layout->setMarginRole(SizeRole::MarginSmall);
-            p.widget->setParent(p.layout);
-            setWidget(p.layout);
+        p.layout = VerticalLayout::create(context);
+        p.layout->setMarginRole(SizeRole::MarginSmall);
+        p.widget->setParent(p.layout);
+        setWidget(p.layout);
 
-            p.widget->setCallback(
-                [this](const Color4F& value)
+        p.widget->setCallback(
+            [this](const Color4F& value)
+            {
+                if (_p->callback)
                 {
-                    if (_p->callback)
-                    {
-                        _p->callback(value);
-                    }
-                });
-        }
+                    _p->callback(value);
+                }
+            });
+    }
 
-        ColorPopup::ColorPopup() :
-            _p(new Private)
-        {}
+    ColorPopup::ColorPopup() :
+        _p(new Private)
+    {}
 
-        ColorPopup::~ColorPopup()
-        {}
+    ColorPopup::~ColorPopup()
+    {}
 
-        std::shared_ptr<ColorPopup> ColorPopup::create(
-            const std::shared_ptr<Context>& context,
-            const Color4F& color,
-            const std::shared_ptr<IWidget>& parent)
-        {
-            auto out = std::shared_ptr<ColorPopup>(new ColorPopup);
-            out->_init(context, color, parent);
-            return out;
-        }
+    std::shared_ptr<ColorPopup> ColorPopup::create(
+        const std::shared_ptr<Context>& context,
+        const Color4F& color,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<ColorPopup>(new ColorPopup);
+        out->_init(context, color, parent);
+        return out;
+    }
 
-        void ColorPopup::setCallback(const std::function<void(const Color4F&)>& value)
-        {
-            _p->callback = value;
-        }
+    void ColorPopup::setCallback(const std::function<void(const Color4F&)>& value)
+    {
+        _p->callback = value;
     }
 }

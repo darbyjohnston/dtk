@@ -6,17 +6,14 @@
 
 namespace dtk
 {
-    namespace ui
+    void IClipboard::_init(const std::shared_ptr<Context>& context)
     {
-        void IClipboard::_init(const std::shared_ptr<Context>& context)
-        {
-            _context = context;
-        }
-
-        IClipboard::IClipboard()
-        {}
-
-        IClipboard::~IClipboard()
-        {}
+        _context = context;
     }
+
+    IClipboard::IClipboard()
+    {}
+
+    IClipboard::~IClipboard()
+    {}
 }

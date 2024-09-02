@@ -14,17 +14,14 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void colorPopup(py::module_& m)
     {
-        void colorPopup(py::module_& m)
-        {
-            py::class_<ColorPopup, IWidgetPopup, std::shared_ptr<ColorPopup> >(m, "ColorPopup")
-                .def(
-                    py::init(&ColorPopup::create),
-                    py::arg("context"),
-                    py::arg("color"),
-                    py::arg("parent") = nullptr)
-                .def("setCallback", &ColorPopup::setCallback);
-        }
+        py::class_<ColorPopup, IWidgetPopup, std::shared_ptr<ColorPopup> >(m, "ColorPopup")
+            .def(
+                py::init(&ColorPopup::create),
+                py::arg("context"),
+                py::arg("color"),
+                py::arg("parent") = nullptr)
+            .def("setCallback", &ColorPopup::setCallback);
     }
 }

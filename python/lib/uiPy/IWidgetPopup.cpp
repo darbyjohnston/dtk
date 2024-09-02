@@ -15,16 +15,13 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void iWidgetPopup(py::module_& m)
     {
-        void iWidgetPopup(py::module_& m)
-        {
-            py::class_<IWidgetPopup, IPopup, std::shared_ptr<IWidgetPopup> >(m, "IWidgetPopup")
-                .def("open", &IWidgetPopup::open)
-                .def_property_readonly("isOpen", &IWidgetPopup::isOpen)
-                .def("setCloseCallback", &IWidgetPopup::setCloseCallback)
-                .def_property("widget", &IWidgetPopup::getWidget, &IWidgetPopup::setWidget)
-                .def_property("popupRole", &IWidgetPopup::getPopupRole, &IWidgetPopup::setPopupRole);
-        }
+        py::class_<IWidgetPopup, IPopup, std::shared_ptr<IWidgetPopup> >(m, "IWidgetPopup")
+            .def("open", &IWidgetPopup::open)
+            .def_property_readonly("isOpen", &IWidgetPopup::isOpen)
+            .def("setCloseCallback", &IWidgetPopup::setCloseCallback)
+            .def_property("widget", &IWidgetPopup::getWidget, &IWidgetPopup::setWidget)
+            .def_property("popupRole", &IWidgetPopup::getPopupRole, &IWidgetPopup::setPopupRole);
     }
 }

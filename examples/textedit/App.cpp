@@ -14,7 +14,6 @@
 #include <dtk/core/FileIO.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 namespace dtk
 {
@@ -26,7 +25,7 @@ namespace dtk
                 const std::shared_ptr<Context>& context,
                 std::vector<std::string>& argv)
             {
-                ui::App::_init(
+                dtk::App::_init(
                     context,
                     argv,
                     "textedit",

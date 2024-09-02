@@ -3,38 +3,37 @@
 # All rights reserved.
 
 import dtk
-from dtk import dtkUI
 
 import sys
         
 context = dtk.Context()
-app = dtkUI.App(context, sys.argv, "buttons", "Buttons example")
+app = dtk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = dtkUI.Window(context, "buttons", dtk.Size2I(1280, 960))
+window = dtk.Window(context, "buttons", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
-layout = dtkUI.VerticalLayout(context)
-layout.spacingRole = dtkUI.SizeRole.SizeRoleNone
-scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both, window)
+layout = dtk.VerticalLayout(context)
+layout.spacingRole = dtk.SizeRole.SizeRoleNone
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout;
 
 # Add a bellows.
-vLayout = dtkUI.VerticalLayout(context)
-vLayout.marginRole = dtkUI.SizeRole.Margin
-vLayout.spacingRole = dtkUI.SizeRole.SpacingSmall
+vLayout = dtk.VerticalLayout(context)
+vLayout.marginRole = dtk.SizeRole.Margin
+vLayout.spacingRole = dtk.SizeRole.SpacingSmall
 for i in range(0, 10):
-    dtkUI.PushButton(context, "Push Button {}".format(i), vLayout)
-bellows = dtkUI.Bellows(context, "Push Buttons", layout)
+    dtk.PushButton(context, "Push Button {}".format(i), vLayout)
+bellows = dtk.Bellows(context, "Push Buttons", layout)
 bellows.widget = vLayout
 
 # Add a bellows.
-vLayout = dtkUI.VerticalLayout(context)
-vLayout.marginRole = dtkUI.SizeRole.Margin
-vLayout.spacingRole = dtkUI.SizeRole.SizeRoleNone
+vLayout = dtk.VerticalLayout(context)
+vLayout.marginRole = dtk.SizeRole.Margin
+vLayout.spacingRole = dtk.SizeRole.SizeRoleNone
 icons = [
     "Audio",
     "Close",
@@ -48,19 +47,19 @@ icons = [
     "Volume"
 ]
 for i in range(0, 10):
-    button = dtkUI.ToolButton(context, "Tool Button {}".format(i), vLayout)
+    button = dtk.ToolButton(context, "Tool Button {}".format(i), vLayout)
     if i < len(icons):
         button.icon = icons[i]
-bellows = dtkUI.Bellows(context, "Tool Buttons", layout)
+bellows = dtk.Bellows(context, "Tool Buttons", layout)
 bellows.widget = vLayout
 
 # Add a bellows.
-vLayout = dtkUI.VerticalLayout(context)
-vLayout.marginRole = dtkUI.SizeRole.Margin
-vLayout.spacingRole = dtkUI.SizeRole.SizeRoleNone
+vLayout = dtk.VerticalLayout(context)
+vLayout.marginRole = dtk.SizeRole.Margin
+vLayout.spacingRole = dtk.SizeRole.SizeRoleNone
 for i in range(0, 10):
-    dtkUI.CheckBox(context, "Check Box {}".format(i), vLayout)
-bellows = dtkUI.Bellows(context, "Check Boxes", layout)
+    dtk.CheckBox(context, "Check Box {}".format(i), vLayout)
+bellows = dtk.Bellows(context, "Check Boxes", layout)
 bellows.widget = vLayout
 
 window.show()

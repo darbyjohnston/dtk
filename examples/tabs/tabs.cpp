@@ -14,7 +14,6 @@
 #include <dtk/core/Format.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 DTK_MAIN()
 {

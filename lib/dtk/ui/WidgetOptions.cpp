@@ -12,29 +12,25 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        DTK_ENUM_IMPL(
-            Orientation,
-            "Horizontal",
-            "Vertical");
+    DTK_ENUM_IMPL(
+        Orientation,
+        "Horizontal",
+        "Vertical");
 
-        DTK_ENUM_IMPL(
-            Stretch,
-            "Fixed",
-            "Expanding");
+    DTK_ENUM_IMPL(
+        Stretch,
+        "Fixed",
+        "Expanding");
 
-        DTK_ENUM_IMPL(
-            HAlign,
-            "Left",
-            "Center",
-            "Right");
+    DTK_ENUM_IMPL(
+        HAlign,
+        "Left",
+        "Center",
+        "Right");
 
-        DTK_ENUM_IMPL(
-            VAlign,
-            "Top",
-            "Center",
-            "Bottom");
-    }
+    DTK_ENUM_IMPL(
+        VAlign,
+        "Top",
+        "Center",
+        "Bottom");
 }
-

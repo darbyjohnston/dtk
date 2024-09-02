@@ -12,7 +12,7 @@ namespace dtk
     {
         namespace dnd
         {
-            class DragAndDropData : public ui::DragAndDropData
+            class DragAndDropData : public dtk::DragAndDropData
             {
             public:
                 DragAndDropData(int);
@@ -25,7 +25,7 @@ namespace dtk
                 int _number = 0;
             };
 
-            class DragAndDropWidget : public ui::IWidget
+            class DragAndDropWidget : public IWidget
             {
             protected:
                 void _init(
@@ -44,22 +44,22 @@ namespace dtk
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
                 void setGeometry(const Box2I&) override;
-                void sizeHintEvent(const ui::SizeHintEvent&) override;
-                void drawEvent(const Box2I&, const ui::DrawEvent&) override;
+                void sizeHintEvent(const SizeHintEvent&) override;
+                void drawEvent(const Box2I&, const DrawEvent&) override;
                 void mouseEnterEvent() override;
                 void mouseLeaveEvent() override;
-                void mouseMoveEvent(ui::MouseMoveEvent&) override;
-                void mousePressEvent(ui::MouseClickEvent&) override;
-                void mouseReleaseEvent(ui::MouseClickEvent&) override;
-                void dragEnterEvent(ui::DragAndDropEvent&) override;
-                void dragLeaveEvent(ui::DragAndDropEvent&) override;
-                void dropEvent(ui::DragAndDropEvent&) override;
+                void mouseMoveEvent(MouseMoveEvent&) override;
+                void mousePressEvent(MouseClickEvent&) override;
+                void mouseReleaseEvent(MouseClickEvent&) override;
+                void dragEnterEvent(DragAndDropEvent&) override;
+                void dragLeaveEvent(DragAndDropEvent&) override;
+                void dropEvent(DragAndDropEvent&) override;
 
             private:
                 void _textUpdate();
 
                 int _number = 0;
-                std::shared_ptr<ui::Label> _label;
+                std::shared_ptr<Label> _label;
                 int _border = 0;
                 int _dragLength = 0;
                 bool _dropTarget = false;;

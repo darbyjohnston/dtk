@@ -8,90 +8,87 @@
 
 namespace dtk
 {
-    namespace ui
+    class MDICanvas;
+
+    //! \name MDI Widgets
+    ///@{
+
+    //! MDI resize directions.
+    enum class MDIResize
     {
-        class MDICanvas;
+        None,
+        North,
+        NorthEast,
+        East,
+        SouthEast,
+        South,
+        SouthWest,
+        West,
+        NorthWest,
 
-        //! \name MDI Widgets
-        ///@{
+        Count,
+        First = North
+    };
+    DTK_ENUM(MDIResize);
 
-        //! MDI resize directions.
-        enum class MDIResize
-        {
-            None,
-            North,
-            NorthEast,
-            East,
-            SouthEast,
-            South,
-            SouthWest,
-            West,
-            NorthWest,
+    //! MDI widget.
+    class MDIWidget : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string& title,
+            const std::shared_ptr<IWidget>& parent);
 
-            Count,
-            First = North
-        };
-        DTK_ENUM(MDIResize);
+        MDIWidget();
 
-        //! MDI widget.
-        class MDIWidget : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string& title,
-                const std::shared_ptr<IWidget>& parent);
+    public:
+        virtual ~MDIWidget();
 
-            MDIWidget();
+        //! Create a new widget.
+        static std::shared_ptr<MDIWidget> create(
+            const std::shared_ptr<Context>&,
+            const std::string& title,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        public:
-            virtual ~MDIWidget();
+        //! Get the title.
+        const std::string& getTitle() const;
 
-            //! Create a new widget.
-            static std::shared_ptr<MDIWidget> create(
-                const std::shared_ptr<Context>&,
-                const std::string& title,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Set the title.
+        void setTitle(const std::string&);
 
-            //! Get the title.
-            const std::string& getTitle() const;
+        //! Get the widget.
+        const std::shared_ptr<IWidget>& getWidget() const;
 
-            //! Set the title.
-            void setTitle(const std::string&);
+        //! Set the widget.
+        void setWidget(const std::shared_ptr<IWidget>&);
 
-            //! Get the widget.
-            const std::shared_ptr<IWidget>& getWidget() const;
+        //! Set the press callback.
+        void setPressCallback(const std::function<void(bool)>&);
 
-            //! Set the widget.
-            void setWidget(const std::shared_ptr<IWidget>&);
+        //! Set the move callback.
+        void setMoveCallback(const std::function<void(const V2I&)>&);
 
-            //! Set the press callback.
-            void setPressCallback(const std::function<void(bool)>&);
+        //! Set the resize callback.
+        void setResizeCallback(const std::function<void(MDIResize, const V2I&)>&);
 
-            //! Set the move callback.
-            void setMoveCallback(const std::function<void(const V2I&)>&);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void mouseLeaveEvent() override;
+        void mouseMoveEvent(MouseMoveEvent&) override;
+        void mousePressEvent(MouseClickEvent&) override;
+        void mouseReleaseEvent(MouseClickEvent&) override;
 
-            //! Set the resize callback.
-            void setResizeCallback(const std::function<void(MDIResize, const V2I&)>&);
+    private:
+        Box2I _addMargins(const Box2I&) const;
+        Box2I _removeMargins(const Box2I&) const;
+        Size2I _removeMargins(const Size2I&) const;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void mouseLeaveEvent() override;
-            void mouseMoveEvent(MouseMoveEvent&) override;
-            void mousePressEvent(MouseClickEvent&) override;
-            void mouseReleaseEvent(MouseClickEvent&) override;
+        friend class MDICanvas;
 
-        private:
-            Box2I _addMargins(const Box2I&) const;
-            Box2I _removeMargins(const Box2I&) const;
-            Size2I _removeMargins(const Size2I&) const;
+        DTK_PRIVATE();
+    };
 
-            friend class MDICanvas;
-
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

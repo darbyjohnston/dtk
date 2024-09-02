@@ -10,26 +10,23 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        //! \name Layouts
-        ///@{
+    //! \name Layouts
+    ///@{
         
-        //! Align within the given box.
-        Box2I align(
-            const Box2I&  box,
-            const Size2I& sizeHint,
-            Stretch             hStretch,
-            Stretch             vStretch,
-            HAlign              hAlign,
-            VAlign              vAlign);
+    //! Align within the given box.
+    Box2I align(
+        const Box2I&  box,
+        const Size2I& sizeHint,
+        Stretch             hStretch,
+        Stretch             vStretch,
+        HAlign              hAlign,
+        VAlign              vAlign);
 
-        //! Get a format string for the given number.
-        std::string format(int);
+    //! Get a format string for the given number.
+    std::string format(int);
 
-        //! Get a format string for the given number.
-        std::string format(float, int precision);
+    //! Get a format string for the given number.
+    std::string format(float, int precision);
         
-        ///@}
-    }
+    ///@}
 }

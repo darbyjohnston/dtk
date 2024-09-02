@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void tabBar(pybind11::module_&);
-    }
+    void tabBar(pybind11::module_&);
 }

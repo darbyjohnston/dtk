@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void colorWidget(pybind11::module_&);
-    }
+    void colorWidget(pybind11::module_&);
 }

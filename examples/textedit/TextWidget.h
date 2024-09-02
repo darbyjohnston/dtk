@@ -12,7 +12,7 @@ namespace dtk
     {
         namespace textedit
         {
-            class TextWidget : public ui::IWidget
+            class TextWidget : public IWidget
             {
             protected:
                 void _init(

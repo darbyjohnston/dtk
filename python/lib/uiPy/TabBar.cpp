@@ -14,20 +14,17 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void tabBar(py::module_& m)
     {
-        void tabBar(py::module_& m)
-        {
-            py::class_<TabBar, IWidget, std::shared_ptr<TabBar> >(m, "TabBar")
-                .def(
-                    py::init(&TabBar::create),
-                    py::arg("context"),
-                    py::arg("parent") = nullptr)
-                .def_property("tabs", &TabBar::getTabs, &TabBar::setTabs)
-                .def("addTab", &TabBar::addTab)
-                .def("clearTabs", &TabBar::clearTabs)
-                .def_property("currentTab", &TabBar::getCurrentTab, &TabBar::setCurrentTab)
-                .def("setCallback", &TabBar::setCallback);
-        }
+        py::class_<TabBar, IWidget, std::shared_ptr<TabBar> >(m, "TabBar")
+            .def(
+                py::init(&TabBar::create),
+                py::arg("context"),
+                py::arg("parent") = nullptr)
+            .def_property("tabs", &TabBar::getTabs, &TabBar::setTabs)
+            .def("addTab", &TabBar::addTab)
+            .def("clearTabs", &TabBar::clearTabs)
+            .def_property("currentTab", &TabBar::getCurrentTab, &TabBar::setCurrentTab)
+            .def("setCallback", &TabBar::setCallback);
     }
 }

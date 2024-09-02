@@ -4,163 +4,160 @@
 
 namespace dtk
 {
-    namespace ui
+    inline const std::string& IWidget::getObjectName() const
     {
-        inline const std::string& IWidget::getObjectName() const
-        {
-            return _objectName;
-        }
+        return _objectName;
+    }
 
-        inline ColorRole IWidget::getBackgroundRole() const
-        {
-            return _backgroundRole;
-        }
+    inline ColorRole IWidget::getBackgroundRole() const
+    {
+        return _backgroundRole;
+    }
 
-        inline int IWidget::getUpdates() const
-        {
-            return _updates;
-        }
+    inline int IWidget::getUpdates() const
+    {
+        return _updates;
+    }
 
-        inline const std::weak_ptr<IWidget>& IWidget::getParent() const
-        {
-            return _parent;
-        }
+    inline const std::weak_ptr<IWidget>& IWidget::getParent() const
+    {
+        return _parent;
+    }
 
-        inline const std::list<std::shared_ptr<IWidget> >& IWidget::getChildren() const
-        {
-            return _children;
-        }
+    inline const std::list<std::shared_ptr<IWidget> >& IWidget::getChildren() const
+    {
+        return _children;
+    }
 
-        template<typename T>
-        inline std::shared_ptr<T> IWidget::getParentT() const
+    template<typename T>
+    inline std::shared_ptr<T> IWidget::getParentT() const
+    {
+        std::shared_ptr<T> out;
+        auto parent = _parent.lock();
+        while (parent)
         {
-            std::shared_ptr<T> out;
-            auto parent = _parent.lock();
-            while (parent)
+            if (auto t = std::dynamic_pointer_cast<T>(parent))
             {
-                if (auto t = std::dynamic_pointer_cast<T>(parent))
-                {
-                    out = t;
-                    break;
-                }
-                parent = parent->_parent.lock();
+                out = t;
+                break;
             }
-            return out;
+            parent = parent->_parent.lock();
         }
+        return out;
+    }
 
-        inline const Size2I& IWidget::getSizeHint() const
-        {
-            return _sizeHint;
-        }
+    inline const Size2I& IWidget::getSizeHint() const
+    {
+        return _sizeHint;
+    }
 
-        inline Stretch IWidget::getHStretch() const
-        {
-            return _hStretch;
-        }
+    inline Stretch IWidget::getHStretch() const
+    {
+        return _hStretch;
+    }
 
-        inline Stretch IWidget::getVStretch() const
-        {
-            return _vStretch;
-        }
+    inline Stretch IWidget::getVStretch() const
+    {
+        return _vStretch;
+    }
 
-        inline HAlign IWidget::getHAlign() const
-        {
-            return _hAlign;
-        }
+    inline HAlign IWidget::getHAlign() const
+    {
+        return _hAlign;
+    }
 
-        inline VAlign IWidget::getVAlign() const
-        {
-            return _vAlign;
-        }
+    inline VAlign IWidget::getVAlign() const
+    {
+        return _vAlign;
+    }
 
-        inline const Box2I& IWidget::getGeometry() const
-        {
-            return _geometry;
-        }
+    inline const Box2I& IWidget::getGeometry() const
+    {
+        return _geometry;
+    }
 
-        inline bool IWidget::isVisible(bool andParentsVisible) const
+    inline bool IWidget::isVisible(bool andParentsVisible) const
+    {
+        bool out = _visible;
+        if (andParentsVisible)
         {
-            bool out = _visible;
-            if (andParentsVisible)
-            {
-                out &= _parentsVisible;
-            }
-            return out;
+            out &= _parentsVisible;
         }
+        return out;
+    }
 
-        inline bool IWidget::isClipped() const
-        {
-            return _clipped;
-        }
+    inline bool IWidget::isClipped() const
+    {
+        return _clipped;
+    }
 
-        inline bool IWidget::isEnabled(bool andParentsEnabled) const
+    inline bool IWidget::isEnabled(bool andParentsEnabled) const
+    {
+        bool out = _enabled;
+        if (andParentsEnabled)
         {
-            bool out = _enabled;
-            if (andParentsEnabled)
-            {
-                out &= _parentsEnabled;
-            }
-            return out;
+            out &= _parentsEnabled;
         }
+        return out;
+    }
 
-        inline bool IWidget::hasMouseHover()
-        {
-            return _mouseHoverEnabled;
-        }
+    inline bool IWidget::hasMouseHover()
+    {
+        return _mouseHoverEnabled;
+    }
 
-        inline bool IWidget::acceptsKeyFocus() const
-        {
-            return _acceptsKeyFocus;
-        }
+    inline bool IWidget::acceptsKeyFocus() const
+    {
+        return _acceptsKeyFocus;
+    }
         
-        inline bool IWidget::hasKeyFocus() const
-        {
-            return _keyFocus;
-        }
+    inline bool IWidget::hasKeyFocus() const
+    {
+        return _keyFocus;
+    }
 
-        inline const std::string& IWidget::getTooltip() const
-        {
-            return _tooltip;
-        }
+    inline const std::string& IWidget::getTooltip() const
+    {
+        return _tooltip;
+    }
 
-        inline const std::weak_ptr<Context>& IWidget::_getContext() const
-        {
-            return _context;
-        }
+    inline const std::weak_ptr<Context>& IWidget::_getContext() const
+    {
+        return _context;
+    }
 
-        inline void IWidget::_setDrawUpdate()
-        {
-            _updates |= Update::Draw;
-        }
+    inline void IWidget::_setDrawUpdate()
+    {
+        _updates |= static_cast<int>(Update::Draw);
+    }
 
-        inline void IWidget::_setSizeUpdate()
-        {
-            _updates |= Update::Size;
-        }
+    inline void IWidget::_setSizeUpdate()
+    {
+        _updates |= static_cast<int>(Update::Size);
+    }
 
-        inline void IWidget::_setSizeHint(const Size2I& value)
-        {
-            _sizeHint = value;
-        }
+    inline void IWidget::_setSizeHint(const Size2I& value)
+    {
+        _sizeHint = value;
+    }
 
-        inline bool IWidget::_isMouseInside() const
-        {
-            return _mouseInside;
-        }
+    inline bool IWidget::_isMouseInside() const
+    {
+        return _mouseInside;
+    }
 
-        inline const V2I& IWidget::_getMousePos() const
-        {
-            return _mousePos;
-        }
+    inline const V2I& IWidget::_getMousePos() const
+    {
+        return _mousePos;
+    }
 
-        inline bool IWidget::_isMousePressed() const
-        {
-            return _mousePress;
-        }
+    inline bool IWidget::_isMousePressed() const
+    {
+        return _mousePress;
+    }
 
-        inline const V2I& IWidget::_getMousePressPos() const
-        {
-            return _mousePressPos;
-        }
+    inline const V2I& IWidget::_getMousePressPos() const
+    {
+        return _mousePressPos;
     }
 }

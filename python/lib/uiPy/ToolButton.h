@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void toolButton(pybind11::module_&);
-    }
+    void toolButton(pybind11::module_&);
 }

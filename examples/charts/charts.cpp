@@ -9,7 +9,6 @@
 #include <dtk/ui/Window.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 DTK_MAIN()
 {

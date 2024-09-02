@@ -15,13 +15,10 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void intModel(py::module_& m)
     {
-        void intModel(py::module_& m)
-        {
-            py::class_<IntModel, std::shared_ptr<IntModel> >(m, "IntModel")
-                .def(py::init(&IntModel::create),
-                    py::arg("context"));
-        }
+        py::class_<IntModel, std::shared_ptr<IntModel> >(m, "IntModel")
+            .def(py::init(&IntModel::create),
+                py::arg("context"));
     }
 }

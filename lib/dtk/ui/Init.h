@@ -10,11 +10,7 @@ namespace dtk
 {
     class Context;
 
-    //! User interface
-    namespace ui
-    {
-        //! Initialize the library.
-        void init(const std::shared_ptr<Context>&);
-    }
+    //! Initialize the UI library.
+    void uiInit(const std::shared_ptr<Context>&);
 }
 

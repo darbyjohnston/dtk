@@ -13,8 +13,6 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Format.h>
 
-using namespace dtk::ui;
-
 namespace dtk
 {
     namespace ui_test
@@ -40,7 +38,7 @@ namespace dtk
                 std::vector<std::string> argv = { "app", "-exit" };
                 try
                 {
-                    auto app = ui::App::create(
+                    auto app = App::create(
                         context,
                         argv,
                         "dtk::ui_test::App",

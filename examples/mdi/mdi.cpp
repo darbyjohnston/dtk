@@ -13,7 +13,6 @@
 #include <dtk/core/Random.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 DTK_MAIN()
 {

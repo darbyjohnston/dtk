@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void mdiWidget(pybind11::module_&);
-    }
+    void mdiWidget(pybind11::module_&);
 }

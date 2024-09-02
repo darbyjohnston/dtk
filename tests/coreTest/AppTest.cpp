@@ -12,7 +12,7 @@
 
 namespace dtk
 {
-    namespace app_test
+    namespace core_test
     {
         AppTest::AppTest(const std::shared_ptr<Context>& context) :
             ITest(context, "dtk::app_test::AppTest")

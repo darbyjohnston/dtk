@@ -11,316 +11,313 @@
 
 namespace dtk
 {
-    namespace ui
+    class IWindow;
+
+    //! Base class for widgets.
+    class IWidget : public std::enable_shared_from_this<IWidget>
     {
-        class IWindow;
+        DTK_NON_COPYABLE(IWidget);
 
-        //! Base class for widgets.
-        class IWidget : public std::enable_shared_from_this<IWidget>
-        {
-            DTK_NON_COPYABLE(IWidget);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string& objectName,
+            const std::shared_ptr<IWidget>& parent);
 
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string& objectName,
-                const std::shared_ptr<IWidget>& parent);
+        IWidget();
 
-            IWidget();
+    public:
+        virtual ~IWidget() = 0;
 
-        public:
-            virtual ~IWidget() = 0;
+        //! Get the object name.
+        const std::string& getObjectName() const;
 
-            //! Get the object name.
-            const std::string& getObjectName() const;
+        //! Set the object name.
+        void setObjectName(const std::string&);
 
-            //! Set the object name.
-            void setObjectName(const std::string&);
+        //! Get the object path.
+        std::string getObjectPath() const;
 
-            //! Get the object path.
-            std::string getObjectPath() const;
+        //! Get the background role.
+        ColorRole getBackgroundRole() const;
 
-            //! Get the background role.
-            ColorRole getBackgroundRole() const;
+        //! Set the background role.
+        void setBackgroundRole(ColorRole);
 
-            //! Set the background role.
-            void setBackgroundRole(ColorRole);
+        //! Get whether updates are needed.
+        int getUpdates() const;
 
-            //! Get whether updates are needed.
-            int getUpdates() const;
+        //! Hierarchy
+        ///@{
 
-            //! Hierarchy
-            ///@{
+        //! Get the parent widget.
+        const std::weak_ptr<IWidget>& getParent() const;
 
-            //! Get the parent widget.
-            const std::weak_ptr<IWidget>& getParent() const;
+        //! Set the parent widget.
+        void setParent(const std::shared_ptr<IWidget>&);
 
-            //! Set the parent widget.
-            void setParent(const std::shared_ptr<IWidget>&);
+        //! Get the children widgets.
+        const std::list<std::shared_ptr<IWidget> >& getChildren() const;
 
-            //! Get the children widgets.
-            const std::list<std::shared_ptr<IWidget> >& getChildren() const;
+        //! Get the first parent widget of the given type.
+        template<typename T>
+        std::shared_ptr<T> getParentT() const;
 
-            //! Get the first parent widget of the given type.
-            template<typename T>
-            std::shared_ptr<T> getParentT() const;
+        //! Move the child widget to the front of the drawing order.
+        void moveToFront(const std::shared_ptr<IWidget>&);
 
-            //! Move the child widget to the front of the drawing order.
-            void moveToFront(const std::shared_ptr<IWidget>&);
+        //! Move the child widget to the back of the drawing order.
+        void moveToBack(const std::shared_ptr<IWidget>&);
 
-            //! Move the child widget to the back of the drawing order.
-            void moveToBack(const std::shared_ptr<IWidget>&);
+        //! Get the window.
+        std::shared_ptr<IWindow> getWindow();
 
-            //! Get the window.
-            std::shared_ptr<IWindow> getWindow();
+        ///@}
 
-            ///@}
+        //! Geometry
+        ///@{
 
-            //! Geometry
-            ///@{
+        //! Get the size hint.
+        const Size2I& getSizeHint() const;
 
-            //! Get the size hint.
-            const Size2I& getSizeHint() const;
+        //! Get the horizontal layout stretch.
+        Stretch getHStretch() const;
 
-            //! Get the horizontal layout stretch.
-            Stretch getHStretch() const;
+        //! Set the horizontal layout stretch.
+        void setHStretch(Stretch);
 
-            //! Set the horizontal layout stretch.
-            void setHStretch(Stretch);
+        //! Get the vertical layout stretch.
+        Stretch getVStretch() const;
 
-            //! Get the vertical layout stretch.
-            Stretch getVStretch() const;
+        //! Set the vertical layout stretch.
+        void setVStretch(Stretch);
 
-            //! Set the vertical layout stretch.
-            void setVStretch(Stretch);
+        //! Set the horizontal and vertical layout stretch.
+        void setStretch(Stretch horizontal, Stretch vertical);
 
-            //! Set the horizontal and vertical layout stretch.
-            void setStretch(Stretch horizontal, Stretch vertical);
+        //! Set the horizontal and vertical layout stretch.
+        void setStretch(Stretch);
 
-            //! Set the horizontal and vertical layout stretch.
-            void setStretch(Stretch);
+        //! Get the horizontal layout alignment.
+        HAlign getHAlign() const;
 
-            //! Get the horizontal layout alignment.
-            HAlign getHAlign() const;
+        //! Set the horizontal layout alignment.
+        void setHAlign(HAlign);
 
-            //! Set the horizontal layout alignment.
-            void setHAlign(HAlign);
+        //! Get the vertical layout alignment.
+        VAlign getVAlign() const;
 
-            //! Get the vertical layout alignment.
-            VAlign getVAlign() const;
+        //! Set the vertical layout alignment.
+        void setVAlign(VAlign);
 
-            //! Set the vertical layout alignment.
-            void setVAlign(VAlign);
+        //! Set the horizontal and vertical layout alignment.
+        void setAlign(HAlign, VAlign);
 
-            //! Set the horizontal and vertical layout alignment.
-            void setAlign(HAlign, VAlign);
+        //! Get the geometry.
+        const Box2I& getGeometry() const;
 
-            //! Get the geometry.
-            const Box2I& getGeometry() const;
-
-            //! Set the geometry.
-            virtual void setGeometry(const Box2I&);
+        //! Set the geometry.
+        virtual void setGeometry(const Box2I&);
             
-            //! Set the position.
-            void setPos(const V2I&);
+        //! Set the position.
+        void setPos(const V2I&);
             
-            //! Set the size.
-            void setSize(const Size2I&);
+        //! Set the size.
+        void setSize(const Size2I&);
 
-            ///@}
+        ///@}
 
-            //! Visibility
-            ///@{
+        //! Visibility
+        ///@{
 
-            //! Is the widget visible?
-            bool isVisible(bool andParentsVisible = true) const;
+        //! Is the widget visible?
+        bool isVisible(bool andParentsVisible = true) const;
 
-            //! Set whether the widget is visible.
-            virtual void setVisible(bool);
+        //! Set whether the widget is visible.
+        virtual void setVisible(bool);
 
-            //! Show the widget.
-            void show();
+        //! Show the widget.
+        void show();
 
-            //! Hide the widget.
-            void hide();
+        //! Hide the widget.
+        void hide();
 
-            //! Is the widget clipped?
-            bool isClipped() const;
+        //! Is the widget clipped?
+        bool isClipped() const;
 
-            //! Get the clipping rect applied to the child widgets. By
-            //! default this is the same as the widget geometry.
-            virtual Box2I getChildrenClipRect() const;
+        //! Get the clipping rect applied to the child widgets. By
+        //! default this is the same as the widget geometry.
+        virtual Box2I getChildrenClipRect() const;
 
-            ///@}
+        ///@}
 
-            //! Enabled
-            ///@{
+        //! Enabled
+        ///@{
 
-            //! Is the widget enabled?
-            bool isEnabled(bool andParentsEnabled = true) const;
+        //! Is the widget enabled?
+        bool isEnabled(bool andParentsEnabled = true) const;
 
-            //! Set whether the widget is enabled.
-            virtual void setEnabled(bool);
+        //! Set whether the widget is enabled.
+        virtual void setEnabled(bool);
 
-            ///@}
+        ///@}
 
-            //! Mouse
-            ///@{
+        //! Mouse
+        ///@{
 
-            //! Does the widget support mouse enter and leave events?
-            bool hasMouseHover();
+        //! Does the widget support mouse enter and leave events?
+        bool hasMouseHover();
 
-            ///@}
+        ///@}
 
-            //! Key Focus
-            ///@{
+        //! Key Focus
+        ///@{
 
-            //! Does this widget accept key focus?
-            bool acceptsKeyFocus() const;
+        //! Does this widget accept key focus?
+        bool acceptsKeyFocus() const;
 
-            //! Set whether the widget accepts key focus.
-            void setAcceptsKeyFocus(bool);
+        //! Set whether the widget accepts key focus.
+        void setAcceptsKeyFocus(bool);
 
-            //! Does this widget have key focus?
-            bool hasKeyFocus() const;
+        //! Does this widget have key focus?
+        bool hasKeyFocus() const;
 
-            //! Take the key focus.
-            virtual void takeKeyFocus();
+        //! Take the key focus.
+        virtual void takeKeyFocus();
 
-            //! Release the key focus.
-            void releaseKeyFocus();
+        //! Release the key focus.
+        void releaseKeyFocus();
 
-            ///@}
+        ///@}
 
-            //! Tool tips.
-            ///@{
+        //! Tool tips.
+        ///@{
 
-            //! Get the tooltip.
-            const std::string& getTooltip() const;
+        //! Get the tooltip.
+        const std::string& getTooltip() const;
 
-            //! Set the tooltip.
-            void setTooltip(const std::string&);
+        //! Set the tooltip.
+        void setTooltip(const std::string&);
 
-            ///@}
+        ///@}
 
-            //! Events
-            ///@{
+        //! Events
+        ///@{
 
-            //! Child add event.
-            virtual void childAddEvent(const ChildAddEvent&);
+        //! Child add event.
+        virtual void childAddEvent(const ChildAddEvent&);
 
-            //! Child remove event.
-            virtual void childRemoveEvent(const ChildRemoveEvent&);
+        //! Child remove event.
+        virtual void childRemoveEvent(const ChildRemoveEvent&);
 
-            //! Tick event.
-            virtual void tickEvent(
-                bool parentsVisible,
-                bool parentsEnabled,
-                const TickEvent&);
+        //! Tick event.
+        virtual void tickEvent(
+            bool parentsVisible,
+            bool parentsEnabled,
+            const TickEvent&);
 
-            //! Size hint event.
-            virtual void sizeHintEvent(const SizeHintEvent&);
+        //! Size hint event.
+        virtual void sizeHintEvent(const SizeHintEvent&);
 
-            //! Clip event.
-            virtual void clipEvent(const Box2I&, bool clipped);
+        //! Clip event.
+        virtual void clipEvent(const Box2I&, bool clipped);
 
-            //! Draw event.
-            virtual void drawEvent(const Box2I&, const DrawEvent&);
+        //! Draw event.
+        virtual void drawEvent(const Box2I&, const DrawEvent&);
 
-            //! Draw overlay event.
-            virtual void drawOverlayEvent(const Box2I&, const DrawEvent&);
+        //! Draw overlay event.
+        virtual void drawOverlayEvent(const Box2I&, const DrawEvent&);
 
-            //! Mouse enter event.
-            virtual void mouseEnterEvent();
+        //! Mouse enter event.
+        virtual void mouseEnterEvent();
 
-            //! Mouse leave event.
-            virtual void mouseLeaveEvent();
+        //! Mouse leave event.
+        virtual void mouseLeaveEvent();
 
-            //! Mouse move event.
-            virtual void mouseMoveEvent(MouseMoveEvent&);
+        //! Mouse move event.
+        virtual void mouseMoveEvent(MouseMoveEvent&);
 
-            //! Mouse press event.
-            virtual void mousePressEvent(MouseClickEvent&);
+        //! Mouse press event.
+        virtual void mousePressEvent(MouseClickEvent&);
 
-            //! Mouse release event.
-            virtual void mouseReleaseEvent(MouseClickEvent&);
+        //! Mouse release event.
+        virtual void mouseReleaseEvent(MouseClickEvent&);
 
-            //! Scroll event.
-            virtual void scrollEvent(ScrollEvent&);
+        //! Scroll event.
+        virtual void scrollEvent(ScrollEvent&);
 
-            //! Key focus event.
-            virtual void keyFocusEvent(bool);
+        //! Key focus event.
+        virtual void keyFocusEvent(bool);
 
-            //! Key press event.
-            virtual void keyPressEvent(KeyEvent&);
+        //! Key press event.
+        virtual void keyPressEvent(KeyEvent&);
 
-            //! Key release event.
-            virtual void keyReleaseEvent(KeyEvent&);
+        //! Key release event.
+        virtual void keyReleaseEvent(KeyEvent&);
 
-            //! Text event.
-            virtual void textEvent(TextEvent&);
+        //! Text event.
+        virtual void textEvent(TextEvent&);
 
-            //! Drag enter event.
-            virtual void dragEnterEvent(DragAndDropEvent&);
+        //! Drag enter event.
+        virtual void dragEnterEvent(DragAndDropEvent&);
 
-            //! Drag leave event.
-            virtual void dragLeaveEvent(DragAndDropEvent&);
+        //! Drag leave event.
+        virtual void dragLeaveEvent(DragAndDropEvent&);
 
-            //! Drag move event.
-            virtual void dragMoveEvent(DragAndDropEvent&);
+        //! Drag move event.
+        virtual void dragMoveEvent(DragAndDropEvent&);
 
-            //! Drop event.
-            virtual void dropEvent(DragAndDropEvent&);
+        //! Drop event.
+        virtual void dropEvent(DragAndDropEvent&);
 
-            ///@}
+        ///@}
 
-        protected:
-            const std::weak_ptr<Context>& _getContext() const;
+    protected:
+        const std::weak_ptr<Context>& _getContext() const;
 
-            void _setDrawUpdate();
-            void _setSizeUpdate();
+        void _setDrawUpdate();
+        void _setSizeUpdate();
 
-            void _setSizeHint(const Size2I&);
+        void _setSizeHint(const Size2I&);
 
-            void _setMouseHoverEnabled(bool);
-            void _setMousePressEnabled(bool, int button = -1, int modifiers = -1);
-            virtual void _releaseMouse();
-            bool _isMouseInside() const;
-            const V2I& _getMousePos() const;
-            bool _isMousePressed() const;
-            const V2I& _getMousePressPos() const;
+        void _setMouseHoverEnabled(bool);
+        void _setMousePressEnabled(bool, int button = -1, int modifiers = -1);
+        virtual void _releaseMouse();
+        bool _isMouseInside() const;
+        const V2I& _getMousePos() const;
+        bool _isMousePressed() const;
+        const V2I& _getMousePressPos() const;
 
-        private:
-            std::weak_ptr<Context> _context;
-            std::string _objectName;
-            ColorRole _backgroundRole = ColorRole::None;
-            int _updates = 0;
-            std::weak_ptr<IWidget> _parent;
-            std::list<std::shared_ptr<IWidget> > _children;
-            Size2I _sizeHint;
-            Stretch _hStretch = Stretch::Fixed;
-            Stretch _vStretch = Stretch::Fixed;
-            HAlign _hAlign = HAlign::Center;
-            VAlign _vAlign = VAlign::Center;
-            Box2I _geometry;
-            bool _visible = true;
-            bool _parentsVisible = true;
-            bool _clipped = false;
-            bool _enabled = true;
-            bool _parentsEnabled = true;
-            bool _mouseHoverEnabled = false;
-            bool _mousePressEnabled = false;
-            int _mousePressButton = -1;
-            int _mousePressModifiers = -1;
-            bool _mouseInside = false;
-            V2I _mousePos;
-            bool _mousePress = false;
-            V2I _mousePressPos;
-            bool _acceptsKeyFocus = false;
-            bool _keyFocus = false;
-            std::string _tooltip;
-        };
-    }
+    private:
+        std::weak_ptr<Context> _context;
+        std::string _objectName;
+        ColorRole _backgroundRole = ColorRole::None;
+        int _updates = 0;
+        std::weak_ptr<IWidget> _parent;
+        std::list<std::shared_ptr<IWidget> > _children;
+        Size2I _sizeHint;
+        Stretch _hStretch = Stretch::Fixed;
+        Stretch _vStretch = Stretch::Fixed;
+        HAlign _hAlign = HAlign::Center;
+        VAlign _vAlign = VAlign::Center;
+        Box2I _geometry;
+        bool _visible = true;
+        bool _parentsVisible = true;
+        bool _clipped = false;
+        bool _enabled = true;
+        bool _parentsEnabled = true;
+        bool _mouseHoverEnabled = false;
+        bool _mousePressEnabled = false;
+        int _mousePressButton = -1;
+        int _mousePressModifiers = -1;
+        bool _mouseInside = false;
+        V2I _mousePos;
+        bool _mousePress = false;
+        V2I _mousePressPos;
+        bool _acceptsKeyFocus = false;
+        bool _keyFocus = false;
+        std::string _tooltip;
+    };
 }
 
 #include <dtk/ui/IWidgetInline.h>

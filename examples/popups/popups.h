@@ -13,7 +13,7 @@ namespace dtk
     {
         namespace popups
         {
-            class Window : public ui::Window
+            class Window : public dtk::Window
             {
             protected:
                 void _init(
@@ -31,11 +31,11 @@ namespace dtk
                     const std::string& name,
                     const Size2I&);
 
-                void keyPressEvent(ui::KeyEvent&) override;
-                void keyReleaseEvent(ui::KeyEvent&) override;
+                void keyPressEvent(KeyEvent&) override;
+                void keyReleaseEvent(KeyEvent&) override;
 
             private:
-                std::shared_ptr<ui::MenuBar> _menuBar;
+                std::shared_ptr<MenuBar> _menuBar;
             };
         }
     }

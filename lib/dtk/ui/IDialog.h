@@ -8,49 +8,46 @@
 
 namespace dtk
 {
-    namespace ui
+    class IWindow;
+
+    //! \name Dialogs
+    ///@{
+
+    //! Base class for dialog widgets.
+    class IDialog : public IPopup
     {
-        class IWindow;
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string& objectName,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! \name Dialogs
-        ///@{
+        IDialog();
 
-        //! Base class for dialog widgets.
-        class IDialog : public IPopup
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string& objectName,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+    public:
+        virtual ~IDialog() = 0;
 
-            IDialog();
+        //! Open the dialog.
+        void open(const std::shared_ptr<IWindow>&);
 
-        public:
-            virtual ~IDialog() = 0;
+        //! Get whether the dialog is open.
+        bool isOpen() const;
 
-            //! Open the dialog.
-            void open(const std::shared_ptr<IWindow>&);
+        //! Close the dialog.
+        void close() override;
 
-            //! Get whether the dialog is open.
-            bool isOpen() const;
+        //! Set the close callback.
+        void setCloseCallback(const std::function<void(void)>&);
 
-            //! Close the dialog.
-            void close() override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-            //! Set the close callback.
-            void setCloseCallback(const std::function<void(void)>&);
+    private:
+        DTK_PRIVATE();
+    };
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
-
-        private:
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

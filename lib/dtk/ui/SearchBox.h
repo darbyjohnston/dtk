@@ -8,47 +8,44 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Text Widgets
+    ///@{
+
+    //! Search box widget.
+    class SearchBox : public IWidget
     {
-        //! \name Text Widgets
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! Search box widget.
-        class SearchBox : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+        SearchBox();
 
-            SearchBox();
+    public:
+        virtual ~SearchBox();
 
-        public:
-            virtual ~SearchBox();
+        //! Create a new widget.
+        static std::shared_ptr<SearchBox> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Create a new widget.
-            static std::shared_ptr<SearchBox> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Get the text.
+        const std::string& getText() const;
 
-            //! Get the text.
-            const std::string& getText() const;
+        //! Set the text.
+        void setText(const std::string&);
 
-            //! Set the text.
-            void setText(const std::string&);
+        //! Set the callback.
+        void setCallback(const std::function<void(const std::string&)>&);
 
-            //! Set the callback.
-            void setCallback(const std::function<void(const std::string&)>&);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
+    private:
+        void _textUpdate();
 
-        private:
-            void _textUpdate();
-            
-            DTK_PRIVATE();
-        };
+        DTK_PRIVATE();
+    };
 
-        ///@}
-    }
+    ///@}
 }

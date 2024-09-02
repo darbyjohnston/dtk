@@ -12,7 +12,6 @@
 #include <dtk/core/Format.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 DTK_MAIN()
 {
@@ -25,7 +24,7 @@ DTK_MAIN()
             return app->getExit();
 
         // Disable the native file dialog.
-        context->getSystem<dtk::ui::FileBrowserSystem>()->setNativeFileDialog(false);
+        context->getSystem<dtk::FileBrowserSystem>()->setNativeFileDialog(false);
 
         // Create the window.
         auto window = Window::create(

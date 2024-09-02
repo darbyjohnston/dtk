@@ -10,70 +10,67 @@
 
 namespace dtk
 {
-    namespace ui
+    class ComboBoxButton : public IButton
     {
-        class ComboBoxButton : public IButton
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const ComboBoxItem&,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const ComboBoxItem&,
+            const std::shared_ptr<IWidget>& parent);
 
-            ComboBoxButton();
+        ComboBoxButton();
 
-        public:
-            virtual ~ComboBoxButton();
+    public:
+        virtual ~ComboBoxButton();
 
-            static std::shared_ptr<ComboBoxButton> create(
-                const std::shared_ptr<Context>&,
-                const ComboBoxItem&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        static std::shared_ptr<ComboBoxButton> create(
+            const std::shared_ptr<Context>&,
+            const ComboBoxItem&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setCurrent(bool);
+        void setCurrent(bool);
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const Box2I&, bool) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void clipEvent(const Box2I&, bool) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
 
-        private:
-            DTK_PRIVATE();
-        };
+    private:
+        DTK_PRIVATE();
+    };
 
-        class ComboBoxMenu : public IMenuPopup
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::vector<ComboBoxItem>&,
-                int currentIndex,
-                const std::shared_ptr<IWidget>& parent);
+    class ComboBoxMenu : public IMenuPopup
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::vector<ComboBoxItem>&,
+            int currentIndex,
+            const std::shared_ptr<IWidget>& parent);
 
-            ComboBoxMenu();
+        ComboBoxMenu();
 
-        public:
-            virtual ~ComboBoxMenu();
+    public:
+        virtual ~ComboBoxMenu();
 
-            static std::shared_ptr<ComboBoxMenu> create(
-                const std::shared_ptr<Context>&,
-                const std::vector<ComboBoxItem>&,
-                int currentIndex,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        static std::shared_ptr<ComboBoxMenu> create(
+            const std::shared_ptr<Context>&,
+            const std::vector<ComboBoxItem>&,
+            int currentIndex,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setCallback(const std::function<void(int)>&);
+        void setCallback(const std::function<void(int)>&);
 
-            void setGeometry(const Box2I&) override;
-            void keyFocusEvent(bool) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
+        void setGeometry(const Box2I&) override;
+        void keyFocusEvent(bool) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-        private:
-            void _setCurrent(int);
-            void _currentUpdate();
-            void _scrollToCurrent();
+    private:
+        void _setCurrent(int);
+        void _currentUpdate();
+        void _scrollToCurrent();
 
-            DTK_PRIVATE();
-        };
-    }
+        DTK_PRIVATE();
+    };
 }

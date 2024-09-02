@@ -56,57 +56,51 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void uiBind(py::module_& m)
     {
-        void bind(py::module_& m)
-        {
-            auto sm = m.def_submodule("dtkUI");
-            sm.doc() = "User interface";
+        m.def("uiInit", &uiInit, "Initialize the library.");
 
-            sm.def("init", &init, "Initialize the library.");
+        style(m);
+        event(m);
+        widgetOptions(m);
+        iWidget(m);
+        iWindow(m);
+        iPopup(m);
+        iWidgetPopup(m);
+        iButton(m);
 
-            style(sm);
-            event(sm);
-            widgetOptions(sm);
-            iWidget(sm);
-            iWindow(sm);
-            iPopup(sm);
-            iWidgetPopup(sm);
-            iButton(sm);
-
-            app(sm);
-            bellows(sm);
-            buttonGroup(sm);
-            checkBox(sm);
-            colorPopup(sm);
-            colorSwatch(sm);
-            colorWidget(sm);
-            doubleEdit(sm);
-            doubleEditSlider(sm);
-            doubleModel(sm);
-            doubleSlider(sm);
-            fileBrowser(sm);
-            fileEdit(sm);
-            floatEdit(sm);
-            floatEditSlider(sm);
-            floatModel(sm);
-            floatSlider(sm);
-            groupBox(sm);
-            intEdit(sm);
-            intEditSlider(sm);
-            intModel(sm);
-            intSlider(sm);
-            mdiCanvas(sm);
-            mdiWidget(sm);
-            pushButton(sm);
-            recentFilesModel(sm);
-            rowLayout(sm);
-            scrollArea(sm);
-            scrollWidget(sm);
-            tabBar(sm);
-            tabWidget(sm);
-            toolButton(sm);
-            window(sm);
-        }
+        app(m);
+        bellows(m);
+        buttonGroup(m);
+        checkBox(m);
+        colorPopup(m);
+        colorSwatch(m);
+        colorWidget(m);
+        doubleEdit(m);
+        doubleEditSlider(m);
+        doubleModel(m);
+        doubleSlider(m);
+        fileBrowser(m);
+        fileEdit(m);
+        floatEdit(m);
+        floatEditSlider(m);
+        floatModel(m);
+        floatSlider(m);
+        groupBox(m);
+        intEdit(m);
+        intEditSlider(m);
+        intModel(m);
+        intSlider(m);
+        mdiCanvas(m);
+        mdiWidget(m);
+        pushButton(m);
+        recentFilesModel(m);
+        rowLayout(m);
+        scrollArea(m);
+        scrollWidget(m);
+        tabBar(m);
+        tabWidget(m);
+        toolButton(m);
+        window(m);
     }
 }

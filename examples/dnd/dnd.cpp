@@ -14,7 +14,6 @@
 #include <sstream>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 namespace dtk
 {

@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void recentFilesModel(pybind11::module_&);
-    }
+    void recentFilesModel(pybind11::module_&);
 }

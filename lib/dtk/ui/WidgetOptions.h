@@ -12,60 +12,57 @@
 
 namespace dtk
 {
-    namespace ui
+    //! Orientation.
+    enum class Orientation
     {
-        //! Orientation.
-        enum class Orientation
-        {
-            Horizontal,
-            Vertical,
-            
-            Count,
-            First = Horizontal
-        };
-        DTK_ENUM(Orientation);
+        Horizontal,
+        Vertical,
 
-        //! Layout stretch.
-        enum class Stretch
-        {
-            Fixed,
-            Expanding,
-            
-            Count,
-            First = Fixed
-        };
-        DTK_ENUM(Stretch);
+        Count,
+        First = Horizontal
+    };
+    DTK_ENUM(Orientation);
 
-        //! Horizontal alignment.
-        enum class HAlign
-        {
-            Left,
-            Center,
-            Right,
-            
-            Count,
-            First = Left
-        };
-        DTK_ENUM(HAlign);
+    //! Layout stretch.
+    enum class Stretch
+    {
+        Fixed,
+        Expanding,
 
-        //! Vertical alignment.
-        enum class VAlign
-        {
-            Top,
-            Center,
-            Bottom,
-            
-            Count,
-            First = Top
-        };
-        DTK_ENUM(VAlign);
+        Count,
+        First = Fixed
+    };
+    DTK_ENUM(Stretch);
 
-        //! Updates.
-        enum Update
-        {
-            None = 0,
-            Size = 1,
-            Draw = 2
-        };
-    }
+    //! Horizontal alignment.
+    enum class HAlign
+    {
+        Left,
+        Center,
+        Right,
+
+        Count,
+        First = Left
+    };
+    DTK_ENUM(HAlign);
+
+    //! Vertical alignment.
+    enum class VAlign
+    {
+        Top,
+        Center,
+        Bottom,
+
+        Count,
+        First = Top
+    };
+    DTK_ENUM(VAlign);
+
+    //! Updates.
+    enum class Update
+    {
+        None = 0,
+        Size = 1,
+        Draw = 2
+    };
 }

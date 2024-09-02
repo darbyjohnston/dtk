@@ -14,22 +14,19 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void intSlider(py::module_& m)
     {
-        void intSlider(py::module_& m)
-        {
-            py::class_<IntSlider, IWidget, std::shared_ptr<IntSlider> >(m, "IntSlider")
-                .def(
-                    py::init(&IntSlider::create),
-                    py::arg("context"),
-                    py::arg("model") = nullptr,
-                    py::arg("parent") = nullptr)
-                .def_property("value", &IntSlider::getValue, &IntSlider::setValue)
-                .def("setCallback", &IntSlider::setCallback)
-                .def_property("range", &IntSlider::getRange, &IntSlider::setRange)
-                .def_property("step", &IntSlider::getStep, &IntSlider::setStep)
-                .def_property("largeStep", &IntSlider::getLargeStep, &IntSlider::setLargeStep)
-                .def("getModel", &IntSlider::getModel);
-        }
+        py::class_<IntSlider, IWidget, std::shared_ptr<IntSlider> >(m, "IntSlider")
+            .def(
+                py::init(&IntSlider::create),
+                py::arg("context"),
+                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def_property("value", &IntSlider::getValue, &IntSlider::setValue)
+            .def("setCallback", &IntSlider::setCallback)
+            .def_property("range", &IntSlider::getRange, &IntSlider::setRange)
+            .def_property("step", &IntSlider::getStep, &IntSlider::setStep)
+            .def_property("largeStep", &IntSlider::getLargeStep, &IntSlider::setLargeStep)
+            .def("getModel", &IntSlider::getModel);
     }
 }

@@ -3,67 +3,66 @@
 # All rights reserved.
 
 import dtk
-from dtk import dtkUI
 
 import sys
 
 context = dtk.Context()
-app = dtkUI.App(context, sys.argv, "buttons", "Buttons example")
+app = dtk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = dtkUI.Window(context, "buttons", dtk.Size2I(1280, 960))
+window = dtk.Window(context, "buttons", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
-layout = dtkUI.VerticalLayout(context)
-layout.marginRole = dtkUI.SizeRole.Margin
-scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both, window)
+layout = dtk.VerticalLayout(context)
+layout.marginRole = dtk.SizeRole.Margin
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout
         
 # Create push buttons
-groupBox = dtkUI.GroupBox(context, "Push Buttons", layout)
-hLayout = dtkUI.HorizontalLayout(context, groupBox)
-pushButton = dtkUI.PushButton(context, "Click", hLayout)
+groupBox = dtk.GroupBox(context, "Push Buttons", layout)
+hLayout = dtk.HorizontalLayout(context, groupBox)
+pushButton = dtk.PushButton(context, "Click", hLayout)
 pushButton.setClickedCallback(lambda: print("Click"))
-pushButton = dtkUI.PushButton(context, "Text", hLayout)
+pushButton = dtk.PushButton(context, "Text", hLayout)
 pushButton.icon = "Settings"
-pushButton = dtkUI.PushButton(context, "Disabled", hLayout)
+pushButton = dtk.PushButton(context, "Disabled", hLayout)
 pushButton.enabled = False
         
 # Create tool buttons
-groupBox = dtkUI.GroupBox(context, "Tool Buttons", layout)
-hLayout = dtkUI.HorizontalLayout(context, groupBox)
-toolButtonGroup = dtkUI.ButtonGroup(context, dtkUI.ButtonGroupType.Radio)
+groupBox = dtk.GroupBox(context, "Tool Buttons", layout)
+hLayout = dtk.HorizontalLayout(context, groupBox)
+toolButtonGroup = dtk.ButtonGroup(context, dtk.ButtonGroupType.Radio)
 toolButtonGroup.setCheckedCallback(lambda index, checked: print("Tool:", index))
-hLayout = dtkUI.HorizontalLayout(context, groupBox)
+hLayout = dtk.HorizontalLayout(context, groupBox)
 toolIcons = [
     "PlaybackReverse",
     "PlaybackStop",
     "PlaybackForward"
 ]
-hLayout2 = dtkUI.HorizontalLayout(context, hLayout)
-hLayout2.spacingRole = dtkUI.SizeRole.SizeRoleNone
+hLayout2 = dtk.HorizontalLayout(context, hLayout)
+hLayout2.spacingRole = dtk.SizeRole.SizeRoleNone
 for i in range(0, 3):
-    toolButton = dtkUI.ToolButton(context, hLayout2)
+    toolButton = dtk.ToolButton(context, hLayout2)
     toolButton.checkable = True
     toolButton.checked = 0 == i
     toolButton.icon = toolIcons[i]
     toolButtonGroup.addButton(toolButton)
-toolButton = dtkUI.ToolButton(context, "Text", hLayout)
-toolButton = dtkUI.ToolButton(context, "Text", hLayout)
+toolButton = dtk.ToolButton(context, "Text", hLayout)
+toolButton = dtk.ToolButton(context, "Text", hLayout)
 toolButton.icon = "Settings"
-toolButton = dtkUI.ToolButton(context, "Disabled", hLayout)
+toolButton = dtk.ToolButton(context, "Disabled", hLayout)
 toolButton.enabled = False
 toolButtonGroup.addButton(toolButton)
 
 # Create check boxes
-groupBox = dtkUI.GroupBox(context, "Check Boxes", layout)
-vLayout = dtkUI.VerticalLayout(context, groupBox)
-checkBox = dtkUI.CheckBox(context, "Checkable", vLayout)
+groupBox = dtk.GroupBox(context, "Check Boxes", layout)
+vLayout = dtk.VerticalLayout(context, groupBox)
+checkBox = dtk.CheckBox(context, "Checkable", vLayout)
 checkBox.setCheckedCallback(lambda checked: print("Checked:", checked))
-checkBox = dtkUI.CheckBox(context, "Disabled", vLayout)
+checkBox = dtk.CheckBox(context, "Disabled", vLayout)
 checkBox.enabled = False
 
 window.show()

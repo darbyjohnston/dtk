@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void rowLayout(pybind11::module_&);
-    }
+    void rowLayout(pybind11::module_&);
 }

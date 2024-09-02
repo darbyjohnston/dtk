@@ -8,236 +8,233 @@
 
 namespace dtk
 {
-    namespace ui
+    struct CheckBox::Private
     {
-        struct CheckBox::Private
+        struct SizeData
         {
-            struct SizeData
-            {
-                bool init = true;
-                float displayScale = 0.F;
-                int margin = 0;
-                int spacing = 0;
-                int border = 0;
-                int borderFocus = 0;
-                FontInfo fontInfo;
-                FontMetrics fontMetrics;
-                Size2I textSize;
-                int checkBox = 0;
-            };
-            SizeData size;
-
-            struct DrawData
-            {
-                Box2I g;
-                Box2I g2;
-                Box2I g3;
-                Box2I checkBox;
-                std::vector<std::shared_ptr<Glyph> > glyphs;
-            };
-            DrawData draw;
+            bool init = true;
+            float displayScale = 0.F;
+            int margin = 0;
+            int spacing = 0;
+            int border = 0;
+            int borderFocus = 0;
+            FontInfo fontInfo;
+            FontMetrics fontMetrics;
+            Size2I textSize;
+            int checkBox = 0;
         };
+        SizeData size;
 
-        void CheckBox::_init(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
+        struct DrawData
         {
-            IButton::_init(context, "dtk::ui::CheckBox", parent);
-            setCheckable(true);
-            setAcceptsKeyFocus(true);
-            _buttonRole = ColorRole::None;
+            Box2I g;
+            Box2I g2;
+            Box2I g3;
+            Box2I checkBox;
+            std::vector<std::shared_ptr<Glyph> > glyphs;
+        };
+        DrawData draw;
+    };
+
+    void CheckBox::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IButton::_init(context, "dtk::CheckBox", parent);
+        setCheckable(true);
+        setAcceptsKeyFocus(true);
+        _buttonRole = ColorRole::None;
+    }
+
+    CheckBox::CheckBox() :
+        _p(new Private)
+    {}
+
+    CheckBox::~CheckBox()
+    {}
+
+    std::shared_ptr<CheckBox> CheckBox::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<CheckBox>(new CheckBox);
+        out->_init(context, parent);
+        return out;
+    }
+
+    std::shared_ptr<CheckBox> CheckBox::create(
+        const std::shared_ptr<Context>& context,
+        const std::string& text,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = create(context, parent);
+        out->setText(text);
+        return out;
+    }
+
+    void CheckBox::setText(const std::string& value)
+    {
+        const bool changed = value != _text;
+        IButton::setText(value);
+        DTK_P();
+        if (changed)
+        {
+            p.size.init = true;
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
+    }
+
+    void CheckBox::setFontRole(FontRole value)
+    {
+        const bool changed = value != _fontRole;
+        IButton::setFontRole(value);
+        DTK_P();
+        if (changed)
+        {
+            p.size.init = true;
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
+    }
+
+    void CheckBox::setGeometry(const Box2I& value)
+    {
+        IButton::setGeometry(value);
+        DTK_P();
+        p.draw.g = value;
+        p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
+        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+        p.draw.checkBox = Box2I(
+            p.draw.g3.x(),
+            p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.checkBox / 2,
+            p.size.checkBox,
+            p.size.checkBox);
+    }
+
+    void CheckBox::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IButton::sizeHintEvent(event);
+        DTK_P();
+
+        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+        if (p.size.init || displayScaleChanged)
+        {
+            p.size.init = false;
+            p.size.displayScale = event.displayScale;
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
+            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
+            p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
+            p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
+            p.size.checkBox = p.size.fontMetrics.lineHeight * .8F;
+            p.draw.glyphs.clear();
         }
 
-        CheckBox::CheckBox() :
-            _p(new Private)
-        {}
+        Size2I sizeHint;
+        sizeHint.w += p.size.checkBox;
+        sizeHint.w += p.size.spacing;
+        sizeHint.w += p.size.textSize.w + p.size.margin * 2;
+        sizeHint.h = p.size.fontMetrics.lineHeight;
+        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        _setSizeHint(sizeHint);
+    }
 
-        CheckBox::~CheckBox()
-        {}
-
-        std::shared_ptr<CheckBox> CheckBox::create(
-            const std::shared_ptr<Context>& context,
-            const std::shared_ptr<IWidget>& parent)
+    void CheckBox::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IButton::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
         {
-            auto out = std::shared_ptr<CheckBox>(new CheckBox);
-            out->_init(context, parent);
-            return out;
+            p.draw.glyphs.clear();
         }
+    }
 
-        std::shared_ptr<CheckBox> CheckBox::create(
-            const std::shared_ptr<Context>& context,
-            const std::string& text,
-            const std::shared_ptr<IWidget>& parent)
+    void CheckBox::drawEvent(
+        const Box2I& drawRect,
+        const DrawEvent& event)
+    {
+        IButton::drawEvent(drawRect, event);
+        DTK_P();
+
+        // Draw the focus.
+        if (hasKeyFocus())
         {
-            auto out = create(context, parent);
-            out->setText(text);
-            return out;
-        }
-
-        void CheckBox::setText(const std::string& value)
-        {
-            const bool changed = value != _text;
-            IButton::setText(value);
-            DTK_P();
-            if (changed)
-            {
-                p.size.init = true;
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-        }
-
-        void CheckBox::setFontRole(FontRole value)
-        {
-            const bool changed = value != _fontRole;
-            IButton::setFontRole(value);
-            DTK_P();
-            if (changed)
-            {
-                p.size.init = true;
-                _setSizeUpdate();
-                _setDrawUpdate();
-            }
-        }
-
-        void CheckBox::setGeometry(const Box2I& value)
-        {
-            IButton::setGeometry(value);
-            DTK_P();
-            p.draw.g = value;
-            p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
-            p.draw.g3 = margin(p.draw.g2, -p.size.margin);
-            p.draw.checkBox = Box2I(
-                p.draw.g3.x(),
-                p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.checkBox / 2,
-                p.size.checkBox,
-                p.size.checkBox);
-        }
-
-        void CheckBox::sizeHintEvent(const SizeHintEvent& event)
-        {
-            IButton::sizeHintEvent(event);
-            DTK_P();
-
-            const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-            if (p.size.init || displayScaleChanged)
-            {
-                p.size.init = false;
-                p.size.displayScale = event.displayScale;
-                p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-                p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-                p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-                p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
-                p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
-                p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
-                p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
-                p.size.checkBox = p.size.fontMetrics.lineHeight * .8F;
-                p.draw.glyphs.clear();
-            }
-
-            Size2I sizeHint;
-            sizeHint.w += p.size.checkBox;
-            sizeHint.w += p.size.spacing;
-            sizeHint.w += p.size.textSize.w + p.size.margin * 2;
-            sizeHint.h = p.size.fontMetrics.lineHeight;
-            sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
-            _setSizeHint(sizeHint);
-        }
-
-        void CheckBox::clipEvent(const Box2I& clipRect, bool clipped)
-        {
-            IButton::clipEvent(clipRect, clipped);
-            DTK_P();
-            if (clipped)
-            {
-                p.draw.glyphs.clear();
-            }
-        }
-
-        void CheckBox::drawEvent(
-            const Box2I& drawRect,
-            const DrawEvent& event)
-        {
-            IButton::drawEvent(drawRect, event);
-            DTK_P();
-
-            // Draw the focus.
-            if (hasKeyFocus())
-            {
-                event.render->drawMesh(
-                    border(p.draw.g, p.size.borderFocus),
-                    event.style->getColorRole(ColorRole::KeyFocus));
-            }
-
-            // Draw the mouse states.
-            if (_isMousePressed())
-            {
-                event.render->drawRect(
-                    convert(p.draw.g2),
-                    event.style->getColorRole(ColorRole::Pressed));
-            }
-            else if (_isMouseInside())
-            {
-                event.render->drawRect(
-                    convert(p.draw.g2),
-                    event.style->getColorRole(ColorRole::Hover));
-            }
-
-            // Draw the check box.
             event.render->drawMesh(
-                border(p.draw.checkBox, p.size.border),
-                event.style->getColorRole(ColorRole::Border));
+                border(p.draw.g, p.size.borderFocus),
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
+
+        // Draw the mouse states.
+        if (_isMousePressed())
+        {
             event.render->drawRect(
-                convert(margin(p.draw.checkBox, -p.size.border)),
-                event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base ));
-
-            // Draw the text.
-            if (!_text.empty() && p.draw.glyphs.empty())
-            {
-                p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
-            }
-            event.render->drawText(
-                p.draw.glyphs,
-                p.size.fontMetrics,
-                V2F(
-                    p.draw.g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
-                event.style->getColorRole(isEnabled() ?
-                    ColorRole::Text :
-                    ColorRole::TextDisabled));
+                convert(p.draw.g2),
+                event.style->getColorRole(ColorRole::Pressed));
+        }
+        else if (_isMouseInside())
+        {
+            event.render->drawRect(
+                convert(p.draw.g2),
+                event.style->getColorRole(ColorRole::Hover));
         }
 
-        void CheckBox::keyPressEvent(KeyEvent& event)
+        // Draw the check box.
+        event.render->drawMesh(
+            border(p.draw.checkBox, p.size.border),
+            event.style->getColorRole(ColorRole::Border));
+        event.render->drawRect(
+            convert(margin(p.draw.checkBox, -p.size.border)),
+            event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base));
+
+        // Draw the text.
+        if (!_text.empty() && p.draw.glyphs.empty())
         {
-            DTK_P();
-            if (0 == event.modifiers)
+            p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
+        }
+        event.render->drawText(
+            p.draw.glyphs,
+            p.size.fontMetrics,
+            V2F(
+                p.draw.g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
+                p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+            event.style->getColorRole(isEnabled() ?
+                ColorRole::Text :
+                ColorRole::TextDisabled));
+    }
+
+    void CheckBox::keyPressEvent(KeyEvent& event)
+    {
+        DTK_P();
+        if (0 == event.modifiers)
+        {
+            switch (event.key)
             {
-                switch (event.key)
+            case Key::Enter:
+                event.accept = true;
+                click();
+                break;
+            case Key::Escape:
+                if (hasKeyFocus())
                 {
-                case Key::Enter:
                     event.accept = true;
-                    click();
-                    break;
-                case Key::Escape:
-                    if (hasKeyFocus())
-                    {
-                        event.accept = true;
-                        releaseKeyFocus();
-                    }
-                    break;
-                default: break;
+                    releaseKeyFocus();
                 }
-            }
-            if (!event.accept)
-            {
-                IButton::keyPressEvent(event);
+                break;
+            default: break;
             }
         }
-
-        void CheckBox::keyReleaseEvent(KeyEvent& event)
+        if (!event.accept)
         {
-            IButton::keyReleaseEvent(event);
-            event.accept = true;
+            IButton::keyPressEvent(event);
         }
+    }
+
+    void CheckBox::keyReleaseEvent(KeyEvent& event)
+    {
+        IButton::keyReleaseEvent(event);
+        event.accept = true;
     }
 }

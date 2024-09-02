@@ -13,25 +13,22 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    class PyIWindow : public IWindow
     {
-        class PyIWindow : public IWindow
+    public:
+        virtual void drawEvent(const Box2I& drawRect, const DrawEvent& event) override
         {
-        public:
-            virtual void drawEvent(const Box2I& drawRect, const ui::DrawEvent& event) override
-            {
-                PYBIND11_OVERRIDE(
-                    void,
-                    IWindow,
-                    drawEvent,
-                    drawRect,
-                    event);
-            }
-        };
-
-        void iWindow(py::module_& m)
-        {
-            py::class_<IWindow, IWidget, std::shared_ptr<IWindow>, PyIWindow>(m, "IWindow");
+            PYBIND11_OVERRIDE(
+                void,
+                IWindow,
+                drawEvent,
+                drawRect,
+                event);
         }
+    };
+
+    void iWindow(py::module_& m)
+    {
+        py::class_<IWindow, IWidget, std::shared_ptr<IWindow>, PyIWindow>(m, "IWindow");
     }
 }

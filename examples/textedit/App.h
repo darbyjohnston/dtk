@@ -19,7 +19,7 @@ namespace dtk
         {
             class Window;
 
-            class App : public ui::App
+            class App : public dtk::App
             {
             protected:
                 void _init(
@@ -35,9 +35,9 @@ namespace dtk
                     const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
 
-                std::shared_ptr<IObservableValue<ui::FontRole> > observeFont() const;
+                std::shared_ptr<IObservableValue<FontRole> > observeFont() const;
 
-                void setFont(ui::FontRole);
+                void setFont(FontRole);
 
                 std::shared_ptr<IObservableValue<std::string> > observeText() const;
 
@@ -45,7 +45,7 @@ namespace dtk
 
             private:
                 std::filesystem::path _path;
-                std::shared_ptr<ObservableValue<ui::FontRole> > _font;
+                std::shared_ptr<ObservableValue<FontRole> > _font;
                 std::shared_ptr<ObservableValue<std::string> > _text;
                 std::shared_ptr<Window> _window;
             };

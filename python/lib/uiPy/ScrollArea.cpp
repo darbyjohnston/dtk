@@ -13,16 +13,13 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void scrollArea(py::module_& m)
     {
-        void scrollArea(py::module_& m)
-        {
-            py::enum_<ScrollType>(m, "ScrollType")
-                .value("Horizontal", ScrollType::Horizontal)
-                .value("Vertical", ScrollType::Vertical)
-                .value("Both", ScrollType::Both)
-                .value("Menu", ScrollType::Menu)
-                .export_values();
-        }
+        py::enum_<ScrollType>(m, "ScrollType")
+            .value("Horizontal", ScrollType::Horizontal)
+            .value("Vertical", ScrollType::Vertical)
+            .value("Both", ScrollType::Both)
+            .value("Menu", ScrollType::Menu)
+            .export_values();
     }
 }

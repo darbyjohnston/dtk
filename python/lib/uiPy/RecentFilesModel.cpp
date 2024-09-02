@@ -16,25 +16,22 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void recentFilesModel(py::module_& m)
     {
-        void recentFilesModel(py::module_& m)
-        {
-            py::class_<RecentFilesModel, std::shared_ptr<RecentFilesModel> >(m, "RecentFilesModel")
-                .def(
-                    py::init(&RecentFilesModel::create),
-                    py::arg("context"))
-                .def_property(
-                    "recentMax",
-                    &RecentFilesModel::getRecentMax,
-                    &RecentFilesModel::setRecentMax)
-                .def("observeRecentMax", &RecentFilesModel::observeRecentMax)
-                .def_property(
-                    "recent",
-                    &RecentFilesModel::getRecent,
-                    &RecentFilesModel::setRecent)
-                .def("observeRecent", &RecentFilesModel::observeRecent)
-                .def("addRecent", &RecentFilesModel::addRecent);
-        }
+        py::class_<RecentFilesModel, std::shared_ptr<RecentFilesModel> >(m, "RecentFilesModel")
+            .def(
+                py::init(&RecentFilesModel::create),
+                py::arg("context"))
+            .def_property(
+                "recentMax",
+                &RecentFilesModel::getRecentMax,
+                &RecentFilesModel::setRecentMax)
+            .def("observeRecentMax", &RecentFilesModel::observeRecentMax)
+            .def_property(
+                "recent",
+                &RecentFilesModel::getRecent,
+                &RecentFilesModel::setRecent)
+            .def("observeRecent", &RecentFilesModel::observeRecent)
+            .def("addRecent", &RecentFilesModel::addRecent);
     }
 }

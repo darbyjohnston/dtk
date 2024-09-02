@@ -10,39 +10,36 @@
 
 namespace dtk
 {
-    namespace ui
+    class MenuButton : public IButton
     {
-        class MenuButton : public IButton
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-            MenuButton();
+        MenuButton();
 
-        public:
-            virtual ~MenuButton();
+    public:
+        virtual ~MenuButton();
 
-            static std::shared_ptr<MenuButton> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        static std::shared_ptr<MenuButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setCurrent(bool);
-            void setShortcut(Key, int modifiers = 0);
-            void setSubMenuIcon(const std::string&);
+        void setCurrent(bool);
+        void setShortcut(Key, int modifiers = 0);
+        void setSubMenuIcon(const std::string&);
 
-            void setText(const std::string&) override;
+        void setText(const std::string&) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const Box2I&, bool) override;
-            void drawEvent(
-                const Box2I&,
-                const DrawEvent&) override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void clipEvent(const Box2I&, bool) override;
+        void drawEvent(
+            const Box2I&,
+            const DrawEvent&) override;
 
-        private:
-            DTK_PRIVATE();
-        };
-    }
+    private:
+        DTK_PRIVATE();
+    };
 }

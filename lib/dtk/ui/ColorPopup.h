@@ -8,38 +8,35 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Color Widgets
+    ///@{
+
+    //! Color popup.
+    class ColorPopup : public IWidgetPopup
     {
-        //! \name Color Widgets
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const Color4F&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! Color popup.
-        class ColorPopup : public IWidgetPopup
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const Color4F&,
-                const std::shared_ptr<IWidget>& parent);
+        ColorPopup();
 
-            ColorPopup();
+    public:
+        virtual ~ColorPopup();
 
-        public:
-            virtual ~ColorPopup();
+        //! Create a new popup.
+        static std::shared_ptr<ColorPopup> create(
+            const std::shared_ptr<Context>&,
+            const Color4F&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Create a new popup.
-            static std::shared_ptr<ColorPopup> create(
-                const std::shared_ptr<Context>&,
-                const Color4F&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Set the callback.
+        void setCallback(const std::function<void(const Color4F&)>&);
 
-            //! Set the callback.
-            void setCallback(const std::function<void(const Color4F&)>&);
+    private:
+        DTK_PRIVATE();
+    };
 
-        private:
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

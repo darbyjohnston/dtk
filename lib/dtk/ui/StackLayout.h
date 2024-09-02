@@ -8,58 +8,55 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Layouts
+    ///@{
+
+    //! Stack layout.
+    class StackLayout : public IWidget
     {
-        //! \name Layouts
-        ///@{
-        
-        //! Stack layout.
-        class StackLayout : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-            StackLayout();
+        StackLayout();
 
-        public:
-            virtual ~StackLayout();
+    public:
+        virtual ~StackLayout();
 
-            //! Create a new layout.
-            static std::shared_ptr<StackLayout> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Create a new layout.
+        static std::shared_ptr<StackLayout> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Get the current index.
-            int getCurrentIndex() const;
+        //! Get the current index.
+        int getCurrentIndex() const;
 
-            //! Set the current index.
-            void setCurrentIndex(int);
+        //! Set the current index.
+        void setCurrentIndex(int);
 
-            //! Set the current widget.
-            void setCurrentWidget(const std::shared_ptr<IWidget>&);
+        //! Set the current widget.
+        void setCurrentWidget(const std::shared_ptr<IWidget>&);
 
-            //! Get the margin role.
-            SizeRole getMarginRole() const;
+        //! Get the margin role.
+        SizeRole getMarginRole() const;
 
-            //! Set the margin role.
-            void setMarginRole(SizeRole);
+        //! Set the margin role.
+        void setMarginRole(SizeRole);
 
-            void setGeometry(const Box2I&) override;
-            Box2I getChildrenClipRect() const override;
-            void childAddEvent(const ChildAddEvent&) override;
-            void childRemoveEvent(const ChildRemoveEvent&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
+        void setGeometry(const Box2I&) override;
+        Box2I getChildrenClipRect() const override;
+        void childAddEvent(const ChildAddEvent&) override;
+        void childRemoveEvent(const ChildRemoveEvent&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
-        private:
-            std::shared_ptr<IWidget> _getCurrentWidget() const;
+    private:
+        std::shared_ptr<IWidget> _getCurrentWidget() const;
 
-            void _widgetUpdate();
+        void _widgetUpdate();
 
-            DTK_PRIVATE();
-        };
-        
-        ///@}
-    }
+        DTK_PRIVATE();
+    };
+
+    ///@}
 }

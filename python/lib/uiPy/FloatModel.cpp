@@ -15,13 +15,10 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void floatModel(py::module_& m)
     {
-        void floatModel(py::module_& m)
-        {
-            py::class_<FloatModel, std::shared_ptr<FloatModel> >(m, "FloatModel")
-                .def(py::init(&FloatModel::create),
-                    py::arg("context"));
-        }
+        py::class_<FloatModel, std::shared_ptr<FloatModel> >(m, "FloatModel")
+            .def(py::init(&FloatModel::create),
+                py::arg("context"));
     }
 }

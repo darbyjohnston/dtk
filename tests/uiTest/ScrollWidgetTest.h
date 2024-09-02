@@ -33,7 +33,7 @@ namespace dtk
                 const std::shared_ptr<Context>&,
                 const std::shared_ptr<App>&,
                 const std::shared_ptr<Window>&,
-                ui::ScrollType);
+                ScrollType);
         };
     }
 }

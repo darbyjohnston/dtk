@@ -10,33 +10,30 @@
 
 namespace dtk
 {
-    namespace ui
+    class BellowsButton : public IButton
     {
-        class BellowsButton : public IButton
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-            BellowsButton();
+        BellowsButton();
 
-        public:
-            virtual ~BellowsButton();
+    public:
+        virtual ~BellowsButton();
 
-            static std::shared_ptr<BellowsButton> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        static std::shared_ptr<BellowsButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const Box2I&, bool) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void clipEvent(const Box2I&, bool) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-        private:
-            DTK_PRIVATE();
-        };
-    }
+    private:
+        DTK_PRIVATE();
+    };
 }

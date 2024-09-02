@@ -8,55 +8,52 @@
 
 namespace dtk
 {
-    namespace ui
+    class Action;
+
+    //! \name Menu Widgets
+    ///@{
+
+    //! Menu bar.
+    class MenuBar : public IWidget
     {
-        class Action;
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! \name Menu Widgets
-        ///@{
+        MenuBar();
 
-        //! Menu bar.
-        class MenuBar : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+    public:
+        virtual ~MenuBar();
 
-            MenuBar();
+        //! Create a new widget.
+        static std::shared_ptr<MenuBar> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        public:
-            virtual ~MenuBar();
+        //! Add a menu.
+        void addMenu(
+            const std::string& text,
+            const std::shared_ptr<Menu>&);
 
-            //! Create a new widget.
-            static std::shared_ptr<MenuBar> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Handle keyboard shortcuts.
+        bool shortcut(Key, int);
 
-            //! Add a menu.
-            void addMenu(
-                const std::string& text,
-                const std::shared_ptr<Menu>&);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void keyFocusEvent(bool) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-            //! Handle keyboard shortcuts.
-            bool shortcut(Key, int);
+    private:
+        void _setCurrent(int);
+        void _currentUpdate();
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void keyFocusEvent(bool) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
+        std::shared_ptr<Menu> _getOpenMenu() const;
+        void _openMenu(int);
 
-        private:
-            void _setCurrent(int);
-            void _currentUpdate();
+        DTK_PRIVATE();
+    };
 
-            std::shared_ptr<Menu> _getOpenMenu() const;
-            void _openMenu(int);
-
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

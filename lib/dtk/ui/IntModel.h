@@ -11,112 +11,109 @@ namespace dtk
 {
     class Context;
     
-    namespace ui
-    {
-        //! \name Numeric Widgets
-        ///@{
+    //! \name Numeric Widgets
+    ///@{
         
-        //! Integer value model.
-        class IntModel : public std::enable_shared_from_this<IntModel>
-        {
-            DTK_NON_COPYABLE(IntModel);
+    //! Integer value model.
+    class IntModel : public std::enable_shared_from_this<IntModel>
+    {
+        DTK_NON_COPYABLE(IntModel);
 
-            void _init(const std::shared_ptr<Context>&);
+        void _init(const std::shared_ptr<Context>&);
 
-        protected:
-            IntModel();
+    protected:
+        IntModel();
 
-        public:
-            ~IntModel();
+    public:
+        ~IntModel();
 
-            //! Create a new model.
-            static std::shared_ptr<IntModel> create(
-                const std::shared_ptr<Context>&);
+        //! Create a new model.
+        static std::shared_ptr<IntModel> create(
+            const std::shared_ptr<Context>&);
 
-            //! \name Value
-            ///@{
+        //! \name Value
+        ///@{
 
-            //! Get the value.
-            int getValue() const;
+        //! Get the value.
+        int getValue() const;
 
-            //! Set the value.
-            void setValue(int);
+        //! Set the value.
+        void setValue(int);
 
-            //! Observe the value.
-            std::shared_ptr<IObservableValue<int> > observeValue() const;
-
-            ///@}
-
-            //! \name Range
-            ///@{
-
-            //! Get the range.
-            const RangeI& getRange() const;
-
-            //! Set the range.
-            void setRange(const RangeI&);
-
-            //! Observe the range.
-            std::shared_ptr<IObservableValue<RangeI> > observeRange() const;
-
-            ///@}
-
-            //! \name Increment
-            ///@{
-
-            //! Get the increment step.
-            int getStep() const;
-
-            //! Set the increment step.
-            void setStep(int);
-
-            //! Increment the value by a step.
-            void incrementStep();
-
-            //! Decrement the value by a step.
-            void decrementStep();
-
-            //! Get the increment large step.
-            int getLargeStep() const;
-
-            //! Set the increment large step.
-            void setLargeStep(int);
-
-            //! Increment the value by a large step.
-            void incrementLargeStep();
-
-            //! Decrement the value by a large step.
-            void decrementLargeStep();
-
-            ///@}
-
-            //! \name Default Value
-            ///@{
-
-            //! Get whether there is a default value.
-            bool hasDefaultValue() const;
-
-            //! Observe the default value.
-            std::shared_ptr<IObservableValue<bool> > observeHasDefaultValue() const;
-
-            //! Get the default value.
-            int getDefaultValue() const;
-
-            //! Set the default value.
-            void setDefaultValue(int);
-
-            //! Set the value to the default value.
-            void setDefaultValue();
-
-            //! Clear the default value.
-            void clearDefaultValue();
-
-            ///@}
-
-        private:
-            DTK_PRIVATE();
-        };
+        //! Observe the value.
+        std::shared_ptr<IObservableValue<int> > observeValue() const;
 
         ///@}
-    }
+
+        //! \name Range
+        ///@{
+
+        //! Get the range.
+        const RangeI& getRange() const;
+
+        //! Set the range.
+        void setRange(const RangeI&);
+
+        //! Observe the range.
+        std::shared_ptr<IObservableValue<RangeI> > observeRange() const;
+
+        ///@}
+
+        //! \name Increment
+        ///@{
+
+        //! Get the increment step.
+        int getStep() const;
+
+        //! Set the increment step.
+        void setStep(int);
+
+        //! Increment the value by a step.
+        void incrementStep();
+
+        //! Decrement the value by a step.
+        void decrementStep();
+
+        //! Get the increment large step.
+        int getLargeStep() const;
+
+        //! Set the increment large step.
+        void setLargeStep(int);
+
+        //! Increment the value by a large step.
+        void incrementLargeStep();
+
+        //! Decrement the value by a large step.
+        void decrementLargeStep();
+
+        ///@}
+
+        //! \name Default Value
+        ///@{
+
+        //! Get whether there is a default value.
+        bool hasDefaultValue() const;
+
+        //! Observe the default value.
+        std::shared_ptr<IObservableValue<bool> > observeHasDefaultValue() const;
+
+        //! Get the default value.
+        int getDefaultValue() const;
+
+        //! Set the default value.
+        void setDefaultValue(int);
+
+        //! Set the value to the default value.
+        void setDefaultValue();
+
+        //! Clear the default value.
+        void clearDefaultValue();
+
+        ///@}
+
+    private:
+        DTK_PRIVATE();
+    };
+
+    ///@}
 }

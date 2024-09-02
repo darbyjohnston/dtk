@@ -3,33 +3,32 @@
 # All rights reserved.
 
 import dtk
-from dtk import dtkUI
 
 import sys
         
 context = dtk.Context()
-app = dtkUI.App(context, sys.argv, "buttons", "Buttons example")
+app = dtk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(1)
 
 # Disable the native file dialog.
 for system in context.systems:
-    if isinstance(system, dtkUI.FileBrowserSystem):
+    if isinstance(system, dtk.FileBrowserSystem):
         system.nativeFileDialog = False
 
 # Create the window.
-window = dtkUI.Window(context, "buttons", dtk.Size2I(1280, 960))
+window = dtk.Window(context, "buttons", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
-layout = dtkUI.VerticalLayout(context)
-layout.marginRole = dtkUI.SizeRole.Margin
-scrollWidget = dtkUI.ScrollWidget(context, dtkUI.ScrollType.Both, window)
+layout = dtk.VerticalLayout(context)
+layout.marginRole = dtk.SizeRole.Margin
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout
         
 # Create the file widgets.
 for i in range(0, 10):
-    dtkUI.FileEdit(context, layout)
+    dtk.FileEdit(context, layout)
 
 window.show()
 app.run()

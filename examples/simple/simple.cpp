@@ -7,7 +7,6 @@
 #include <dtk/ui/App.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 namespace dtk
 {
@@ -30,7 +29,7 @@ namespace dtk
 
             void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
             {
-                ui::Window::drawEvent(drawRect, event);
+                dtk::Window::drawEvent(drawRect, event);
                 const std::string text = "Hello world";
                 FontInfo fontInfo;
                 fontInfo.size = 0;

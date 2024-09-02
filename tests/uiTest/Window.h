@@ -12,7 +12,7 @@ namespace dtk
     {
         class App;
 
-        class Window : public ui::IWindow
+        class Window : public IWindow
         {
         protected:
             void _init(
@@ -38,18 +38,18 @@ namespace dtk
             void setButton(int button, int modifiers = 0);
             void setButton(int button, bool press, int modifiers = 0);
             void setScroll(const V2F&);
-            void setKey(ui::Key, int modifiers = 0);
-            void setKey(ui::Key, bool press, int modifiers = 0);
+            void setKey(Key, int modifiers = 0);
+            void setKey(Key, bool press, int modifiers = 0);
             void setText(const std::string&);
             void setDrop(const std::vector<std::string>&);
 
             void update(
                 const std::shared_ptr<FontSystem>&,
-                const std::shared_ptr<ui::Style>&,
-                const std::shared_ptr<ui::IconLibrary>&);
+                const std::shared_ptr<Style>&,
+                const std::shared_ptr<IconLibrary>&);
 
             void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const ui::SizeHintEvent&) override;
+            void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
             DTK_PRIVATE();

@@ -13,25 +13,22 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void toolButton(py::module_& m)
     {
-        void toolButton(py::module_& m)
-        {
-            py::class_<ToolButton, IButton, std::shared_ptr<ToolButton> >(m, "ToolButton")
-                .def(
-                    py::init(py::overload_cast<
-                        const std::shared_ptr<Context>&,
-                        const std::shared_ptr<IWidget>&>(&ToolButton::create)),
-                    py::arg("context"),
-                    py::arg("parent") = nullptr)
-                .def(
-                    py::init(py::overload_cast<
-                        const std::shared_ptr<Context>&,
-                        const std::string&,
-                        const std::shared_ptr<IWidget>&>(&ToolButton::create)),
-                    py::arg("context"),
-                    py::arg("text"),
-                    py::arg("parent") = nullptr);
-        }
+        py::class_<ToolButton, IButton, std::shared_ptr<ToolButton> >(m, "ToolButton")
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>&>(&ToolButton::create)),
+                py::arg("context"),
+                py::arg("parent") = nullptr)
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::string&,
+                    const std::shared_ptr<IWidget>&>(&ToolButton::create)),
+                py::arg("context"),
+                py::arg("text"),
+                py::arg("parent") = nullptr);
     }
 }

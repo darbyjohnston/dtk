@@ -14,8 +14,6 @@
 #include <dtk/core/Time.h>
 #include <dtk/core/Timer.h>
 
-using namespace dtk::ui;
-
 namespace dtk
 {
     namespace ui_test
@@ -52,7 +50,7 @@ namespace dtk
                 cmdLineArgs,
                 cmdLineOptions);
             DTK_P();
-            ui::init(context);
+            uiInit(context);
 
             p.fontSystem = context->getSystem<FontSystem>();
             p.style = Style::create(context);

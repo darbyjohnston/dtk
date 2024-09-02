@@ -8,63 +8,60 @@
 
 namespace dtk
 {
-    namespace ui
+    class IWindow;
+
+    //! \name Popup Widgets
+    ///@{
+
+    //! Base class for popup widgets.
+    class IWidgetPopup : public IPopup
     {
-        class IWindow;
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string& objectName,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! \name Popup Widgets
-        ///@{
+        IWidgetPopup();
 
-        //! Base class for popup widgets.
-        class IWidgetPopup : public IPopup
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string& objectName,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+    public:
+        virtual ~IWidgetPopup() = 0;
 
-            IWidgetPopup();
+        //! Open the popup.
+        void open(
+            const std::shared_ptr<IWindow>&,
+            const Box2I& buttonGeometry);
 
-        public:
-            virtual ~IWidgetPopup() = 0;
+        //! Get whether the popup is open.
+        bool isOpen() const;
 
-            //! Open the popup.
-            void open(
-                const std::shared_ptr<IWindow>&,
-                const Box2I& buttonGeometry);
+        //! Close the popup.
+        void close() override;
 
-            //! Get whether the popup is open.
-            bool isOpen() const;
+        //! Set the close callback.
+        void setCloseCallback(const std::function<void(void)>&);
 
-            //! Close the popup.
-            void close() override;
+        //! Get the widget.
+        const std::shared_ptr<IWidget>& getWidget() const;
 
-            //! Set the close callback.
-            void setCloseCallback(const std::function<void(void)>&);
+        //! Set the widget.
+        void setWidget(const std::shared_ptr<IWidget>&);
 
-            //! Get the widget.
-            const std::shared_ptr<IWidget>& getWidget() const;
+        //! Get the popup color role.
+        ColorRole getPopupRole() const;
 
-            //! Set the widget.
-            void setWidget(const std::shared_ptr<IWidget>&);
+        //! Set the popup color role.
+        void setPopupRole(ColorRole);
 
-            //! Get the popup color role.
-            ColorRole getPopupRole() const;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-            //! Set the popup color role.
-            void setPopupRole(ColorRole);
+    private:
+        DTK_PRIVATE();
+    };
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
-
-        private:
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

@@ -11,41 +11,37 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Icons
+    ///@{
+        
+    //! Icon library.
+    class IconLibrary : public std::enable_shared_from_this<IconLibrary>
     {
-        //! \name Icons
-        ///@{
-        
-        //! Icon library.
-        class IconLibrary : public std::enable_shared_from_this<IconLibrary>
-        {
-            DTK_NON_COPYABLE(IconLibrary);
+        DTK_NON_COPYABLE(IconLibrary);
 
-        protected:
-            void _init(const std::shared_ptr<Context>&);
+    protected:
+        void _init(const std::shared_ptr<Context>&);
 
-            IconLibrary();
+        IconLibrary();
 
-        public:
-            ~IconLibrary();
+    public:
+        ~IconLibrary();
 
-            //! Create a new icon library.
-            static std::shared_ptr<IconLibrary> create(
-                const std::shared_ptr<Context>&);
+        //! Create a new icon library.
+        static std::shared_ptr<IconLibrary> create(
+            const std::shared_ptr<Context>&);
 
-            //! Request an icon.
-            std::future<std::shared_ptr<Image> > request(
-                const std::string& name,
-                float displayScale);
+        //! Request an icon.
+        std::future<std::shared_ptr<Image> > request(
+            const std::string& name,
+            float displayScale);
 
-            //! Cancel requests.
-            void cancelRequests();
+        //! Cancel requests.
+        void cancelRequests();
             
-        private:
-            DTK_PRIVATE();
-        };
+    private:
+        DTK_PRIVATE();
+    };
         
-        ///@}
-    }
+    ///@}
 }
-

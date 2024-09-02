@@ -10,35 +10,32 @@
 
 namespace dtk
 {
-    namespace ui
+    class ListItemButton : public IButton
     {
-        class ListItemButton : public IButton
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string&,
-                const std::shared_ptr<IWidget>& parent);
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string&,
+            const std::shared_ptr<IWidget>& parent);
 
-            ListItemButton();
+        ListItemButton();
 
-        public:
-            virtual ~ListItemButton();
+    public:
+        virtual ~ListItemButton();
 
-            static std::shared_ptr<ListItemButton> create(
-                const std::shared_ptr<Context>&,
-                const std::string&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        static std::shared_ptr<ListItemButton> create(
+            const std::shared_ptr<Context>&,
+            const std::string&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            void setCurrent(bool);
+        void setCurrent(bool);
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void clipEvent(const Box2I&, bool) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void clipEvent(const Box2I&, bool) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
 
-        private:
-            DTK_PRIVATE();
-        };
-    }
+    private:
+        DTK_PRIVATE();
+    };
 }

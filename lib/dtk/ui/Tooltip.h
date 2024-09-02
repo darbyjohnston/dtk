@@ -8,45 +8,42 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Popup Widgets
+    ///@{
+
+    const std::chrono::milliseconds tooltipTimeout(1000);
+
+    //! Tooltip.
+    class Tooltip : public IPopup
     {
-        //! \name Popup Widgets
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::string& text,
+            const V2I& pos,
+            const std::shared_ptr<IWidget>&);
 
-        const std::chrono::milliseconds tooltipTimeout(1000);
-        
-        //! Tooltip.
-        class Tooltip : public IPopup
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::string& text,
-                const V2I& pos,
-                const std::shared_ptr<IWidget>&);
+        Tooltip();
 
-            Tooltip();
+    public:
+        virtual ~Tooltip();
 
-        public:
-            virtual ~Tooltip();
+        //! Create a new tooltip.
+        static std::shared_ptr<Tooltip> create(
+            const std::shared_ptr<Context>&,
+            const std::string& text,
+            const V2I& pos,
+            const std::shared_ptr<IWidget>&);
 
-            //! Create a new tooltip.
-            static std::shared_ptr<Tooltip> create(
-                const std::shared_ptr<Context>&,
-                const std::string& text,
-                const V2I& pos,
-                const std::shared_ptr<IWidget>&);
+        void close() override;
 
-            void close() override;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
+    private:
+        DTK_PRIVATE();
+    };
 
-        private:
-            DTK_PRIVATE();
-        };
-        
-        ///@}
-    }
+    ///@}
 }

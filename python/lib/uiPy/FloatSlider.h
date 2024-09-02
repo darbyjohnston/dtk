@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void floatSlider(pybind11::module_&);
-    }
+    void floatSlider(pybind11::module_&);
 }

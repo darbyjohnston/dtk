@@ -12,7 +12,6 @@
 #include <dtk/ui/ScrollWidget.h>
 
 using namespace dtk;
-using namespace dtk::ui;
 
 namespace dtk
 {
@@ -26,7 +25,7 @@ namespace dtk
                 const std::string& name,
                 const Size2I& size)
             {
-                ui::Window::_init(context, name, size);
+                dtk::Window::_init(context, name, size);
                     
                 _menus["File"] = Menu::create(context);
                 auto appWeak = std::weak_ptr<App>(app);
@@ -150,12 +149,12 @@ namespace dtk
                 return out;
             }
 
-            void Window::keyPressEvent(ui::KeyEvent& event)
+            void Window::keyPressEvent(KeyEvent& event)
             {
                 event.accept = _menuBar->shortcut(event.key, event.modifiers);
             }
 
-            void Window::keyReleaseEvent(ui::KeyEvent& event)
+            void Window::keyReleaseEvent(KeyEvent& event)
             {
                 event.accept = true;
             }

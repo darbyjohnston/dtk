@@ -141,10 +141,12 @@ namespace dtk
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
             gl::init(context);
 #endif // dtk_API_GL_4_1
-            ui::init(context);
+            uiInit(context);
 
+            p.tests.push_back(core_test::AppTest::create(context));
             p.tests.push_back(core_test::BoxPackTest::create(context));
             p.tests.push_back(core_test::BoxTest::create(context));
+            p.tests.push_back(core_test::CmdLineTest::create(context));
             p.tests.push_back(core_test::ColorTest::create(context));
             p.tests.push_back(core_test::CommandTest::create(context));
             p.tests.push_back(core_test::ErrorTest::create(context));
@@ -183,9 +185,6 @@ namespace dtk
             p.tests.push_back(gl_test::ShaderTest::create(context));
             p.tests.push_back(gl_test::WindowTest::create(context));
 #endif // dtk_API_GL_4_1
-
-            p.tests.push_back(app_test::AppTest::create(context));
-            p.tests.push_back(app_test::CmdLineTest::create(context));
 
             p.tests.push_back(ui_test::ActionTest::create(context));
             p.tests.push_back(ui_test::BellowsTest::create(context));

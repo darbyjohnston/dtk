@@ -8,8 +8,5 @@
 
 namespace dtk
 {
-    namespace ui
-    {
-        void event(pybind11::module_&);
-    }
+    void event(pybind11::module_&);
 }

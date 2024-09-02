@@ -11,18 +11,15 @@
 
 namespace dtk
 {
-    namespace ui
+    void uiInit(const std::shared_ptr<Context>& context)
     {
-        void init(const std::shared_ptr<Context>& context)
+        if (!context->getSystem<FileBrowserSystem>())
         {
-            if (!context->getSystem<FileBrowserSystem>())
-            {
-                context->addSystem(FileBrowserSystem::create(context));
-            }
-            if (!context->getSystem<MessageDialogSystem>())
-            {
-                context->addSystem(MessageDialogSystem::create(context));
-            }
+            context->addSystem(FileBrowserSystem::create(context));
+        }
+        if (!context->getSystem<MessageDialogSystem>())
+        {
+            context->addSystem(MessageDialogSystem::create(context));
         }
     }
 }

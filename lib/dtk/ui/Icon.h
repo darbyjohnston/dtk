@@ -8,55 +8,52 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Icons
+    ///@{
+        
+    //! Icon widget.
+    class Icon : public IWidget
     {
-        //! \name Icons
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        Icon();
+
+    public:
+        virtual ~Icon();
+
+        //! Create a new widget.
+        static std::shared_ptr<Icon> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        //! Create a new widget.
+        static std::shared_ptr<Icon> create(
+            const std::shared_ptr<Context>&,
+            const std::string& icon,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        //! Get the icon.
+        const std::string& getIcon() const;
+
+        //! Set the icon.
+        void setIcon(const std::string&);
+
+        //! Get the margin role.
+        SizeRole getMarginRole() const;
+
+        //! Set the margin role.
+        void setMarginRole(SizeRole);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+
+    private:
+        DTK_PRIVATE();
+    };
         
-        //! Icon widget.
-        class Icon : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
-
-            Icon();
-
-        public:
-            virtual ~Icon();
-
-            //! Create a new widget.
-            static std::shared_ptr<Icon> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
-
-            //! Create a new widget.
-            static std::shared_ptr<Icon> create(
-                const std::shared_ptr<Context>&,
-                const std::string& icon,
-                const std::shared_ptr<IWidget>& parent = nullptr);
-
-            //! Get the icon.
-            const std::string& getIcon() const;
-
-            //! Set the icon.
-            void setIcon(const std::string&);
-
-            //! Get the margin role.
-            SizeRole getMarginRole() const;
-
-            //! Set the margin role.
-            void setMarginRole(SizeRole);
-
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-
-        private:
-            DTK_PRIVATE();
-        };
-        
-        ///@}
-    }
+    ///@}
 }

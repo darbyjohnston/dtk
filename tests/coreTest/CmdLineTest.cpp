@@ -10,7 +10,7 @@
 
 namespace dtk
 {
-    namespace app_test
+    namespace core_test
     {
         CmdLineTest::CmdLineTest(const std::shared_ptr<Context>& context) :
             ITest(context, "dtk::app_test::CmdLineTest")

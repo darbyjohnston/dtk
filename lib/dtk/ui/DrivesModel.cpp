@@ -14,92 +14,89 @@
 
 namespace dtk
 {
-    namespace ui
+    namespace
     {
-        namespace
+        const std::chrono::milliseconds timeout(100);
+    }
+
+    struct DrivesModel::Private
+    {
+        std::shared_ptr<ObservableList<std::filesystem::path> > drives;
+
+        struct Mutex
         {
-            const std::chrono::milliseconds timeout(100);
-        }
-
-        struct DrivesModel::Private
-        {
-            std::shared_ptr<ObservableList<std::filesystem::path> > drives;
-
-            struct Mutex
-            {
-                std::vector<std::filesystem::path> drives;
-                std::mutex mutex;
-            };
-            Mutex mutex;
-            std::thread thread;
-            std::atomic<bool> running;
-
-            std::shared_ptr<Timer> timer;
+            std::vector<std::filesystem::path> drives;
+            std::mutex mutex;
         };
+        Mutex mutex;
+        std::thread thread;
+        std::atomic<bool> running;
 
-        void DrivesModel::_init(const std::shared_ptr<Context>& context)
-        {
-            DTK_P();
+        std::shared_ptr<Timer> timer;
+    };
 
-            p.drives = ObservableList<std::filesystem::path>::create();
+    void DrivesModel::_init(const std::shared_ptr<Context>& context)
+    {
+        DTK_P();
 
-            p.running = true;
-            p.thread = std::thread(
-                [this]
+        p.drives = ObservableList<std::filesystem::path>::create();
+
+        p.running = true;
+        p.thread = std::thread(
+            [this]
+            {
+                DTK_P();
+                while (p.running)
                 {
-                    DTK_P();
-                    while (p.running)
-                    {
-                        const auto drives = getDrives();
-                        {
-                            std::lock_guard<std::mutex> lock(p.mutex.mutex);
-                            p.mutex.drives = drives;
-                        }
-                        sleep(timeout);
-                    }
-                });
-
-            p.timer = Timer::create(context);
-            p.timer->setRepeating(true);
-            p.timer->start(
-                timeout,
-                [this]
-                {
-                    DTK_P();
-                    std::vector<std::filesystem::path> drives;
+                    const auto drives = getDrives();
                     {
                         std::lock_guard<std::mutex> lock(p.mutex.mutex);
-                        drives = p.mutex.drives;
+                        p.mutex.drives = drives;
                     }
-                    p.drives->setIfChanged(drives);
-                });
-        }
+                    sleep(timeout);
+                }
+            });
 
-        DrivesModel::DrivesModel() :
-            _p(new Private)
-        {}
-
-        DrivesModel::~DrivesModel()
-        {
-            DTK_P();
-            p.running = false;
-            if (p.thread.joinable())
+        p.timer = Timer::create(context);
+        p.timer->setRepeating(true);
+        p.timer->start(
+            timeout,
+            [this]
             {
-                p.thread.join();
-            }
-        }
+                DTK_P();
+                std::vector<std::filesystem::path> drives;
+                {
+                    std::lock_guard<std::mutex> lock(p.mutex.mutex);
+                    drives = p.mutex.drives;
+                }
+                p.drives->setIfChanged(drives);
+            });
+    }
 
-        std::shared_ptr<DrivesModel> DrivesModel::create(
-            const std::shared_ptr<Context>& context)
-        {
-            auto out = std::shared_ptr<DrivesModel>(new DrivesModel);
-            out->_init(context);
-            return out;
-        }
+    DrivesModel::DrivesModel() :
+        _p(new Private)
+    {}
 
-        std::shared_ptr<IObservableList<std::filesystem::path> > DrivesModel::observeDrives() const
+    DrivesModel::~DrivesModel()
+    {
+        DTK_P();
+        p.running = false;
+        if (p.thread.joinable())
         {
-            return _p->drives;
+            p.thread.join();
         }
+    }
+
+    std::shared_ptr<DrivesModel> DrivesModel::create(
+        const std::shared_ptr<Context>& context)
+    {
+        auto out = std::shared_ptr<DrivesModel>(new DrivesModel);
+        out->_init(context);
+        return out;
+    }
+
+    std::shared_ptr<IObservableList<std::filesystem::path> > DrivesModel::observeDrives() const
+    {
+        return _p->drives;
     }
 }

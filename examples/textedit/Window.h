@@ -16,7 +16,7 @@ namespace dtk
         {
             class App;
 
-            class Window : public ui::Window
+            class Window : public dtk::Window
             {
             protected:
                 void _init(
@@ -36,15 +36,15 @@ namespace dtk
                     const std::string& name,
                     const Size2I&);
 
-                void keyPressEvent(ui::KeyEvent&) override;
-                void keyReleaseEvent(ui::KeyEvent&) override;
+                void keyPressEvent(KeyEvent&) override;
+                void keyReleaseEvent(KeyEvent&) override;
 
             private:
-                std::map<std::string, std::shared_ptr<ui::Action> > _actions;
-                std::map<std::string, std::shared_ptr<ui::Menu> > _menus;
-                std::shared_ptr<ui::MenuBar> _menuBar;
-                std::shared_ptr<ui::Label> _textWidget;
-                std::shared_ptr<ValueObserver<ui::FontRole> > _fontObserver;
+                std::map<std::string, std::shared_ptr<Action> > _actions;
+                std::map<std::string, std::shared_ptr<Menu> > _menus;
+                std::shared_ptr<MenuBar> _menuBar;
+                std::shared_ptr<Label> _textWidget;
+                std::shared_ptr<ValueObserver<FontRole> > _fontObserver;
                 std::shared_ptr<ValueObserver<std::string> > _textObserver;
             };
         }

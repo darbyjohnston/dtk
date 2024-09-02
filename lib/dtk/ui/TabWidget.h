@@ -8,56 +8,53 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Layouts
+    ///@{
+
+    //! Tab widget.
+    class TabWidget : public IWidget
     {
-        //! \name Layouts
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! Tab widget.
-        class TabWidget : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent);
+        TabWidget();
 
-            TabWidget();
+    public:
+        virtual ~TabWidget();
 
-        public:
-            virtual ~TabWidget();
+        //! Create a new widget.
+        static std::shared_ptr<TabWidget> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Create a new widget.
-            static std::shared_ptr<TabWidget> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Get the tabs.
+        const std::vector<std::string>& getTabs() const;
 
-            //! Get the tabs.
-            const std::vector<std::string>& getTabs() const;
+        //! Add a tab.
+        void addTab(const std::string&, const std::shared_ptr<IWidget>&);
 
-            //! Add a tab.
-            void addTab(const std::string&, const std::shared_ptr<IWidget>&);
+        //! Clear the tabs.
+        void clearTabs();
 
-            //! Clear the tabs.
-            void clearTabs();
+        //! Get the current tab.
+        int getCurrentTab() const;
 
-            //! Get the current tab.
-            int getCurrentTab() const;
+        //! Set the current tab.
+        void setCurrentTab(int);
 
-            //! Set the current tab.
-            void setCurrentTab(int);
+        //! Set the callback.
+        void setCallback(const std::function<void(int)>&);
 
-            //! Set the callback.
-            void setCallback(const std::function<void(int)>&);
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
+    private:
+        void _widgetUpdate();
 
-        private:
-            void _widgetUpdate();
+        DTK_PRIVATE();
+    };
 
-            DTK_PRIVATE();
-        };
-
-        ///@}
-    }
+    ///@}
 }

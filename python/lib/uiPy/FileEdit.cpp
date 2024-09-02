@@ -14,17 +14,14 @@ namespace py = pybind11;
 
 namespace dtk
 {
-    namespace ui
+    void fileEdit(py::module_& m)
     {
-        void fileEdit(py::module_& m)
-        {
-            py::class_<FileEdit, IWidget, std::shared_ptr<FileEdit> >(m, "FileEdit")
-                .def(
-                    py::init(&FileEdit::create),
-                    py::arg("context"),
-                    py::arg("parent") = nullptr)
-                .def_property("path", &FileEdit::getPath, &FileEdit::setPath)
-                .def("setCallback", &FileEdit::setCallback);
-        }
+        py::class_<FileEdit, IWidget, std::shared_ptr<FileEdit> >(m, "FileEdit")
+            .def(
+                py::init(&FileEdit::create),
+                py::arg("context"),
+                py::arg("parent") = nullptr)
+            .def_property("path", &FileEdit::getPath, &FileEdit::setPath)
+            .def("setCallback", &FileEdit::setCallback);
     }
 }

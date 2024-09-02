@@ -9,81 +9,78 @@
 
 namespace dtk
 {
-    namespace ui
+    //! \name Numeric Widgets
+    ///@{
+
+    //! Floating point value slider.
+    class FloatSlider : public IWidget
     {
-        //! \name Numeric Widgets
-        ///@{
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FloatModel>&,
+            const std::shared_ptr<IWidget>& parent);
 
-        //! Floating point value slider.
-        class FloatSlider : public IWidget
-        {
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<FloatModel>&,
-                const std::shared_ptr<IWidget>& parent);
+        FloatSlider();
 
-            FloatSlider();
+    public:
+        virtual ~FloatSlider();
 
-        public:
-            virtual ~FloatSlider();
+        //! Create a new widget.
+        static std::shared_ptr<FloatSlider> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FloatModel>& = nullptr,
+            const std::shared_ptr<IWidget>& parent = nullptr);
 
-            //! Create a new widget.
-            static std::shared_ptr<FloatSlider> create(
-                const std::shared_ptr<Context>&,
-                const std::shared_ptr<FloatModel>& = nullptr,
-                const std::shared_ptr<IWidget>& parent = nullptr);
+        //! Get the value.
+        float getValue() const;
 
-            //! Get the value.
-            float getValue() const;
+        //! Set the value.
+        void setValue(float);
 
-            //! Set the value.
-            void setValue(float);
+        //! Set the callback.
+        void setCallback(const std::function<void(float)>&);
 
-            //! Set the callback.
-            void setCallback(const std::function<void(float)>&);
+        //! Get the range.
+        const RangeF& getRange() const;
 
-            //! Get the range.
-            const RangeF& getRange() const;
+        //! Set the range.
+        void setRange(const RangeF&);
 
-            //! Set the range.
-            void setRange(const RangeF&);
+        //! Get the step.
+        float getStep() const;
 
-            //! Get the step.
-            float getStep() const;
+        //! Set the step.
+        void setStep(float);
 
-            //! Set the step.
-            void setStep(float);
+        //! Get the large step.
+        float getLargeStep() const;
 
-            //! Get the large step.
-            float getLargeStep() const;
+        //! Set the large step.
+        void setLargeStep(float);
 
-            //! Set the large step.
-            void setLargeStep(float);
+        //! Get the model.
+        const std::shared_ptr<FloatModel>& getModel() const;
 
-            //! Get the model.
-            const std::shared_ptr<FloatModel>& getModel() const;
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+        void mouseEnterEvent() override;
+        void mouseLeaveEvent() override;
+        void mouseMoveEvent(MouseMoveEvent&) override;
+        void mousePressEvent(MouseClickEvent&) override;
+        void mouseReleaseEvent(MouseClickEvent&) override;
+        void keyPressEvent(KeyEvent&) override;
+        void keyReleaseEvent(KeyEvent&) override;
 
-            void setGeometry(const Box2I&) override;
-            void sizeHintEvent(const SizeHintEvent&) override;
-            void drawEvent(const Box2I&, const DrawEvent&) override;
-            void mouseEnterEvent() override;
-            void mouseLeaveEvent() override;
-            void mouseMoveEvent(MouseMoveEvent&) override;
-            void mousePressEvent(MouseClickEvent&) override;
-            void mouseReleaseEvent(MouseClickEvent&) override;
-            void keyPressEvent(KeyEvent&) override;
-            void keyReleaseEvent(KeyEvent&) override;
+    private:
+        Box2I _getSliderGeometry() const;
 
-        private:
-            Box2I _getSliderGeometry() const;
+        float _posToValue(int) const;
+        int _valueToPos(float) const;
 
-            float _posToValue(int) const;
-            int _valueToPos(float) const;
-
-            DTK_PRIVATE();
-        };
+        DTK_PRIVATE();
+    };
         
-        ///@}
-    }
+    ///@}
 }
