@@ -73,6 +73,7 @@ namespace dtk
                 edit->setFontRole(FontRole::Mono);
 
                 window->setCursorEnter(true);
+                window->setCursorPos(center(edit->getGeometry()));
                 window->setKey(Key::Tab);
                 window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Delete);
