@@ -36,7 +36,6 @@ jobs:
       run: |
         cd build
         cd dtk/src/dtk-build
-        #xvfb-run cmake --build . --target test
         xvfb-run ctest --verbose -C Debug
     
     - name: Code coverage
@@ -85,7 +84,6 @@ jobs:
       run: |
         cd build
         cd dtk/src/dtk-build
-        #xvfb-run cmake --build . --target test
         xvfb-run ctest --verbose -C Debug
 
   macos-12-build:
@@ -128,7 +126,6 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
         cd dtk/src/dtk-build
-        #cmake --build . --target test
         ctest --verbose -C Debug
 
   macos-14-build:
@@ -171,7 +168,6 @@ jobs:
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
         cd dtk/src/dtk-build
-        #cmake --build . --target test
         ctest --verbose -C Debug
 
   windows-build:
@@ -213,6 +209,5 @@ jobs:
       run: |
         cd build
         cd dtk\src\dtk-build
-        #cmake --build . --target RUN_TESTS
         ctest --verbose -C Debug
 
