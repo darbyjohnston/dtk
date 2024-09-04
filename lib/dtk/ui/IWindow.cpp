@@ -344,15 +344,10 @@ namespace dtk
             // Send event to the focused widget or parent.
             if (auto widget = p.keyFocus.lock())
             {
-                while (widget)
+                widget->keyPressEvent(p.keyEvent);
+                if (p.keyEvent.accept)
                 {
-                    widget->keyPressEvent(p.keyEvent);
-                    if (p.keyEvent.accept)
-                    {
-                        p.keyPress = widget;
-                        break;
-                    }
-                    widget = widget->getParent().lock();
+                    p.keyPress = widget;
                 }
             }
 
