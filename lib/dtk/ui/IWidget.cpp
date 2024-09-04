@@ -349,8 +349,12 @@ namespace dtk
         _updates &= ~static_cast<int>(Update::Draw);
     }
 
-    void IWidget::mouseEnterEvent()
+    void IWidget::mouseEnterEvent(MouseEnterEvent& event)
     {
+        if (_mouseHoverEnabled)
+        {
+            event.accept = true;
+        }
         _mouseInside = true;
     }
 

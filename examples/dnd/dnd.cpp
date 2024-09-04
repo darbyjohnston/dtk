@@ -117,9 +117,9 @@ namespace dtk
                 }
             }
 
-            void DragAndDropWidget::mouseEnterEvent()
+            void DragAndDropWidget::mouseEnterEvent(MouseEnterEvent& event)
             {
-                IWidget::mouseEnterEvent();
+                IWidget::mouseEnterEvent(event);
                 _setDrawUpdate();
             }
 

@@ -161,9 +161,9 @@ namespace dtk
         }
     }
 
-    void ScrollBar::mouseEnterEvent()
+    void ScrollBar::mouseEnterEvent(MouseEnterEvent& event)
     {
-        IWidget::mouseEnterEvent();
+        IWidget::mouseEnterEvent(event);
         _setDrawUpdate();
     }
 

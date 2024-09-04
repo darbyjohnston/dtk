@@ -53,6 +53,11 @@ namespace dtk
 
         py::class_<DragAndDropData, std::shared_ptr<DragAndDropData> >(m, "DragAndDropData");
 
+        py::class_<MouseEnterEvent>(m, "MouseEnterEvent")
+            .def(py::init<const V2I&>())
+            .def_readwrite("pos", &MouseEnterEvent::pos)
+            .def_readwrite("accept", &MouseEnterEvent::accept);
+
         py::class_<MouseMoveEvent>(m, "MouseMoveEvent")
             .def(py::init<const V2I&, const V2I&>())
             .def_readwrite("pos", &MouseMoveEvent::pos)

@@ -205,15 +205,14 @@ namespace dtk
             if (auto context = _getContext().lock())
             {
                 std::string text;
-                auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
-                while (!widgets.empty())
+                const auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
+                for (const auto& widget : widgets)
                 {
-                    text = widgets.front()->getTooltip();
+                    text = widget->getTooltip();
                     if (!text.empty())
                     {
                         break;
                     }
-                    widgets.pop_front();
                 }
                 if (!text.empty())
                 {
@@ -412,7 +411,11 @@ namespace dtk
         DTK_P();
         if (!enter)
         {
-            _setHover(nullptr);
+            if (auto hover = p.hover.lock())
+            {
+                hover->mouseLeaveEvent();
+            }
+            p.hover.reset();
         }
     }
 
@@ -512,21 +515,29 @@ namespace dtk
         p.mouseClickEvent = MouseClickEvent(button, modifiers, p.cursorPos);
         if (press)
         {
+            std::vector<std::shared_ptr<IPopup> > popups;
             auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
             auto i = widgets.begin();
             for (; i != widgets.end(); ++i)
             {
-                if (auto popup = std::dynamic_pointer_cast<IPopup>(*i))
-                {
-                    popup->close();
-                }
-
                 (*i)->mousePressEvent(p.mouseClickEvent);
                 if (p.mouseClickEvent.accept)
                 {
                     p.mousePress = *i;
                     break;
                 }
+                if (auto popup = std::dynamic_pointer_cast<IPopup>(*i))
+                {
+                    popups.push_back(popup);
+                }
+            }
+            if (!p.mouseClickEvent.accept)
+            {
+                setKeyFocus(nullptr);
+            }
+            for (const auto& popup : popups)
+            {
+                popup->close();
             }
         }
         else
@@ -632,51 +643,37 @@ namespace dtk
         }
     }
 
-    void IWindow::_setHover(const std::shared_ptr<IWidget>& hover)
-    {
-        DTK_P();
-        if (auto widget = p.hover.lock())
-        {
-            if (hover != widget)
-            {
-                //std::cout << "leave: " << widget->getObjectName() << std::endl;
-                widget->mouseLeaveEvent();
-                if (hover)
-                {
-                    //std::cout << "enter: " << hover->getObjectName() << std::endl;
-                    hover->mouseEnterEvent();
-                }
-            }
-        }
-        else if (hover)
-        {
-            //std::cout << "enter: " << hover->getObjectName() << std::endl;
-            hover->mouseEnterEvent();
-        }
-
-        p.hover = hover;
-
-        if (auto widget = p.hover.lock())
-        {
-            MouseMoveEvent event(
-                p.cursorPos,
-                p.cursorPosPrev);
-            widget->mouseMoveEvent(event);
-        }
-    }
-
     void IWindow::_hoverUpdate(MouseMoveEvent& event)
     {
-        auto widgets = _getUnderCursor(UnderCursor::Hover, event.pos);
-        while (!widgets.empty())
+        DTK_P();
+        const auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
+        std::shared_ptr<IWidget> hover;
+        auto prev = p.hover.lock();
+        for (const auto& widget : widgets)
         {
-            if (widgets.front()->hasMouseHover())
+            if (widget == prev)
             {
+                hover = widget;
                 break;
             }
-            widgets.pop_front();
+            MouseEnterEvent enterEvent(p.cursorPos);
+            widget->mouseEnterEvent(enterEvent);
+            if (enterEvent.accept)
+            {
+                if (prev)
+                {
+                    prev->mouseLeaveEvent();
+                }
+                widget->mouseMoveEvent(event);
+                hover = widget;
+                break;
+            }
         }
-        _setHover(!widgets.empty() ? widgets.front() : nullptr);
+        if (!hover && prev)
+        {
+            prev->mouseLeaveEvent();
+        }
+        p.hover = hover;
     }
 
     void IWindow::_getKeyFocus(

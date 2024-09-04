@@ -47,9 +47,13 @@ namespace dtk
     DragAndDropData::~DragAndDropData()
     {}
 
+    MouseEnterEvent::MouseEnterEvent(const V2I & pos) :
+        pos(pos)
+    {}
+
     MouseMoveEvent::MouseMoveEvent(
-        const V2I& pos,
-        const V2I& prev) :
+        const V2I & pos,
+        const V2I & prev) :
         pos(pos),
         prev(prev)
     {}

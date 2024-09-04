@@ -101,11 +101,6 @@ namespace dtk
         return out;
     }
 
-    inline bool IWidget::hasMouseHover()
-    {
-        return _mouseHoverEnabled;
-    }
-
     inline bool IWidget::acceptsKeyFocus() const
     {
         return _acceptsKeyFocus;

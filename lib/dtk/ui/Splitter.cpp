@@ -267,8 +267,10 @@ namespace dtk
         }
     }
 
-    void Splitter::mouseEnterEvent()
-    {}
+    void Splitter::mouseEnterEvent(MouseEnterEvent& event)
+    {
+        IWidget::mouseEnterEvent(event);
+    }
 
     void Splitter::mouseLeaveEvent()
     {

@@ -356,9 +356,10 @@ namespace dtk
         }
     }
 
-    void ComboBox::mouseEnterEvent()
+    void ComboBox::mouseEnterEvent(MouseEnterEvent& event)
     {
-        IWidget::mouseEnterEvent();
+        IWidget::mouseEnterEvent(event);
+        event.accept = true;
         _setDrawUpdate();
     }
 

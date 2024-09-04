@@ -241,9 +241,10 @@ namespace dtk
         }
     }
 
-    void IButton::mouseEnterEvent()
+    void IButton::mouseEnterEvent(MouseEnterEvent& event)
     {
-        IWidget::mouseEnterEvent();
+        IWidget::mouseEnterEvent(event);
+        event.accept = true;
         _setDrawUpdate();
         if (_hoveredCallback)
         {

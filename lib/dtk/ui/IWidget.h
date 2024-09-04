@@ -162,14 +162,6 @@ namespace dtk
 
         ///@}
 
-        //! Mouse
-        ///@{
-
-        //! Does the widget support mouse enter and leave events?
-        bool hasMouseHover();
-
-        ///@}
-
         //! Key Focus
         ///@{
 
@@ -229,7 +221,7 @@ namespace dtk
         virtual void drawOverlayEvent(const Box2I&, const DrawEvent&);
 
         //! Mouse enter event.
-        virtual void mouseEnterEvent();
+        virtual void mouseEnterEvent(MouseEnterEvent&);
 
         //! Mouse leave event.
         virtual void mouseLeaveEvent();

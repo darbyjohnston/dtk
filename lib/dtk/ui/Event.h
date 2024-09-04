@@ -48,10 +48,10 @@ namespace dtk
             const std::shared_ptr<Style>&,
             const std::shared_ptr<IconLibrary>&);
 
-        std::shared_ptr<FontSystem> fontSystem;
-        float                             displayScale = 1.F;
-        std::shared_ptr<Style>            style;
-        std::shared_ptr<IconLibrary>      iconLibrary;
+        std::shared_ptr<FontSystem>  fontSystem;
+        float                        displayScale = 1.F;
+        std::shared_ptr<Style>       style;
+        std::shared_ptr<IconLibrary> iconLibrary;
     };
 
     //! Draw event.
@@ -64,11 +64,11 @@ namespace dtk
             const std::shared_ptr<IconLibrary>&,
             const std::shared_ptr<IRender>&);
 
-        std::shared_ptr<FontSystem> fontSystem;
-        float                             displayScale = 1.F;
-        std::shared_ptr<Style>            style;
-        std::shared_ptr<IconLibrary>      iconLibrary;
-        std::shared_ptr<IRender>    render;
+        std::shared_ptr<FontSystem>  fontSystem;
+        float                        displayScale = 1.F;
+        std::shared_ptr<Style>       style;
+        std::shared_ptr<IconLibrary> iconLibrary;
+        std::shared_ptr<IRender>     render;
     };
 
     //! Drag and drop data.
@@ -78,6 +78,15 @@ namespace dtk
         virtual ~DragAndDropData() = 0;
     };
 
+    //! Mouse enter event.
+    struct MouseEnterEvent
+    {
+        MouseEnterEvent(const V2I& pos);
+
+        bool accept = false;
+        V2I  pos;
+    };
+
     //! Mouse move event.
     struct MouseMoveEvent
     {
@@ -85,12 +94,12 @@ namespace dtk
             const V2I& pos,
             const V2I& prev);
 
-        V2I                        pos;
-        V2I                        prev;
+        V2I                              pos;
+        V2I                              prev;
         bool                             accept = false;
         std::shared_ptr<DragAndDropData> dndData;
-        std::shared_ptr<Image>     dndCursor;
-        V2I                        dndCursorHotspot;
+        std::shared_ptr<Image>           dndCursor;
+        V2I                              dndCursorHotspot;
     };
 
     //! Keyboard modifiers.
@@ -122,10 +131,10 @@ namespace dtk
             int              modifiers,
             const V2I& pos);
 
-        int       button    = 0;
-        int       modifiers = 0;
-        V2I pos;
-        bool      accept    = false;
+        int  button    = 0;
+        int  modifiers = 0;
+        V2I  pos;
+        bool accept    = false;
     };
 
     //! Scroll event (mouse wheel or touch pad).
@@ -136,10 +145,10 @@ namespace dtk
             int              modifiers,
             const V2I& pos);
 
-        V2F value;
-        int       modifiers = 0;
-        V2I pos;
-        bool      accept    = false;
+        V2F  value;
+        int  modifiers = 0;
+        V2I  pos;
+        bool accept    = false;
     };
 
     //! Keys.
@@ -247,14 +256,14 @@ namespace dtk
     {
         KeyEvent() = default;
         KeyEvent(
-            Key              key,
-            int              modifiers,
+            Key        key,
+            int        modifiers,
             const V2I& pos);
 
-        Key       key       = Key::Unknown;
-        int       modifiers = 0;
-        V2I pos;
-        bool      accept    = false;
+        Key  key       = Key::Unknown;
+        int  modifiers = 0;
+        V2I  pos;
+        bool accept    = false;
     };
 
     //! Text event.
@@ -284,12 +293,12 @@ namespace dtk
     struct DragAndDropEvent
     {
         DragAndDropEvent(
-            const V2I&                        pos,
-            const V2I&                        prev,
+            const V2I&                              pos,
+            const V2I&                              prev,
             const std::shared_ptr<DragAndDropData>& data);
 
-        V2I                        pos;
-        V2I                        prev;
+        V2I                              pos;
+        V2I                              prev;
         std::shared_ptr<DragAndDropData> data;
         bool                             accept = false;
     };

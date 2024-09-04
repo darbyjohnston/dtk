@@ -74,8 +74,6 @@ namespace dtk
 
             .def_property("enabled", &IWidget::isEnabled, &IWidget::setEnabled)
 
-            .def("hasMouseHover", &IWidget::hasMouseHover)
-
             .def_property("acceptsKeyFocus", &IWidget::acceptsKeyFocus, &IWidget::setAcceptsKeyFocus)
             .def_property_readonly("keyFocus", &IWidget::hasKeyFocus)
             .def("takeKeyFocus", &IWidget::takeKeyFocus)

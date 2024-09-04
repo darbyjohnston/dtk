@@ -99,7 +99,7 @@ namespace dtk
             bool,
             const TickEvent&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
-        void mouseEnterEvent() override;
+        void mouseEnterEvent(MouseEnterEvent&) override;
         void mouseLeaveEvent() override;
         void mousePressEvent(MouseClickEvent&) override;
         void mouseReleaseEvent(MouseClickEvent&) override;

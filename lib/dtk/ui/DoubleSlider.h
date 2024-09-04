@@ -65,7 +65,7 @@ namespace dtk
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void drawEvent(const Box2I&, const DrawEvent&) override;
-        void mouseEnterEvent() override;
+        void mouseEnterEvent(MouseEnterEvent&) override;
         void mouseLeaveEvent() override;
         void mouseMoveEvent(MouseMoveEvent&) override;
         void mousePressEvent(MouseClickEvent&) override;

@@ -86,7 +86,6 @@ namespace dtk
             const V2I&,
             std::list<std::shared_ptr<IWidget> >&);
 
-        void _setHover(const std::shared_ptr<IWidget>&);
         void _hoverUpdate(MouseMoveEvent&);
 
         void _getKeyFocus(

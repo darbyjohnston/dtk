@@ -228,9 +228,9 @@ namespace dtk
         }
     }
 
-    void FloatSlider::mouseEnterEvent()
+    void FloatSlider::mouseEnterEvent(MouseEnterEvent& event)
     {
-        IWidget::mouseEnterEvent();
+        IWidget::mouseEnterEvent(event);
         _setDrawUpdate();
     }
 

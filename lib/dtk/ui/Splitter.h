@@ -42,7 +42,7 @@ namespace dtk
         void childAddEvent(const ChildAddEvent&) override;
         void childRemoveEvent(const ChildRemoveEvent&) override;
         void drawEvent(const Box2I&, const DrawEvent&) override;
-        void mouseEnterEvent() override;
+        void mouseEnterEvent(MouseEnterEvent&) override;
         void mouseLeaveEvent() override;
         void mouseMoveEvent(MouseMoveEvent&) override;
         void mousePressEvent(MouseClickEvent&) override;
