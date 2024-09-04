@@ -105,7 +105,6 @@ namespace dtk
         void mouseReleaseEvent(MouseClickEvent&) override;
 
     protected:
-
         void _releaseMouse() override;
 
         std::string _text;
