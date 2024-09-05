@@ -515,7 +515,6 @@ namespace dtk
         p.mouseClickEvent = MouseClickEvent(button, modifiers, p.cursorPos);
         if (press)
         {
-            std::vector<std::shared_ptr<IPopup> > popups;
             auto widgets = _getUnderCursor(UnderCursor::Hover, p.cursorPos);
             auto i = widgets.begin();
             for (; i != widgets.end(); ++i)
@@ -528,16 +527,12 @@ namespace dtk
                 }
                 if (auto popup = std::dynamic_pointer_cast<IPopup>(*i))
                 {
-                    popups.push_back(popup);
+                    popup->close();
                 }
             }
             if (!p.mouseClickEvent.accept)
             {
                 setKeyFocus(nullptr);
-            }
-            for (const auto& popup : popups)
-            {
-                popup->close();
             }
         }
         else
@@ -653,6 +648,7 @@ namespace dtk
         {
             if (widget == prev)
             {
+                widget->mouseMoveEvent(event);
                 hover = widget;
                 break;
             }

@@ -291,6 +291,23 @@ namespace dtk
             event.style->getColorRole(p.popupRole));
     }
 
+    void IMenuPopup::mousePressEvent(MouseClickEvent& event)
+    {
+        IPopup::mousePressEvent(event);
+        DTK_P();
+        if (contains(p.buttonGeometry, event.pos))
+        {
+            event.accept = true;
+            close();
+        }
+    }
+
+    void IMenuPopup::mouseReleaseEvent(MouseClickEvent& event)
+    {
+        IPopup::mouseReleaseEvent(event);
+        event.accept = true;
+    }
+
     void IMenuPopup::keyPressEvent(KeyEvent& event)
     {
         if (0 == event.modifiers)
