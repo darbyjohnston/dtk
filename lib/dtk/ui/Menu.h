@@ -9,6 +9,8 @@
 
 namespace dtk
 {
+    class MenuButton;
+
     //! \name Menu Widgets
     ///@{
 
@@ -30,6 +32,9 @@ namespace dtk
             const std::shared_ptr<Context>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
+        //! Get the items.
+        const std::vector<std::shared_ptr<Action> >& getItems() const;
+
         //! Add a menu item.
         void addItem(const std::shared_ptr<Action>&);
 
@@ -39,8 +44,14 @@ namespace dtk
         //! Set whether a menu item is enabled.
         void setItemEnabled(const std::shared_ptr<Action>&, bool);
 
+        //! Get the sub menus.
+        const std::vector<std::shared_ptr<Menu> >& getSubMenus() const;
+
         //! Add a sub menu.
         std::shared_ptr<Menu> addSubMenu(const std::string&);
+
+        //! Set whether a sub menu is enabled.
+        void setSubMenuEnabled(const std::shared_ptr<Menu>&, bool);
 
         //! Add a divider.
         void addDivider();
@@ -58,7 +69,7 @@ namespace dtk
         void keyReleaseEvent(KeyEvent&) override;
 
     private:
-        void _setCurrent(int);
+        void _setCurrent(const std::shared_ptr<MenuButton>&);
         void _currentUpdate();
 
         std::shared_ptr<Menu> _getOpenMenu() const;

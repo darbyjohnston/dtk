@@ -13,9 +13,12 @@ namespace dtk
     {
         std::vector<std::shared_ptr<Action> > items;
         std::vector<std::shared_ptr<MenuButton> > buttons;
-        int current = -1;
+        std::map< std::shared_ptr<Action>, std::shared_ptr<MenuButton> > itemToButton;
+        std::shared_ptr<MenuButton> current;
         std::weak_ptr<Menu> parentMenu;
-        std::map<std::shared_ptr<MenuButton>, std::shared_ptr<Menu> > subMenus;
+        std::vector<std::shared_ptr<Menu> > subMenus;
+        std::map<std::shared_ptr<Menu>, std::shared_ptr<MenuButton> > subMenuToButton;
+        std::map<std::shared_ptr<MenuButton>, std::shared_ptr<Menu> > buttonToSubMenu;
         std::shared_ptr<VerticalLayout> layout;
     };
 
@@ -47,12 +50,18 @@ namespace dtk
         return out;
     }
 
+    const std::vector<std::shared_ptr<Action> >& Menu::getItems() const
+    {
+        return _p->items;
+    }
+
     void Menu::addItem(const std::shared_ptr<Action>& item)
     {
         DTK_P();
-        p.items.push_back(item);
         if (auto context = _getContext().lock())
         {
+            p.items.push_back(item);
+
             auto button = MenuButton::create(context, p.layout);
             button->setText(item->text);
             button->setIcon(item->icon);
@@ -60,11 +69,12 @@ namespace dtk
             button->setCheckable(item->checkable);
             button->setChecked(item->checked);
 
-            const int index = p.buttons.size();
             p.buttons.push_back(button);
+            p.itemToButton[item] = button;
 
+            auto buttonWeak = std::weak_ptr<MenuButton>(button);
             button->setHoveredCallback(
-                [this, index](bool value)
+                [this, buttonWeak](bool value)
                 {
                     if (value)
                     {
@@ -72,12 +82,13 @@ namespace dtk
                         {
                             menu->close();
                         }
+                        _setCurrent(buttonWeak.lock());
                     }
                 });
             button->setClickedCallback(
-                [this, item, index]
+                [this, item, buttonWeak]
                 {
-                    _setCurrent(index);
+                    _setCurrent(buttonWeak.lock());
                     _accept();
                     if (item->callback)
                     {
@@ -85,10 +96,10 @@ namespace dtk
                     }
                 });
             button->setCheckedCallback(
-                [this, item, index](bool value)
+                [this, item, buttonWeak](bool value)
                 {
                     item->checked = value;
-                    _setCurrent(index);
+                    _setCurrent(buttonWeak.lock());
                     _accept();
                     if (item->checkedCallback)
                     {
@@ -96,9 +107,9 @@ namespace dtk
                     }
                 });
 
-            if (-1 == p.current)
+            if (!p.current)
             {
-                p.current = 0;
+                p.current = button;
                 _currentUpdate();
             }
         }
@@ -107,22 +118,27 @@ namespace dtk
     void Menu::setItemChecked(const std::shared_ptr<Action>& item, bool value)
     {
         DTK_P();
-        const auto i = std::find(p.items.begin(), p.items.end(), item);
-        if (i != p.items.end())
+        const auto i = p.itemToButton.find(item);
+        if (i != p.itemToButton.end())
         {
-            (*i)->checked = value;
-            p.buttons[i - p.items.begin()]->setChecked(value);
+            i->first->checked = value;
+            i->second->setChecked(value);
         }
     }
 
     void Menu::setItemEnabled(const std::shared_ptr<Action>& item, bool value)
     {
         DTK_P();
-        const auto i = std::find(p.items.begin(), p.items.end(), item);
-        if (i != p.items.end())
+        const auto i = p.itemToButton.find(item);
+        if (i != p.itemToButton.end())
         {
-            p.buttons[i - p.items.begin()]->setEnabled(value);
+            i->second->setEnabled(value);
         }
+    }
+
+    const std::vector<std::shared_ptr<Menu> >& Menu::getSubMenus() const
+    {
+        return _p->subMenus;
     }
 
     std::shared_ptr<Menu> Menu::addSubMenu(const std::string& text)
@@ -134,14 +150,14 @@ namespace dtk
             out = Menu::create(context);
             out->setPopup(MenuPopup::SubMenu);
             out->_p->parentMenu = std::dynamic_pointer_cast<Menu>(shared_from_this());
+            p.subMenus.push_back(out);
 
             auto button = MenuButton::create(context, p.layout);
             button->setText(text);
             button->setSubMenuIcon("SubMenuArrow");
-            p.subMenus[button] = out;
-
-            const int index = p.buttons.size();
             p.buttons.push_back(button);
+            p.subMenuToButton[out] = button;
+            p.buttonToSubMenu[button] = out;
 
             auto buttonWeak = std::weak_ptr<MenuButton>(button);
             button->setHoveredCallback(
@@ -157,16 +173,16 @@ namespace dtk
                             }
                             if (auto button = buttonWeak.lock())
                             {
-                                button->takeKeyFocus();
+                                _setCurrent(button);
                                 out->open(getWindow(), button->getGeometry());
                             }
                         }
                     }
                 });
             button->setPressedCallback(
-                [this, out, buttonWeak, index]
+                [this, out, buttonWeak]
                 {
-                    _setCurrent(index);
+                    _setCurrent(buttonWeak.lock());
                     if (!out->isOpen())
                     {
                         if (auto openMenu = _getOpenMenu())
@@ -175,19 +191,29 @@ namespace dtk
                         }
                         if (auto button = buttonWeak.lock())
                         {
-                            button->takeKeyFocus();
+                            _setCurrent(button);
                             out->open(getWindow(), button->getGeometry());
                         }
                     }
                 });
 
-            if (-1 == p.current)
+            if (!p.current)
             {
-                p.current = 0;
+                p.current = button;
                 _currentUpdate();
             }
         }
         return out;
+    }
+
+    void Menu::setSubMenuEnabled(const std::shared_ptr<Menu>& menu, bool value)
+    {
+        DTK_P();
+        const auto i = p.subMenuToButton.find(menu);
+        if (i != p.subMenuToButton.end())
+        {
+            i->second->setEnabled(value);
+        }
     }
 
     void Menu::addDivider()
@@ -203,34 +229,37 @@ namespace dtk
     {
         DTK_P();
         p.items.clear();
-        for (auto button : p.buttons)
+        for (const auto& button : p.buttons)
         {
             button->setParent(nullptr);
         }
         p.buttons.clear();
-        p.current = -1;
+        p.itemToButton.clear();
+        p.current.reset();
         p.parentMenu.reset();
         p.subMenus.clear();
+        p.subMenuToButton.clear();
+        p.buttonToSubMenu.clear();
     }
 
     bool Menu::shortcut(Key shortcut, int modifiers)
     {
         DTK_P();
         bool out = false;
-        for (const auto& item : p.items)
+        for (const auto& i : p.itemToButton)
         {
-            if (shortcut == item->shortcut &&
-                modifiers == item->shortcutModifiers)
+            if (shortcut == i.first->shortcut &&
+                modifiers == i.first->shortcutModifiers)
             {
-                if (item->callback)
+                if (i.first->callback)
                 {
-                    item->callback();
+                    i.first->callback();
                     out = true;
                 }
-                if (item->checkedCallback)
+                if (i.first->checkedCallback)
                 {
-                    setItemChecked(item, !item->checked);
-                    item->checkedCallback(item->checked);
+                    setItemChecked(i.first, !i.first->checked);
+                    i.first->checkedCallback(i.first->checked);
                     out = true;
                 }
             }
@@ -243,7 +272,7 @@ namespace dtk
         DTK_P();
         for (const auto& subMenu : p.subMenus)
         {
-            subMenu.second->close();
+            subMenu->close();
         }
         IMenuPopup::close();
     }
@@ -264,13 +293,13 @@ namespace dtk
             case Key::Enter:
                 event.accept = true;
                 takeKeyFocus();
-                if (p.current >= 0 && p.current < p.buttons.size())
+                if (p.current)
                 {
-                    auto button = p.buttons[p.current];
-                    const auto i = p.subMenus.find(button);
-                    if (i != p.subMenus.end())
+                    auto button = p.current;
+                    const auto i = p.buttonToSubMenu.find(button);
+                    if (i != p.buttonToSubMenu.end())
                     {
-                        button->takeKeyFocus();
+                        _setCurrent(button);
                         i->second->open(getWindow(), button->getGeometry());
                     }
                     else
@@ -280,24 +309,54 @@ namespace dtk
                 }
                 break;
             case Key::Up:
+            {
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(p.current - 1);
+                auto i = p.buttons.begin();
+                for (; i != p.buttons.end() && *i != p.current; ++i)
+                    ;
+                if (i != p.buttons.begin())
+                {
+                    --i;
+                }
+                if (i != p.buttons.end())
+                {
+                    _setCurrent(*i);
+                }
                 break;
+            }
             case Key::Down:
+            {
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(p.current + 1);
+                auto i = p.buttons.begin();
+                for (; i != p.buttons.end() && *i != p.current; ++i)
+                    ;
+                if (i != p.buttons.end())
+                {
+                    ++i;
+                }
+                if (i != p.buttons.end())
+                {
+                    _setCurrent(*i);
+                }
                 break;
+            }
             case Key::Home:
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(0);
+                if (!p.buttons.empty())
+                {
+                    _setCurrent(*p.buttons.begin());
+                }
                 break;
             case Key::End:
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(static_cast<int>(p.buttons.size()) - 1);
+                if (!p.buttons.empty())
+                {
+                    _setCurrent(*(p.buttons.end() - 1));
+                }
                 break;
             default: break;
             }
@@ -314,13 +373,12 @@ namespace dtk
         event.accept = true;
     }
 
-    void Menu::_setCurrent(int value)
+    void Menu::_setCurrent(const std::shared_ptr<MenuButton>& button)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.buttons.size()) - 1);
-        if (tmp == p.current)
+        if (button == p.current)
             return;
-        p.current = tmp;
+        p.current = button;
         _currentUpdate();
     }
 
@@ -328,9 +386,9 @@ namespace dtk
     {
         DTK_P();
         const bool focus = hasKeyFocus();
-        for (int i = 0; i < p.buttons.size(); ++i)
+        for (const auto& button : p.buttons)
         {
-            p.buttons[i]->setCurrent(p.current == i && focus);
+            button->setCurrent(p.current == button && focus);
         }
     }
 
@@ -338,11 +396,11 @@ namespace dtk
     {
         DTK_P();
         std::shared_ptr<Menu> out;
-        for (const auto i : p.subMenus)
+        for (const auto& subMenu : p.subMenus)
         {
-            if (i.second->isOpen())
+            if (subMenu->isOpen())
             {
-                out = i.second;
+                out = subMenu;
                 break;
             }
         }

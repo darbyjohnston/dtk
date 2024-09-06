@@ -195,11 +195,14 @@ namespace dtk
     struct Window::Private
     {
         std::weak_ptr<Context> context;
-        std::shared_ptr<gl::Window> window;
+
+        std::shared_ptr<ObservableValue<bool> > fullScreen;
         Size2I bufferSize = Size2I(0, 0);
         V2F contentScale = V2F(1.F, 1.F);
         bool refresh = true;
         int modifiers = 0;
+        std::shared_ptr<gl::Window> window;
+
         std::shared_ptr<gl::OffscreenBuffer> buffer;
         std::shared_ptr<gl::Render> render;
 #if defined(dtk_API_GLES_2)
@@ -216,6 +219,8 @@ namespace dtk
         DTK_P();
 
         p.context = context;
+
+        p.fullScreen = ObservableValue<bool>::create(false);
 
         p.window = gl::Window::create(context, name, size);
         p.window->setSizeCallback(
@@ -356,6 +361,24 @@ namespace dtk
     void Window::setSize(const Size2I& value)
     {
         _p->window->setSize(value);
+    }
+
+    bool Window::isFullScreen() const
+    {
+        return _p->window->isFullScreen();
+    }
+
+    std::shared_ptr<IObservableValue<bool> > Window::observeFullScreen() const
+    {
+        return _p->fullScreen;
+    }
+
+    void Window::setFullScreen(bool value)
+    {
+        if (_p->fullScreen->setIfChanged(value))
+        {
+            _p->window->setFullScreen(value);
+        }
     }
 
     const Size2I& Window::getFrameBufferSize() const

@@ -6,6 +6,7 @@
 
 #include <dtk/ui/ButtonGroup.h>
 #include <dtk/ui/RowLayout.h>
+#include <dtk/ui/ScrollWidget.h>
 
 namespace dtk
 {
@@ -16,6 +17,7 @@ namespace dtk
         std::shared_ptr<ButtonGroup> buttonGroup;
         std::vector<std::shared_ptr<TabBarButton> > buttons;
         std::shared_ptr<HorizontalLayout> layout;
+        std::shared_ptr<ScrollWidget> scrollWidget;
         int currentFocus = -1;
         std::function<void(int)> callback;
     };
@@ -31,8 +33,12 @@ namespace dtk
 
         p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
 
-        p.layout = HorizontalLayout::create(context, shared_from_this());
+        p.layout = HorizontalLayout::create(context);
         p.layout->setSpacingRole(SizeRole::None);
+
+        p.scrollWidget = ScrollWidget::create(context, ScrollType::Horizontal, shared_from_this());
+        p.scrollWidget->setBorder(false);
+        p.scrollWidget->setWidget(p.layout);
 
         p.buttonGroup->setCheckedCallback(
             [this](int index, bool value)
@@ -135,13 +141,13 @@ namespace dtk
     void TabBar::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
-        _p->layout->setGeometry(value);
+        _p->scrollWidget->setGeometry(value);
     }
 
     void TabBar::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
-        _setSizeHint(_p->layout->getSizeHint());
+        _setSizeHint(_p->scrollWidget->getSizeHint());
     }
 
     void TabBar::keyFocusEvent(bool value)

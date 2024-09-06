@@ -28,6 +28,7 @@ namespace dtk
 
         _label = Label::create(context, text);
         _label->setMarginRole(SizeRole::MarginSmall);
+        _label->setVAlign(VAlign::Top);
 
         _okButton = PushButton::create(context, "OK");
 
@@ -38,7 +39,7 @@ namespace dtk
         auto vLayout = VerticalLayout::create(context, _layout);
         vLayout->setMarginRole(SizeRole::MarginSmall);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Horizontal, vLayout);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, vLayout);
         scrollWidget->setWidget(_label);
         auto hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::None);
@@ -108,6 +109,7 @@ namespace dtk
 
         _label = Label::create(context, text);
         _label->setMarginRole(SizeRole::MarginSmall);
+        _label->setVAlign(VAlign::Top);
 
         _okButton = PushButton::create(context, "OK");
         _cancelButton = PushButton::create(context, "Cancel");
@@ -119,7 +121,7 @@ namespace dtk
         auto vLayout = VerticalLayout::create(context, _layout);
         vLayout->setMarginRole(SizeRole::MarginSmall);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Horizontal, vLayout);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, vLayout);
         scrollWidget->setWidget(_label);
         auto hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::None);

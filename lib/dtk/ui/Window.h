@@ -34,6 +34,15 @@ namespace dtk
         //! Set the window size.
         void setSize(const Size2I&);
 
+        //! Get whether the window is full screen.
+        bool isFullScreen() const;
+
+        //! Observe whether the window is full screen.
+        std::shared_ptr<IObservableValue<bool> > observeFullScreen() const;
+
+        //! Set whether the window is full screen.
+        void setFullScreen(bool);
+
         //! Get the window frame buffer size.
         const Size2I& getFrameBufferSize() const;
 
