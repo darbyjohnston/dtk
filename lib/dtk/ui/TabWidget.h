@@ -33,7 +33,10 @@ namespace dtk
         const std::vector<std::string>& getTabs() const;
 
         //! Add a tab.
-        void addTab(const std::string&, const std::shared_ptr<IWidget>&);
+        void addTab(
+            const std::string&,
+            const std::shared_ptr<IWidget>&,
+            const std::string& tooltip = std::string());
 
         //! Clear the tabs.
         void clearTabs();

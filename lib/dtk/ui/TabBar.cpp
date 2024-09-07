@@ -12,7 +12,8 @@ namespace dtk
 {
     struct TabBar::Private
     {
-        std::vector<std::string> tabs;
+        std::vector<std::string> text;
+        std::vector<std::string> tooltips;
         int currentTab = -1;
         std::shared_ptr<ButtonGroup> buttonGroup;
         std::vector<std::shared_ptr<TabBarButton> > buttons;
@@ -75,25 +76,32 @@ namespace dtk
 
     const std::vector<std::string>& TabBar::getTabs() const
     {
-        return _p->tabs;
+        return _p->text;
     }
 
-    void TabBar::setTabs(const std::vector<std::string>& value)
+    void TabBar::setTabs(
+        const std::vector<std::string>& value,
+        const std::vector<std::string>& tooltips)
     {
         DTK_P();
-        if (value == p.tabs)
+        if (value == p.text && tooltips == p.tooltips)
             return;
-        p.tabs = value;
-        p.currentTab = clamp(p.currentTab, 0, static_cast<int>(p.tabs.size()) - 1);
-        p.currentFocus = clamp(p.currentFocus, 0, static_cast<int>(p.tabs.size()) - 1);
+        p.text = value;
+        p.tooltips = tooltips;
+        p.tooltips.resize(p.text.size());
+        p.currentTab = clamp(p.currentTab, 0, static_cast<int>(p.text.size()) - 1);
+        p.currentFocus = clamp(p.currentFocus, 0, static_cast<int>(p.text.size()) - 1);
         _widgetUpdate();
         _currentUpdate();
     }
 
-    void TabBar::addTab(const std::string& value)
+    void TabBar::addTab(
+        const std::string& value,
+        const std::string& tooltip)
     {
         DTK_P();
-        p.tabs.push_back(value);
+        p.text.push_back(value);
+        p.tooltips.push_back(tooltip);
         if (-1 == p.currentTab)
         {
             p.currentTab = 0;
@@ -109,7 +117,8 @@ namespace dtk
     void TabBar::clearTabs()
     {
         DTK_P();
-        p.tabs.clear();
+        p.text.clear();
+        p.tooltips.clear();
         p.currentTab = -1;
         p.currentFocus = -1;
         _widgetUpdate();
@@ -124,7 +133,7 @@ namespace dtk
     void TabBar::setCurrentTab(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.tabs.size()) - 1);
+        const int tmp = clamp(value, 0, static_cast<int>(p.text.size()) - 1);
         if (tmp == _p->currentTab)
             return;
         _p->currentTab = tmp;
@@ -177,7 +186,7 @@ namespace dtk
                 break;
             case Key::End:
                 event.accept = true;
-                _setCurrent(static_cast<int>(p.tabs.size()) - 1);
+                _setCurrent(static_cast<int>(p.text.size()) - 1);
                 break;
             case Key::Enter:
                 if (p.currentFocus >= 0 && p.currentFocus < p.buttons.size())
@@ -220,10 +229,11 @@ namespace dtk
         }
         if (auto context = _getContext().lock())
         {
-            for (const auto& tab : p.tabs)
+            for (size_t i = 0; i < p.text.size(); ++i)
             {
-                auto button = TabBarButton::create(context, tab, p.layout);
+                auto button = TabBarButton::create(context, p.text[i], p.layout);
                 button->setCheckedRole(ColorRole::Button);
+                button->setTooltip(p.tooltips[i]);
                 p.buttonGroup->addButton(button);
                 p.buttons.push_back(button);
             }
@@ -234,7 +244,7 @@ namespace dtk
     void TabBar::_setCurrent(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.tabs.size()) - 1);
+        const int tmp = clamp(value, 0, static_cast<int>(p.text.size()) - 1);
         if (tmp == p.currentFocus)
             return;
         p.currentFocus = tmp;

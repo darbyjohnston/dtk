@@ -67,10 +67,13 @@ namespace dtk
         return _p->tabs->getTabs();
     }
 
-    void TabWidget::addTab(const std::string& value, const std::shared_ptr<IWidget>& widget)
+    void TabWidget::addTab(
+        const std::string& value,
+        const std::shared_ptr<IWidget>& widget,
+        const std::string& tooltip)
     {
         DTK_P();
-        p.tabs->addTab(value);
+        p.tabs->addTab(value, tooltip);
         widget->setParent(p.stack);
         _widgetUpdate();
     }

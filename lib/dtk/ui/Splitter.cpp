@@ -86,6 +86,15 @@ namespace dtk
         const Box2I& g = getGeometry();
         const int w = g.w();
         const int h = g.h();
+
+        std::vector<std::shared_ptr<IWidget> > children;
+        for (const auto& child : getChildren())
+        {
+            if (child->isVisible(false))
+            {
+                children.push_back(child);
+            }
+        }
         std::vector<Box2I> childGeometry;
         p.size.handleGeometry.clear();
         switch (p.orientation)
@@ -93,7 +102,7 @@ namespace dtk
         case Orientation::Horizontal:
         {
             int x = 0;
-            for (size_t i = 0; i < p.split.size(); ++i)
+            for (size_t i = 0; i < p.split.size() && i < children.size(); ++i)
             {
                 const int w2 = w * p.split[i];
                 childGeometry.push_back(Box2I(g.min.x + x, g.min.y, w2, h));
@@ -118,7 +127,7 @@ namespace dtk
         case Orientation::Vertical:
         {
             int y = 0;
-            for (size_t i = 0; i < p.split.size(); ++i)
+            for (size_t i = 0; i < p.split.size() && i < children.size(); ++i)
             {
                 const int h2 = h * p.split[i];
                 childGeometry.push_back(Box2I(g.min.x, g.min.y + y, w, h2));
@@ -143,13 +152,9 @@ namespace dtk
         default: break;
         }
 
-        const auto& children = getChildren();
-        int i = 0;
-        for (auto j = children.begin();
-            i < childGeometry.size() && j != children.end();
-            ++i, ++j)
+        for (size_t i = 0; i < children.size(); ++i)
         {
-            (*j)->setGeometry(childGeometry[i]);
+            children[i]->setGeometry(childGeometry[i]);
         }
     }
 

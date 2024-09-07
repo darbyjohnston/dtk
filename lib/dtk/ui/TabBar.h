@@ -35,10 +35,14 @@ namespace dtk
         const std::vector<std::string>& getTabs() const;
 
         //! Set the tabs.
-        void setTabs(const std::vector<std::string>&);
+        void setTabs(
+            const std::vector<std::string>&,
+            const std::vector<std::string>& tooltips = std::vector<std::string>());
 
         //! Add a tab.
-        void addTab(const std::string&);
+        void addTab(
+            const std::string&,
+            const std::string& tooltip = std::string());
 
         //! Clear the tabs.
         void clearTabs();
