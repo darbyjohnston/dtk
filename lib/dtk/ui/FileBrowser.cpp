@@ -22,6 +22,7 @@ namespace dtk
     {
         return
             search == other.search &&
+            extensions == other.extensions &&
             extension == other.extension &&
             sort == other.sort &&
             reverseSort == other.reverseSort;

@@ -33,10 +33,11 @@ namespace dtk
     //! File browser options.
     struct FileBrowserOptions
     {
-        std::string     search;
-        std::string     extension;
-        FileBrowserSort sort        = FileBrowserSort::Name;
-        bool            reverseSort = false;
+        std::string              search;
+        std::vector<std::string> extensions;
+        std::string              extension;
+        FileBrowserSort          sort        = FileBrowserSort::Name;
+        bool                     reverseSort = false;
 
         bool operator == (const FileBrowserOptions&) const;
         bool operator != (const FileBrowserOptions&) const;

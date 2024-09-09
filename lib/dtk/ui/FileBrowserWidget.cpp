@@ -113,14 +113,7 @@ namespace dtk
         p.searchBox = SearchBox::create(context);
         p.searchBox->setTooltip("Filter");
 
-        std::vector<std::string> extensionsLabels;
-        p.extensions.push_back(std::string());
-        extensionsLabels.push_back("*.*");
-        p.extensionsComboBox = ComboBox::create(context, extensionsLabels);
-        if (!extensionsLabels.empty())
-        {
-            p.extensionsComboBox->setCurrentIndex(extensionsLabels.size() - 1);
-        }
+        p.extensionsComboBox = ComboBox::create(context);
         p.extensionsComboBox->setTooltip("Filter by extension");
 
         p.sortComboBox = ComboBox::create(context, getFileBrowserSortLabels());
@@ -445,6 +438,17 @@ namespace dtk
         DTK_P();
         p.directoryWidget->setOptions(p.options);
         p.searchBox->setText(p.options.search);
+
+        std::vector<std::string> extensionsLabels;
+        p.extensions.clear();
+        p.extensions.push_back(std::string());
+        extensionsLabels.push_back("*.*");
+        for (const auto& extension : p.options.extensions)
+        {
+            p.extensions.push_back(extension);
+            extensionsLabels.push_back("*" + extension);
+        }
+        p.extensionsComboBox->setItems(extensionsLabels);
         const auto i = std::find(
             p.extensions.begin(),
             p.extensions.end(),
@@ -453,6 +457,7 @@ namespace dtk
         {
             p.extensionsComboBox->setCurrentIndex(i - p.extensions.begin());
         }
+
         p.sortComboBox->setCurrentIndex(static_cast<int>(p.options.sort));
         p.reverseSortButton->setChecked(p.options.reverseSort);
     }

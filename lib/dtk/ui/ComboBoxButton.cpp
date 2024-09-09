@@ -47,7 +47,7 @@ namespace dtk
         setIcon(!item.icon.empty() ? item.icon : "Empty");
         if (item.icon.empty())
         {
-            setCheckedIcon("MenuChecked");
+            setCheckedIcon("Empty");
         }
         setButtonRole(ColorRole::None);
     }

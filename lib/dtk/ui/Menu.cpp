@@ -71,7 +71,7 @@ namespace dtk
             }
             else if (item->checkable && item->icon.empty())
             {
-                button->setCheckedIcon("MenuChecked");
+                button->setCheckedIcon("Empty");
             }
             button->setShortcut(item->shortcut, item->shortcutModifiers);
             button->setCheckable(item->checkable);
