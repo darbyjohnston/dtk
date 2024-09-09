@@ -54,6 +54,7 @@ namespace dtk
 
         std::string               text;
         std::string               icon;
+        std::string               checkedIcon;
         Key                       shortcut          = Key::Unknown;
         int                       shortcutModifiers = 0;
         std::function<void(void)> callback;

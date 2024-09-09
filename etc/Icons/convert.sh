@@ -2,7 +2,7 @@
 
 for f in $1/*.svg
 do
-    for dpi in 96 192
+    for dpi in 96 192 288
     do
         base=$(basename -s .svg $f)
         png=${base}_${dpi}dpi.png

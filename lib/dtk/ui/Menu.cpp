@@ -64,7 +64,15 @@ namespace dtk
 
             auto button = MenuButton::create(context, p.layout);
             button->setText(item->text);
-            button->setIcon(item->icon);
+            button->setIcon(!item->icon.empty() ? item->icon : "Empty");
+            if (!item->checkedIcon.empty())
+            {
+                button->setCheckedIcon(item->checkedIcon);
+            }
+            else if (item->checkable && item->icon.empty())
+            {
+                button->setCheckedIcon("MenuChecked");
+            }
             button->setShortcut(item->shortcut, item->shortcutModifiers);
             button->setCheckable(item->checkable);
             button->setChecked(item->checked);
@@ -154,6 +162,7 @@ namespace dtk
 
             auto button = MenuButton::create(context, p.layout);
             button->setText(text);
+            button->setIcon("Empty");
             button->setSubMenuIcon("SubMenuArrow");
             p.buttons.push_back(button);
             p.subMenuToButton[out] = button;

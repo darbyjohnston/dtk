@@ -199,6 +199,7 @@ namespace dtk
         std::shared_ptr<ObservableValue<bool> > fullScreen;
         Size2I bufferSize = Size2I(0, 0);
         V2F contentScale = V2F(1.F, 1.F);
+        std::shared_ptr<ObservableValue<float> > displayScale;
         bool refresh = true;
         int modifiers = 0;
         std::shared_ptr<gl::Window> window;
@@ -221,6 +222,7 @@ namespace dtk
         p.context = context;
 
         p.fullScreen = ObservableValue<bool>::create(false);
+        p.displayScale = ObservableValue<float>::create(0.F);
 
         p.window = gl::Window::create(context, name, size);
         p.window->setSizeCallback(
@@ -259,8 +261,8 @@ namespace dtk
                 V2I pos;
 #if defined(__APPLE__)
                 //! \bug The mouse position needs to be scaled on macOS?
-                pos.x = value.x * _p->contentScale.x;
-                pos.y = value.y * _p->contentScale.y;
+                pos.x = value.x * p.displayScaleValue->get();
+                pos.y = value.y * p.displayScaleValue->get();
 #else // __APPLE__
                 pos.x = value.x;
                 pos.y = value.y;
@@ -388,7 +390,24 @@ namespace dtk
 
     float Window::getDisplayScale() const
     {
-        return _p->contentScale.x;
+        DTK_P();
+        const float ds = p.displayScale->get();
+        return ds > 0.F ? ds : p.contentScale.x;
+    }
+
+    std::shared_ptr<IObservableValue<float> > Window::observeDisplayScale() const
+    {
+        return _p->displayScale;
+    }
+
+    void Window::setDisplayScale(float value)
+    {
+        DTK_P();
+        if (p.displayScale->setIfChanged(value))
+        {
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
     }
 
     bool Window::shouldClose() const
@@ -430,7 +449,7 @@ namespace dtk
         {
             SizeHintEvent sizeHintEvent(
                 fontSystem,
-                p.contentScale.x,
+                getDisplayScale(),
                 style,
                 iconLibrary);
             _sizeHintEventRecursive(shared_from_this(), sizeHintEvent);
@@ -462,7 +481,7 @@ namespace dtk
                 p.render->setClipRectEnabled(true);
                 DrawEvent drawEvent(
                     fontSystem,
-                    p.contentScale.x,
+                    getDisplayScale(),
                     style,
                     iconLibrary,
                     p.render);

@@ -8,7 +8,7 @@
 
 namespace dtk
 {
-    //! Base window class.
+    //! Window.
     class Window : public IWindow
     {
     protected:
@@ -48,6 +48,13 @@ namespace dtk
 
         //! Get the display scale.
         float getDisplayScale() const;
+
+        //! Observe the display scale.
+        std::shared_ptr<IObservableValue<float> > observeDisplayScale() const;
+
+        //! Set the display scale. A value of zero will set the display scale
+        //! automatically.
+        void setDisplayScale(float);
 
         //! Get whether the window should close.
         bool shouldClose() const;

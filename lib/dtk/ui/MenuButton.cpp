@@ -159,7 +159,7 @@ namespace dtk
         }
         if (!_text.empty())
         {
-            sizeHint.w += p.size.textSize.w + p.size.margin * 2;
+            sizeHint.w += p.size.textSize.w;
             sizeHint.h = std::max(sizeHint.h, p.size.fontMetrics.lineHeight);
         }
         if (!p.shortcutText.empty())
@@ -169,7 +169,7 @@ namespace dtk
         }
         if (p.subMenuImage)
         {
-            sizeHint.w += p.size.spacing + p.subMenuImage->getWidth();
+            sizeHint.w += p.subMenuImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, p.subMenuImage->getHeight());
         }
         sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
@@ -195,12 +195,11 @@ namespace dtk
         DTK_P();
 
         // Draw the background.
-        const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
-        if (colorRole != ColorRole::None)
+        if (_buttonRole != ColorRole::None)
         {
             event.render->drawRect(
                 convert(p.draw.g),
-                event.style->getColorRole(colorRole));
+                event.style->getColorRole(_buttonRole));
         }
 
         // Draw the mouse state.
@@ -227,16 +226,23 @@ namespace dtk
 
         // Draw the icon.
         int x = p.draw.g2.x();
-        if (_iconImage)
+        if (auto image = _checked && _checkedIconImage ? _checkedIconImage : _iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
+            const Box2F iconRect(
+                x,
+                p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                iconSize.w,
+                iconSize.h);
+            if (_checked)
+            {
+                event.render->drawRect(
+                    iconRect,
+                    event.style->getColorRole(ColorRole::Checked));
+            }
             event.render->drawImage(
-                _iconImage,
-                Box2F(
-                    x,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
-                    iconSize.w,
-                    iconSize.h),
+                image,
+                iconRect,
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
@@ -254,7 +260,7 @@ namespace dtk
                 p.draw.textGlyphs,
                 p.size.fontMetrics,
                 V2F(
-                    x + p.size.margin,
+                    x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
