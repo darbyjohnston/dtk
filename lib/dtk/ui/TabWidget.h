@@ -38,6 +38,12 @@ namespace dtk
             const std::shared_ptr<IWidget>&,
             const std::string& tooltip = std::string());
 
+        //! Remove a tab.
+        void removeTab(int);
+
+        //! Remove a tab.
+        void removeTab(const std::shared_ptr<IWidget>&);
+
         //! Clear the tabs.
         void clearTabs();
 

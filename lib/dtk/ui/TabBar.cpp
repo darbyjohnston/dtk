@@ -5,6 +5,7 @@
 #include <dtk/ui/TabBarPrivate.h>
 
 #include <dtk/ui/ButtonGroup.h>
+#include <dtk/ui/Divider.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
 
@@ -41,20 +42,17 @@ namespace dtk
         p.scrollWidget->setBorder(false);
         p.scrollWidget->setWidget(p.layout);
 
-        p.buttonGroup->setCheckedCallback(
-            [this](int index, bool value)
+        p.buttonGroup->setClickedCallback(
+            [this](int index)
             {
-                if (value)
+                takeKeyFocus();
+                _p->currentTab = index;
+                _p->currentFocus = index;
+                if (_p->callback)
                 {
-                    takeKeyFocus();
-                    _p->currentTab = index;
-                    _p->currentFocus = index;
-                    if (_p->callback)
-                    {
-                        _p->callback(index);
-                    }
-                    _currentUpdate();
+                    _p->callback(index);
                 }
+                _currentUpdate();
             });
     }
 
@@ -112,6 +110,26 @@ namespace dtk
         }
         _widgetUpdate();
         _currentUpdate();
+    }
+
+    void TabBar::removeTab(int index)
+    {
+        DTK_P();
+        if (index >= 0 && index < p.text.size())
+        {
+            p.text.erase(p.text.begin() + index);
+            p.tooltips.erase(p.tooltips.begin() + index);
+            if (p.currentTab >= p.text.size())
+            {
+                p.currentTab = p.currentTab - 1;
+            }
+            if (p.currentFocus >= p.text.size())
+            {
+                p.currentFocus = p.currentFocus - 1;
+            }
+            _widgetUpdate();
+            _currentUpdate();
+        }
     }
 
     void TabBar::clearTabs()
@@ -236,6 +254,11 @@ namespace dtk
                 button->setTooltip(p.tooltips[i]);
                 p.buttonGroup->addButton(button);
                 p.buttons.push_back(button);
+
+                if (p.text.size() > 1 && i < p.text.size() - 1)
+                {
+                    Divider::create(context, Orientation::Vertical, p.layout);
+                }
             }
         }
         p.buttonGroup->setChecked(p.currentTab, true);

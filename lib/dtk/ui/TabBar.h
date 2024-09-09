@@ -44,6 +44,9 @@ namespace dtk
             const std::string&,
             const std::string& tooltip = std::string());
 
+        //! Remove a tab.
+        void removeTab(int);
+
         //! Clear the tabs.
         void clearTabs();
 

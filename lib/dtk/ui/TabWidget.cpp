@@ -78,6 +78,38 @@ namespace dtk
         _widgetUpdate();
     }
 
+    void TabWidget::removeTab(int index)
+    {
+        DTK_P();
+        p.tabs->removeTab(index);
+        auto children = p.stack->getChildren();
+        int i = 0;
+        for (auto j = children.begin(); j != children.end(); ++j, ++i)
+        {
+            if (i == index)
+            {
+                (*j)->setParent(nullptr);
+                break;
+            }
+        }
+    }
+
+    void TabWidget::removeTab(const std::shared_ptr<IWidget>& value)
+    {
+        DTK_P();
+        auto children = p.stack->getChildren();
+        int i = 0;
+        for (auto j = children.begin(); j != children.end(); ++j, ++i)
+        {
+            if (*j == value)
+            {
+                (*j)->setParent(nullptr);
+                break;
+            }
+        }
+        p.tabs->removeTab(i);
+    }
+
     void TabWidget::clearTabs()
     {
         DTK_P();
