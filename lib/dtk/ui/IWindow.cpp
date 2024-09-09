@@ -313,7 +313,6 @@ namespace dtk
             const Box2I childrenClipRect = intersect(
                 widget->getChildrenClipRect(),
                 drawRect);
-            event.render->setClipRect(childrenClipRect);
             for (const auto& child : widget->getChildren())
             {
                 const Box2I& childGeometry = child->getGeometry();

@@ -8,7 +8,6 @@
 #include <dtk/core/CmdLine.h>
 
 #include <dtk/core/Assert.h>
-#include <dtk/core/Memory.h>
 
 namespace dtk
 {
@@ -45,11 +44,14 @@ namespace dtk
                     const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
                 
+                const std::string& getArg() const { return _arg; }
+                int getOption() const { return _option; }
+
                 void run() override;
                 
             private:
-                Endian _arg = Endian::MSB;
-                std::string _option;
+                std::string _arg;
+                int _option = 0;
             };
 
             void App::_init(
@@ -62,13 +64,13 @@ namespace dtk
                     "dtk::app_test::App",
                     "Test application",
                     {
-                        CmdLineValueArg<Endian>::create(
+                        CmdLineValueArg<std::string>::create(
                             _arg,
                             "arg",
                             "This is an argument")
                     },
                     {
-                        CmdLineValueOption<std::string>::create(
+                        CmdLineValueOption<int>::create(
                             _option,
                             { "-option" },
                             "This is an option")
@@ -129,7 +131,15 @@ namespace dtk
             }
             if (auto context = _context.lock())
             {
-                std::vector<std::string> argv = { "app", "xxx" };
+                std::vector<std::string> argv = { "app", "arg", "42" };
+                auto app = App::create(context, argv);
+                app->run();
+                DTK_ASSERT("arg" == app->getArg());
+                DTK_ASSERT(42 == app->getOption());
+            }
+            if (auto context = _context.lock())
+            {
+                std::vector<std::string> argv = { "app"};
                 try
                 {
                     auto app = App::create(context, argv);
@@ -139,7 +149,7 @@ namespace dtk
             }
             if (auto context = _context.lock())
             {
-                std::vector<std::string> argv = { "app", "LSB", "-option" };
+                std::vector<std::string> argv = { "app", "arg", "-option" };
                 try
                 {
                     auto app = App::create(context, argv);

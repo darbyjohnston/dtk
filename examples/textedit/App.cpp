@@ -31,7 +31,7 @@ namespace dtk
                     "textedit",
                     "Text edit example",
                     {
-                        CmdLineValueArg<std::filesystem::path>::create(
+                        CmdLineValueArg<std::string>::create(
                             _path,
                             "input",
                             "Input path.",

@@ -132,7 +132,8 @@ namespace dtk
 
     Box2I ScrollArea::getChildrenClipRect() const
     {
-        return margin(getGeometry(), -_p->size.border);
+        const Box2I& g = getGeometry();
+        return _p->border ? margin(g, -_p->size.border) : g;
     }
 
     bool ScrollArea::hasBorder() const

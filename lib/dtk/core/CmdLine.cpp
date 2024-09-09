@@ -4,6 +4,8 @@
 
 #include <dtk/core/CmdLine.h>
 
+#include <cstdlib>
+
 namespace dtk
 {
     ICmdLineOption::ICmdLineOption(
@@ -51,6 +53,54 @@ namespace dtk
         std::vector<std::string> out;
         out.push_back(join(_names, ", "));
         out.push_back(_help);
+        return out;
+    }
+
+    bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, std::string& value)
+    {
+        bool out = false;
+        if (it != args.end())
+        {
+            value = *it;
+            it = args.erase(it);
+            out = true;
+        }
+        return out;
+    }
+
+    bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, bool& value)
+    {
+        bool out = false;
+        if (it != args.end())
+        {
+            value = std::atoi(it->c_str());
+            it = args.erase(it);
+            out = true;
+        }
+        return out;
+    }
+
+    bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, int& value)
+    {
+        bool out = false;
+        if (it != args.end())
+        {
+            value = std::atoi(it->c_str());
+            it = args.erase(it);
+            out = true;
+        }
+        return out;
+    }
+
+    bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, float& value)
+    {
+        bool out = false;
+        if (it != args.end())
+        {
+            value = std::atof(it->c_str());
+            it = args.erase(it);
+            out = true;
+        }
         return out;
     }
 }

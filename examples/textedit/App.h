@@ -44,7 +44,7 @@ namespace dtk
                 void open(const std::filesystem::path&);
 
             private:
-                std::filesystem::path _path;
+                std::string _path;
                 std::shared_ptr<ObservableValue<FontRole> > _font;
                 std::shared_ptr<ObservableValue<std::string> > _text;
                 std::shared_ptr<Window> _window;

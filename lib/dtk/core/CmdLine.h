@@ -148,6 +148,11 @@ namespace dtk
     private:
         T& _value;
     };
+
+    bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, std::string&);
+    bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, bool&);
+    bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, int&);
+    bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, float&);
 }
 
 #include <dtk/core/CmdLineInline.h>

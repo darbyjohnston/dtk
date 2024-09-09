@@ -53,13 +53,7 @@ namespace dtk
             {
                 _matchedName = name;
                 i = args.erase(i);
-                if (i != args.end())
-                {
-                    std::stringstream ss(*i);
-                    ss >> _value;
-                    i = args.erase(i);
-                }
-                else
+                if (!cmdLineParse(args, i, _value))
                 {
                     throw ParseError();
                 }
@@ -158,13 +152,7 @@ namespace dtk
     inline void CmdLineValueArg<T>::parse(std::vector<std::string>& args)
     {
         auto i = args.begin();
-        if (i != args.end())
-        {
-            std::stringstream ss(*i);
-            ss >> _value;
-            i = args.erase(i);
-        }
-        else
+        if (!cmdLineParse(args, i, _value))
         {
             throw ParseError();
         }

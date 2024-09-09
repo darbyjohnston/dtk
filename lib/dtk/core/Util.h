@@ -87,4 +87,3 @@
         out = static_cast<ENUM>(i - labels.begin()); \
         return is; \
     }
-
