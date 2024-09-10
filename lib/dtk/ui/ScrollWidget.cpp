@@ -50,6 +50,7 @@ namespace dtk
             p.horizontalScrollBar = ScrollBar::create(context, Orientation::Horizontal);
             p.verticalScrollBar = ScrollBar::create(context, Orientation::Vertical);
             break;
+        default: break;
         }
 
         p.layout = GridLayout::create(context, shared_from_this());
