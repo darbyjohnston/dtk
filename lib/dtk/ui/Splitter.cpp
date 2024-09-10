@@ -152,7 +152,7 @@ namespace dtk
         default: break;
         }
 
-        for (size_t i = 0; i < children.size(); ++i)
+        for (size_t i = 0; i < children.size() && i < childGeometry.size(); ++i)
         {
             children[i]->setGeometry(childGeometry[i]);
         }

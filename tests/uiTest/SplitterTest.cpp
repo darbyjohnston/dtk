@@ -67,9 +67,9 @@ namespace dtk
             auto label0 = Label::create(context, "Label 0", splitter);
             auto label1 = Label::create(context, "Label 1", splitter);
             app->tick();
-            splitter->setSplit({ .1F });
+            splitter->setSplit({ .1F, .9F });
             app->tick();
-            splitter->setSplit({ .5F });
+            splitter->setSplit({ .5F, .5F });
             app->tick();
 
             window->setCursorEnter(true);

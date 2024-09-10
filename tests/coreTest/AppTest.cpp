@@ -131,7 +131,7 @@ namespace dtk
             }
             if (auto context = _context.lock())
             {
-                std::vector<std::string> argv = { "app", "arg", "42" };
+                std::vector<std::string> argv = { "app", "arg", "-option", "42" };
                 auto app = App::create(context, argv);
                 app->run();
                 DTK_ASSERT("arg" == app->getArg());
