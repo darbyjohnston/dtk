@@ -259,8 +259,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.textGlyphs,
                 p.size.fontMetrics,
-                V2F(
-                    x,
+                V2F(x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :

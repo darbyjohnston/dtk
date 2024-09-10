@@ -337,7 +337,7 @@ namespace dtk
         if (_backgroundRole != ColorRole::None)
         {
             event.render->drawRect(
-                Box2F(_geometry.x(), _geometry.y(), _geometry.w(), _geometry.h()),
+                _geometry,
                 event.style->getColorRole(_backgroundRole));
         }
     }

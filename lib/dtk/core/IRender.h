@@ -79,23 +79,46 @@ namespace dtk
             const Box2F&,
             const Color4F&) = 0;
 
+        //! Draw a filled rectangle.
+        virtual void drawRect(
+            const Box2I&,
+            const Color4F&);
+
         //! Draw filled rectangles.
         virtual void drawRects(
             const std::vector<Box2F>&,
             const Color4F&) = 0;
-            
+
+        //! Draw filled rectangles.
+        virtual void drawRects(
+            const std::vector<Box2I>&,
+            const Color4F&);
+
         //! Draw a line.
         virtual void drawLine(
             const V2F&,
             const V2F&,
             const Color4F&,
-            const LineOptions & = LineOptions()) = 0;
+            const LineOptions& = LineOptions()) = 0;
+
+        //! Draw a line.
+        virtual void drawLine(
+            const V2I&,
+            const V2I&,
+            const Color4F&,
+            const LineOptions& = LineOptions());
 
         //! Draw multiple lines.
         virtual void drawLines(
             const std::vector<std::pair<V2F, V2F> >&,
             const Color4F&,
             const LineOptions& = LineOptions()) = 0;
+
+        //! Draw multiple lines.
+        virtual void drawLines(
+            const std::vector<std::pair<V2I, V2I> >&,
+            const Color4F&,
+            const LineOptions& = LineOptions());
 
         //! Draw a triangle mesh.
         virtual void drawMesh(
@@ -116,12 +139,26 @@ namespace dtk
             const V2F& position,
             const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) = 0;
 
+        //! Draw text.
+        virtual void drawText(
+            const std::vector<std::shared_ptr<Glyph> >&,
+            const FontMetrics&,
+            const V2I& position,
+            const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F));
+
         //! Draw an image.
         virtual void drawImage(
             const std::shared_ptr<Image>&,
             const Box2F&,
             const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
             const ImageOptions& = ImageOptions()) = 0;
+
+        //! Draw an image.
+        virtual void drawImage(
+            const std::shared_ptr<Image>&,
+            const Box2I&,
+            const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+            const ImageOptions& = ImageOptions());
 
     protected:
         std::weak_ptr<Context> _context;

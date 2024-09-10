@@ -191,23 +191,35 @@ namespace dtk
             switch (event.key)
             {
             case Key::Left:
-                event.accept = true;
-                _setCurrent(p.currentFocus - 1);
+                if (hasKeyFocus())
+                {
+                    event.accept = true;
+                    _setCurrent(p.currentFocus - 1);
+                }
                 break;
             case Key::Right:
-                event.accept = true;
-                _setCurrent(p.currentFocus + 1);
+                if (hasKeyFocus())
+                {
+                    event.accept = true;
+                    _setCurrent(p.currentFocus + 1);
+                }
                 break;
             case Key::Home:
-                event.accept = true;
-                _setCurrent(0);
+                if (hasKeyFocus())
+                {
+                    event.accept = true;
+                    _setCurrent(0);
+                }
                 break;
             case Key::End:
-                event.accept = true;
-                _setCurrent(static_cast<int>(p.text.size()) - 1);
+                if (hasKeyFocus())
+                {
+                    event.accept = true;
+                    _setCurrent(static_cast<int>(p.text.size()) - 1);
+                }
                 break;
             case Key::Enter:
-                if (p.currentFocus >= 0 && p.currentFocus < p.buttons.size())
+                if (hasKeyFocus() && p.currentFocus >= 0 && p.currentFocus < p.buttons.size())
                 {
                     event.accept = true;
                     p.buttons[p.currentFocus]->click();

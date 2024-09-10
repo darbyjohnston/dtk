@@ -192,7 +192,7 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            V2F(p.draw.g2.min.x, p.draw.g2.min.y),
+            p.draw.g2.min,
             event.style->getColorRole(p.textRole));
     }
 }
