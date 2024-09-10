@@ -38,12 +38,32 @@ namespace dtk
             .def_property("clipRect", &IRender::getClipRect, &IRender::setClipRect)
             .def(
                 "drawRect",
-                &IRender::drawRect,
+                py::overload_cast<const Box2F&, const Color4F&>(&IRender::drawRect),
+                py::arg("rect"),
+                py::arg("color") = Color4F(1.F, 1.F, 1.F, 1.F))
+            .def(
+                "drawRect",
+                py::overload_cast<const Box2I&, const Color4F&>(&IRender::drawRect),
                 py::arg("rect"),
                 py::arg("color") = Color4F(1.F, 1.F, 1.F, 1.F))
             .def(
                 "drawText",
-                &IRender::drawText,
+                py::overload_cast<
+                    const std::vector<std::shared_ptr<Glyph> >&,
+                const FontMetrics&,
+                const V2F&,
+                const Color4F&>(&IRender::drawText),
+                py::arg("glyphs"),
+                py::arg("fontMetrics"),
+                py::arg("position"),
+                py::arg("color") = Color4F(1.F, 1.F, 1.F, 1.F))
+            .def(
+                "drawText",
+                py::overload_cast<
+                const std::vector<std::shared_ptr<Glyph> >&,
+                const FontMetrics&,
+                const V2I&,
+                const Color4F&>(&IRender::drawText),
                 py::arg("glyphs"),
                 py::arg("fontMetrics"),
                 py::arg("position"),
