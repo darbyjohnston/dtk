@@ -59,6 +59,15 @@ namespace dtk
         //! Set the callback.
         void setCallback(const std::function<void(int)>&);
 
+        //! Get whether the tabs are closable.
+        bool areTabsClosable() const;
+
+        //! Set whether the tabs are closable.
+        void setTabsClosable(bool);
+
+        //! Set the close callback.
+        void setTabCloseCallback(const std::function<void(int)>&);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void keyFocusEvent(bool) override;

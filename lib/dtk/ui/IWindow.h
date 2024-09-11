@@ -37,6 +37,12 @@ namespace dtk
         //! Set the clipboard.
         void setClipboard(const std::shared_ptr<IClipboard>&);
 
+        //! Get whether tooltips are enabled.
+        bool getTooltipsEnabled() const;
+
+        //! Set whether tooltips are enabled.
+        void setTooltipsEnabled(bool);
+
         void setVisible(bool) override;
         void tickEvent(
             bool parentsVisible,

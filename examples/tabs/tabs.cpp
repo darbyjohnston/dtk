@@ -34,6 +34,7 @@ DTK_MAIN()
 
         // Create the tab widget.
         auto tabWidget = TabWidget::create(context, window);
+        tabWidget->setTabsClosable(true);
 
         // Add a tab.
         auto layout = VerticalLayout::create(context);

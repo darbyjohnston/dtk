@@ -10,6 +10,8 @@ namespace dtk
 {
     struct ToolButton::Private
     {
+        SizeRole marginRole = SizeRole::MarginInside;
+
         struct SizeData
         {
             bool init = true;
@@ -68,6 +70,21 @@ namespace dtk
         return out;
     }
 
+    SizeRole ToolButton::getMarginRole() const
+    {
+        return _p->marginRole;
+    }
+
+    void ToolButton::setMarginRole(SizeRole value)
+    {
+        DTK_P();
+        if (value == p.marginRole)
+            return;
+        p.marginRole = value;
+        _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
     void ToolButton::setText(const std::string& value)
     {
         const bool changed = value != _text;
@@ -99,8 +116,19 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
+        p.draw.g2 = margin(p.draw.g, acceptsKeyFocus() ?  -p.size.borderFocus : 0);
         p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+    }
+
+    void ToolButton::setAcceptsKeyFocus(bool value)
+    {
+        const bool changed = value != acceptsKeyFocus();
+        IButton::setAcceptsKeyFocus(value);
+        if (changed)
+        {
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
     }
 
     void ToolButton::sizeHintEvent(const SizeHintEvent& event)
@@ -113,7 +141,7 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
             p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
             p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
@@ -143,7 +171,11 @@ namespace dtk
             sizeHint.w += _iconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        sizeHint = margin(sizeHint, p.size.margin);
+        if (acceptsKeyFocus())
+        {
+            sizeHint = margin(sizeHint, p.size.borderFocus);
+        }
         _setSizeHint(sizeHint);
     }
 
@@ -202,7 +234,7 @@ namespace dtk
             const Size2I& iconSize = _iconImage->getSize();
             event.render->drawImage(
                 _iconImage,
-                Box2F(
+                Box2I(
                     x,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
                     iconSize.w,

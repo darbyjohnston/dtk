@@ -169,7 +169,7 @@ namespace dtk
         bool acceptsKeyFocus() const;
 
         //! Set whether the widget accepts key focus.
-        void setAcceptsKeyFocus(bool);
+        virtual void setAcceptsKeyFocus(bool);
 
         //! Does this widget have key focus?
         bool hasKeyFocus() const;

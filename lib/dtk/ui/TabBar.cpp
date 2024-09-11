@@ -16,12 +16,14 @@ namespace dtk
         std::vector<std::string> text;
         std::vector<std::string> tooltips;
         int currentTab = -1;
+        bool closable = false;
         std::shared_ptr<ButtonGroup> buttonGroup;
         std::vector<std::shared_ptr<TabBarButton> > buttons;
         std::shared_ptr<HorizontalLayout> layout;
         std::shared_ptr<ScrollWidget> scrollWidget;
         int currentFocus = -1;
         std::function<void(int)> callback;
+        std::function<void(int)> closeCallback;
     };
 
     void TabBar::_init(
@@ -165,6 +167,25 @@ namespace dtk
         _p->callback = value;
     }
 
+    bool TabBar::areTabsClosable() const
+    {
+        return _p->closable;
+    }
+
+    void TabBar::setTabsClosable(bool value)
+    {
+        DTK_P();
+        if (value == p.closable)
+            return;
+        p.closable = value;
+        _widgetUpdate();
+    }
+
+    void TabBar::setTabCloseCallback(const std::function<void(int)>& value)
+    {
+        _p->closeCallback = value;
+    }
+
     void TabBar::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
@@ -261,9 +282,29 @@ namespace dtk
         {
             for (size_t i = 0; i < p.text.size(); ++i)
             {
-                auto button = TabBarButton::create(context, p.text[i], p.layout);
+                std::shared_ptr<TabBarButton> button;
+                if (p.closable)
+                {
+                    button = TabBarButton::create(
+                        context,
+                        p.text[i],
+                        p.closable,
+                        [this, i]
+                        {
+                            if (_p->closeCallback)
+                            {
+                                _p->closeCallback(i);
+                            }
+                        },
+                        p.layout);
+                }
+                else
+                {
+                    button = TabBarButton::create(context, p.text[i], p.layout);
+                }
                 button->setCheckedRole(ColorRole::Button);
                 button->setTooltip(p.tooltips[i]);
+
                 p.buttonGroup->addButton(button);
                 p.buttons.push_back(button);
 

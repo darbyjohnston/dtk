@@ -16,6 +16,8 @@ namespace dtk
         void _init(
             const std::shared_ptr<Context>&,
             const std::string&,
+            bool closable,
+            const std::function<void(void)>&,
             const std::shared_ptr<IWidget>& parent);
 
         TabBarButton();
@@ -26,6 +28,13 @@ namespace dtk
         static std::shared_ptr<TabBarButton> create(
             const std::shared_ptr<Context>&,
             const std::string&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        static std::shared_ptr<TabBarButton> create(
+            const std::shared_ptr<Context>&,
+            const std::string&,
+            bool closable,
+            const std::function<void(void)>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         void setCurrent(bool);

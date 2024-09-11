@@ -35,10 +35,17 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
+        //! Get the margin role.
+        SizeRole getMarginRole() const;
+
+        //! Set the margin role.
+        void setMarginRole(SizeRole);
+
         void setText(const std::string&) override;
         void setFontRole(FontRole) override;
 
         void setGeometry(const Box2I&) override;
+        void setAcceptsKeyFocus(bool) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void clipEvent(const Box2I&, bool) override;
         void drawEvent(const Box2I&, const DrawEvent&) override;

@@ -5,12 +5,15 @@
 #include <dtk/ui/TabBarPrivate.h>
 
 #include <dtk/ui/DrawUtil.h>
+#include <dtk/ui/ToolButton.h>
 
 namespace dtk
 {
     struct TabBarButton::Private
     {
         bool current = false;
+
+        std::shared_ptr<ToolButton> closeButton;
 
         struct SizeData
         {
@@ -38,14 +41,25 @@ namespace dtk
     void TabBarButton::_init(
         const std::shared_ptr<Context>& context,
         const std::string& text,
+        bool closable,
+        const std::function<void(void)>& closeCallback,
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "dtk::TabBarButton", parent);
         DTK_P();
+
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
         setText(text);
         setButtonRole(ColorRole::None);
+
+        if (closable)
+        {
+            p.closeButton = ToolButton::create(context, shared_from_this());
+            p.closeButton->setIcon("Close");
+            p.closeButton->setAcceptsKeyFocus(false);
+            p.closeButton->setClickedCallback(closeCallback);
+        }
     }
 
     TabBarButton::TabBarButton() :
@@ -56,12 +70,24 @@ namespace dtk
     {}
 
     std::shared_ptr<TabBarButton> TabBarButton::create(
+        const std::shared_ptr<Context>&context,
+        const std::string & text,
+        const std::shared_ptr<IWidget>&parent)
+    {
+        auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
+        out->_init(context, text, false, nullptr, parent);
+        return out;
+    }
+
+    std::shared_ptr<TabBarButton> TabBarButton::create(
         const std::shared_ptr<Context>& context,
         const std::string& text,
+        bool closable,
+        const std::function<void(void)>& closeCallback,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
-        out->_init(context, text, parent);
+        out->_init(context, text, closable, closeCallback, parent);
         return out;
     }
 
@@ -80,6 +106,15 @@ namespace dtk
         DTK_P();
         p.draw.g = value;
         p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.borderFocus));
+        if (p.closeButton)
+        {
+            const Size2I& closeSizeHint = p.closeButton->getSizeHint();
+            p.closeButton->setGeometry(Box2I(
+                p.draw.g2.max.x - closeSizeHint.w,
+                p.draw.g2.min.y,
+                closeSizeHint.w,
+                p.draw.g2.h()));
+        }
     }
 
     void TabBarButton::sizeHintEvent(const SizeHintEvent& event)
@@ -92,7 +127,7 @@ namespace dtk
             p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
+            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingTool, p.size.displayScale);
             p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
@@ -103,6 +138,12 @@ namespace dtk
         Size2I sizeHint(
             p.size.textSize.w + p.size.margin * 2,
             p.size.fontMetrics.lineHeight);
+        if (p.closeButton)
+        {
+            const Size2I& closeSizeHint = p.closeButton->getSizeHint();
+            sizeHint.w += p.size.spacing + closeSizeHint.w;
+            sizeHint.h = std::max(sizeHint.h, closeSizeHint.h);
+        }
         sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
         _setSizeHint(sizeHint);
     }

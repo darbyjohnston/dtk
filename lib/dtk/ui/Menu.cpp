@@ -69,7 +69,7 @@ namespace dtk
             {
                 button->setCheckedIcon(item->checkedIcon);
             }
-            else if (item->checkable && item->icon.empty())
+            else if (item->icon.empty())
             {
                 button->setCheckedIcon("MenuChecked");
             }
@@ -270,6 +270,17 @@ namespace dtk
                     setItemChecked(i.first, !i.first->checked);
                     i.first->checkedCallback(i.first->checked);
                     out = true;
+                }
+            }
+        }
+        if (!out)
+        {
+            for (const auto& subMenu : p.subMenus)
+            {
+                out = subMenu->shortcut(shortcut, modifiers);
+                if (out)
+                {
+                    break;
                 }
             }
         }

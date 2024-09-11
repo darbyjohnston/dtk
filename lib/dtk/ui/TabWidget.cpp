@@ -138,6 +138,21 @@ namespace dtk
         _p->callback = value;
     }
 
+    bool TabWidget::areTabsClosable() const
+    {
+        return _p->tabs->areTabsClosable();
+    }
+
+    void TabWidget::setTabsClosable(bool value)
+    {
+        _p->tabs->setTabsClosable(value);
+    }
+
+    void TabWidget::setTabCloseCallback(const std::function<void(int)>& value)
+    {
+        _p->tabs->setTabCloseCallback(value);
+    }
+
     void TabWidget::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);

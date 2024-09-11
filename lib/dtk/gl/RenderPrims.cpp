@@ -283,9 +283,11 @@ namespace dtk
                             }
 
                             const V2I& offset = (*glyphIt)->offset;
+                            //! \bug Off by one?
+                            const int extraOffset = 1;
                             const Box2I box(
                                 pos.x + x + offset.x,
-                                pos.y + y + fontMetrics.ascender - offset.y,
+                                pos.y + y + fontMetrics.ascender - offset.y - extraOffset,
                                 (*glyphIt)->image->getWidth(),
                                 (*glyphIt)->image->getHeight());
                             const auto& min = box.min;

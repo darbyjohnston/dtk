@@ -28,6 +28,7 @@ namespace dtk
         V2I dndCursorHotspot;
         std::weak_ptr<IWidget> dndHover;
 
+        bool tooltipsEnabled = true;
         std::shared_ptr<Tooltip> tooltip;
         V2I tooltipPos;
         std::chrono::steady_clock::time_point tooltipTimer;
@@ -145,6 +146,23 @@ namespace dtk
         _p->clipboard = value;
     }
 
+    bool IWindow::getTooltipsEnabled() const
+    {
+        return _p->tooltipsEnabled;
+    }
+
+    void IWindow::setTooltipsEnabled(bool value)
+    {
+        DTK_P();
+        if (value == p.tooltipsEnabled)
+            return;
+        p.tooltipsEnabled = value;
+        if (!value)
+        {
+            _closeTooltip();
+        }
+    }
+
     void IWindow::setVisible(bool value)
     {
         const bool changed = value != isVisible(false);
@@ -198,30 +216,33 @@ namespace dtk
     {
         IWidget::tickEvent(parentsVisible, parentsEnabled, event);
         DTK_P();
-        const auto tooltipTime = std::chrono::steady_clock::now();
-        const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
-        if (tooltipDiff > tooltipTimeout && !p.tooltip)
+        if (p.tooltipsEnabled)
         {
-            if (auto context = _getContext().lock())
+            const auto tooltipTime = std::chrono::steady_clock::now();
+            const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
+            if (tooltipDiff > tooltipTimeout && !p.tooltip)
             {
-                std::string text;
-                const auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
-                for (const auto& widget : widgets)
+                if (auto context = _getContext().lock())
                 {
-                    text = widget->getTooltip();
+                    std::string text;
+                    const auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
+                    for (const auto& widget : widgets)
+                    {
+                        text = widget->getTooltip();
+                        if (!text.empty())
+                        {
+                            break;
+                        }
+                    }
                     if (!text.empty())
                     {
-                        break;
+                        p.tooltip = Tooltip::create(
+                            context,
+                            text,
+                            p.cursorPos,
+                            shared_from_this());
+                        p.tooltipPos = p.cursorPos;
                     }
-                }
-                if (!text.empty())
-                {
-                    p.tooltip = Tooltip::create(
-                        context,
-                        text,
-                        p.cursorPos,
-                        shared_from_this());
-                    p.tooltipPos = p.cursorPos;
                 }
             }
         }
