@@ -261,8 +261,8 @@ namespace dtk
                 V2I pos;
 #if defined(__APPLE__)
                 //! \bug The mouse position needs to be scaled on macOS?
-                pos.x = value.x * _p->displayScale->get();
-                pos.y = value.y * _p->displayScale->get();
+                pos.x = value.x * _p->contentScale.x;
+                pos.y = value.y * _p->contentScale.y;
 #else // __APPLE__
                 pos.x = value.x;
                 pos.y = value.y;
