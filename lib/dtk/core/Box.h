@@ -135,6 +135,11 @@ namespace dtk
     constexpr Box<2, float> convert(const Box<2, int>&);
 
     template<int C, typename T>
+    constexpr Box<C, T> operator + (const Box<C, T>&, const Vector<C, T>&);
+    template<int C, typename T>
+    constexpr Box<C, T> operator - (const Box<C, T>&, const Vector<C, T>&);
+
+    template<int C, typename T>
     constexpr bool operator == (const Box<C, T>&, const Box<C, T>&);
     template<int C, typename T>
     constexpr bool operator != (const Box<C, T>&, const Box<C, T>&);

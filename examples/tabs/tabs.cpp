@@ -15,6 +15,68 @@
 
 using namespace dtk;
 
+std::shared_ptr<IWidget> createPushButtonTab(
+    const std::shared_ptr<Context>& context)
+{
+    auto layout = VerticalLayout::create(context);
+    layout->setMarginRole(SizeRole::Margin);
+    layout->setSpacingRole(SizeRole::SpacingSmall);
+    for (size_t i = 0; i < 10; ++i)
+    {
+        PushButton::create(context, Format("Push Button {0}").arg(i), layout);
+    }
+    auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
+    scrollWidget->setWidget(layout);
+    return scrollWidget;
+}
+
+std::shared_ptr<IWidget> createToolButtonTab(
+    const std::shared_ptr<Context>& context)
+{
+    auto layout = VerticalLayout::create(context);
+    layout->setMarginRole(SizeRole::Margin);
+    layout->setSpacingRole(SizeRole::None);
+    const std::vector<std::string> icons =
+    {
+        "Audio",
+        "Close",
+        "Copy",
+        "Directory",
+        "File",
+        "FrameNext",
+        "FramePrev",
+        "Mute",
+        "Search",
+        "Volume"
+    };
+    for (size_t i = 0; i < 10; ++i)
+    {
+        auto button = ToolButton::create(context, Format("Tool Button {0}").arg(i), layout);
+        if (i < icons.size())
+        {
+            button->setIcon(icons[i]);
+        }
+    }
+    auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
+    scrollWidget->setWidget(layout);
+    return scrollWidget;
+}
+
+std::shared_ptr<IWidget> createCheckBoxesTab(
+    const std::shared_ptr<Context>& context)
+{
+    auto layout = VerticalLayout::create(context);
+    layout->setMarginRole(SizeRole::Margin);
+    layout->setSpacingRole(SizeRole::None);
+    for (size_t i = 0; i < 10; ++i)
+    {
+        CheckBox::create(context, Format("Check Box {0}").arg(i), layout);
+    }
+    auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
+    scrollWidget->setWidget(layout);
+    return scrollWidget;
+}
+
 DTK_MAIN()
 {
     try
@@ -36,58 +98,25 @@ DTK_MAIN()
         auto tabWidget = TabWidget::create(context, window);
         tabWidget->setTabsClosable(true);
 
-        // Add a tab.
-        auto layout = VerticalLayout::create(context);
-        layout->setMarginRole(SizeRole::Margin);
-        layout->setSpacingRole(SizeRole::SpacingSmall);
-        for (size_t i = 0; i < 10; ++i)
+        // Create tabs.
+        for (size_t i = 0; i < 5; ++i)
         {
-            PushButton::create(context, Format("Push Button {0}").arg(i), layout);
+            tabWidget->addTab(
+                Format("Push Buttons {0}").arg(i),
+                createPushButtonTab(context));
         }
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-        scrollWidget->setWidget(layout);
-        tabWidget->addTab("Push Buttons", scrollWidget);
-
-        // Add a tab.
-        layout = VerticalLayout::create(context);
-        layout->setMarginRole(SizeRole::Margin);
-        layout->setSpacingRole(SizeRole::None);
-        const std::vector<std::string> icons =
+        for (size_t i = 0; i < 5; ++i)
         {
-            "Audio",
-            "Close",
-            "Copy",
-            "Directory",
-            "File",
-            "FrameNext",
-            "FramePrev",
-            "Mute",
-            "Search",
-            "Volume"
-        };
-        for (size_t i = 0; i < 10; ++i)
-        {
-            auto button = ToolButton::create(context, Format("Tool Button {0}").arg(i), layout);
-            if (i < icons.size())
-            {
-                button->setIcon(icons[i]);
-            }
+            tabWidget->addTab(
+                Format("Tool Buttons {0}").arg(i),
+                createToolButtonTab(context));
         }
-        scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-        scrollWidget->setWidget(layout);
-        tabWidget->addTab("Tool Buttons", scrollWidget);
-
-        // Add a tab.
-        layout = VerticalLayout::create(context);
-        layout->setMarginRole(SizeRole::Margin);
-        layout->setSpacingRole(SizeRole::None);
-        for (size_t i = 0; i < 10; ++i)
+        for (size_t i = 0; i < 5; ++i)
         {
-            CheckBox::create(context, Format("Check Box {0}").arg(i), layout);
+            tabWidget->addTab(
+                Format("Check Boxes {0}").arg(i),
+                createCheckBoxesTab(context));
         }
-        scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-        scrollWidget->setWidget(layout);
-        tabWidget->addTab("Check Boxes", scrollWidget);
 
         window->show();
         app->run();

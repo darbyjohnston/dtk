@@ -52,6 +52,7 @@ namespace dtk
         _setMousePressEnabled(true);
         setText(text);
         setButtonRole(ColorRole::None);
+        setCheckedRole(ColorRole::Button);
 
         if (closable)
         {

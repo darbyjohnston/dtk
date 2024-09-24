@@ -315,6 +315,18 @@ namespace dtk
     }
 
     template<int C, typename T>
+    constexpr Box<C, T> operator + (const Box<C, T>& a, const Vector<C, T>& b)
+    {
+        return Box<C, T>(a.min + b, a.size());
+    }
+
+    template<int C, typename T>
+    constexpr Box<C, T> operator - (const Box<C, T>& a, const Vector<C, T>& b)
+    {
+        return Box<C, T>(a.min - b, a.size());
+    }
+
+    template<int C, typename T>
     constexpr bool operator == (const Box<C, T>& a, const Box<C, T>& b)
     {
         return a.min == b.min && a.max == b.max;

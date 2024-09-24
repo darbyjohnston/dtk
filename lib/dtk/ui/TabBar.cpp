@@ -5,6 +5,7 @@
 #include <dtk/ui/TabBarPrivate.h>
 
 #include <dtk/ui/ButtonGroup.h>
+#include <dtk/ui/IncButtons.h>
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
@@ -19,8 +20,10 @@ namespace dtk
         bool closable = false;
         std::shared_ptr<ButtonGroup> buttonGroup;
         std::vector<std::shared_ptr<TabBarButton> > buttons;
-        std::shared_ptr<HorizontalLayout> layout;
+        std::shared_ptr<HorizontalLayout> buttonLayout;
         std::shared_ptr<ScrollWidget> scrollWidget;
+        std::shared_ptr<IncButtons> incButtons;
+        std::shared_ptr<HorizontalLayout> layout;
         int currentFocus = -1;
         std::function<void(int)> callback;
         std::function<void(int)> closeCallback;
@@ -37,12 +40,22 @@ namespace dtk
 
         p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
 
-        p.layout = HorizontalLayout::create(context);
-        p.layout->setSpacingRole(SizeRole::None);
+        p.buttonLayout = HorizontalLayout::create(context);
+        p.buttonLayout->setSpacingRole(SizeRole::None);
 
-        p.scrollWidget = ScrollWidget::create(context, ScrollType::Horizontal, shared_from_this());
+        p.scrollWidget = ScrollWidget::create(context, ScrollType::Horizontal);
+        p.scrollWidget->setScrollBarsVisible(false);
         p.scrollWidget->setBorder(false);
-        p.scrollWidget->setWidget(p.layout);
+        p.scrollWidget->setStretch(Stretch::Expanding, Stretch::Fixed);
+        p.scrollWidget->setWidget(p.buttonLayout);
+
+        p.incButtons = IncButtons::create(context);
+
+        p.layout = HorizontalLayout::create(context, shared_from_this());
+        p.layout->setSpacingRole(SizeRole::None);
+        p.scrollWidget->setParent(p.layout);
+        Divider::create(context, Orientation::Horizontal, p.layout);
+        p.incButtons->setParent(p.layout);
 
         p.buttonGroup->setClickedCallback(
             [this](int index)
@@ -55,6 +68,31 @@ namespace dtk
                     _p->callback(index);
                 }
                 _currentUpdate();
+            });
+
+        p.incButtons->setIncCallback(
+            [this]
+            {
+                if (!hasKeyFocus())
+                {
+                    takeKeyFocus();
+                }
+                else
+                {
+                    _setCurrent(_p->currentFocus + 1);
+                }
+            });
+        p.incButtons->setDecCallback(
+            [this]
+            {
+                if (!hasKeyFocus())
+                {
+                    takeKeyFocus();
+                }
+                else
+                {
+                    _setCurrent(_p->currentFocus - 1);
+                }
             });
     }
 
@@ -189,13 +227,13 @@ namespace dtk
     void TabBar::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
-        _p->scrollWidget->setGeometry(value);
+        _p->layout->setGeometry(value);
     }
 
     void TabBar::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
-        _setSizeHint(_p->scrollWidget->getSizeHint());
+        _setSizeHint(_p->layout->getSizeHint());
     }
 
     void TabBar::keyFocusEvent(bool value)
@@ -273,7 +311,7 @@ namespace dtk
         DTK_P();
         p.buttonGroup->clearButtons();
         p.buttons.clear();
-        auto children = p.layout->getChildren();
+        auto children = p.buttonLayout->getChildren();
         for (const auto& child : children)
         {
             child->setParent(nullptr);
@@ -296,13 +334,12 @@ namespace dtk
                                 _p->closeCallback(i);
                             }
                         },
-                        p.layout);
+                        p.buttonLayout);
                 }
                 else
                 {
-                    button = TabBarButton::create(context, p.text[i], p.layout);
+                    button = TabBarButton::create(context, p.text[i], p.buttonLayout);
                 }
-                button->setCheckedRole(ColorRole::Button);
                 button->setTooltip(p.tooltips[i]);
 
                 p.buttonGroup->addButton(button);
@@ -310,7 +347,7 @@ namespace dtk
 
                 if (p.text.size() > 1 && i < p.text.size() - 1)
                 {
-                    Divider::create(context, Orientation::Vertical, p.layout);
+                    Divider::create(context, Orientation::Vertical, p.buttonLayout);
                 }
             }
         }
@@ -335,5 +372,9 @@ namespace dtk
         {
             p.buttons[i]->setCurrent(p.currentFocus == i && focus);
         }
+        const Box2I g =
+            p.buttons[p.currentFocus]->getGeometry() +
+            V2I(p.scrollWidget->getScrollPos().x, 0);
+        p.scrollWidget->scrollTo(g);
     }
 }

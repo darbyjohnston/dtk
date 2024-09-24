@@ -164,6 +164,14 @@ namespace dtk
         void BoxTest::_operators()
         {
             {
+                const Box2I b = Box2I(1, 2, 3, 4) + V2I(5, 6);
+                DTK_ASSERT(b == Box2I(6, 8, 3, 4));
+            }
+            {
+                const Box2I b = Box2I(1, 2, 3, 4) - V2I(5, 6);
+                DTK_ASSERT(b == Box2I(-4, -4, 3, 4));
+            }
+            {
                 const Box2I b(1, 2, 3, 4);
                 DTK_ASSERT(b == Box2I(1, 2, 3, 4));
                 DTK_ASSERT(b != Box2I(0, 1, 2, 3));
