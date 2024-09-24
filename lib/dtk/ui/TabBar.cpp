@@ -5,10 +5,11 @@
 #include <dtk/ui/TabBarPrivate.h>
 
 #include <dtk/ui/ButtonGroup.h>
-#include <dtk/ui/IncButtons.h>
+#include <dtk/ui/ComboBoxPrivate.h>
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
+#include <dtk/ui/ToolButton.h>
 
 namespace dtk
 {
@@ -22,8 +23,9 @@ namespace dtk
         std::vector<std::shared_ptr<TabBarButton> > buttons;
         std::shared_ptr<HorizontalLayout> buttonLayout;
         std::shared_ptr<ScrollWidget> scrollWidget;
-        std::shared_ptr<IncButtons> incButtons;
+        std::shared_ptr<ToolButton> menuButton;
         std::shared_ptr<HorizontalLayout> layout;
+        std::shared_ptr<ComboBoxMenu> menu;
         int currentFocus = -1;
         std::function<void(int)> callback;
         std::function<void(int)> closeCallback;
@@ -49,13 +51,14 @@ namespace dtk
         p.scrollWidget->setStretch(Stretch::Expanding, Stretch::Fixed);
         p.scrollWidget->setWidget(p.buttonLayout);
 
-        p.incButtons = IncButtons::create(context);
+        p.menuButton = ToolButton::create(context);
+        p.menuButton->setIcon("MenuArrow");
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::None);
         p.scrollWidget->setParent(p.layout);
         Divider::create(context, Orientation::Horizontal, p.layout);
-        p.incButtons->setParent(p.layout);
+        p.menuButton->setParent(p.layout);
 
         p.buttonGroup->setClickedCallback(
             [this](int index)
@@ -70,28 +73,51 @@ namespace dtk
                 _currentUpdate();
             });
 
-        p.incButtons->setIncCallback(
+        p.menuButton->setClickedCallback(
             [this]
             {
-                if (!hasKeyFocus())
+                if (auto context = _getContext().lock())
                 {
-                    takeKeyFocus();
-                }
-                else
-                {
-                    _setCurrent(_p->currentFocus + 1);
-                }
-            });
-        p.incButtons->setDecCallback(
-            [this]
-            {
-                if (!hasKeyFocus())
-                {
-                    takeKeyFocus();
-                }
-                else
-                {
-                    _setCurrent(_p->currentFocus - 1);
+                    if (!_p->menu)
+                    {
+                        std::vector<ComboBoxItem> items;
+                        for (const auto& text : _p->text)
+                        {
+                            items.push_back(ComboBoxItem(text));
+                        }
+                        _p->menu = ComboBoxMenu::create(context, items, _p->currentTab);
+                        _p->menu->open(getWindow(), _p->menuButton->getGeometry());
+                        auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
+                        _p->menu->setCallback(
+                            [weak](int index)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->menu->close();
+                                    if (index != -1)
+                                    {
+                                        widget->setCurrentTab(index);
+                                        if (widget->_p->callback)
+                                        {
+                                            widget->_p->callback(index);
+                                        }
+                                    }
+                                }
+                            });
+                        _p->menu->setCloseCallback(
+                            [weak]
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->menu.reset();
+                                }
+                            });
+                    }
+                    else
+                    {
+                        _p->menu->close();
+                        _p->menu.reset();
+                    }
                 }
             });
     }

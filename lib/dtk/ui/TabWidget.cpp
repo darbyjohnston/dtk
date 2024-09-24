@@ -38,11 +38,11 @@ namespace dtk
         p.tabs->setCallback(
             [this](int value)
             {
+                _widgetUpdate();
                 if (_p->callback)
                 {
                     _p->callback(value);
                 }
-                _widgetUpdate();
             });
     }
 
