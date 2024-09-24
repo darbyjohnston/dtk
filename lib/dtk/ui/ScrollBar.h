@@ -55,7 +55,6 @@ namespace dtk
         void mouseReleaseEvent(MouseClickEvent&) override;
 
     private:
-        Box2I _getBorderGeometry() const;
         Box2I _getHandleGeometry() const;
         int _getScrollPosMax() const;
         float _getScrollScale() const;

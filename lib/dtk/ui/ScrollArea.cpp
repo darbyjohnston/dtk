@@ -25,14 +25,12 @@ namespace dtk
         V2I scrollPos;
         std::function<void(const Size2I&)> scrollSizeCallback;
         std::function<void(const V2I&)> scrollPosCallback;
-        bool border = true;
 
         struct SizeData
         {
             bool init = true;
             float displayScale = 0.F;
             int size = 0;
-            int border = 0;
         };
         SizeData size;
     };
@@ -44,6 +42,9 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::ScrollArea", parent);
         DTK_P();
+
+        setBackgroundRole(ColorRole::Window);
+
         p.scrollType = scrollType;
     }
 
@@ -85,7 +86,7 @@ namespace dtk
         V2I tmp = value;
         if (clamp)
         {
-            const Box2I g = margin(getGeometry(), -p.size.border);
+            const Box2I& g = getGeometry();
             tmp = V2I(
                 dtk::clamp(tmp.x, 0, std::max(0, p.scrollSize.w - g.w())),
                 dtk::clamp(tmp.y, 0, std::max(0, p.scrollSize.h - g.h())));
@@ -130,32 +131,10 @@ namespace dtk
         _p->scrollPosCallback = value;
     }
 
-    Box2I ScrollArea::getChildrenClipRect() const
-    {
-        const Box2I& g = getGeometry();
-        return _p->border ? margin(g, -_p->size.border) : g;
-    }
-
-    bool ScrollArea::hasBorder() const
-    {
-        return _p->border;
-    }
-
-    void ScrollArea::setBorder(bool value)
-    {
-        DTK_P();
-        if (value == p.border)
-            return;
-        p.border = value;
-        _setSizeUpdate();
-        _setDrawUpdate();
-    }
-
     void ScrollArea::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
         DTK_P();
-        const Box2I g = margin(value, -p.size.border);
 
         Size2I scrollSize;
         for (const auto& child : getChildren())
@@ -164,23 +143,23 @@ namespace dtk
             switch (p.scrollType)
             {
             case ScrollType::Horizontal:
-                childSizeHint.h = std::max(childSizeHint.h, g.h());
+                childSizeHint.h = std::max(childSizeHint.h, value.h());
                 break;
             case ScrollType::Vertical:
             case ScrollType::Menu:
-                childSizeHint.w = std::max(childSizeHint.w, g.w());
+                childSizeHint.w = std::max(childSizeHint.w, value.w());
                 break;
             case ScrollType::Both:
-                childSizeHint.w = std::max(childSizeHint.w, g.w());
-                childSizeHint.h = std::max(childSizeHint.h, g.h());
+                childSizeHint.w = std::max(childSizeHint.w, value.w());
+                childSizeHint.h = std::max(childSizeHint.h, value.h());
                 break;
             default: break;
             }
             scrollSize.w = std::max(scrollSize.w, childSizeHint.w);
             scrollSize.h = std::max(scrollSize.h, childSizeHint.h);
             const Box2I g2(
-                g.min.x - p.scrollPos.x,
-                g.min.y - p.scrollPos.y,
+                value.min.x - p.scrollPos.x,
+                value.min.y - p.scrollPos.y,
                 childSizeHint.w,
                 childSizeHint.h);
             child->setGeometry(g2);
@@ -197,8 +176,8 @@ namespace dtk
         }
 
         const V2I scrollPos(
-            clamp(p.scrollPos.x, 0, std::max(0, p.scrollSize.w - g.w())),
-            clamp(p.scrollPos.y, 0, std::max(0, p.scrollSize.h - g.h())));
+            clamp(p.scrollPos.x, 0, std::max(0, p.scrollSize.w - value.w())),
+            clamp(p.scrollPos.y, 0, std::max(0, p.scrollSize.h - value.h())));
         if (scrollPos != p.scrollPos)
         {
             p.scrollPos = scrollPos;
@@ -222,9 +201,6 @@ namespace dtk
             p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, p.size.displayScale);
-            p.size.border = p.border ?
-                event.style->getSizeRole(SizeRole::Border, p.size.displayScale) :
-                0;
         }
 
         Size2I sizeHint;
@@ -247,21 +223,6 @@ namespace dtk
             break;
         default: break;
         }
-        sizeHint = margin(sizeHint, p.size.border);
         _setSizeHint(sizeHint);
-    }
-
-    void ScrollArea::drawEvent(
-        const Box2I& drawRect,
-        const DrawEvent& event)
-    {
-        IWidget::drawEvent(drawRect, event);
-        DTK_P();
-        if (p.border)
-        {
-            event.render->drawMesh(
-                border(getGeometry(), p.size.border),
-                event.style->getColorRole(ColorRole::Border));
-        }
     }
 }

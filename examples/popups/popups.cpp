@@ -8,6 +8,7 @@
 #include <dtk/ui/Action.h>
 #include <dtk/ui/ComboBox.h>
 #include <dtk/ui/ColorSwatch.h>
+#include <dtk/ui/Divider.h>
 #include <dtk/ui/GroupBox.h>
 #include <dtk/ui/Menu.h>
 #include <dtk/ui/RowLayout.h>
@@ -32,6 +33,7 @@ namespace dtk
                 auto menuLayout = VerticalLayout::create(context, shared_from_this());
                 menuLayout->setSpacingRole(SizeRole::None);
                 _menuBar = MenuBar::create(context, menuLayout);
+                Divider::create(context, Orientation::Vertical, menuLayout);
                 auto menu = Menu::create(context);
                 menu->addItem(std::make_shared<Action>(
                     "Action 1",
@@ -109,6 +111,7 @@ namespace dtk
                 auto layout = VerticalLayout::create(context);
                 layout->setMarginRole(SizeRole::Margin);
                 auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, menuLayout);
+                scrollWidget->setBorder(false);
                 scrollWidget->setStretch(Stretch::Expanding);
                 scrollWidget->setWidget(layout);
 

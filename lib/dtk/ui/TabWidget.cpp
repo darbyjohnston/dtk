@@ -4,6 +4,7 @@
 
 #include <dtk/ui/TabWidget.h>
 
+#include <dtk/ui/Divider.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/StackLayout.h>
 #include <dtk/ui/TabBar.h>
@@ -27,9 +28,11 @@ namespace dtk
 
         p.layout = VerticalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::None);
-            
+
         p.tabs = TabBar::create(context, p.layout);
-            
+
+        Divider::create(context, Orientation::Vertical, p.layout);
+
         p.stack = StackLayout::create(context, p.layout);
         p.stack->setVStretch(Stretch::Expanding);
 

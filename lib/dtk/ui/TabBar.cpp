@@ -373,7 +373,7 @@ namespace dtk
 
                 if (p.text.size() > 1 && i < p.text.size() - 1)
                 {
-                    Divider::create(context, Orientation::Vertical, p.buttonLayout);
+                    Divider::create(context, Orientation::Horizontal, p.buttonLayout);
                 }
             }
         }

@@ -26,6 +26,7 @@ std::shared_ptr<IWidget> createPushButtonTab(
         PushButton::create(context, Format("Push Button {0}").arg(i), layout);
     }
     auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
+    scrollWidget->setBorder(false);
     scrollWidget->setWidget(layout);
     return scrollWidget;
 }
@@ -58,6 +59,7 @@ std::shared_ptr<IWidget> createToolButtonTab(
         }
     }
     auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
+    scrollWidget->setBorder(false);
     scrollWidget->setWidget(layout);
     return scrollWidget;
 }
@@ -73,6 +75,7 @@ std::shared_ptr<IWidget> createCheckBoxesTab(
         CheckBox::create(context, Format("Check Box {0}").arg(i), layout);
     }
     auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
+    scrollWidget->setBorder(false);
     scrollWidget->setWidget(layout);
     return scrollWidget;
 }
@@ -96,10 +99,9 @@ DTK_MAIN()
 
         // Create the tab widget.
         auto tabWidget = TabWidget::create(context, window);
-        tabWidget->setTabsClosable(true);
 
         // Create tabs.
-        for (size_t i = 0; i < 5; ++i)
+        for (size_t i = 0; i < 10; ++i)
         {
             tabWidget->addTab(
                 Format("Push Buttons {0}").arg(i),

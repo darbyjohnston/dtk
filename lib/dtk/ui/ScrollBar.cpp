@@ -114,15 +114,15 @@ namespace dtk
         switch (p.orientation)
         {
         case Orientation::Horizontal:
-            sizeHint.w += p.size.handle + p.size.border * 2;
-            sizeHint.h += p.size.border;
+            sizeHint.w += p.size.handle;
             break;
         case Orientation::Vertical:
-            sizeHint.w += p.size.border;
-            sizeHint.h += p.size.handle + p.size.border * 2;
+            sizeHint.h += p.size.handle;
             break;
         default: break;
         }
+        sizeHint.w += p.size.border * 2;
+        sizeHint.h += p.size.border * 2;
         _setSizeHint(sizeHint);
     }
 
@@ -133,29 +133,24 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
-        const Box2I g = _getBorderGeometry();
-        event.render->drawMesh(
-            border(g, p.size.border),
-            event.style->getColorRole(ColorRole::Border));
-
         const int scrollPosMax = _getScrollPosMax();
         if (scrollPosMax > 0)
         {
-            const Box2I g2 = _getHandleGeometry();
+            const Box2I g = _getHandleGeometry();
             event.render->drawRect(
-                convert(g2),
+                convert(g),
                 event.style->getColorRole(ColorRole::Button));
 
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    convert(g2),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    convert(g2),
+                    convert(g),
                     event.style->getColorRole(ColorRole::Hover));
             }
         }
@@ -251,29 +246,11 @@ namespace dtk
         _setDrawUpdate();
     }
 
-    Box2I ScrollBar::_getBorderGeometry() const
-    {
-        DTK_P();
-        Box2I out;
-        const Box2I& g = getGeometry();
-        switch (p.orientation)
-        {
-        case Orientation::Horizontal:
-            out = margin(g, 0, p.size.border, 0, 0);
-            break;
-        case Orientation::Vertical:
-            out = margin(g, p.size.border, 0, 0, 0);
-            break;
-        default: break;
-        }
-        return out;
-    }
-
     Box2I ScrollBar::_getHandleGeometry() const
     {
         DTK_P();
         Box2I out;
-        const Box2I g = margin(_getBorderGeometry(), -p.size.border);
+        const Box2I& g = getGeometry();
         switch (p.orientation)
         {
         case Orientation::Horizontal:
@@ -306,21 +283,21 @@ namespace dtk
         }
         default: break;
         }
-        return out;
+        return margin(out, -p.size.border);
     }
 
     int ScrollBar::_getScrollPosMax() const
     {
         DTK_P();
         int out = 0;
-        const Box2I g = margin(_getBorderGeometry(), -p.size.border);
+        const Box2I& g = getGeometry();
         switch (p.orientation)
         {
         case Orientation::Horizontal:
-            out = std::max(0, p.scrollSize - g.w() + 2);
+            out = std::max(0, p.scrollSize - g.w() - 1);
             break;
         case Orientation::Vertical:
-            out = std::max(0, p.scrollSize - g.h() + 2);
+            out = std::max(0, p.scrollSize - g.h() - 1);
             break;
         default: break;
         }
@@ -331,7 +308,7 @@ namespace dtk
     {
         DTK_P();
         float out = 0.F;
-        const Box2I g = margin(_getBorderGeometry(), -p.size.border);
+        const Box2I& g = getGeometry();
         switch (p.orientation)
         {
         case Orientation::Horizontal:

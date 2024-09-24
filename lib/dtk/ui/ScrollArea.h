@@ -62,16 +62,8 @@ namespace dtk
         //! Set the scroll position callback.
         void setScrollPosCallback(const std::function<void(const V2I&)>&);
 
-        //! Get whether the scroll area has a border.
-        bool hasBorder() const;
-
-        //! Set whether the scroll area has a border.
-        void setBorder(bool);
-
-        Box2I getChildrenClipRect() const override;
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
-        void drawEvent(const Box2I&, const DrawEvent&) override;
 
     private:
         DTK_PRIVATE();

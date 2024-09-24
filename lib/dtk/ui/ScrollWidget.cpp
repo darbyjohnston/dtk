@@ -16,6 +16,7 @@ namespace dtk
         ScrollType scrollType = ScrollType::Both;
         bool scrollBarsVisible = true;
         bool scrollEventsEnabled = true;
+        bool border = true;
         std::shared_ptr<IWidget> widget;
         std::shared_ptr<ScrollArea> scrollArea;
         std::shared_ptr<ScrollBar> horizontalScrollBar;
@@ -31,6 +32,8 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::ScrollWidget", parent);
         DTK_P();
+
+        setBackgroundRole(ColorRole::Border);
 
         p.scrollType = scrollType;
 
@@ -54,8 +57,8 @@ namespace dtk
         }
 
         p.layout = GridLayout::create(context, shared_from_this());
+        p.layout->setMarginRole(p.border ? SizeRole::Border : SizeRole::None);
         p.layout->setSpacingRole(SizeRole::None);
-        p.layout->setStretch(Stretch::Expanding);
         p.scrollArea->setParent(p.layout);
         p.layout->setGridPos(p.scrollArea, 0, 0);
         if (p.horizontalScrollBar)
@@ -239,12 +242,18 @@ namespace dtk
 
     bool ScrollWidget::hasBorder() const
     {
-        return _p->scrollArea->hasBorder();
+        return _p->border;
     }
 
     void ScrollWidget::setBorder(bool value)
     {
-        _p->scrollArea->setBorder(value);
+        DTK_P();
+        if (value == p.border)
+            return;
+        p.border = value;
+        p.layout->setMarginRole(p.border ? SizeRole::Border : SizeRole::None);
+        _setSizeUpdate();
+        _setDrawUpdate();
     }
 
     SizeRole ScrollWidget::getMarginRole() const
