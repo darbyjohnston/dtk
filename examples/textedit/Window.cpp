@@ -6,6 +6,7 @@
 
 #include "App.h"
 
+#include <dtk/ui/Divider.h>
 #include <dtk/ui/FileBrowser.h>
 #include <dtk/ui/Menu.h>
 #include <dtk/ui/RowLayout.h>
@@ -26,7 +27,7 @@ namespace dtk
                 const Size2I& size)
             {
                 dtk::Window::_init(context, name, size);
-                    
+
                 _menus["File"] = Menu::create(context);
                 auto appWeak = std::weak_ptr<App>(app);
                 _actions["File/Open"] = std::make_shared<Action>(
@@ -107,10 +108,13 @@ namespace dtk
                 _menuBar->addMenu("File", _menus["File"]);
                 _menuBar->addMenu("Edit", _menus["Edit"]);
 
+                Divider::create(context, Orientation::Vertical, layout);
+
                 _textWidget = Label::create(context);
                 _textWidget->setMarginRole(SizeRole::MarginInside);
                 _textWidget->setVAlign(VAlign::Top);
                 auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, layout);
+                scrollWidget->setBorder(false);
                 scrollWidget->setStretch(Stretch::Expanding);
                 scrollWidget->setWidget(_textWidget);
 

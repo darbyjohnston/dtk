@@ -31,6 +31,7 @@ DTK_MAIN()
 
         // Create the scroll widget.
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        scrollWidget->setBorder(false);
 
         // Create the MDI canvas.
         auto canvas = MDICanvas::create(context);

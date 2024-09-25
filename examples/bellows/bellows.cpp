@@ -36,6 +36,7 @@ DTK_MAIN()
         auto layout = VerticalLayout::create(context);
         layout->setSpacingRole(SizeRole::None);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
 
         // Add a bellows.

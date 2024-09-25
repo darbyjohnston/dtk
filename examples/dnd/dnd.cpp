@@ -229,6 +229,7 @@ DTK_MAIN()
         layout->setMarginRole(SizeRole::MarginSmall);
         layout->setSpacingRole(SizeRole::SpacingSmall);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
 
         // Create the drag and drop widgets.

@@ -31,6 +31,7 @@ DTK_MAIN()
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
 
         // Create pie charts.
