@@ -398,9 +398,12 @@ namespace dtk
         {
             p.buttons[i]->setCurrent(p.currentFocus == i && focus);
         }
-        const Box2I g =
-            p.buttons[p.currentFocus]->getGeometry() +
-            V2I(p.scrollWidget->getScrollPos().x, 0);
-        p.scrollWidget->scrollTo(g);
+        if (p.currentFocus >= 0 && p.currentFocus < p.buttons.size())
+        {
+            const Box2I g =
+                p.buttons[p.currentFocus]->getGeometry() +
+                V2I(p.scrollWidget->getScrollPos().x, 0);
+            p.scrollWidget->scrollTo(g);
+        }
     }
 }
