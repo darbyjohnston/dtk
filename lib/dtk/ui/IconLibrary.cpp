@@ -10,130 +10,50 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/LRUCache.h>
 
+#include <lunasvg/lunasvg.h>
+
 namespace
 {
-#include <Icons/Audio_96.h>
-#include <Icons/BellowsClosed_96.h>
-#include <Icons/BellowsOpen_96.h>
-#include <Icons/Clear_96.h>
-#include <Icons/Close_96.h>
-#include <Icons/Copy_96.h>
-#include <Icons/Decrement_96.h>
-#include <Icons/Directory_96.h>
-#include <Icons/DirectoryBack_96.h>
-#include <Icons/DirectoryForward_96.h>
-#include <Icons/DirectoryUp_96.h>
-#include <Icons/Empty_96.h>
-#include <Icons/File_96.h>
-#include <Icons/FileBrowser_96.h>
-#include <Icons/FileClose_96.h>
-#include <Icons/FileCloseAll_96.h>
-#include <Icons/FileOpen_96.h>
-#include <Icons/FrameEnd_96.h>
-#include <Icons/FrameNext_96.h>
-#include <Icons/FramePrev_96.h>
-#include <Icons/FrameStart_96.h>
-#include <Icons/Increment_96.h>
-#include <Icons/MenuArrow_96.h>
-#include <Icons/MenuChecked_96.h>
-#include <Icons/Mute_96.h>
-#include <Icons/Next_96.h>
-#include <Icons/PlaybackForward_96.h>
-#include <Icons/PlaybackReverse_96.h>
-#include <Icons/PlaybackStop_96.h>
-#include <Icons/Prev_96.h>
-#include <Icons/Reload_96.h>
-#include <Icons/Reset_96.h>
-#include <Icons/ReverseSort_96.h>
-#include <Icons/Search_96.h>
-#include <Icons/Settings_96.h>
-#include <Icons/SubMenuArrow_96.h>
-#include <Icons/TimeEnd_96.h>
-#include <Icons/TimeStart_96.h>
-#include <Icons/Volume_96.h>
-#include <Icons/WindowFullScreen_96.h>
-
-#include <Icons/Audio_192.h>
-#include <Icons/BellowsClosed_192.h>
-#include <Icons/BellowsOpen_192.h>
-#include <Icons/Clear_192.h>
-#include <Icons/Close_192.h>
-#include <Icons/Copy_192.h>
-#include <Icons/Decrement_192.h>
-#include <Icons/Directory_192.h>
-#include <Icons/DirectoryBack_192.h>
-#include <Icons/DirectoryForward_192.h>
-#include <Icons/DirectoryUp_192.h>
-#include <Icons/Empty_192.h>
-#include <Icons/File_192.h>
-#include <Icons/FileBrowser_192.h>
-#include <Icons/FileClose_192.h>
-#include <Icons/FileCloseAll_192.h>
-#include <Icons/FileOpen_192.h>
-#include <Icons/FrameEnd_192.h>
-#include <Icons/FrameNext_192.h>
-#include <Icons/FramePrev_192.h>
-#include <Icons/FrameStart_192.h>
-#include <Icons/Increment_192.h>
-#include <Icons/MenuArrow_192.h>
-#include <Icons/MenuChecked_192.h>
-#include <Icons/Mute_192.h>
-#include <Icons/Next_192.h>
-#include <Icons/PlaybackForward_192.h>
-#include <Icons/PlaybackReverse_192.h>
-#include <Icons/PlaybackStop_192.h>
-#include <Icons/Prev_192.h>
-#include <Icons/Reload_192.h>
-#include <Icons/Reset_192.h>
-#include <Icons/ReverseSort_192.h>
-#include <Icons/Search_192.h>
-#include <Icons/Settings_192.h>
-#include <Icons/SubMenuArrow_192.h>
-#include <Icons/TimeEnd_192.h>
-#include <Icons/TimeStart_192.h>
-#include <Icons/Volume_192.h>
-#include <Icons/WindowFullScreen_192.h>
-
-#include <Icons/Audio_288.h>
-#include <Icons/BellowsClosed_288.h>
-#include <Icons/BellowsOpen_288.h>
-#include <Icons/Clear_288.h>
-#include <Icons/Close_288.h>
-#include <Icons/Copy_288.h>
-#include <Icons/Decrement_288.h>
-#include <Icons/Directory_288.h>
-#include <Icons/DirectoryBack_288.h>
-#include <Icons/DirectoryForward_288.h>
-#include <Icons/DirectoryUp_288.h>
-#include <Icons/Empty_288.h>
-#include <Icons/File_288.h>
-#include <Icons/FileBrowser_288.h>
-#include <Icons/FileClose_288.h>
-#include <Icons/FileCloseAll_288.h>
-#include <Icons/FileOpen_288.h>
-#include <Icons/FrameEnd_288.h>
-#include <Icons/FrameNext_288.h>
-#include <Icons/FramePrev_288.h>
-#include <Icons/FrameStart_288.h>
-#include <Icons/Increment_288.h>
-#include <Icons/MenuArrow_288.h>
-#include <Icons/MenuChecked_288.h>
-#include <Icons/Mute_288.h>
-#include <Icons/Next_288.h>
-#include <Icons/PlaybackForward_288.h>
-#include <Icons/PlaybackReverse_288.h>
-#include <Icons/PlaybackStop_288.h>
-#include <Icons/Prev_288.h>
-#include <Icons/Reload_288.h>
-#include <Icons/Reset_288.h>
-#include <Icons/ReverseSort_288.h>
-#include <Icons/Search_288.h>
-#include <Icons/Settings_288.h>
-#include <Icons/SubMenuArrow_288.h>
-#include <Icons/TimeEnd_288.h>
-#include <Icons/TimeStart_288.h>
-#include <Icons/Volume_288.h>
-#include <Icons/WindowFullScreen_288.h>
+#include <Icons/Audio.h>
+#include <Icons/BellowsClosed.h>
+#include <Icons/BellowsOpen.h>
+#include <Icons/Clear.h>
+#include <Icons/Close.h>
+#include <Icons/Copy.h>
+#include <Icons/Decrement.h>
+#include <Icons/Directory.h>
+#include <Icons/DirectoryBack.h>
+#include <Icons/DirectoryForward.h>
+#include <Icons/DirectoryUp.h>
+#include <Icons/Empty.h>
+#include <Icons/File.h>
+#include <Icons/FileBrowser.h>
+#include <Icons/FileClose.h>
+#include <Icons/FileCloseAll.h>
+#include <Icons/FileOpen.h>
+#include <Icons/FrameEnd.h>
+#include <Icons/FrameNext.h>
+#include <Icons/FramePrev.h>
+#include <Icons/FrameStart.h>
+#include <Icons/Increment.h>
+#include <Icons/MenuArrow.h>
+#include <Icons/MenuChecked.h>
+#include <Icons/Mute.h>
+#include <Icons/Next.h>
+#include <Icons/PlaybackForward.h>
+#include <Icons/PlaybackReverse.h>
+#include <Icons/PlaybackStop.h>
+#include <Icons/Prev.h>
+#include <Icons/Reload.h>
+#include <Icons/Reset.h>
+#include <Icons/ReverseSort.h>
+#include <Icons/Search.h>
+#include <Icons/Settings.h>
+#include <Icons/SubMenuArrow.h>
+#include <Icons/TimeEnd.h>
+#include <Icons/TimeStart.h>
+#include <Icons/Volume.h>
+#include <Icons/WindowFullScreen.h>
 }
 
 #include <atomic>
@@ -153,7 +73,7 @@ namespace dtk
     {
         std::weak_ptr<Context> context;
 
-        std::map<std::pair<std::string, int>, std::vector<uint8_t> > iconData;
+        std::map<std::string, std::vector<uint8_t> > iconData;
 
         struct Request
         {
@@ -188,128 +108,46 @@ namespace dtk
         DTK_P();
         p.context = context;
 
-        p.iconData[std::make_pair("Audio", 96)] = Audio_96_png;
-        p.iconData[std::make_pair("BellowsClosed", 96)] = BellowsClosed_96_png;
-        p.iconData[std::make_pair("BellowsOpen", 96)] = BellowsOpen_96_png;
-        p.iconData[std::make_pair("Clear", 96)] = Clear_96_png;
-        p.iconData[std::make_pair("Close", 96)] = Close_96_png;
-        p.iconData[std::make_pair("Copy", 96)] = Copy_96_png;
-        p.iconData[std::make_pair("Decrement", 96)] = Decrement_96_png;
-        p.iconData[std::make_pair("Directory", 96)] = Directory_96_png;
-        p.iconData[std::make_pair("DirectoryBack", 96)] = DirectoryBack_96_png;
-        p.iconData[std::make_pair("DirectoryForward", 96)] = DirectoryForward_96_png;
-        p.iconData[std::make_pair("DirectoryUp", 96)] = DirectoryUp_96_png;
-        p.iconData[std::make_pair("Empty", 96)] = Empty_96_png;
-        p.iconData[std::make_pair("File", 96)] = File_96_png;
-        p.iconData[std::make_pair("FileBrowser", 96)] = FileBrowser_96_png;
-        p.iconData[std::make_pair("FileClose", 96)] = FileClose_96_png;
-        p.iconData[std::make_pair("FileCloseAll", 96)] = FileCloseAll_96_png;
-        p.iconData[std::make_pair("FileOpen", 96)] = FileOpen_96_png;
-        p.iconData[std::make_pair("FrameEnd", 96)] = FrameEnd_96_png;
-        p.iconData[std::make_pair("FrameNext", 96)] = FrameNext_96_png;
-        p.iconData[std::make_pair("FramePrev", 96)] = FramePrev_96_png;
-        p.iconData[std::make_pair("FrameStart", 96)] = FrameStart_96_png;
-        p.iconData[std::make_pair("Increment", 96)] = Increment_96_png;
-        p.iconData[std::make_pair("MenuArrow", 96)] = MenuArrow_96_png;
-        p.iconData[std::make_pair("MenuChecked", 96)] = MenuChecked_96_png;
-        p.iconData[std::make_pair("Mute", 96)] = Mute_96_png;
-        p.iconData[std::make_pair("Next", 96)] = Next_96_png;
-        p.iconData[std::make_pair("PlaybackForward", 96)] = PlaybackForward_96_png;
-        p.iconData[std::make_pair("PlaybackReverse", 96)] = PlaybackReverse_96_png;
-        p.iconData[std::make_pair("PlaybackStop", 96)] = PlaybackStop_96_png;
-        p.iconData[std::make_pair("Prev", 96)] = Prev_96_png;
-        p.iconData[std::make_pair("Reset", 96)] = Reset_96_png;
-        p.iconData[std::make_pair("ReverseSort", 96)] = Reset_96_png;
-        p.iconData[std::make_pair("Reload", 96)] = Reload_96_png;
-        p.iconData[std::make_pair("Search", 96)] = Search_96_png;
-        p.iconData[std::make_pair("Settings", 96)] = Settings_96_png;
-        p.iconData[std::make_pair("SubMenuArrow", 96)] = SubMenuArrow_96_png;
-        p.iconData[std::make_pair("TimeEnd", 96)] = TimeEnd_96_png;
-        p.iconData[std::make_pair("TimeStart", 96)] = TimeStart_96_png;
-        p.iconData[std::make_pair("Volume", 96)] = Volume_96_png;
-        p.iconData[std::make_pair("WindowFullScreen", 96)] = WindowFullScreen_96_png;
-
-        p.iconData[std::make_pair("Audio", 192)] = Audio_192_png;
-        p.iconData[std::make_pair("BellowsClosed", 192)] = BellowsClosed_192_png;
-        p.iconData[std::make_pair("BellowsOpen", 192)] = BellowsOpen_192_png;
-        p.iconData[std::make_pair("Clear", 192)] = Clear_192_png;
-        p.iconData[std::make_pair("Close", 192)] = Close_192_png;
-        p.iconData[std::make_pair("Copy", 192)] = Copy_192_png;
-        p.iconData[std::make_pair("Decrement", 192)] = Decrement_192_png;
-        p.iconData[std::make_pair("Directory", 192)] = Directory_192_png;
-        p.iconData[std::make_pair("DirectoryBack", 192)] = DirectoryBack_192_png;
-        p.iconData[std::make_pair("DirectoryForward", 192)] = DirectoryForward_192_png;
-        p.iconData[std::make_pair("DirectoryUp", 192)] = DirectoryUp_192_png;
-        p.iconData[std::make_pair("Empty", 192)] = Empty_192_png;
-        p.iconData[std::make_pair("File", 192)] = File_192_png;
-        p.iconData[std::make_pair("FileBrowser", 192)] = FileBrowser_192_png;
-        p.iconData[std::make_pair("FileClose", 192)] = FileClose_192_png;
-        p.iconData[std::make_pair("FileCloseAll", 192)] = FileCloseAll_192_png;
-        p.iconData[std::make_pair("FileOpen", 192)] = FileOpen_192_png;
-        p.iconData[std::make_pair("FrameEnd", 192)] = FrameEnd_192_png;
-        p.iconData[std::make_pair("FrameNext", 192)] = FrameNext_192_png;
-        p.iconData[std::make_pair("FramePrev", 192)] = FramePrev_192_png;
-        p.iconData[std::make_pair("FrameStart", 192)] = FrameStart_192_png;
-        p.iconData[std::make_pair("Increment", 192)] = Increment_192_png;
-        p.iconData[std::make_pair("MenuArrow", 192)] = MenuArrow_192_png;
-        p.iconData[std::make_pair("MenuChecked", 192)] = MenuChecked_192_png;
-        p.iconData[std::make_pair("Mute", 192)] = Mute_192_png;
-        p.iconData[std::make_pair("Next", 192)] = Next_192_png;
-        p.iconData[std::make_pair("PlaybackForward", 192)] = PlaybackForward_192_png;
-        p.iconData[std::make_pair("PlaybackReverse", 192)] = PlaybackReverse_192_png;
-        p.iconData[std::make_pair("PlaybackStop", 192)] = PlaybackStop_192_png;
-        p.iconData[std::make_pair("Prev", 192)] = Prev_192_png;
-        p.iconData[std::make_pair("Reset", 192)] = Reset_192_png;
-        p.iconData[std::make_pair("ReverseSort", 192)] = ReverseSort_192_png;
-        p.iconData[std::make_pair("Reload", 192)] = Reload_192_png;
-        p.iconData[std::make_pair("Search", 192)] = Search_192_png;
-        p.iconData[std::make_pair("Settings", 192)] = Settings_192_png;
-        p.iconData[std::make_pair("SubMenuArrow", 192)] = SubMenuArrow_192_png;
-        p.iconData[std::make_pair("TimeEnd", 192)] = TimeEnd_192_png;
-        p.iconData[std::make_pair("TimeStart", 192)] = TimeStart_192_png;
-        p.iconData[std::make_pair("Volume", 192)] = Volume_192_png;
-        p.iconData[std::make_pair("WindowFullScreen", 192)] = WindowFullScreen_192_png;
-
-        p.iconData[std::make_pair("Audio", 288)] = Audio_288_png;
-        p.iconData[std::make_pair("BellowsClosed", 288)] = BellowsClosed_288_png;
-        p.iconData[std::make_pair("BellowsOpen", 288)] = BellowsOpen_288_png;
-        p.iconData[std::make_pair("Clear", 288)] = Clear_288_png;
-        p.iconData[std::make_pair("Close", 288)] = Close_288_png;
-        p.iconData[std::make_pair("Copy", 288)] = Copy_288_png;
-        p.iconData[std::make_pair("Decrement", 288)] = Decrement_288_png;
-        p.iconData[std::make_pair("Directory", 288)] = Directory_288_png;
-        p.iconData[std::make_pair("DirectoryBack", 288)] = DirectoryBack_288_png;
-        p.iconData[std::make_pair("DirectoryForward", 288)] = DirectoryForward_288_png;
-        p.iconData[std::make_pair("DirectoryUp", 288)] = DirectoryUp_288_png;
-        p.iconData[std::make_pair("Empty", 288)] = Empty_288_png;
-        p.iconData[std::make_pair("File", 288)] = File_288_png;
-        p.iconData[std::make_pair("FileBrowser", 288)] = FileBrowser_288_png;
-        p.iconData[std::make_pair("FileClose", 288)] = FileClose_288_png;
-        p.iconData[std::make_pair("FileCloseAll", 288)] = FileCloseAll_288_png;
-        p.iconData[std::make_pair("FileOpen", 288)] = FileOpen_288_png;
-        p.iconData[std::make_pair("FrameEnd", 288)] = FrameEnd_288_png;
-        p.iconData[std::make_pair("FrameNext", 288)] = FrameNext_288_png;
-        p.iconData[std::make_pair("FramePrev", 288)] = FramePrev_288_png;
-        p.iconData[std::make_pair("FrameStart", 288)] = FrameStart_288_png;
-        p.iconData[std::make_pair("Increment", 288)] = Increment_288_png;
-        p.iconData[std::make_pair("MenuArrow", 288)] = MenuArrow_288_png;
-        p.iconData[std::make_pair("MenuChecked", 288)] = MenuChecked_288_png;
-        p.iconData[std::make_pair("Mute", 288)] = Mute_288_png;
-        p.iconData[std::make_pair("Next", 288)] = Next_288_png;
-        p.iconData[std::make_pair("PlaybackForward", 288)] = PlaybackForward_288_png;
-        p.iconData[std::make_pair("PlaybackReverse", 288)] = PlaybackReverse_288_png;
-        p.iconData[std::make_pair("PlaybackStop", 288)] = PlaybackStop_288_png;
-        p.iconData[std::make_pair("Prev", 288)] = Prev_288_png;
-        p.iconData[std::make_pair("Reset", 288)] = Reset_288_png;
-        p.iconData[std::make_pair("ReverseSort", 288)] = ReverseSort_288_png;
-        p.iconData[std::make_pair("Reload", 288)] = Reload_288_png;
-        p.iconData[std::make_pair("Search", 288)] = Search_288_png;
-        p.iconData[std::make_pair("Settings", 288)] = Settings_288_png;
-        p.iconData[std::make_pair("SubMenuArrow", 288)] = SubMenuArrow_288_png;
-        p.iconData[std::make_pair("TimeEnd", 288)] = TimeEnd_288_png;
-        p.iconData[std::make_pair("TimeStart", 288)] = TimeStart_288_png;
-        p.iconData[std::make_pair("Volume", 288)] = Volume_288_png;
-        p.iconData[std::make_pair("WindowFullScreen", 288)] = WindowFullScreen_288_png;
+        p.iconData["Audio"] = Audio_svg;
+        p.iconData["BellowsClosed"] = BellowsClosed_svg;
+        p.iconData["BellowsOpen"] = BellowsOpen_svg;
+        p.iconData["Clear"] = Clear_svg;
+        p.iconData["Close"] = Close_svg;
+        p.iconData["Copy"] = Copy_svg;
+        p.iconData["Decrement"] = Decrement_svg;
+        p.iconData["Directory"] = Directory_svg;
+        p.iconData["DirectoryBack"] = DirectoryBack_svg;
+        p.iconData["DirectoryForward"] = DirectoryForward_svg;
+        p.iconData["DirectoryUp"] = DirectoryUp_svg;
+        p.iconData["Empty"] = Empty_svg;
+        p.iconData["File"] = File_svg;
+        p.iconData["FileBrowser"] = FileBrowser_svg;
+        p.iconData["FileClose"] = FileClose_svg;
+        p.iconData["FileCloseAll"] = FileCloseAll_svg;
+        p.iconData["FileOpen"] = FileOpen_svg;
+        p.iconData["FrameEnd"] = FrameEnd_svg;
+        p.iconData["FrameNext"] = FrameNext_svg;
+        p.iconData["FramePrev"] = FramePrev_svg;
+        p.iconData["FrameStart"] = FrameStart_svg;
+        p.iconData["Increment"] = Increment_svg;
+        p.iconData["MenuArrow"] = MenuArrow_svg;
+        p.iconData["MenuChecked"] = MenuChecked_svg;
+        p.iconData["Mute"] = Mute_svg;
+        p.iconData["Next"] = Next_svg;
+        p.iconData["PlaybackForward"] = PlaybackForward_svg;
+        p.iconData["PlaybackReverse"] = PlaybackReverse_svg;
+        p.iconData["PlaybackStop"] = PlaybackStop_svg;
+        p.iconData["Prev"] = Prev_svg;
+        p.iconData["Reset"] = Reset_svg;
+        p.iconData["ReverseSort"] = Reset_svg;
+        p.iconData["Reload"] = Reload_svg;
+        p.iconData["Search"] = Search_svg;
+        p.iconData["Settings"] = Settings_svg;
+        p.iconData["SubMenuArrow"] = SubMenuArrow_svg;
+        p.iconData["TimeEnd"] = TimeEnd_svg;
+        p.iconData["TimeStart"] = TimeStart_svg;
+        p.iconData["Volume"] = Volume_svg;
+        p.iconData["WindowFullScreen"] = WindowFullScreen_svg;
 
         p.mutex.cache.setMax(1000);
         p.thread.running = true;
@@ -343,16 +181,7 @@ namespace dtk
 
                     for (const auto& request : requests)
                     {
-                        int dpi = 96;
-                        if (request->displayScale >= 3.F)
-                        {
-                            dpi = 288;
-                        }
-                        else if (request->displayScale >= 2.F)
-                        {
-                            dpi = 192;
-                        }
-                        //std::cout << "icon request: " << request->name << " " << dpi << std::endl;
+                        //std::cout << "icon request: " << request->name << " " << request->displayScale << std::endl;
                         std::shared_ptr<Image> image;
                         bool cached = false;
                         {
@@ -363,26 +192,30 @@ namespace dtk
                         }
                         if (!cached)
                         {
-                            const auto j = p.iconData.find(std::make_pair(request->name, dpi));
+                            const auto j = p.iconData.find(request->name);
                             if (j != p.iconData.end())
                             {
                                 if (auto context = p.context.lock())
                                 {
-                                    try
+                                    const std::string s(j->second.begin(), j->second.end());
+                                    if (auto doc = lunasvg::Document::loadFromData(s))
                                     {
-                                        const std::string name = Format("{0}_{1}.png").
-                                            arg(request->name).
-                                            arg(dpi);
-                                        auto reader = context->getSystem<ImageIO>()->read(
-                                            name,
-                                            InMemoryFile(j->second.data(), j->second.size()));
-                                        if (reader)
+                                        const int w = doc->width() * request->displayScale;
+                                        const int h = doc->height() * request->displayScale;
+                                        auto bitmap = doc->renderToBitmap(w, h, 0x00000000);
+                                        if (!bitmap.isNull())
                                         {
-                                            image = reader->read();
+                                            image = Image::create(w, h, ImageType::RGBA_U8);
+                                            uint8_t* imageP = image->getData();
+                                            const uint8_t* bitmapP = bitmap.data();
+                                            for (int k = 0; k < w * h; ++k, imageP += 4, bitmapP += 4)
+                                            {
+                                                imageP[0] = bitmapP[1];
+                                                imageP[1] = bitmapP[2];
+                                                imageP[2] = bitmapP[3];
+                                                imageP[3] = bitmapP[0];
+                                            }
                                         }
-                                    }
-                                    catch (const std::exception&)
-                                    {
                                     }
                                 }
                             }

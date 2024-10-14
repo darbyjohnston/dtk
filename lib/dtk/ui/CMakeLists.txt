@@ -177,7 +177,7 @@ if ("${dtk_API}" STREQUAL "GL_4_1" OR
     list(APPEND LIBRARIES dtkGL)
 endif()
 list(APPEND LIBRARIES dtkCore)
-set(LIBRARIES_PRIVATE)
+set(LIBRARIES_PRIVATE lunasvg::lunasvg)
 if(dtk_NFD)
     list(APPEND LIBRARIES_PRIVATE NFD::NFD)
 endif()
