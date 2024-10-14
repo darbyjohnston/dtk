@@ -206,14 +206,17 @@ namespace dtk
                                         if (!bitmap.isNull())
                                         {
                                             image = Image::create(w, h, ImageType::RGBA_U8);
-                                            uint8_t* imageP = image->getData();
-                                            const uint8_t* bitmapP = bitmap.data();
-                                            for (int k = 0; k < w * h; ++k, imageP += 4, bitmapP += 4)
+                                            for (int y = 0; y < h; ++y)
                                             {
-                                                imageP[0] = bitmapP[1];
-                                                imageP[1] = bitmapP[2];
-                                                imageP[2] = bitmapP[3];
-                                                imageP[3] = bitmapP[0];
+                                                uint8_t* imageP = image->getData() + y * w * 4;
+                                                const uint8_t* bitmapP = bitmap.data() + (h - 1 - y) * w * 4;
+                                                for (int x = 0; x < w; ++x, imageP += 4, bitmapP += 4)
+                                                {
+                                                    imageP[0] = bitmapP[1];
+                                                    imageP[1] = bitmapP[2];
+                                                    imageP[2] = bitmapP[3];
+                                                    imageP[3] = bitmapP[0];
+                                                }
                                             }
                                         }
                                     }
