@@ -209,7 +209,7 @@ namespace dtk
         if (colorRole != ColorRole::None)
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(colorRole));
         }
 
@@ -217,13 +217,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -255,7 +255,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(x + p.size.margin,
+                V2I(x + p.size.margin,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :

@@ -207,23 +207,23 @@ namespace dtk
 
         // Draw the background.
         event.render->drawRect(
-            convert(p.draw.g2),
+            p.draw.g2,
             event.style->getColorRole(ColorRole::Base));
 
         // Draw the handle.
         event.render->drawRect(
-            convert(p.draw.g4),
+            p.draw.g4,
             event.style->getColorRole(ColorRole::Button));
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g4),
+                p.draw.g4,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g4),
+                p.draw.g4,
                 event.style->getColorRole(ColorRole::Hover));
         }
     }

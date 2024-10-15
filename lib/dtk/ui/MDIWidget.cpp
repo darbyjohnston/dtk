@@ -260,7 +260,7 @@ namespace dtk
             if (i != p.mouse.resizeBoxes.end())
             {
                 event.render->drawRect(
-                    convert(i->second),
+                    i->second,
                     event.style->getColorRole(ColorRole::Checked));
             }
         }
@@ -268,7 +268,7 @@ namespace dtk
             p.draw.border,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            convert(p.draw.g),
+            p.draw.g,
             event.style->getColorRole(ColorRole::Window));
     }
 

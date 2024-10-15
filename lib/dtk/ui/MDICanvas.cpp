@@ -338,14 +338,14 @@ namespace dtk
         gridRect.max.y = (gridRect.max.y / gridSize.h + 2) * gridSize.h + offset.y;
         LineOptions options;
         options.width = 1 * event.displayScale;
-        std::vector<std::pair<V2F, V2F> > lines;
+        std::vector<std::pair<V2I, V2I> > lines;
         for (int x = gridRect.min.x; x < gridRect.max.x; x += gridSize.w)
         {
-            lines.push_back({ V2F(x, gridRect.min.y), V2F(x, gridRect.max.y) });
+            lines.push_back({ V2I(x, gridRect.min.y), V2I(x, gridRect.max.y) });
         }
         for (int y = gridRect.min.y; y < gridRect.max.y; y += gridSize.h)
         {
-            lines.push_back({ V2F(gridRect.min.x, y), V2F(gridRect.max.x, y) });
+            lines.push_back({ V2I(gridRect.min.x, y), V2I(gridRect.max.x, y) });
         }
         event.render->drawLines(
             lines,

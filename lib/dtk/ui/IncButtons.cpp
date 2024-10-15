@@ -77,29 +77,29 @@ namespace dtk
         if (colorRole != ColorRole::None)
         {
             event.render->drawRect(
-                convert(g),
+                g,
                 event.style->getColorRole(colorRole));
         }
 
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(g),
+                g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(g),
+                g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
         if (_iconImage)
         {
-            const auto iconSize = _iconImage->getSize();
+            const Size2I iconSize = _iconImage->getSize();
             event.render->drawImage(
                 _iconImage,
-                Box2F(
+                Box2I(
                     g.x() + p.size.margin,
                     g.y() + g.h() / 2 - iconSize.h / 2,
                     iconSize.w,

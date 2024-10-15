@@ -161,7 +161,7 @@ namespace dtk
             p.draw.border,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            convert(p.draw.g),
+            p.draw.g,
             event.style->getColorRole(ColorRole::TooltipWindow));
     }
 }

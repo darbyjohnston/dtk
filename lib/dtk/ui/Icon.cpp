@@ -144,7 +144,7 @@ namespace dtk
             const Size2I& iconSize = p.iconImage->getSize();
             event.render->drawImage(
                 p.iconImage,
-                Box2F(
+                Box2I(
                     p.draw.g.x() + p.draw.g.w() / 2 - iconSize.w / 2,
                     p.draw.g.y() + p.draw.g.h() / 2 - iconSize.h / 2,
                     iconSize.w,

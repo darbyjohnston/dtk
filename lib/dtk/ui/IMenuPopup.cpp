@@ -287,7 +287,7 @@ namespace dtk
         DTK_P();
         event.render->drawColorMesh(p.draw.shadow);
         event.render->drawRect(
-            convert(p.draw.g),
+            p.draw.g,
             event.style->getColorRole(p.popupRole));
     }
 

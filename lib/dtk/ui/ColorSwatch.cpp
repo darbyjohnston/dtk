@@ -138,7 +138,7 @@ namespace dtk
         event.render->drawMesh(
             border(p.draw.g, p.size.border),
             event.style->getColorRole(ColorRole::Border));
-        event.render->drawRect(convert(p.draw.g2), p.color);
+        event.render->drawRect(p.draw.g2, p.color);
     }
 
     void ColorSwatch::mousePressEvent(MouseClickEvent& event)

@@ -286,20 +286,20 @@ namespace dtk
 
         // Draw the background.
         event.render->drawRect(
-            convert(p.draw.g2),
+            p.draw.g2,
             event.style->getColorRole(ColorRole::Button));
 
         // Draw the mouse states.
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -310,7 +310,7 @@ namespace dtk
             const Size2I& iconSize = p.draw.iconImage->getSize();
             event.render->drawImage(
                 p.draw.iconImage,
-                Box2F(
+                Box2I(
                     x,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
                     iconSize.w,
@@ -331,7 +331,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(x + p.size.margin,
+                V2I(x + p.size.margin,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
@@ -344,7 +344,7 @@ namespace dtk
             const Size2I& iconSize = p.draw.arrowIconImage->getSize();
             event.render->drawImage(
                 p.draw.arrowIconImage,
-                Box2F(
+                Box2I(
                     p.draw.g3.x() + p.draw.g3.w() - iconSize.w,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
                     iconSize.w,

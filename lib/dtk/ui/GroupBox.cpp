@@ -179,7 +179,7 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            convert(p.draw.g.min),
+            p.draw.g.min,
             event.style->getColorRole(ColorRole::Text));
 
         event.render->drawMesh(

@@ -202,13 +202,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -227,7 +227,7 @@ namespace dtk
             const Size2I& size = _iconImage->getSize();
             event.render->drawImage(
                 _iconImage,
-                Box2F(
+                Box2I(
                     x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - size.h / 2,
                     size.w,
@@ -255,7 +255,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs[i],
                 p.size.fontMetrics,
-                V2F(x + p.size.margin,
+                V2I(x + p.size.margin,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.fontMetrics.lineHeight / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :

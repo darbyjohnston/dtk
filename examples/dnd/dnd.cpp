@@ -93,19 +93,19 @@ namespace dtk
 
                 const Box2I g2 = margin(g, -_border);
                 event.render->drawRect(
-                    convert(g2),
+                    g2,
                     event.style->getColorRole(ColorRole::Button));
 
                 if (_isMousePressed())
                 {
                     event.render->drawRect(
-                        convert(g2),
+                        g2,
                         event.style->getColorRole(ColorRole::Pressed));
                 }
                 else if (_isMouseInside())
                 {
                     event.render->drawRect(
-                        convert(g2),
+                        g2,
                         event.style->getColorRole(ColorRole::Hover));
                 }
 
@@ -113,7 +113,7 @@ namespace dtk
                 {
                     auto color = event.style->getColorRole(ColorRole::Checked);
                     color.a = .5F;
-                    event.render->drawRect(convert(g2), color);
+                    event.render->drawRect(g2, color);
                 }
             }
 

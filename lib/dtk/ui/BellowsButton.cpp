@@ -129,7 +129,7 @@ namespace dtk
         if (colorRole != ColorRole::None)
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(colorRole));
         }
 
@@ -137,13 +137,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -163,7 +163,7 @@ namespace dtk
             const Size2I& iconSize = icon->getSize();
             event.render->drawImage(
                 icon,
-                Box2F(
+                Box2I(
                     x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
@@ -184,7 +184,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(x + p.size.margin,
+                V2I(x + p.size.margin,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :

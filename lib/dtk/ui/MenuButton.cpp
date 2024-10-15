@@ -198,7 +198,7 @@ namespace dtk
         if (_buttonRole != ColorRole::None)
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(_buttonRole));
         }
 
@@ -206,13 +206,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -229,7 +229,7 @@ namespace dtk
         if (auto image = _checked && _checkedIconImage ? _checkedIconImage : _iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
-            const Box2F iconRect(
+            const Box2I iconRect(
                 x,
                 p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                 iconSize.w,
@@ -259,7 +259,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.textGlyphs,
                 p.size.fontMetrics,
-                V2F(x,
+                V2I(x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
@@ -273,7 +273,7 @@ namespace dtk
             {
                 p.draw.shortcutGlyphs = event.fontSystem->getGlyphs(p.shortcutText, p.size.fontInfo);
             }
-            const V2F pos(
+            const V2I pos(
                 p.draw.g2.max.x - p.size.shortcutSize.w,
                 p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.shortcutSize.h / 2);
             event.render->drawText(
@@ -291,7 +291,7 @@ namespace dtk
             const Size2I& iconSize = p.subMenuImage->getSize();
             event.render->drawImage(
                 p.subMenuImage,
-                Box2F(
+                Box2I(
                     p.draw.g2.max.x - iconSize.w,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,

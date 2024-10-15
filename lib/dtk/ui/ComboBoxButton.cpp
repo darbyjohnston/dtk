@@ -143,7 +143,7 @@ namespace dtk
         if (_buttonRole != ColorRole::None)
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(_buttonRole));
         }
 
@@ -151,13 +151,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g),
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -174,7 +174,7 @@ namespace dtk
         if (auto image = _checked && _checkedIconImage ? _checkedIconImage : _iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
-            const Box2F iconBox(
+            const Box2I iconBox(
                 x,
                 p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                 iconSize.w,
@@ -202,7 +202,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2F(x,
+                V2I(x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(ColorRole::Text));
         }

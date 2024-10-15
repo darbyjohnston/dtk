@@ -171,13 +171,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                convert(p.draw.g2),
+                p.draw.g2,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
@@ -186,7 +186,7 @@ namespace dtk
             border(p.draw.checkBox, p.size.border),
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            convert(margin(p.draw.checkBox, -p.size.border)),
+            margin(p.draw.checkBox, -p.size.border),
             event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base));
 
         // Draw the text.
@@ -197,7 +197,7 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            V2F(p.draw.g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
+            V2I(p.draw.g3.x() + p.size.checkBox + p.size.spacing + p.size.margin,
                 p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
             event.style->getColorRole(isEnabled() ?
                 ColorRole::Text :
