@@ -23,6 +23,14 @@ namespace dtk
         std::shared_ptr<ScrollBar> verticalScrollBar;
         std::shared_ptr<GridLayout> layout;
         std::function<void(const V2I&)> scrollPosCallback;
+
+        struct SizeData
+        {
+            bool init = true;
+            float displayScale = 0.F;
+            int border = 0;
+        };
+        SizeData size;
     };
 
     void ScrollWidget::_init(
@@ -33,7 +41,7 @@ namespace dtk
         IWidget::_init(context, "dtk::ScrollWidget", parent);
         DTK_P();
 
-        setBackgroundRole(ColorRole::Border);
+        setBackgroundRole(ColorRole::Base);
 
         p.scrollType = scrollType;
 
@@ -275,7 +283,27 @@ namespace dtk
     void ScrollWidget::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
+        DTK_P();
+        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+        if (p.size.init || displayScaleChanged)
+        {
+            p.size.init = false;
+            p.size.displayScale = event.displayScale;
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+        }
         _setSizeHint(_p->layout->getSizeHint());
+    }
+
+    void ScrollWidget::drawEvent(
+        const Box2I& drawRect,
+        const DrawEvent& event)
+    {
+        IWidget::drawEvent(drawRect, event);
+        DTK_P();
+        const Box2I& g = getGeometry();
+        event.render->drawMesh(
+            border(g, p.size.border),
+            event.style->getColorRole(ColorRole::Border));
     }
 
     void ScrollWidget::scrollEvent(ScrollEvent& event)
