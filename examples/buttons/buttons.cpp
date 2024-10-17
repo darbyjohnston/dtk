@@ -7,6 +7,7 @@
 #include <dtk/ui/CheckBox.h>
 #include <dtk/ui/GroupBox.h>
 #include <dtk/ui/PushButton.h>
+#include <dtk/ui/RadioButton.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
 #include <dtk/ui/ToolButton.h>
@@ -89,7 +90,8 @@ DTK_MAIN()
         // Create check boxes.
         groupBox = GroupBox::create(context, "Check Boxes", layout);
         auto vLayout = VerticalLayout::create(context, groupBox);
-        auto checkBox = CheckBox::create(context, "Checkable", vLayout);
+        vLayout->setSpacingRole(SizeRole::SpacingTool);
+        auto checkBox = CheckBox::create(context, "Check", vLayout);
         checkBox->setCheckedCallback(
             [](bool value)
             {
@@ -97,6 +99,26 @@ DTK_MAIN()
             });
         checkBox = CheckBox::create(context, "Disabled", vLayout);
         checkBox->setEnabled(false);
+
+        // Create radio buttons.
+        groupBox = GroupBox::create(context, "Radio Buttons", layout);
+        vLayout = VerticalLayout::create(context, groupBox);
+        vLayout->setSpacingRole(SizeRole::SpacingTool);
+        auto radioButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
+        radioButtonGroup->setCheckedCallback(
+            [](int index, bool value)
+            {
+                std::cout << Format("Radio {0}").arg(index) << std::endl;
+            });
+        for (size_t i = 0; i < 3; ++i)
+        {
+            auto radioButton = RadioButton::create(context, vLayout);
+            radioButton->setText(Format("Radio {0}").arg(i));
+            radioButton->setChecked(0 == i);
+            radioButtonGroup->addButton(radioButton);
+        }
+        auto radioButton = RadioButton::create(context, "Disabled", vLayout);
+        radioButton->setEnabled(false);
 
         window->show();
         app->run();

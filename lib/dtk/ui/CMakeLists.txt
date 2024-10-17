@@ -54,6 +54,7 @@ set(HEADERS
     MessageDialog.h
     PieChart.h
     PushButton.h
+    RadioButton.h
     RecentFilesModel.h
     RowLayout.h
     ScrollArea.h
@@ -146,6 +147,7 @@ set(SOURCE
     MessageDialog.cpp
     PieChart.cpp
     PushButton.cpp
+    RadioButton.cpp
     RecentFilesModel.cpp
     RowLayout.cpp
     ScrollArea.cpp

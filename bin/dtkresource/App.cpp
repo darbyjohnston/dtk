@@ -58,25 +58,32 @@ namespace dtk
         {
             _startTime = std::chrono::steady_clock::now();
 
-            auto inputIO = FileIO::create(_input, FileMode::Read);
-            const size_t size = inputIO->getSize();
+            size_t size = 0;
             std::vector<uint8_t> data;
-            data.resize(size);
-            inputIO->readU8(data.data(), size);
-
-            auto outputIO = FileIO::create(_output, FileMode::Write);
-            outputIO->write(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
-            const size_t columns = 15;
-            for (size_t i = 0; i < size; i += columns)
             {
-                outputIO->write("    ");
-                for (size_t j = i; j < i + columns && j < size; ++j)
-                {
-                    outputIO->write(Format("{0}, ").arg(static_cast<int>(data[j])));
-                }
-                outputIO->write("\n");
+                _print(Format("Input: {0}").arg(_input));
+                auto io = FileIO::create(_input, FileMode::Read);
+                size = io->getSize();
+                data.resize(size);
+                io->readU8(data.data(), size);
             }
-            outputIO->write("};\n");
+
+            {
+                _print(Format("Output: {0}").arg(_output));
+                auto io = FileIO::create(_output, FileMode::Write);
+                io->write(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
+                const size_t columns = 15;
+                for (size_t i = 0; i < size; i += columns)
+                {
+                    io->write("    ");
+                    for (size_t j = i; j < i + columns && j < size; ++j)
+                    {
+                        io->write(Format("{0}, ").arg(static_cast<int>(data[j])));
+                    }
+                    io->write("\n");
+                }
+                io->write("};\n");
+            }
 
             const auto now = std::chrono::steady_clock::now();
             const std::chrono::duration<float> diff = now - _startTime;
