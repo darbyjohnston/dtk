@@ -138,19 +138,19 @@ namespace dtk
         {
             const Box2I g = _getHandleGeometry();
             event.render->drawRect(
-                convert(g),
+                g,
                 event.style->getColorRole(ColorRole::Button));
 
             if (_isMousePressed())
             {
                 event.render->drawRect(
-                    convert(g),
+                    g,
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (_isMouseInside())
             {
                 event.render->drawRect(
-                    convert(g),
+                    g,
                     event.style->getColorRole(ColorRole::Hover));
             }
         }
