@@ -251,7 +251,7 @@ namespace dtk
         for (const auto& handle : p.size.handleGeometry)
         {
             event.render->drawRect(
-                convert(handle),
+                handle,
                 event.style->getColorRole(ColorRole::Button));
         }
         if (p.mouse.pressedHandle >= 0 &&
@@ -259,7 +259,7 @@ namespace dtk
         {
             const Box2I g = p.size.handleGeometry[p.mouse.pressedHandle];
             event.render->drawRect(
-                convert(g),
+                g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (p.mouse.hoverHandle >= 0 &&
@@ -267,7 +267,7 @@ namespace dtk
         {
             const Box2I g = p.size.handleGeometry[p.mouse.hoverHandle];
             event.render->drawRect(
-                convert(g),
+                g,
                 event.style->getColorRole(ColorRole::Hover));
         }
     }
