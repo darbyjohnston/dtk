@@ -41,7 +41,7 @@ namespace dtk
         std::shared_ptr<T> getSystem() const;
 
         //! Get a system by name.
-        std::shared_ptr<ISystem> getSystem(const std::string&) const;
+        std::shared_ptr<ISystem> getSystemByName(const std::string&) const;
 
         //! Tick the context.
         void tick();

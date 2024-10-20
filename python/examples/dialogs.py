@@ -29,11 +29,11 @@ scrollWidget.widget = layout
 # Message dialog.
 button = dtk.PushButton(context, "Message Dialog", layout)
 button.setClickedCallback(
-    lambda: context.getSystem("dtk::DialogSystem").message("Message", "Hello world!", window))
+    lambda: context.getSystemByName("dtk::DialogSystem").message("Message", "Hello world!", window))
 
 # Confirmation dialog.
 button = dtk.PushButton(context, "Confirmation Dialog", layout)
-button.setClickedCallback(lambda: context.getSystem("dtk::DialogSystem").
+button.setClickedCallback(lambda: context.getSystemByName("dtk::DialogSystem").
         confirm("Confirm", "Hello world?", window, lambda ok: print("Hellow world:", ok)))
 
 # File browser.

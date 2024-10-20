@@ -27,7 +27,7 @@ namespace dtk
         return _systems;
     }
 
-    std::shared_ptr<ISystem> Context::getSystem(const std::string& name) const
+    std::shared_ptr<ISystem> Context::getSystemByName(const std::string& name) const
     {
         std::shared_ptr<ISystem> out;
         for (const auto& system : _systems)

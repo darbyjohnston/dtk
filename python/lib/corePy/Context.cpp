@@ -20,10 +20,7 @@ namespace dtk
             .def(py::init(&Context::create))
             .def("addSystem", &Context::addSystem)
             .def_property_readonly("systems", &Context::getSystems)
-            .def(
-                "getSystem",
-                py::overload_cast<const std::string&>(&Context::getSystem, py::const_),
-                py::arg("name"))
+            .def("getSystemByName", &Context::getSystemByName)
             .def("tick", &Context::tick);
     }
 }
