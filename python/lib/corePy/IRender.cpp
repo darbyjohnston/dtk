@@ -50,9 +50,9 @@ namespace dtk
                 "drawText",
                 py::overload_cast<
                     const std::vector<std::shared_ptr<Glyph> >&,
-                const FontMetrics&,
-                const V2F&,
-                const Color4F&>(&IRender::drawText),
+                    const FontMetrics&,
+                    const V2F&,
+                    const Color4F&>(&IRender::drawText),
                 py::arg("glyphs"),
                 py::arg("fontMetrics"),
                 py::arg("position"),
@@ -60,10 +60,10 @@ namespace dtk
             .def(
                 "drawText",
                 py::overload_cast<
-                const std::vector<std::shared_ptr<Glyph> >&,
-                const FontMetrics&,
-                const V2I&,
-                const Color4F&>(&IRender::drawText),
+                    const std::vector<std::shared_ptr<Glyph> >&,
+                    const FontMetrics&,
+                    const V2I&,
+                    const Color4F&>(&IRender::drawText),
                 py::arg("glyphs"),
                 py::arg("fontMetrics"),
                 py::arg("position"),
