@@ -11,6 +11,7 @@
 #include <uiTest/ButtonTest.h>
 #include <uiTest/ColorWidgetTest.h>
 #include <uiTest/ComboBoxTest.h>
+#include <uiTest/ConfirmDialogTest.h>
 #include <uiTest/DoubleEditTest.h>
 #include <uiTest/DoubleEditSliderTest.h>
 #include <uiTest/DoubleSliderTest.h>
@@ -39,6 +40,7 @@
 #include <uiTest/MenuBarTest.h>
 #include <uiTest/MessageDialogTest.h>
 #include <uiTest/PieChartTest.h>
+#include <uiTest/ProgressDialogTest.h>
 #include <uiTest/RecentFilesModelTest.h>
 #include <uiTest/RowLayoutTest.h>
 #include <uiTest/ScrollAreaTest.h>
@@ -192,6 +194,7 @@ namespace dtk
             p.tests.push_back(ui_test::ButtonGroupTest::create(context));
             p.tests.push_back(ui_test::ColorWidgetTest::create(context));
             p.tests.push_back(ui_test::ComboBoxTest::create(context));
+            p.tests.push_back(ui_test::ConfirmDialogTest::create(context));
             p.tests.push_back(ui_test::DoubleEditTest::create(context));
             p.tests.push_back(ui_test::DoubleEditSliderTest::create(context));
             p.tests.push_back(ui_test::DoubleSliderTest::create(context));
@@ -220,6 +223,7 @@ namespace dtk
             p.tests.push_back(ui_test::MenuBarTest::create(context));
             p.tests.push_back(ui_test::MessageDialogTest::create(context));
             p.tests.push_back(ui_test::PieChartTest::create(context));
+            p.tests.push_back(ui_test::ProgressDialogTest::create(context));
             p.tests.push_back(ui_test::RecentFilesModelTest::create(context));
             p.tests.push_back(ui_test::RowLayoutTest::create(context));
             p.tests.push_back(ui_test::ScrollAreaTest::create(context));

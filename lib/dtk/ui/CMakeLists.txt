@@ -8,6 +8,8 @@ set(HEADERS
     ColorSwatch.h
     ColorWidget.h
     ComboBox.h
+    ConfirmDialog.h
+    DialogSystem.h
     Divider.h
     DockLayout.h
     DoubleEdit.h
@@ -53,6 +55,7 @@ set(HEADERS
     MenuBar.h
     MessageDialog.h
     PieChart.h
+    ProgressDialog.h
     PushButton.h
     RadioButton.h
     RecentFilesModel.h
@@ -79,7 +82,6 @@ set(PRIVATE_HEADERS
     ListItemsWidgetPrivate.h
     MenuBarPrivate.h
     MenuPrivate.h
-    MessageDialogPrivate.h
     TabBarPrivate.h)
 
 set(SOURCE
@@ -94,6 +96,8 @@ set(SOURCE
     ComboBox.cpp
     ComboBoxButton.cpp
     ComboBoxMenu.cpp
+    ConfirmDialog.cpp
+    DialogSystem.cpp
     Divider.cpp
     DockLayout.cpp
     DoubleEdit.cpp
@@ -146,6 +150,7 @@ set(SOURCE
     MenuButton.cpp
     MessageDialog.cpp
     PieChart.cpp
+    ProgressDialog.cpp
     PushButton.cpp
     RadioButton.cpp
     RecentFilesModel.cpp

@@ -11,8 +11,8 @@ namespace dtk
     //! \name Dialogs
     ///@{
 
-    //! Message dialog.
-    class MessageDialog : public IDialog
+    //! Progress dialog.
+    class ProgressDialog : public IDialog
     {
     protected:
         void _init(
@@ -21,20 +21,20 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent);
 
-        MessageDialog();
+        ProgressDialog();
 
     public:
-        virtual ~MessageDialog();
+        virtual ~ProgressDialog();
 
         //! Create a new widget.
-        static std::shared_ptr<MessageDialog> create(
+        static std::shared_ptr<ProgressDialog> create(
             const std::shared_ptr<Context>& context,
             const std::string& title,
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! Set the callback.
-        void setCallback(const std::function<void(void)>&);
+        //! Set the cancel callback.
+        void setCancelCallback(const std::function<void(void)>&);
 
     private:
         DTK_PRIVATE();

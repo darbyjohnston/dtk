@@ -8,6 +8,7 @@
 #include <uiTest/Window.h>
 
 #include <dtk/ui/MessageDialog.h>
+#include <dtk/ui/DialogSystem.h>
 
 #include <dtk/core/Assert.h>
 #include <dtk/core/Format.h>
@@ -46,21 +47,10 @@ namespace dtk
                 app->tick();
 
                 window->setCursorEnter(true);
-                auto system = context->getSystem<MessageDialogSystem>();
+                auto system = context->getSystem<DialogSystem>();
                 system->message("Message", "This is a message.", window);
                 app->tick();
                 window->setKey(Key::Enter);
-
-                bool confirmed = false;
-                system->confirm(
-                    "Confirm",
-                    "This is a confirmation?",
-                    window,
-                    [&confirmed](bool value) { confirmed = value; });
-                app->tick();
-                window->setKey(Key::Tab);
-                window->setKey(Key::Enter);
-                DTK_ASSERT(confirmed);
             }
         }
     }

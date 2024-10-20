@@ -33,15 +33,16 @@ namespace dtk
         //! Get whether the dialog is open.
         bool isOpen() const;
 
-        //! Close the dialog.
-        void close() override;
-
         //! Set the close callback.
         void setCloseCallback(const std::function<void(void)>&);
+
+        void close() override;
 
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void drawEvent(const Box2I&, const DrawEvent&) override;
+        void mousePressEvent(MouseClickEvent&) override;
+        void mouseReleaseEvent(MouseClickEvent&) override;
         void keyPressEvent(KeyEvent&) override;
         void keyReleaseEvent(KeyEvent&) override;
 

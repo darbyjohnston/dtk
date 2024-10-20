@@ -29,10 +29,15 @@ namespace dtk
                 "nativeFileDialog",
                 &FileBrowserSystem::isNativeFileDialog,
                 &FileBrowserSystem::setNativeFileDialog)
-            .def_property(
-                "path",
-                &FileBrowserSystem::getPath,
-                &FileBrowserSystem::setPath)
+            .def_property("path",
+                [](const std::shared_ptr<FileBrowserSystem>& fbs)
+                {
+                    return fbs->getPath().string();
+                },
+                [](const std::shared_ptr<FileBrowserSystem>& fbs, const std::string& s)
+                {
+                    fbs->setPath(s);
+                })
             .def_property(
                 "options",
                 &FileBrowserSystem::getOptions,

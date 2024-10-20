@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/MessageDialog.h>
+#include <dtk/ui/ConfirmDialog.h>
 
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/Label.h>
@@ -12,7 +12,7 @@
 
 namespace dtk
 {
-    class MessageDialogWidget : public IWidget
+    class ConfirmDialogWidget : public IWidget
     {
     protected:
         void _init(
@@ -21,37 +21,38 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent);
 
-        MessageDialogWidget();
+        ConfirmDialogWidget();
 
     public:
-        virtual ~MessageDialogWidget();
+        virtual ~ConfirmDialogWidget();
 
-        static std::shared_ptr<MessageDialogWidget> create(
+        static std::shared_ptr<ConfirmDialogWidget> create(
             const std::shared_ptr<Context>&,
             const std::string& title,
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
+        void setCallback(const std::function<void(bool)>&);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
-
-        void setCallback(const std::function<void(void)>&);
 
     private:
         std::shared_ptr<Label> _titleLabel;
         std::shared_ptr<Label> _label;
         std::shared_ptr<PushButton> _okButton;
+        std::shared_ptr<PushButton> _cancelButton;
         std::shared_ptr<VerticalLayout> _layout;
-        std::function<void(void)> _callback;
+        std::function<void(bool)> _callback;
     };
 
-    void MessageDialogWidget::_init(
+    void ConfirmDialogWidget::_init(
         const std::shared_ptr<Context>& context,
         const std::string& title,
         const std::string& text,
         const std::shared_ptr<IWidget>& parent)
     {
-        IWidget::_init(context, "dtk::MessageDialogWidget", parent);
+        IWidget::_init(context, "dtk::ConfirmDialogWidget", parent);
 
         setHStretch(Stretch::Expanding);
         _setMouseHoverEnabled(true);
@@ -66,6 +67,7 @@ namespace dtk
         _label->setVAlign(VAlign::Top);
 
         _okButton = PushButton::create(context, "OK");
+        _cancelButton = PushButton::create(context, "Cancel");
 
         _layout = VerticalLayout::create(context, shared_from_this());
         _layout->setSpacingRole(SizeRole::None);
@@ -80,100 +82,109 @@ namespace dtk
         auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
         spacer->setHStretch(Stretch::Expanding);
         _okButton->setParent(hLayout);
+        _cancelButton->setParent(hLayout);
 
         _okButton->setClickedCallback(
             [this]
             {
                 if (_callback)
                 {
-                    _callback();
+                    _callback(true);
+                }
+            });
+
+        _cancelButton->setClickedCallback(
+            [this]
+            {
+                if (_callback)
+                {
+                    _callback(false);
                 }
             });
     }
 
-    MessageDialogWidget::MessageDialogWidget()
+    ConfirmDialogWidget::ConfirmDialogWidget()
     {}
 
-    MessageDialogWidget::~MessageDialogWidget()
+    ConfirmDialogWidget::~ConfirmDialogWidget()
     {}
 
-    std::shared_ptr<MessageDialogWidget> MessageDialogWidget::create(
+    std::shared_ptr<ConfirmDialogWidget> ConfirmDialogWidget::create(
         const std::shared_ptr<Context>& context,
         const std::string& title,
         const std::string& text,
         const std::shared_ptr<IWidget>& parent)
     {
-        auto out = std::shared_ptr<MessageDialogWidget>(new MessageDialogWidget);
+        auto out = std::shared_ptr<ConfirmDialogWidget>(new ConfirmDialogWidget);
         out->_init(context, title, text, parent);
         return out;
     }
 
-    void MessageDialogWidget::setCallback(const std::function<void(void)>& value)
+    void ConfirmDialogWidget::setCallback(const std::function<void(bool)>& value)
     {
         _callback = value;
     }
 
-    void MessageDialogWidget::setGeometry(const Box2I& value)
+    void ConfirmDialogWidget::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
         _layout->setGeometry(value);
     }
 
-    void MessageDialogWidget::sizeHintEvent(const SizeHintEvent& event)
+    void ConfirmDialogWidget::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
         _setSizeHint(_layout->getSizeHint());
     }
 
-    struct MessageDialog::Private
+    struct ConfirmDialog::Private
     {
-        std::shared_ptr<MessageDialogWidget> widget;
+        std::shared_ptr<ConfirmDialogWidget> widget;
 
-        std::function<void(void)> callback;
+        std::function<void(bool)> callback;
     };
 
-    void MessageDialog::_init(
+    void ConfirmDialog::_init(
         const std::shared_ptr<Context>& context,
         const std::string& title,
         const std::string& text,
         const std::shared_ptr<IWidget>& parent)
     {
-        IDialog::_init(context, "dtk::MessageDialog", parent);
+        IDialog::_init(context, "dtk::ConfirmDialog", parent);
         DTK_P();
 
-        p.widget = MessageDialogWidget::create(context, title, text, shared_from_this());
+        p.widget = ConfirmDialogWidget::create(context, title, text, shared_from_this());
 
         p.widget->setCallback(
-            [this]
+            [this](bool value)
             {
                 if (_p->callback)
                 {
-                    _p->callback();
+                    _p->callback(value);
                 }
             });
     }
 
-    MessageDialog::MessageDialog() :
+    ConfirmDialog::ConfirmDialog() :
         _p(new Private)
     {}
 
-    MessageDialog::~MessageDialog()
+    ConfirmDialog::~ConfirmDialog()
     {}
 
-    std::shared_ptr<MessageDialog> MessageDialog::create(
+    std::shared_ptr<ConfirmDialog> ConfirmDialog::create(
         const std::shared_ptr<Context>& context,
         const std::string& title,
         const std::string& text,
         const std::shared_ptr<IWidget>& parent)
     {
-        auto out = std::shared_ptr<MessageDialog>(new MessageDialog);
+        auto out = std::shared_ptr<ConfirmDialog>(new ConfirmDialog);
         out->_init(context, title, text, parent);
         return out;
     }
 
-    void MessageDialog::setCallback(const std::function<void(void)>& value)
+    void ConfirmDialog::setCallback(const std::function<void(bool)>& value)
     {
         _p->callback = value;
     }
-
 }

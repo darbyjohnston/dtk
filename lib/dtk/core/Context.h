@@ -36,9 +36,12 @@ namespace dtk
         //! Get the systems.
         const std::list<std::shared_ptr<ISystem> >& getSystems() const;
 
-        //! Get a system.
+        //! Get a system by type.
         template<typename T>
         std::shared_ptr<T> getSystem() const;
+
+        //! Get a system by name.
+        std::shared_ptr<ISystem> getSystem(const std::string&) const;
 
         //! Tick the context.
         void tick();

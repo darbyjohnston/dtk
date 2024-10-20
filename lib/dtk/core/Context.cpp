@@ -27,6 +27,20 @@ namespace dtk
         return _systems;
     }
 
+    std::shared_ptr<ISystem> Context::getSystem(const std::string& name) const
+    {
+        std::shared_ptr<ISystem> out;
+        for (const auto& system : _systems)
+        {
+            if (name == system->getName())
+            {
+                out = system;
+                break;
+            }
+        }
+        return out;
+    }
+
     void Context::tick()
     {
         const auto now = std::chrono::steady_clock::now();

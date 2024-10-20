@@ -6,8 +6,8 @@
 
 #include "Window.h"
 
+#include <dtk/ui/DialogSystem.h>
 #include <dtk/ui/FileBrowser.h>
-#include <dtk/ui/MessageDialog.h>
 
 #include <dtk/core/CmdLine.h>
 
@@ -92,7 +92,7 @@ namespace dtk
                 }
                 catch (const std::exception& e)
                 {
-                    _context->getSystem<MessageDialogSystem>()->message("ERROR", e.what(), _window);
+                    _context->getSystem<DialogSystem>()->message("ERROR", e.what(), _window);
                 }
             }
         }

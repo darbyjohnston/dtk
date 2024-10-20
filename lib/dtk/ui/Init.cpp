@@ -5,7 +5,7 @@
 #include <dtk/ui/Init.h>
 
 #include <dtk/ui/FileBrowser.h>
-#include <dtk/ui/MessageDialog.h>
+#include <dtk/ui/DialogSystem.h>
 
 #include <dtk/core/Context.h>
 
@@ -17,9 +17,9 @@ namespace dtk
         {
             context->addSystem(FileBrowserSystem::create(context));
         }
-        if (!context->getSystem<MessageDialogSystem>())
+        if (!context->getSystem<DialogSystem>())
         {
-            context->addSystem(MessageDialogSystem::create(context));
+            context->addSystem(DialogSystem::create(context));
         }
     }
 }

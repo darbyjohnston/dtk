@@ -70,19 +70,21 @@ namespace dtk
 
             {
                 _print(Format("Output: {0}").arg(_output));
-                auto io = FileIO::create(_output, FileMode::Write);
-                io->write(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
+                std::string tmp;
+                tmp.append(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
                 const size_t columns = 15;
                 for (size_t i = 0; i < size; i += columns)
                 {
-                    io->write("    ");
+                    tmp.append("    ");
                     for (size_t j = i; j < i + columns && j < size; ++j)
                     {
-                        io->write(Format("{0}, ").arg(static_cast<int>(data[j])));
+                        tmp.append(Format("{0}, ").arg(static_cast<int>(data[j])));
                     }
-                    io->write("\n");
+                    tmp.append("\n");
                 }
-                io->write("};\n");
+                tmp.append("};\n");
+                auto io = FileIO::create(_output, FileMode::Write);
+                io->write(tmp);
             }
 
             const auto now = std::chrono::steady_clock::now();

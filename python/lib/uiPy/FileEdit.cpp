@@ -21,7 +21,15 @@ namespace dtk
                 py::init(&FileEdit::create),
                 py::arg("context"),
                 py::arg("parent") = nullptr)
-            .def_property("path", &FileEdit::getPath, &FileEdit::setPath)
+            .def_property("path",
+                [](const std::shared_ptr<FileEdit>& w)
+                {
+                    return w->getPath().string();
+                },
+                [](const std::shared_ptr<FileEdit>& w, const std::string& s)
+                {
+                    w->setPath(s);
+                })
             .def("setCallback", &FileEdit::setCallback);
     }
 }

@@ -11,6 +11,8 @@
 #include <uiPy/ColorPopup.h>
 #include <uiPy/ColorSwatch.h>
 #include <uiPy/ColorWidget.h>
+#include <uiPy/ConfirmDialog.h>
+#include <uiPy/DialogSystem.h>
 #include <uiPy/DoubleEdit.h>
 #include <uiPy/DoubleEditSlider.h>
 #include <uiPy/DoubleModel.h>
@@ -24,16 +26,19 @@
 #include <uiPy/FloatSlider.h>
 #include <uiPy/GroupBox.h>
 #include <uiPy/IButton.h>
-#include <uiPy/IntEdit.h>
-#include <uiPy/IntEditSlider.h>
-#include <uiPy/IntModel.h>
-#include <uiPy/IntSlider.h>
+#include <uiPy/IDialog.h>
 #include <uiPy/IPopup.h>
 #include <uiPy/IWidget.h>
 #include <uiPy/IWidgetPopup.h>
 #include <uiPy/IWindow.h>
+#include <uiPy/IntEdit.h>
+#include <uiPy/IntEditSlider.h>
+#include <uiPy/IntModel.h>
+#include <uiPy/IntSlider.h>
 #include <uiPy/MDICanvas.h>
 #include <uiPy/MDIWidget.h>
+#include <uiPy/MessageDialog.h>
+#include <uiPy/ProgressDialog.h>
 #include <uiPy/PushButton.h>
 #include <uiPy/RecentFilesModel.h>
 #include <uiPy/RowLayout.h>
@@ -66,6 +71,7 @@ namespace dtk
         iWidget(m);
         iWindow(m);
         iPopup(m);
+        iDialog(m);
         iWidgetPopup(m);
         iButton(m);
 
@@ -76,6 +82,8 @@ namespace dtk
         colorPopup(m);
         colorSwatch(m);
         colorWidget(m);
+        confirmDialog(m);
+        dialogSystem(m);
         doubleEdit(m);
         doubleEditSlider(m);
         doubleModel(m);
@@ -93,6 +101,8 @@ namespace dtk
         intSlider(m);
         mdiCanvas(m);
         mdiWidget(m);
+        messageDialog(m);
+        progressDialog(m);
         pushButton(m);
         recentFilesModel(m);
         rowLayout(m);

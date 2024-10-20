@@ -5,7 +5,7 @@
 import dtk
 
 import sys
-        
+    
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
@@ -25,10 +25,20 @@ layout = dtk.VerticalLayout(context)
 layout.marginRole = dtk.SizeRole.Margin
 scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout
-        
-# Create the file widgets.
-for i in range(0, 10):
-    dtk.FileEdit(context, layout)
+
+# Message dialog.
+button = dtk.PushButton(context, "Message Dialog", layout)
+button.setClickedCallback(
+    lambda: context.getSystem("dtk::DialogSystem").message("Message", "Hello world!", window))
+
+# Confirmation dialog.
+button = dtk.PushButton(context, "Confirmation Dialog", layout)
+button.setClickedCallback(lambda: context.getSystem("dtk::DialogSystem").
+        confirm("Confirm", "Hello world?", window, lambda ok: print("Hellow world:", ok)))
+
+# File browser.
+fileEdit = dtk.FileEdit(context, layout)
+fileEdit.path = "File Browser"
 
 window.show()
 app.run()

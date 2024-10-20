@@ -40,6 +40,9 @@ namespace dtk
         const std::shared_ptr<IWidget>& parent)
     {
         IPopup::_init(context, objectName, parent);
+        setBackgroundRole(ColorRole::Overlay);
+        _setMouseHoverEnabled(true);
+        _setMousePressEnabled(true);
     }
 
     IDialog::IDialog() :
@@ -66,6 +69,11 @@ namespace dtk
         return _p->open;
     }
 
+    void IDialog::setCloseCallback(const std::function<void(void)>& value)
+    {
+        _p->closeCallback = value;
+    }
+
     void IDialog::close()
     {
         DTK_P();
@@ -81,11 +89,6 @@ namespace dtk
         {
             widget->takeKeyFocus();
         }
-    }
-
-    void IDialog::setCloseCallback(const std::function<void(void)>& value)
-    {
-        _p->closeCallback = value;
     }
 
     void IDialog::setGeometry(const Box2I& value)
@@ -161,6 +164,19 @@ namespace dtk
                 p.draw.g,
                 event.style->getColorRole(ColorRole::Window));
         }
+    }
+
+    void IDialog::mousePressEvent(MouseClickEvent& event)
+    {
+        IPopup::mousePressEvent(event);
+        event.accept = true;
+        close();
+    }
+
+    void IDialog::mouseReleaseEvent(MouseClickEvent& event)
+    {
+        IPopup::mouseReleaseEvent(event);
+        event.accept = true;
     }
 
     void IDialog::keyPressEvent(KeyEvent& event)

@@ -20,6 +20,7 @@ namespace dtk
             .def(py::init(&Context::create))
             .def("addSystem", &Context::addSystem)
             .def_property_readonly("systems", &Context::getSystems)
+            .def("getSystem", &Context::getSystem)
             .def("tick", &Context::tick);
     }
 }

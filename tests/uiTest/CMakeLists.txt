@@ -7,6 +7,7 @@ set(HEADERS
     ButtonTest.h
     ColorWidgetTest.h
     ComboBoxTest.h
+    ConfirmDialogTest.h
     DoubleEditSliderTest.h
     DoubleEditTest.h
     DoubleModelTest.h
@@ -35,6 +36,7 @@ set(HEADERS
     MenuBarTest.h
     MessageDialogTest.h
     PieChartTest.h
+    ProgressDialogTest.h
     RecentFilesModelTest.h
     RowLayoutTest.h
     ScrollAreaTest.h
@@ -58,6 +60,7 @@ set(SOURCE
     ButtonTest.cpp
     ColorWidgetTest.cpp
     ComboBoxTest.cpp
+    ConfirmDialogTest.cpp
     DoubleEditSliderTest.cpp
     DoubleEditTest.cpp
     DoubleModelTest.cpp
@@ -86,6 +89,7 @@ set(SOURCE
     MenuBarTest.cpp
     MessageDialogTest.cpp
     PieChartTest.cpp
+    ProgressDialogTest.cpp
     RecentFilesModelTest.cpp
     RowLayoutTest.cpp
     ScrollAreaTest.cpp

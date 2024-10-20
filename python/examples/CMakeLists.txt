@@ -1,6 +1,14 @@
 add_test(
+    NAME "Python bellows"
+    COMMAND ${Python3_EXECUTABLE} bellows.py -exit -log
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(
     NAME "Python buttons"
     COMMAND ${Python3_EXECUTABLE} buttons.py -exit -log
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(
+    NAME "Python dialogs"
+    COMMAND ${Python3_EXECUTABLE} dialogs.py -exit -log
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_test(
     NAME "Python mdi"
@@ -13,4 +21,8 @@ add_test(
 add_test(
     NAME "Python sliders"
     COMMAND ${Python3_EXECUTABLE} sliders.py -exit -log
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(
+    NAME "Python tabs"
+    COMMAND ${Python3_EXECUTABLE} tabs.py -exit -log
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

@@ -7,6 +7,8 @@ set(HEADERS
     ColorPopup.h
     ColorSwatch.h
     ColorWidget.h
+    ConfirmDialog.h
+    DialogSystem.h
     DoubleEdit.h
     DoubleEditSlider.h
     DoubleModel.h
@@ -20,6 +22,7 @@ set(HEADERS
     FloatSlider.h
     GroupBox.h
     IButton.h
+    IDialog.h
     IPopup.h
     IWidget.h
     IWidgetPopup.h
@@ -30,6 +33,8 @@ set(HEADERS
     IntSlider.h
     MDICanvas.h
     MDIWidget.h
+    MessageDialog.h
+    ProgressDialog.h
     PushButton.h
     RecentFilesModel.h
     RowLayout.h
@@ -51,6 +56,8 @@ set(SOURCE
     ColorPopup.cpp
     ColorSwatch.cpp
     ColorWidget.cpp
+    ConfirmDialog.cpp
+    DialogSystem.cpp
     DoubleEdit.cpp
     DoubleEditSlider.cpp
     DoubleModel.cpp
@@ -64,6 +71,7 @@ set(SOURCE
     FileEdit.cpp
     GroupBox.cpp
     IButton.cpp
+    IDialog.cpp
     IPopup.cpp
     IWidget.cpp
     IWidgetPopup.cpp
@@ -74,6 +82,8 @@ set(SOURCE
     IntSlider.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    MessageDialog.cpp
+    ProgressDialog.cpp
     PushButton.cpp
     RecentFilesModel.cpp
     RowLayout.cpp

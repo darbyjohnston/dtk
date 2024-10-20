@@ -11,30 +11,30 @@ namespace dtk
     //! \name Dialogs
     ///@{
 
-    //! Message dialog.
-    class MessageDialog : public IDialog
+    //! Confirmation dialog.
+    class ConfirmDialog : public IDialog
     {
     protected:
         void _init(
-            const std::shared_ptr<Context>& context,
+            const std::shared_ptr<Context>&,
             const std::string& title,
             const std::string& text,
             const std::shared_ptr<IWidget>& parent);
 
-        MessageDialog();
+        ConfirmDialog();
 
     public:
-        virtual ~MessageDialog();
+        virtual ~ConfirmDialog();
 
         //! Create a new widget.
-        static std::shared_ptr<MessageDialog> create(
-            const std::shared_ptr<Context>& context,
+        static std::shared_ptr<ConfirmDialog> create(
+            const std::shared_ptr<Context>&,
             const std::string& title,
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         //! Set the callback.
-        void setCallback(const std::function<void(void)>&);
+        void setCallback(const std::function<void(bool)>&);
 
     private:
         DTK_PRIVATE();
