@@ -34,8 +34,8 @@ namespace dtk
 
         //! Add a tab.
         void addTab(
-            const std::string&,
-            const std::shared_ptr<IWidget>&,
+            const std::string& name,
+            const std::shared_ptr<IWidget>& widget,
             const std::string& tooltip = std::string());
 
         //! Remove a tab.

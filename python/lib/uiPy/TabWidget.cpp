@@ -22,7 +22,12 @@ namespace dtk
                 py::arg("context"),
                 py::arg("parent") = nullptr)
             .def_property_readonly("tabs", &TabWidget::getTabs)
-            .def("addTab", &TabWidget::addTab)
+            .def(
+                "addTab",
+                &TabWidget::addTab,
+                py::arg("name"),
+                py::arg("widget"),
+                py::arg("tooltip") = std::string())
             .def("clearTabs", &TabWidget::clearTabs)
             .def_property("currentTab", &TabWidget::getCurrentTab, &TabWidget::setCurrentTab)
             .def("setCallback", &TabWidget::setCallback);

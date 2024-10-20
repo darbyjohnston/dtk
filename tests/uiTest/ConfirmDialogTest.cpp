@@ -54,7 +54,6 @@ namespace dtk
                     window,
                     [&confirmed](bool value) { confirmed = value; });
                 app->tick();
-                window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
                 DTK_ASSERT(confirmed);
             }
