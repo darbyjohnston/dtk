@@ -5,6 +5,7 @@
 #include <dtk/ui/ProgressDialog.h>
 
 #include <dtk/ui/Divider.h>
+#include <dtk/ui/DrawUtil.h>
 #include <dtk/ui/Label.h>
 #include <dtk/ui/PushButton.h>
 #include <dtk/ui/RowLayout.h>
@@ -12,6 +13,143 @@
 
 namespace dtk
 {
+    class ProgressWidget : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        ProgressWidget();
+
+    public:
+        virtual ~ProgressWidget();
+
+        static std::shared_ptr<ProgressWidget> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        const RangeD& getRange() const;
+        void setRange(const RangeD&);
+
+        double getValue() const;
+        void setValue(double);
+
+        void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
+
+    private:
+        RangeD _range = RangeD(0.0, 1.0);
+        double _value = 0.0;
+
+        struct SizeData
+        {
+            float displayScale = 0.F;
+            int border = 0;
+            int height = 0;
+        };
+        SizeData _size;
+    };
+
+    void ProgressWidget::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "dtk::ProgressWidget", parent);
+        setHStretch(Stretch::Expanding);
+    }
+
+    ProgressWidget::ProgressWidget()
+    {}
+
+    ProgressWidget::~ProgressWidget()
+    {}
+
+    std::shared_ptr<ProgressWidget> ProgressWidget::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<ProgressWidget>(new ProgressWidget);
+        out->_init(context, parent);
+        return out;
+    }
+
+    const RangeD& ProgressWidget::getRange() const
+    {
+        return _range;
+    }
+
+    void ProgressWidget::setRange(const RangeD& range)
+    {
+        if (_range == range)
+            return;
+        _range = range;
+        _value = _range.min();
+        _setDrawUpdate();
+    }
+
+    double ProgressWidget::getValue() const
+    {
+        return _value;
+    }
+
+    void ProgressWidget::setValue(double value)
+    {
+        if (_value == value)
+            return;
+        _value = value;
+        _setDrawUpdate();
+    }
+
+    void ProgressWidget::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+
+        if (event.displayScale != _size.displayScale)
+        {
+            _size.displayScale = event.displayScale;
+            _size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            const FontInfo fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
+            const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
+            _size.height = fontMetrics.lineHeight * .75F;
+        }
+        _setSizeHint(Size2I(
+            _size.height + _size.border * 2,
+            _size.height + _size.border * 2));
+    }
+
+    void ProgressWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+    {
+        IWidget::drawEvent(drawRect, event);
+
+        const Box2I& g = getGeometry();
+        const int h = _size.height + _size.border * 2;
+        const Box2I g2(
+            g.min.x,
+            g.min.y + std::roundf(g.h() / 2.F - h / 2.F),
+            g.w(),
+            h);
+        event.render->drawMesh(
+            border(g2, _size.border),
+            event.style->getColorRole(ColorRole::Border));
+
+        const Box2I g3 = margin(g2, -_size.border);
+        event.render->drawRect(
+            g3,
+            event.style->getColorRole(ColorRole::Base));
+
+        const double r = _range.max() - _range.min();
+        const double v = r > 0.0 ? ((_value - _range.min()) / r) : 0.0;
+        const Box2I g4(
+            g3.min.x,
+            g3.min.y,
+            v * g3.w(),
+            g3.h());
+        event.render->drawRect(
+            g4,
+            event.style->getColorRole(ColorRole::Checked));
+    }
+
     class ProgressDialogWidget : public IWidget
     {
     protected:
@@ -32,14 +170,21 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
-        void setGeometry(const Box2I&) override;
-        void sizeHintEvent(const SizeHintEvent&) override;
+        const RangeD& getRange() const;
+        void setRange(const RangeD&);
+
+        double getValue() const;
+        void setValue(double);
 
         void setCancelCallback(const std::function<void(void)>&);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
 
     private:
         std::shared_ptr<Label> _titleLabel;
         std::shared_ptr<Label> _label;
+        std::shared_ptr<ProgressWidget> _progressWidget;
         std::shared_ptr<PushButton> _cancelButton;
         std::shared_ptr<VerticalLayout> _layout;
         std::function<void(void)> _cancelCallback;
@@ -65,6 +210,8 @@ namespace dtk
         _label->setMarginRole(SizeRole::MarginSmall);
         _label->setVAlign(VAlign::Top);
 
+        _progressWidget = ProgressWidget::create(context);
+
         _cancelButton = PushButton::create(context, "Cancel");
 
         _layout = VerticalLayout::create(context, shared_from_this());
@@ -74,8 +221,11 @@ namespace dtk
         auto vLayout = VerticalLayout::create(context, _layout);
         vLayout->setMarginRole(SizeRole::MarginSmall);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
-        _label->setParent(vLayout);
         auto hLayout = HorizontalLayout::create(context, vLayout);
+        hLayout->setSpacingRole(SizeRole::SpacingTool);
+        _label->setParent(hLayout);
+        _progressWidget->setParent(hLayout);
+        hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::None);
         auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
         spacer->setHStretch(Stretch::Expanding);
@@ -108,6 +258,26 @@ namespace dtk
         return out;
     }
 
+    const RangeD& ProgressDialogWidget::getRange() const
+    {
+        return _progressWidget->getRange();
+    }
+
+    void ProgressDialogWidget::setRange(const RangeD& range)
+    {
+        _progressWidget->setRange(range);
+    }
+
+    double ProgressDialogWidget::getValue() const
+    {
+        return _progressWidget->getValue();
+    }
+
+    void ProgressDialogWidget::setValue(double value)
+    {
+        _progressWidget->setValue(value);
+    }
+
     void ProgressDialogWidget::setCancelCallback(const std::function<void(void)>& value)
     {
         _cancelCallback = value;
@@ -128,8 +298,6 @@ namespace dtk
     struct ProgressDialog::Private
     {
         std::shared_ptr<ProgressDialogWidget> widget;
-
-        std::function<void(void)> cancelCallback;
     };
 
     void ProgressDialog::_init(
@@ -146,10 +314,7 @@ namespace dtk
         p.widget->setCancelCallback(
             [this]
             {
-                if (_p->cancelCallback)
-                {
-                    _p->cancelCallback();
-                }
+                close();
             });
     }
 
@@ -171,8 +336,23 @@ namespace dtk
         return out;
     }
 
-    void ProgressDialog::setCancelCallback(const std::function<void(void)>& value)
+    const RangeD& ProgressDialog::getRange() const
     {
-        _p->cancelCallback = value;
+        return _p->widget->getRange();
+    }
+
+    void ProgressDialog::setRange(const RangeD& range)
+    {
+        _p->widget->setRange(range);
+    }
+
+    double ProgressDialog::getValue() const
+    {
+        return _p->widget->getValue();
+    }
+
+    void ProgressDialog::setValue(double value)
+    {
+        _p->widget->setValue(value);
     }
 }

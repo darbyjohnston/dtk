@@ -1,4 +1,4 @@
-add_executable(dialogs dialogs.cpp)
+add_executable(dialogs dialogs.h dialogs.cpp)
 target_link_libraries(dialogs dtkUI)
 set_target_properties(dialogs PROPERTIES FOLDER examples)
 

@@ -23,7 +23,6 @@ namespace dtk
                 py::arg("context"),
                 py::arg("title"),
                 py::arg("text"),
-                py::arg("parent") = nullptr)
-            .def("setCancelCallback", &ProgressDialog::setCancelCallback);
+                py::arg("parent") = nullptr);
     }
 }

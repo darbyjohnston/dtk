@@ -6,6 +6,8 @@
 
 #include <dtk/ui/IDialog.h>
 
+#include <dtk/core/Range.h>
+
 namespace dtk
 {
     //! \name Dialogs
@@ -33,8 +35,17 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! Set the cancel callback.
-        void setCancelCallback(const std::function<void(void)>&);
+        //! Get the range.
+        const RangeD& getRange() const;
+
+        //! Set the range.
+        void setRange(const RangeD&);
+
+        //! Get the value.
+        double getValue() const;
+
+        //! Set the value.
+        void setValue(double);
 
     private:
         DTK_PRIVATE();
