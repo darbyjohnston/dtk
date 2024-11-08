@@ -22,6 +22,7 @@ set(HEADERS
     Random.h
     Range.h
     Size.h
+    Timer.h
     Vector.h)
 set(HEADERS_PRIVATE)
 set(SOURCE
@@ -44,6 +45,7 @@ set(SOURCE
     Random.cpp
     Range.cpp
     Size.cpp
+    Timer.cpp
     Vector.cpp)
 
 add_library(dtkCorePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})

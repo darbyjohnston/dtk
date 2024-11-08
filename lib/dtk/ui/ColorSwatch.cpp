@@ -154,7 +154,7 @@ namespace dtk
     void ColorSwatch::_showPopup()
     {
         DTK_P();
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             if (!p.popup)
             {

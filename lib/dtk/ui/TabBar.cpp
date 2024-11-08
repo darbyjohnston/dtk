@@ -76,7 +76,7 @@ namespace dtk
         p.menuButton->setClickedCallback(
             [this]
             {
-                if (auto context = _getContext().lock())
+                if (auto context = getContext())
                 {
                     if (!_p->menu)
                     {
@@ -342,7 +342,7 @@ namespace dtk
         {
             child->setParent(nullptr);
         }
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             for (size_t i = 0; i < p.text.size(); ++i)
             {

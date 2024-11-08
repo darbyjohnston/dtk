@@ -4,6 +4,11 @@
 
 namespace dtk
 {
+    inline std::shared_ptr<Context> IWidget::getContext() const
+    {
+        return _context.lock();
+    }
+
     inline const std::string& IWidget::getObjectName() const
     {
         return _objectName;
@@ -114,11 +119,6 @@ namespace dtk
     inline const std::string& IWidget::getTooltip() const
     {
         return _tooltip;
-    }
-
-    inline const std::weak_ptr<Context>& IWidget::_getContext() const
-    {
-        return _context;
     }
 
     inline void IWidget::_setDrawUpdate()

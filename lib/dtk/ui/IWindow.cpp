@@ -222,7 +222,7 @@ namespace dtk
             const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
             if (tooltipDiff > tooltipTimeout && !p.tooltip)
             {
-                if (auto context = _getContext().lock())
+                if (auto context = getContext())
                 {
                     std::string text;
                     const auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);

@@ -58,7 +58,7 @@ namespace dtk
     void Menu::addItem(const std::shared_ptr<Action>& item)
     {
         DTK_P();
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             p.items.push_back(item);
 
@@ -153,7 +153,7 @@ namespace dtk
     {
         DTK_P();
         std::shared_ptr<Menu> out;
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             out = Menu::create(context);
             out->setPopup(MenuPopup::SubMenu);
@@ -228,7 +228,7 @@ namespace dtk
     void Menu::addDivider()
     {
         DTK_P();
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             Divider::create(context, Orientation::Horizontal, p.layout);
         }

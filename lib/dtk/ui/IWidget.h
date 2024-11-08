@@ -29,6 +29,9 @@ namespace dtk
     public:
         virtual ~IWidget() = 0;
 
+        //! Get the context.
+        std::shared_ptr<Context> getContext() const;
+
         //! Get the object name.
         const std::string& getObjectName() const;
 
@@ -265,8 +268,6 @@ namespace dtk
         ///@}
 
     protected:
-        const std::weak_ptr<Context>& _getContext() const;
-
         void _setDrawUpdate();
         void _setSizeUpdate();
 

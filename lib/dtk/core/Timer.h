@@ -38,15 +38,15 @@ namespace dtk
 
         //! Start the timer.
         void start(
-            const std::chrono::microseconds&,
-            const std::function<void(void)>&);
+            const std::chrono::microseconds& timeout,
+            const std::function<void(void)>& callback);
 
         //! Start the timer.
         void start(
-            const std::chrono::microseconds&,
+            const std::chrono::microseconds& timeout,
             const std::function<void(
                 const std::chrono::steady_clock::time_point&,
-                const std::chrono::microseconds&)>&);
+                const std::chrono::microseconds&)>& callback);
 
         //! Stop the timer.
         void stop();

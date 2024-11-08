@@ -446,7 +446,7 @@ namespace dtk
     {
         DTK_P();
         takeKeyFocus();
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             if (!p.menu)
             {

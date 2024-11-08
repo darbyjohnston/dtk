@@ -125,7 +125,7 @@ namespace dtk
     void FileEdit::_openDialog()
     {
         DTK_P();
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             if (auto fileBrowserSystem = context->getSystem<FileBrowserSystem>())
             {

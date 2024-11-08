@@ -32,7 +32,7 @@ namespace dtk
     {
         py::class_<IWidget, std::shared_ptr<IWidget>, PyIWidget>(m, "IWidget")
             .def_property("objectName", &IWidget::getObjectName, &IWidget::setObjectName)
-            .def("getObjectPath", &IWidget::getObjectPath)
+            .def_property_readonly("objectPath", &IWidget::getObjectPath)
             .def_property("backgroundColor", &IWidget::getBackgroundRole, &IWidget::setBackgroundRole)
             .def("getUpdates", &IWidget::getUpdates)
 
@@ -118,6 +118,8 @@ namespace dtk
             .def("dragEnterEvent", &IWidget::dragEnterEvent, py::arg("event"))
             .def("dragLeaveEvent", &IWidget::dragLeaveEvent, py::arg("event"))
             .def("dragMoveEvent", &IWidget::dragMoveEvent, py::arg("event"))
-            .def("dropEvent", &IWidget::dropEvent, py::arg("event"));
+            .def("dropEvent", &IWidget::dropEvent, py::arg("event"))
+
+            .def_property_readonly("context", &IWidget::getContext);
     }
 }

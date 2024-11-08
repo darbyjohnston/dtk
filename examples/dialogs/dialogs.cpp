@@ -26,7 +26,7 @@ void MainWindow::_init(
     button->setClickedCallback(
         [this]
         {
-            if (auto context = _getContext().lock())
+            if (auto context = getContext())
             {
                 context->getSystem<DialogSystem>()->message(
                     "Message",
@@ -40,7 +40,7 @@ void MainWindow::_init(
     button->setClickedCallback(
         [this]
         {
-            if (auto context = _getContext().lock())
+            if (auto context = getContext())
             {
                 context->getSystem<DialogSystem>()->confirm(
                     "Confirm",
@@ -53,14 +53,14 @@ void MainWindow::_init(
             }
         });
 
-    // Progress dialogs.
+    // Progress dialog.
     _progressTimer = Timer::create(context);
     _progressTimer->setRepeating(true);
     button = PushButton::create(context, "Progress Dialog", _layout);
     button->setClickedCallback(
         [this]
         {
-            if (auto context = _getContext().lock())
+            if (auto context = getContext())
             {
                 _progressDialog = ProgressDialog::create(
                     context,

@@ -52,7 +52,7 @@ namespace dtk
     {
         DTK_P();
         p.menus.push_back(menu);
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             auto button = MenuBarButton::create(context, text, p.layout);
 

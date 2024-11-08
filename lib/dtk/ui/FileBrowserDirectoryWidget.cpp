@@ -389,7 +389,7 @@ namespace dtk
         p.buttonGroup->clearButtons();
         p.info.clear();
         list(p.path, p.options, p.info);
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             for (const auto& info : p.info)
             {

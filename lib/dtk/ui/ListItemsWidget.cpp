@@ -278,7 +278,7 @@ namespace dtk
         p.buttons.clear();
         p.buttonGroup->clearButtons();
 
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             for (const auto& item : p.items)
             {

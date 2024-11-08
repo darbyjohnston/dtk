@@ -37,7 +37,7 @@ namespace dtk
                     static_cast<int>(KeyModifier::Control),
                     [this, appWeak]
                     {
-                        if (auto context = _getContext().lock())
+                        if (auto context = getContext())
                         {
                             if (auto fileBrowserSystem = context->getSystem<FileBrowserSystem>())
                             {

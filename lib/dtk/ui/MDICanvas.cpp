@@ -92,7 +92,7 @@ namespace dtk
     {
         DTK_P();
         std::shared_ptr<MDIWidget> out;
-        if (auto context = _getContext().lock())
+        if (auto context = getContext())
         {
             out = MDIWidget::create(context, title, shared_from_this());
             out->setWidget(value);
