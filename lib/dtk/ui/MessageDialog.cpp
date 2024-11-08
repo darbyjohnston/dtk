@@ -63,7 +63,7 @@ namespace dtk
 
         _label = Label::create(context, text);
         _label->setMarginRole(SizeRole::MarginSmall);
-        _label->setVAlign(VAlign::Top);
+        _label->setAlign(HAlign::Center, VAlign::Top);
 
         _okButton = PushButton::create(context, "OK");
 
