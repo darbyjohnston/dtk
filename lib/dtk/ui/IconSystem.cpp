@@ -2,7 +2,7 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/IconLibrary.h>
+#include <dtk/ui/IconSystem.h>
 
 #include <dtk/core/ImageIO.h>
 
@@ -52,6 +52,10 @@ namespace
 #include <Icons/SubMenuArrow.h>
 #include <Icons/TimeEnd.h>
 #include <Icons/TimeStart.h>
+#include <Icons/ViewZoomIn.h>
+#include <Icons/ViewZoomOut.h>
+#include <Icons/ViewZoomReset.h>
+#include <Icons/ViewFrame.h>
 #include <Icons/Volume.h>
 #include <Icons/WindowFullScreen.h>
 }
@@ -69,7 +73,7 @@ namespace dtk
         const size_t requestCount = 1;
     }
 
-    struct IconLibrary::Private
+    struct IconSystem::Private
     {
         std::weak_ptr<Context> context;
 
@@ -103,7 +107,7 @@ namespace dtk
         Thread thread;
     };
 
-    void IconLibrary::_init(const std::shared_ptr<Context>& context)
+    void IconSystem::_init(const std::shared_ptr<Context>& context)
     {
         DTK_P();
         p.context = context;
@@ -139,13 +143,17 @@ namespace dtk
         p.iconData["PlaybackStop"] = PlaybackStop_svg;
         p.iconData["Prev"] = Prev_svg;
         p.iconData["Reset"] = Reset_svg;
-        p.iconData["ReverseSort"] = Reset_svg;
+        p.iconData["ReverseSort"] = ReverseSort_svg;
         p.iconData["Reload"] = Reload_svg;
         p.iconData["Search"] = Search_svg;
         p.iconData["Settings"] = Settings_svg;
         p.iconData["SubMenuArrow"] = SubMenuArrow_svg;
         p.iconData["TimeEnd"] = TimeEnd_svg;
         p.iconData["TimeStart"] = TimeStart_svg;
+        p.iconData["ViewZoomIn"] = ViewZoomIn_svg;
+        p.iconData["ViewZoomOut"] = ViewZoomOut_svg;
+        p.iconData["ViewZoomReset"] = ViewZoomReset_svg;
+        p.iconData["ViewFrame"] = ViewFrame_svg;
         p.iconData["Volume"] = Volume_svg;
         p.iconData["WindowFullScreen"] = WindowFullScreen_svg;
 
@@ -240,11 +248,12 @@ namespace dtk
             });
     }
 
-    IconLibrary::IconLibrary() :
+    IconSystem::IconSystem(const std::shared_ptr<Context>& context) :
+        ISystem(context, "dtk::IconSystem"),
         _p(new Private)
     {}
 
-    IconLibrary::~IconLibrary()
+    IconSystem::~IconSystem()
     {
         DTK_P();
         p.thread.running = false;
@@ -254,15 +263,32 @@ namespace dtk
         }
     }
 
-    std::shared_ptr<IconLibrary> IconLibrary::create(
+    std::shared_ptr<IconSystem> IconSystem::create(
         const std::shared_ptr<Context>& context)
     {
-        auto out = std::shared_ptr<IconLibrary>(new IconLibrary);
+        auto out = std::shared_ptr<IconSystem>(new IconSystem(context));
         out->_init(context);
         return out;
     }
 
-    std::future<std::shared_ptr<Image> > IconLibrary::request(
+    std::vector<std::string> IconSystem::getNames() const
+    {
+        DTK_P();
+        std::vector<std::string> out;
+        for (const auto& i : p.iconData)
+        {
+            out.push_back(i.first);
+        }
+        return out;
+    }
+    
+    void IconSystem::add(const std::string& name, const std::vector<uint8_t>& svg)
+    {
+        DTK_P();
+        p.iconData[name] = svg;
+    }
+
+    std::future<std::shared_ptr<Image> > IconSystem::request(
         const std::string& name,
         float displayScale)
     {
@@ -306,7 +332,7 @@ namespace dtk
         return future;
     }
 
-    void IconLibrary::cancelRequests()
+    void IconSystem::cancelRequests()
     {
         DTK_P();
         std::list<std::shared_ptr<Private::Request> > requests;

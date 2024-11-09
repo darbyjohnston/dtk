@@ -22,25 +22,25 @@ namespace dtk
 
     SizeHintEvent::SizeHintEvent(
         const std::shared_ptr<FontSystem>& fontSystem,
-        float                               displayScale,
-        const std::shared_ptr<Style>& style,
-        const std::shared_ptr<IconLibrary>& iconLibrary) :
+        const std::shared_ptr<IconSystem>& iconSystem,
+        float                              displayScale,
+        const std::shared_ptr<Style>&      style) :
         fontSystem(fontSystem),
+        iconSystem(iconSystem),
         displayScale(displayScale),
-        style(style),
-        iconLibrary(iconLibrary)
+        style(style)
     {}
 
     DrawEvent::DrawEvent(
         const std::shared_ptr<FontSystem>& fontSystem,
-        float                               displayScale,
-        const std::shared_ptr<Style>& style,
-        const std::shared_ptr<IconLibrary>& iconLibrary,
-        const std::shared_ptr<IRender>& render) :
+        const std::shared_ptr<IconSystem>& iconSystem,
+        float                              displayScale,
+        const std::shared_ptr<Style>&      style,
+        const std::shared_ptr<IRender>&    render) :
         fontSystem(fontSystem),
+        iconSystem(iconSystem),
         displayScale(displayScale),
         style(style),
-        iconLibrary(iconLibrary),
         render(render)
     {}
 

@@ -12,7 +12,7 @@ namespace dtk
 {
     class FontSystem;
     class IWidget;
-    class IconLibrary;
+    class IconSystem;
     class Style;
     class TickEvent;
     class Window;
@@ -55,11 +55,11 @@ namespace dtk
         //! Get the font system.
         const std::shared_ptr<FontSystem>& getFontSystem() const;
 
+        //! Get the icon system.
+        const std::shared_ptr<IconSystem>& getIconSystem() const;
+
         //! Get the style.
         const std::shared_ptr<Style>& getStyle() const;
-
-        //! Get the icon library.
-        const std::shared_ptr<IconLibrary>& getIconLibrary() const;
 
         //! Exit the application.
         void exit();

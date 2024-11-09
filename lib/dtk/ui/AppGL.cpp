@@ -4,7 +4,7 @@
 
 #include <dtk/ui/App.h>
 
-#include <dtk/ui/IconLibrary.h>
+#include <dtk/ui/IconSystem.h>
 #include <dtk/ui/Init.h>
 #include <dtk/ui/Style.h>
 #include <dtk/ui/Window.h>
@@ -35,8 +35,8 @@ namespace dtk
     {
         bool exit = false;
         std::shared_ptr<FontSystem> fontSystem;
+        std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
-        std::shared_ptr<IconLibrary> iconLibrary;
         bool running = true;
         std::list<std::shared_ptr<Window> > windows;
         std::list<int> tickTimes;
@@ -69,8 +69,8 @@ namespace dtk
         gl::init(context);
 
         p.fontSystem = context->getSystem<FontSystem>();
+        p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
-        p.iconLibrary = IconLibrary::create(context);
 
         p.logTimer = Timer::create(context);
         p.logTimer->setRepeating(true);
@@ -132,14 +132,14 @@ namespace dtk
         return _p->fontSystem;
     }
 
+    const std::shared_ptr<IconSystem>& App::getIconSystem() const
+    {
+        return _p->iconSystem;
+    }
+
     const std::shared_ptr<Style>& App::getStyle() const
     {
         return _p->style;
-    }
-
-    const std::shared_ptr<IconLibrary>& App::getIconLibrary() const
-    {
-        return _p->iconLibrary;
     }
 
     void App::exit()
@@ -167,7 +167,7 @@ namespace dtk
                     (*i)->isEnabled(false),
                     tickEvent);
 
-                (*i)->update(p.fontSystem, p.style, p.iconLibrary);
+                (*i)->update(p.fontSystem, p.iconSystem, p.style);
 
                 if ((*i)->shouldClose())
                 {

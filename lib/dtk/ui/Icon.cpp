@@ -121,7 +121,7 @@ namespace dtk
         }
         if (!p.icon.empty() && !p.iconImage)
         {
-            p.iconImage = event.iconLibrary->request(p.icon, event.displayScale).get();
+            p.iconImage = event.iconSystem->request(p.icon, event.displayScale).get();
         }
 
         Size2I sizeHint;

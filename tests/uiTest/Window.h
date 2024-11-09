@@ -45,8 +45,8 @@ namespace dtk
 
             void update(
                 const std::shared_ptr<FontSystem>&,
-                const std::shared_ptr<Style>&,
-                const std::shared_ptr<IconLibrary>&);
+                const std::shared_ptr<IconSystem>&,
+                const std::shared_ptr<Style>&);
 
             void setGeometry(const Box2I&) override;
             void sizeHintEvent(const SizeHintEvent&) override;

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/IconLibrary.h>
+#include <dtk/ui/IconSystem.h>
 #include <dtk/ui/Style.h>
 
 #include <dtk/core/FontSystem.h>
@@ -44,14 +44,14 @@ namespace dtk
     {
         SizeHintEvent(
             const std::shared_ptr<FontSystem>&,
+            const std::shared_ptr<IconSystem>&,
             float displayScale,
-            const std::shared_ptr<Style>&,
-            const std::shared_ptr<IconLibrary>&);
+            const std::shared_ptr<Style>&);
 
-        std::shared_ptr<FontSystem>  fontSystem;
-        float                        displayScale = 1.F;
-        std::shared_ptr<Style>       style;
-        std::shared_ptr<IconLibrary> iconLibrary;
+        std::shared_ptr<FontSystem> fontSystem;
+        std::shared_ptr<IconSystem> iconSystem;
+        float                       displayScale = 1.F;
+        std::shared_ptr<Style>      style;
     };
 
     //! Draw event.
@@ -59,16 +59,16 @@ namespace dtk
     {
         DrawEvent(
             const std::shared_ptr<FontSystem>&,
+            const std::shared_ptr<IconSystem>&,
             float displayScale,
             const std::shared_ptr<Style>&,
-            const std::shared_ptr<IconLibrary>&,
             const std::shared_ptr<IRender>&);
 
-        std::shared_ptr<FontSystem>  fontSystem;
-        float                        displayScale = 1.F;
-        std::shared_ptr<Style>       style;
-        std::shared_ptr<IconLibrary> iconLibrary;
-        std::shared_ptr<IRender>     render;
+        std::shared_ptr<FontSystem> fontSystem;
+        std::shared_ptr<IconSystem> iconSystem;
+        float                       displayScale = 1.F;
+        std::shared_ptr<Style>      style;
+        std::shared_ptr<IRender>    render;
     };
 
     //! Drag and drop data.

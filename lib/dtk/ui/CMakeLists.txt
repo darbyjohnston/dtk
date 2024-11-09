@@ -42,7 +42,7 @@ set(HEADERS
     IntModel.h
     IntSlider.h
     Icon.h
-    IconLibrary.h
+    IconSystem.h
     Init.h
     Label.h
     LayoutUtil.h
@@ -134,7 +134,7 @@ set(SOURCE
     IntModel.cpp
     IntSlider.cpp
     Icon.cpp
-    IconLibrary.cpp
+    IconSystem.cpp
     Init.cpp
     Label.cpp
     LayoutUtil.cpp

@@ -359,8 +359,8 @@ namespace dtk
 
         void Window::update(
             const std::shared_ptr<FontSystem>& fontSystem,
-            const std::shared_ptr<Style>& style,
-            const std::shared_ptr<IconLibrary>& iconLibrary)
+            const std::shared_ptr<IconSystem>& iconSystem,
+            const std::shared_ptr<Style>& style)
         {
             DTK_P();
 
@@ -368,9 +368,9 @@ namespace dtk
             {
                 SizeHintEvent sizeHintEvent(
                     fontSystem,
+                    iconSystem,
                     p.displayScale,
-                    style,
-                    iconLibrary);
+                    style);
                 _sizeHintEventRecursive(shared_from_this(), sizeHintEvent);
 
                 setGeometry(Box2I(V2I(), p.bufferSize));
@@ -388,9 +388,9 @@ namespace dtk
                 p.render->setClipRectEnabled(true);
                 DrawEvent drawEvent(
                     fontSystem,
+                    iconSystem,
                     p.displayScale,
                     style,
-                    iconLibrary,
                     p.render);
                 _drawEventRecursive(
                     shared_from_this(),

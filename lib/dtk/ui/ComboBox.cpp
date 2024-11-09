@@ -233,11 +233,11 @@ namespace dtk
         }
         if (!p.icon.empty() && !p.draw.iconImage)
         {
-            p.draw.iconImage = event.iconLibrary->request(p.icon, event.displayScale).get();
+            p.draw.iconImage = event.iconSystem->request(p.icon, event.displayScale).get();
         }
         if (!p.draw.arrowIconImage)
         {
-            p.draw.arrowIconImage = event.iconLibrary->request("MenuArrow", event.displayScale).get();
+            p.draw.arrowIconImage = event.iconSystem->request("MenuArrow", event.displayScale).get();
         }
 
         Size2I sizeHint;

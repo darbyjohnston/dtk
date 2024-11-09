@@ -21,7 +21,7 @@ layout.marginRole = dtk.SizeRole.Margin
 scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout
         
-# Create push buttons
+# Create push buttons.
 groupBox = dtk.GroupBox(context, "Push Buttons", layout)
 hLayout = dtk.HorizontalLayout(context, groupBox)
 pushButton = dtk.PushButton(context, "Click", hLayout)
@@ -31,7 +31,7 @@ pushButton.icon = "Settings"
 pushButton = dtk.PushButton(context, "Disabled", hLayout)
 pushButton.enabled = False
         
-# Create tool buttons
+# Create tool buttons.
 groupBox = dtk.GroupBox(context, "Tool Buttons", layout)
 hLayout = dtk.HorizontalLayout(context, groupBox)
 toolButtonGroup = dtk.ButtonGroup(context, dtk.ButtonGroupType.Radio)
@@ -57,7 +57,7 @@ toolButton = dtk.ToolButton(context, "Disabled", hLayout)
 toolButton.enabled = False
 toolButtonGroup.addButton(toolButton)
 
-# Create check boxes
+# Create check boxes.
 groupBox = dtk.GroupBox(context, "Check Boxes", layout)
 vLayout = dtk.VerticalLayout(context, groupBox)
 checkBox = dtk.CheckBox(context, "Checkable", vLayout)

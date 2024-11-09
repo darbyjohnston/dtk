@@ -148,7 +148,7 @@ namespace dtk
         }
         if (!p.subMenuIcon.empty() && !p.subMenuImage)
         {
-            p.subMenuImage = event.iconLibrary->request(p.subMenuIcon, p.iconScale).get();
+            p.subMenuImage = event.iconSystem->request(p.subMenuIcon, p.iconScale).get();
         }
 
         Size2I sizeHint;

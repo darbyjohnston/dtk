@@ -6,7 +6,7 @@
 
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IconLibrary.h>
+#include <dtk/ui/IconSystem.h>
 #include <dtk/ui/Init.h>
 #include <dtk/ui/Style.h>
 
@@ -27,8 +27,8 @@ namespace dtk
         {
             float displayScale = 1.F;
             std::shared_ptr<FontSystem> fontSystem;
+            std::shared_ptr<IconSystem> iconSystem;
             std::shared_ptr<Style> style;
-            std::shared_ptr<IconLibrary> iconLibrary;
             bool running = true;
             std::list<std::shared_ptr<Window> > windows;
             std::shared_ptr<Timer> logTimer;
@@ -53,8 +53,8 @@ namespace dtk
             uiInit(context);
 
             p.fontSystem = context->getSystem<FontSystem>();
+            p.iconSystem = context->getSystem<IconSystem>();
             p.style = Style::create(context);
-            p.iconLibrary = IconLibrary::create(context);
 
             p.logTimer = Timer::create(context);
             p.logTimer->setRepeating(true);
@@ -116,14 +116,14 @@ namespace dtk
             return _p->fontSystem;
         }
 
+        const std::shared_ptr<IconSystem>& App::getIconSystem() const
+        {
+            return _p->iconSystem;
+        }
+
         const std::shared_ptr<Style>& App::getStyle() const
         {
             return _p->style;
-        }
-
-        const std::shared_ptr<IconLibrary>& App::getIconLibrary() const
-        {
-            return _p->iconLibrary;
         }
 
         void App::setDisplayScale(float value)
@@ -149,7 +149,7 @@ namespace dtk
                 {
                     TickEvent tickEvent;
                     _tickRecursive(window, true, true, tickEvent);
-                    window->update(p.fontSystem, p.style, p.iconLibrary);
+                    window->update(p.fontSystem, p.iconSystem, p.style);
                 }
             }
         }

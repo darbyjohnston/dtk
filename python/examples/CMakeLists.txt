@@ -11,6 +11,10 @@ add_test(
     COMMAND ${Python3_EXECUTABLE} dialogs.py -exit -log
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_test(
+    NAME "Python icons"
+    COMMAND ${Python3_EXECUTABLE} icons.py -exit -log
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(
     NAME "Python mdi"
     COMMAND ${Python3_EXECUTABLE} mdi.py -exit -log
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

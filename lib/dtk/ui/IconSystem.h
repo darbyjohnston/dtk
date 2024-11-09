@@ -5,6 +5,7 @@
 #pragma once
 
 #include <dtk/core/Context.h>
+#include <dtk/core/ISystem.h>
 #include <dtk/core/Image.h>
 
 #include <future>
@@ -14,23 +15,29 @@ namespace dtk
     //! \name Icons
     ///@{
         
-    //! Icon library.
-    class IconLibrary : public std::enable_shared_from_this<IconLibrary>
+    //! Icon system.
+    class IconSystem : public ISystem
     {
-        DTK_NON_COPYABLE(IconLibrary);
+        DTK_NON_COPYABLE(IconSystem);
 
     protected:
         void _init(const std::shared_ptr<Context>&);
 
-        IconLibrary();
+        IconSystem(const std::shared_ptr<Context>&);
 
     public:
-        ~IconLibrary();
+        ~IconSystem();
 
-        //! Create a new icon library.
-        static std::shared_ptr<IconLibrary> create(
+        //! Create a new system.
+        static std::shared_ptr<IconSystem> create(
             const std::shared_ptr<Context>&);
 
+        //! Get the icon names.
+        std::vector<std::string> getNames() const;
+        
+        //! Add an icon. The icon is stored as an SVG file.
+        void add(const std::string& name, const std::vector<uint8_t>& svg);
+        
         //! Request an icon.
         std::future<std::shared_ptr<Image> > request(
             const std::string& name,

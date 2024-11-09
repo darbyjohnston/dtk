@@ -12,7 +12,7 @@ namespace dtk
 {
     class FontSystem;
     class IWidget;
-    class IconLibrary;
+    class IconSystem;
     class Style;
     class TickEvent;
 
@@ -49,8 +49,8 @@ namespace dtk
             const std::list<std::shared_ptr<Window> >& getWindows() const;
 
             const std::shared_ptr<FontSystem>& getFontSystem() const;
+            const std::shared_ptr<IconSystem>& getIconSystem() const;
             const std::shared_ptr<Style>& getStyle() const;
-            const std::shared_ptr<IconLibrary>& getIconLibrary() const;
             void setDisplayScale(float);
 
             void tick(size_t count = 1);

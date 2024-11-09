@@ -30,25 +30,25 @@ namespace dtk
         py::class_<SizeHintEvent>(m, "SizeHintEvent")
             .def(py::init<
                 const std::shared_ptr<FontSystem>&,
+                const std::shared_ptr<IconSystem>&,
                 float,
-                const std::shared_ptr<Style>&,
-                const std::shared_ptr<IconLibrary>& >())
+                const std::shared_ptr<Style>&>())
             .def_readwrite("fontSystem", &SizeHintEvent::fontSystem)
+            .def_readwrite("iconSystem", &SizeHintEvent::iconSystem)
             .def_readwrite("displayScale", &SizeHintEvent::displayScale)
-            .def_readwrite("style", &SizeHintEvent::style)
-            .def_readwrite("iconLibrary", &SizeHintEvent::iconLibrary);
+            .def_readwrite("style", &SizeHintEvent::style);
 
         py::class_<DrawEvent>(m, "DrawEvent")
             .def(py::init<
                 const std::shared_ptr<FontSystem>&,
+                const std::shared_ptr<IconSystem>&,
                 float,
                 const std::shared_ptr<Style>&,
-                const std::shared_ptr<IconLibrary>&,
                 const std::shared_ptr<IRender>& >())
             .def_readwrite("fontSystem", &DrawEvent::fontSystem)
+            .def_readwrite("iconSystem", &DrawEvent::iconSystem)
             .def_readwrite("displayScale", &DrawEvent::displayScale)
             .def_readwrite("style", &DrawEvent::style)
-            .def_readwrite("iconLibrary", &DrawEvent::iconLibrary)
             .def_readwrite("render", &DrawEvent::render);
 
         py::class_<DragAndDropData, std::shared_ptr<DragAndDropData> >(m, "DragAndDropData");
