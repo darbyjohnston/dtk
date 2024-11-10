@@ -60,9 +60,7 @@ if app.getExit() != 0:
     sys.exit(1)
 
 # Disable the native file dialog.
-for system in context.systems:
-    if isinstance(system, dtk.FileBrowserSystem):
-        system.nativeFileDialog = False
+context.getSystemByName("dtk::FileBrowserSystem").nativeFileDialog = False
 
 # Create the window.
 window = Window(context, "dialogs", dtk.Size2I(1280, 960))

@@ -17,7 +17,7 @@ app.addWindow(window)
 
 # Create the layout.
 layout = dtk.VerticalLayout(context)
-layout.spacingRole = dtk.SizeRole.SizeRoleNone
+layout.spacingRole = dtk.SizeRole.SizeRole_None
 scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout;
 
@@ -33,7 +33,7 @@ bellows.widget = vLayout
 # Add a bellows.
 vLayout = dtk.VerticalLayout(context)
 vLayout.marginRole = dtk.SizeRole.Margin
-vLayout.spacingRole = dtk.SizeRole.SizeRoleNone
+vLayout.spacingRole = dtk.SizeRole.SizeRole_None
 icons = [
     "Audio",
     "Close",
@@ -56,7 +56,7 @@ bellows.widget = vLayout
 # Add a bellows.
 vLayout = dtk.VerticalLayout(context)
 vLayout.marginRole = dtk.SizeRole.Margin
-vLayout.spacingRole = dtk.SizeRole.SizeRoleNone
+vLayout.spacingRole = dtk.SizeRole.SizeRole_None
 for i in range(0, 10):
     dtk.CheckBox(context, "Check Box {}".format(i), vLayout)
 bellows = dtk.Bellows(context, "Check Boxes", layout)

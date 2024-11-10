@@ -23,6 +23,13 @@ scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout
         
 # Create the icons.
+index = 0
+for name in context.getSystemByName("dtk::IconSystem").names:
+    icon = dtk.Icon(context, name, layout)
+    layout.setGridPos(icon, index, 0)
+    label = dtk.Label(context, name, layout)
+    layout.setGridPos(label, index, 1)
+    index = index + 1
 
 window.show()
 app.run()

@@ -20,6 +20,7 @@ set(HEADERS
     FloatEditSlider.h
     FloatModel.h
     FloatSlider.h
+    GridLayout.h
     GroupBox.h
     IButton.h
     IDialog.h
@@ -27,10 +28,13 @@ set(HEADERS
     IWidget.h
     IWidgetPopup.h
     IWindow.h
+    Icon.h
+    IconSystem.h
     IntEdit.h
     IntEditSlider.h
     IntModel.h
     IntSlider.h
+    Label.h
     MDICanvas.h
     MDIWidget.h
     MessageDialog.h
@@ -69,6 +73,7 @@ set(SOURCE
     FloatModel.cpp
     FloatSlider.cpp
     FileEdit.cpp
+    GridLayout.cpp
     GroupBox.cpp
     IButton.cpp
     IDialog.cpp
@@ -76,10 +81,13 @@ set(SOURCE
     IWidget.cpp
     IWidgetPopup.cpp
     IWindow.cpp
+    Icon.cpp
+    IconSystem.cpp
     IntEdit.cpp
     IntEditSlider.cpp
     IntModel.cpp
     IntSlider.cpp
+    Label.cpp
     MDICanvas.cpp
     MDIWidget.cpp
     MessageDialog.cpp

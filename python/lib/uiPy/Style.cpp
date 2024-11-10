@@ -15,7 +15,7 @@ namespace dtk
     void style(py::module_& m)
     {
         py::enum_<SizeRole>(m, "SizeRole")
-            .value("SizeRoleNone", SizeRole::None)
+            .value("SizeRole_None", SizeRole::None)
             .value("Margin", SizeRole::Margin)
             .value("MarginSmall", SizeRole::MarginSmall)
             .value("MarginLarge", SizeRole::MarginLarge)
@@ -38,8 +38,8 @@ namespace dtk
             .export_values();
 
         py::enum_<ColorRole>(m, "ColorRole")
-            .value("ColorRoleNone", ColorRole::None)
-            .value("WindowRole", ColorRole::Window)
+            .value("ColorRole_None", ColorRole::None)
+            .value("ColorRole_Window", ColorRole::Window)
             .value("Base", ColorRole::Base)
             .value("Button", ColorRole::Button)
             .value("Text", ColorRole::Text)
@@ -61,8 +61,8 @@ namespace dtk
             .export_values();
 
         py::enum_<FontRole>(m, "FontRole")
-            .value("FontRoleNone", FontRole::None)
-            .value("Label", FontRole::Label)
+            .value("FontRole_None", FontRole::None)
+            .value("FontRole_Label", FontRole::Label)
             .value("Mono", FontRole::Mono)
             .value("Title", FontRole::Title)
             .export_values();

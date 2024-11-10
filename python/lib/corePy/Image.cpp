@@ -17,7 +17,7 @@ namespace dtk
     void image(py::module_& m)
     {
         py::enum_<ImageType>(m, "ImageType")
-            .value("ImageTypeNone", ImageType::None)
+            .value("ImageType_None", ImageType::None)
             .value("L_U8", ImageType::L_U8)
             .value("L_U16", ImageType::L_U16)
             .value("L_U32", ImageType::L_U32)

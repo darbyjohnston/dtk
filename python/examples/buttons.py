@@ -43,7 +43,7 @@ toolIcons = [
     "PlaybackForward"
 ]
 hLayout2 = dtk.HorizontalLayout(context, hLayout)
-hLayout2.spacingRole = dtk.SizeRole.SizeRoleNone
+hLayout2.spacingRole = dtk.SizeRole.SizeRole_None
 for i in range(0, 3):
     toolButton = dtk.ToolButton(context, hLayout2)
     toolButton.checkable = True

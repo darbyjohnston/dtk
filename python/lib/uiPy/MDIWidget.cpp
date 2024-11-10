@@ -17,7 +17,7 @@ namespace dtk
     void mdiWidget(py::module_& m)
     {
         py::enum_<MDIResize>(m, "MDIResize")
-            .value("MDIResizeNone", MDIResize::None)
+            .value("NoneMDIResize", MDIResize::None)
             .value("North", MDIResize::North)
             .value("NorthEast", MDIResize::NorthEast)
             .value("East", MDIResize::East)

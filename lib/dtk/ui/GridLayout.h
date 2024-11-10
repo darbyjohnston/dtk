@@ -31,7 +31,7 @@ namespace dtk
 
         //! Set a child position within the grid.
         void setGridPos(
-            const std::shared_ptr<IWidget>&,
+            const std::shared_ptr<IWidget>& child,
             int row,
             int column);
 

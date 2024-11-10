@@ -2,37 +2,35 @@
 // Copyright (c) 2024 Darby Johnston
 // All rights reserved.
 
-#include <uiPy/Bellows.h>
+#include <uiPy/Icon.h>
 
-#include <dtk/ui/Bellows.h>
+#include <dtk/ui/Icon.h>
 
 #include <pybind11/pybind11.h>
-#include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
 namespace dtk
 {
-    void bellows(py::module_& m)
+    void icon(py::module_& m)
     {
-        py::class_<Bellows, IWidget, std::shared_ptr<Bellows> >(m, "Bellows")
+        py::class_<Icon, IWidget, std::shared_ptr<Icon> >(m, "Icon")
             .def(
                 py::init(py::overload_cast<
                     const std::shared_ptr<Context>&,
-                    const std::shared_ptr<IWidget>&>(&Bellows::create)),
+                    const std::shared_ptr<IWidget>&>(&Icon::create)),
                 py::arg("context"),
                 py::arg("parent") = nullptr)
             .def(
                 py::init(py::overload_cast<
                     const std::shared_ptr<Context>&,
                     const std::string&,
-                    const std::shared_ptr<IWidget>&>(&Bellows::create)),
+                    const std::shared_ptr<IWidget>&>(&Icon::create)),
                 py::arg("context"),
-                py::arg("text"),
+                py::arg("icon"),
                 py::arg("parent") = nullptr)
-            .def_property("text", &Bellows::getText, &Bellows::setText)
-            .def_property("widget", &Bellows::getWidget, &Bellows::setWidget)
-            .def_property("open", &Bellows::isOpen, &Bellows::setOpen);
+        .def_property("icon", &Icon::getIcon, &Icon::setIcon)
+        .def_property("marginRole", &Icon::getMarginRole, &Icon::setMarginRole);
     }
 }

@@ -68,7 +68,7 @@ namespace dtk
             .def_readwrite("dndCursorHotspot", &MouseMoveEvent::dndCursorHotspot);
 
         py::enum_<KeyModifier>(m, "KeyModifier")
-            .value("KeyModifierNone", KeyModifier::None)
+            .value("KeyModifier_None", KeyModifier::None)
             .value("Shift", KeyModifier::Shift)
             .value("Control", KeyModifier::Control)
             .value("Alt", KeyModifier::Alt)

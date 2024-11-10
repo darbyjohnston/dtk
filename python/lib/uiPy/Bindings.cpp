@@ -24,6 +24,7 @@
 #include <uiPy/FloatEditSlider.h>
 #include <uiPy/FloatModel.h>
 #include <uiPy/FloatSlider.h>
+#include <uiPy/GridLayout.h>
 #include <uiPy/GroupBox.h>
 #include <uiPy/IButton.h>
 #include <uiPy/IDialog.h>
@@ -31,10 +32,13 @@
 #include <uiPy/IWidget.h>
 #include <uiPy/IWidgetPopup.h>
 #include <uiPy/IWindow.h>
+#include <uiPy/Icon.h>
+#include <uiPy/IconSystem.h>
 #include <uiPy/IntEdit.h>
 #include <uiPy/IntEditSlider.h>
 #include <uiPy/IntModel.h>
 #include <uiPy/IntSlider.h>
+#include <uiPy/Label.h>
 #include <uiPy/MDICanvas.h>
 #include <uiPy/MDIWidget.h>
 #include <uiPy/MessageDialog.h>
@@ -94,11 +98,15 @@ namespace dtk
         floatEditSlider(m);
         floatModel(m);
         floatSlider(m);
+        gridLayout(m);
         groupBox(m);
+        icon(m);
+        iconSystem(m);
         intEdit(m);
         intEditSlider(m);
         intModel(m);
         intSlider(m);
+        label(m);
         mdiCanvas(m);
         mdiWidget(m);
         messageDialog(m);
