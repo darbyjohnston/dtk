@@ -79,8 +79,11 @@ namespace dtk
 
         std::map<std::string, std::vector<uint8_t> > iconData;
 
+        uint64_t id = 0;
+
         struct Request
         {
+            uint64_t id = 0;
             std::string name;
             float displayScale = 1.F;
             std::promise<std::shared_ptr<Image> > promise;
@@ -105,6 +108,8 @@ namespace dtk
             std::atomic<bool> running;
         };
         Thread thread;
+
+        void _cancelRequests();
     };
 
     void IconSystem::_init(const std::shared_ptr<Context>& context)
@@ -244,7 +249,7 @@ namespace dtk
                     std::unique_lock<std::mutex> lock(p.mutex.mutex);
                     p.mutex.stopped = true;
                 }
-                cancelRequests();
+                p._cancelRequests();
             });
     }
 
@@ -288,15 +293,25 @@ namespace dtk
         p.iconData[name] = svg;
     }
 
-    std::future<std::shared_ptr<Image> > IconSystem::request(
+    std::shared_ptr<Image> IconSystem::get(
+        const std::string& name,
+        float displayScale)
+    {
+        return request(name, displayScale).future.get();
+    }
+
+    IconRequest IconSystem::request(
         const std::string& name,
         float displayScale)
     {
         DTK_P();
+        IconRequest out;
+        out.id = p.id++;
         auto request = std::make_shared<Private::Request>();
+        request->id = out.id;
         request->name = name;
         request->displayScale = displayScale;
-        auto future = request->promise.get_future();
+        out.future = request->promise.get_future();
         std::shared_ptr<Image> image;
         bool cached = false;
         {
@@ -329,16 +344,37 @@ namespace dtk
                 request->promise.set_value(nullptr);
             }
         }
-        return future;
+        return out;
     }
 
-    void IconSystem::cancelRequests()
+    void IconSystem::cancelRequests(const std::vector<uint64_t>& ids)
     {
         DTK_P();
         std::list<std::shared_ptr<Private::Request> > requests;
         {
             std::unique_lock<std::mutex> lock(p.mutex.mutex);
-            requests = std::move(p.mutex.requests);
+            auto i = p.mutex.requests.begin();
+            while (i != p.mutex.requests.end())
+            {
+                const auto j = std::find(ids.begin(), ids.end(), (*i)->id);
+                if (j != ids.end())
+                {
+                    i = p.mutex.requests.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+    }
+
+    void IconSystem::Private::_cancelRequests()
+    {
+        std::list<std::shared_ptr<Private::Request> > requests;
+        {
+            std::unique_lock<std::mutex> lock(mutex.mutex);
+            requests = std::move(mutex.requests);
         }
         for (auto& request : requests)
         {

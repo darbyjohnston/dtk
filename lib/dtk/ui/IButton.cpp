@@ -233,11 +233,11 @@ namespace dtk
         }
         if (!_icon.empty() && !_iconImage)
         {
-            _iconImage = event.iconSystem->request(_icon, event.displayScale).get();
+            _iconImage = event.iconSystem->get(_icon, event.displayScale);
         }
         if (!_checkedIcon.empty() && !_checkedIconImage)
         {
-            _checkedIconImage = event.iconSystem->request(_checkedIcon, event.displayScale).get();
+            _checkedIconImage = event.iconSystem->get(_checkedIcon, event.displayScale);
         }
     }
 

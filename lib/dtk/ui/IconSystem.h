@@ -14,6 +14,12 @@ namespace dtk
 {
     //! \name Icons
     ///@{
+
+    struct IconRequest
+    {
+        uint64_t id = 0;
+        std::future<std::shared_ptr<Image> > future;
+    };
         
     //! Icon system.
     class IconSystem : public ISystem
@@ -37,15 +43,20 @@ namespace dtk
         
         //! Add an icon. The icon is stored as an SVG file.
         void add(const std::string& name, const std::vector<uint8_t>& svg);
-        
-        //! Request an icon.
-        std::future<std::shared_ptr<Image> > request(
+
+        //! Get an icon.
+        std::shared_ptr<Image> get(
             const std::string& name,
             float displayScale);
 
-        //! Cancel requests.
-        void cancelRequests();
-            
+        //! Request an async icon.
+        IconRequest request(
+            const std::string& name,
+            float displayScale);
+
+        //! Cancel async requests.
+        void cancelRequests(const std::vector<uint64_t>&);
+
     private:
         DTK_PRIVATE();
     };

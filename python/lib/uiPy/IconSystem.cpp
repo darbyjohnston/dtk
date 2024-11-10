@@ -19,6 +19,16 @@ namespace dtk
             .def(
                 py::init(&IconSystem::create),
                 py::arg("context"))
-            .def_property_readonly("names", &IconSystem::getNames);
+            .def_property_readonly("names", &IconSystem::getNames)
+            .def(
+                "add",
+                &IconSystem::add,
+                py::arg("name"),
+                py::arg("svg"))
+            .def(
+                "get",
+                &IconSystem::get,
+                py::arg("name"),
+                py::arg("displayScale"));
     }
 }
