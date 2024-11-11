@@ -378,6 +378,7 @@ namespace dtk
             }
         }
         p.buttonGroup->setChecked(p.currentTab, true);
+        p.menuButton->setEnabled(!p.text.empty());
     }
 
     void TabBar::_setCurrent(int value)
