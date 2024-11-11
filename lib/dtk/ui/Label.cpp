@@ -193,6 +193,8 @@ namespace dtk
             p.draw.glyphs,
             p.size.fontMetrics,
             p.draw.g2.min,
-            event.style->getColorRole(p.textRole));
+            event.style->getColorRole(isEnabled() ?
+                p.textRole :
+                ColorRole::TextDisabled));
     }
 }
