@@ -239,6 +239,7 @@ namespace dtk
             mesh.triangles.resize(glyphCount * 2);
             size_t v = 0;
             size_t t = 0;
+            Box2I lineRect(p.clipRect.min.x, pos.y, p.clipRect.w(), fontMetrics.lineHeight);
             for (auto glyphIt = glyphs.begin(); glyphIt != glyphs.end(); ++glyphIt)
             {
                 if (*glyphIt)
@@ -248,13 +249,15 @@ namespace dtk
                         auto crIt = glyphIt + 1;
                         if (crIt != glyphs.end() && '\r' == (*glyphIt)->info.code)
                         {
-                            ++crIt;
+                            ++glyphIt;
                         }
                         x = 0;
                         y += fontMetrics.lineHeight;
                         rsbDeltaPrev = 0;
+                        lineRect = Box2I(p.clipRect.min.x, pos.y + y, p.clipRect.w(), fontMetrics.lineHeight);
                     }
-                    else
+                    else if (!p.clipRectEnabled ||
+                        p.clipRectEnabled && intersects(p.clipRect, lineRect))
                     {
                         if (rsbDeltaPrev - (*glyphIt)->lsbDelta > 32)
                         {
@@ -290,8 +293,8 @@ namespace dtk
                                 pos.y + y + fontMetrics.ascender - offset.y - extraOffset,
                                 (*glyphIt)->image->getWidth(),
                                 (*glyphIt)->image->getHeight());
-                            const auto& min = box.min;
-                            const auto& max = box.max;
+                            const V2I& min = box.min;
+                            const V2I& max = box.max;
 
                             mesh.v[v + 0].x = min.x;
                             mesh.v[v + 0].y = min.y;
