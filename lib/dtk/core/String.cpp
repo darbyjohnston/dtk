@@ -4,6 +4,8 @@
 
 #include <dtk/core/String.h>
 
+#include <dtk/core/Random.h>
+
 #include <algorithm>
 #include <codecvt>
 #include <locale>
@@ -210,5 +212,57 @@ namespace dtk
     {
         std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
         return converter.to_bytes(value);
+    }
+
+    std::vector<std::string> getLoremIpsum()
+    {
+        return
+        {
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+            "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        };
+    }
+
+    namespace
+    {
+        const size_t randSize = 20;
+        const size_t sentencesInAParagraph = 5;
+    }
+
+    std::string getLoremIpsum(size_t lineCount)
+    {
+        std::string out;
+
+        const std::vector<std::string> lines = getLoremIpsum();
+
+        Random rand;
+        std::vector<size_t> rands;
+        std::vector<bool> paragraphs;
+        for (size_t i = 0; i < randSize; ++i)
+        {
+            rands.push_back(rand.getI(1, lines.size() - 1));
+            paragraphs.push_back(
+                sentencesInAParagraph == rand.getI(sentencesInAParagraph));
+        }
+
+        size_t counter = 0;
+        for (size_t i = 0; i < lineCount; ++i)
+        {
+            counter += rands[i % randSize];
+            out.append(lines[counter % lines.size()]);
+            if (i < lineCount - 1)
+            {
+                //! \todo Remove this newline when text wrapping is supported.
+                out.push_back('\n');
+
+                if (paragraphs[i % randSize])
+                {
+                    out.push_back('\n');
+                }
+            }
+        }
+        return out;
     }
 }

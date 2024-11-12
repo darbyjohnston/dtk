@@ -22,6 +22,7 @@
 #include <corePy/Random.h>
 #include <corePy/Range.h>
 #include <corePy/Size.h>
+#include <corePy/String.h>
 #include <corePy/Timer.h>
 #include <corePy/Vector.h>
 
@@ -57,6 +58,7 @@ namespace dtk
         random(m);
         range(m);
         size(m);
+        string(m);
         timer(m);
         vector(m);
     }

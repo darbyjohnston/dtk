@@ -3,82 +3,15 @@
 // All rights reserved.
 
 #include <dtk/ui/App.h>
-#include <dtk/ui/CheckBox.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RowLayout.h>
+#include <dtk/ui/Label.h>
 #include <dtk/ui/ScrollWidget.h>
 #include <dtk/ui/TabWidget.h>
-#include <dtk/ui/ToolButton.h>
 #include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
+#include <dtk/core/String.h>
 
 using namespace dtk;
-
-std::shared_ptr<IWidget> createPushButtonTab(
-    const std::shared_ptr<Context>& context)
-{
-    auto layout = VerticalLayout::create(context);
-    layout->setMarginRole(SizeRole::Margin);
-    layout->setSpacingRole(SizeRole::SpacingSmall);
-    for (size_t i = 0; i < 10; ++i)
-    {
-        PushButton::create(context, Format("Push Button {0}").arg(i), layout);
-    }
-    auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-    scrollWidget->setBorder(false);
-    scrollWidget->setWidget(layout);
-    return scrollWidget;
-}
-
-std::shared_ptr<IWidget> createToolButtonTab(
-    const std::shared_ptr<Context>& context)
-{
-    auto layout = VerticalLayout::create(context);
-    layout->setMarginRole(SizeRole::Margin);
-    layout->setSpacingRole(SizeRole::None);
-    const std::vector<std::string> icons =
-    {
-        "Audio",
-        "Close",
-        "Copy",
-        "Directory",
-        "File",
-        "FrameNext",
-        "FramePrev",
-        "Mute",
-        "Search",
-        "Volume"
-    };
-    for (size_t i = 0; i < 10; ++i)
-    {
-        auto button = ToolButton::create(context, Format("Tool Button {0}").arg(i), layout);
-        if (i < icons.size())
-        {
-            button->setIcon(icons[i]);
-        }
-    }
-    auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-    scrollWidget->setBorder(false);
-    scrollWidget->setWidget(layout);
-    return scrollWidget;
-}
-
-std::shared_ptr<IWidget> createCheckBoxesTab(
-    const std::shared_ptr<Context>& context)
-{
-    auto layout = VerticalLayout::create(context);
-    layout->setMarginRole(SizeRole::Margin);
-    layout->setSpacingRole(SizeRole::None);
-    for (size_t i = 0; i < 10; ++i)
-    {
-        CheckBox::create(context, Format("Check Box {0}").arg(i), layout);
-    }
-    auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-    scrollWidget->setBorder(false);
-    scrollWidget->setWidget(layout);
-    return scrollWidget;
-}
 
 DTK_MAIN()
 {
@@ -100,24 +33,14 @@ DTK_MAIN()
         // Create the tab widget.
         auto tabWidget = TabWidget::create(context, window);
 
-        // Create tabs.
+        // Add tabs.
         for (size_t i = 0; i < 10; ++i)
         {
-            tabWidget->addTab(
-                Format("Push Buttons {0}").arg(i),
-                createPushButtonTab(context));
-        }
-        for (size_t i = 0; i < 5; ++i)
-        {
-            tabWidget->addTab(
-                Format("Tool Buttons {0}").arg(i),
-                createToolButtonTab(context));
-        }
-        for (size_t i = 0; i < 5; ++i)
-        {
-            tabWidget->addTab(
-                Format("Check Boxes {0}").arg(i),
-                createCheckBoxesTab(context));
+            auto label = Label::create(context, getLoremIpsum(1000));
+            label->setMarginRole(SizeRole::MarginSmall);
+            auto scrollWidget = ScrollWidget::create(context);
+            scrollWidget->setWidget(label);
+            tabWidget->addTab(Format("Tab {0}").arg(i), scrollWidget);
         }
 
         window->show();

@@ -28,6 +28,7 @@ namespace dtk
             void _format();
             void _compare();
             void _convert();
+            void _filler();
         };
     }
 }

@@ -22,6 +22,7 @@ set(HEADERS
     Random.h
     Range.h
     Size.h
+    String.h
     Timer.h
     Vector.h)
 set(HEADERS_PRIVATE)
@@ -45,6 +46,7 @@ set(SOURCE
     Random.cpp
     Range.cpp
     Size.cpp
+    String.cpp
     Timer.cpp
     Vector.cpp)
 

@@ -19,7 +19,7 @@ namespace dtk
             .def(
                 py::init(&ScrollWidget::create),
                 py::arg("context"),
-                py::arg("type"),
+                py::arg("type") = ScrollType::Both,
                 py::arg("parent") = nullptr)
             .def_property("widget", &ScrollWidget::getWidget, &ScrollWidget::setWidget)
             .def_property_readonly("viewport", &ScrollWidget::getViewport)

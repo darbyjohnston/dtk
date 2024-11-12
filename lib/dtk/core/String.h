@@ -52,6 +52,7 @@ namespace dtk
     //! Elide a string.
     std::string elide(const std::string&, size_t = 32);
 
+    //! Case compare.
     enum class CaseCompare
     {
         Sensitive,
@@ -75,6 +76,12 @@ namespace dtk
 
     //! Convert a wide string to a regular string.
     std::string fromWide(const std::wstring&);
+
+    //! Get filler text.
+    std::vector<std::string> getLoremIpsum();
+
+    //! Get filler text.
+    std::string getLoremIpsum(size_t lineCount);
 
     ///@}
 }

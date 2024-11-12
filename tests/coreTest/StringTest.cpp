@@ -30,6 +30,7 @@ namespace dtk
             _format();
             _compare();
             _convert();
+            _filler();
         }
         
         void StringTest::_split()
@@ -105,6 +106,13 @@ namespace dtk
                 const std::string s("abc");
                 const std::wstring w = toWide(s);
                 DTK_ASSERT(s == fromWide(w));
+            }
+        }
+
+        void StringTest::_filler()
+        {
+            {
+                _print(getLoremIpsum(100));
             }
         }
     }

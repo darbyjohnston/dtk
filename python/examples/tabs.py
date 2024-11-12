@@ -18,49 +18,13 @@ app.addWindow(window)
 # Create the tab widget.
 tabWidget = dtk.TabWidget(context, window)
         
-# Add a tab.
-layout = dtk.VerticalLayout(context)
-layout.marginRole = dtk.SizeRole.Margin
-layout.spacingRole = dtk.SizeRole.SpacingSmall
+# Add tabs.
 for i in range(0, 10):
-    dtk.PushButton(context, "Push Button {}".format(i), layout)
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
-scrollWidget.widget = layout
-tabWidget.addTab("Push Buttons", scrollWidget)
-
-# Add a tab.
-layout = dtk.VerticalLayout(context)
-layout.marginRole = dtk.SizeRole.Margin
-layout.spacingRole = dtk.SizeRole.SizeRole_None
-icons = [
-    "Audio",
-    "Close",
-    "Copy",
-    "Directory",
-    "File",
-    "FrameNext",
-    "FramePrev",
-    "Mute",
-    "Search",
-    "Volume"
-]
-for i in range(0, 10):
-    button = dtk.ToolButton(context, "Tool Button {}".format(i), layout)
-    if i < len(icons):
-        button.icon = icons[i]
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
-scrollWidget.widget = layout
-tabWidget.addTab("Tool Buttons", scrollWidget)
-
-# Add a tab.
-layout = dtk.VerticalLayout(context)
-layout.marginRole = dtk.SizeRole.Margin
-layout.spacingRole = dtk.SizeRole.SizeRole_None
-for i in range(0, 10):
-    dtk.CheckBox(context, "Check Box {}".format(i), layout)
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
-scrollWidget.widget = layout
-tabWidget.addTab("Check Boxes", scrollWidget)
+    label = dtk.Label(context, dtk.getLoremIpsum(1000))
+    label.marginRole = dtk.SizeRole.MarginSmall
+    scrollWidget = dtk.ScrollWidget(context)
+    scrollWidget.widget = label
+    tabWidget.addTab("Tab {}".format(i), scrollWidget)
 
 window.show()
 app.run()
