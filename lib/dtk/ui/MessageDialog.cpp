@@ -53,7 +53,6 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::MessageDialogWidget", parent);
 
-        setHStretch(Stretch::Expanding);
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
 
@@ -122,7 +121,10 @@ namespace dtk
     void MessageDialogWidget::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
-        _setSizeHint(_layout->getSizeHint());
+        const int sa = event.style->getSizeRole(SizeRole::ScrollArea, event.displayScale);
+        Size2I sizeHint = _layout->getSizeHint();
+        sizeHint.w = std::max(sizeHint.w, sa);
+        _setSizeHint(sizeHint);
     }
 
     struct MessageDialog::Private

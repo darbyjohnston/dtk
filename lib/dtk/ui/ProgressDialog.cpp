@@ -46,6 +46,7 @@ namespace dtk
         {
             float displayScale = 0.F;
             int border = 0;
+            int width = 0;
             int height = 0;
         };
         SizeData _size;
@@ -109,12 +110,13 @@ namespace dtk
         {
             _size.displayScale = event.displayScale;
             _size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            _size.width = event.style->getSizeRole(SizeRole::ScrollArea, event.displayScale);
             const FontInfo fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
             _size.height = fontMetrics.lineHeight * .75F;
         }
         _setSizeHint(Size2I(
-            _size.height + _size.border * 2,
+            _size.width + _size.border * 2,
             _size.height + _size.border * 2));
     }
 
@@ -198,7 +200,6 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::ProgressDialogWidget", parent);
 
-        setHStretch(Stretch::Expanding);
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
 
