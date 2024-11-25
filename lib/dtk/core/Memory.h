@@ -6,6 +6,7 @@
 
 #include <dtk/core/Util.h>
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
