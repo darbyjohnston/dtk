@@ -179,7 +179,7 @@ namespace dtk
         {
             std::stringstream ss;
             ss << "    " + p.name;
-            if (p.cmdLineArgs.size())
+            if (!p.cmdLineArgs.empty())
             {
                 std::vector<std::string> args;
                 for (const auto& i : p.cmdLineArgs)
@@ -192,37 +192,33 @@ namespace dtk
                 }
                 ss << " " << join(args, " ");
             }
-            if (p.cmdLineOptions.size())
+            if (!p.cmdLineOptions.empty())
             {
                 ss << " [option],...";
             }
             _print(ss.str());
             _print("");
         }
-        _print("Arguments:\n");
-        for (const auto& i : p.cmdLineArgs)
+        if (!p.cmdLineArgs.empty())
         {
-            _print("    " + i->getName());
-            _print("        " + i->getHelp());
-            _print("");
-        }
-        _print("Options:\n");
-        for (const auto& i : p.cmdLineOptions)
-        {
-            bool first = true;
-            for (const auto& j : i->getHelp())
+            _print("Arguments:\n");
+            for (const auto& i : p.cmdLineArgs)
             {
-                if (first)
+                _print("    " + i->getName() + " - " + i->getHelp());
+                _print("");
+            }
+        }
+        if (!p.cmdLineOptions.empty())
+        {
+            _print("Options:\n");
+            for (const auto& i : p.cmdLineOptions)
+            {
+                for (const auto& j : i->getHelp())
                 {
-                    first = false;
                     _print("    " + j);
                 }
-                else
-                {
-                    _print("        " + j);
-                }
+                _print("");
             }
-            _print("");
         }
     }
 
