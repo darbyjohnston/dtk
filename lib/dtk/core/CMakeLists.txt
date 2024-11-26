@@ -111,10 +111,14 @@ else()
         TimeUnix.cpp)
 endif()
 
+set(LIBS_PUBLIC nlohmann_json::nlohmann_json)
+if(CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
+    list(APPEND LIBS_PUBLIC stdc++fs)
+endif()
+set(LIBS_PRIVATE Freetype::Freetype PNG::PNG ZLIB::ZLIB)
+
 add_library(dtkCore ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(dtkCore
-    PUBLIC nlohmann_json::nlohmann_json
-    PRIVATE Freetype::Freetype PNG::PNG ZLIB::ZLIB)
+target_link_libraries(dtkCore PUBLIC ${LIBS_PUBLIC} PRIVATE ${LIBS_PRIVATE})
 set_target_properties(dtkCore PROPERTIES FOLDER lib)
 set_target_properties(dtkCore PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
