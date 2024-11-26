@@ -42,7 +42,7 @@ namespace dtk
         void sizeHintEvent(const SizeHintEvent&) override;
 
     private:
-        void _textUpdate();
+        void _widgetUpdate();
 
         DTK_PRIVATE();
     };

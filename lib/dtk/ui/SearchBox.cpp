@@ -30,19 +30,18 @@ namespace dtk
         p.lineEdit->setHStretch(Stretch::Expanding);
 
         p.button = ToolButton::create(context);
-        p.button->setIcon("Clear");
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
-        p.layout->setSpacingRole(SizeRole::SpacingSmall);
+        p.layout->setSpacingRole(SizeRole::SpacingTool);
         p.lineEdit->setParent(p.layout);
         p.button->setParent(p.layout);
 
-        _textUpdate();
+        _widgetUpdate();
 
         p.lineEdit->setTextChangedCallback(
             [this](const std::string& value)
             {
-                _textUpdate();
+                _widgetUpdate();
                 if (_p->callback)
                 {
                     _p->callback(value);
@@ -53,7 +52,7 @@ namespace dtk
             [this]
             {
                 _p->lineEdit->clearText();
-                _textUpdate();
+                _widgetUpdate();
                 if (_p->callback)
                 {
                     _p->callback(std::string());
@@ -85,7 +84,7 @@ namespace dtk
     void SearchBox::setText(const std::string& value)
     {
         _p->lineEdit->setText(value);
-        _textUpdate();
+        _widgetUpdate();
     }
 
     void SearchBox::setCallback(const std::function<void(const std::string&)>& value)
@@ -105,10 +104,11 @@ namespace dtk
         _setSizeHint(_p->layout->getSizeHint());
     }
 
-    void SearchBox::_textUpdate()
+    void SearchBox::_widgetUpdate()
     {
         DTK_P();
         const std::string& text = p.lineEdit->getText();
+        p.button->setIcon(!text.empty() ? "Clear" : "Search");
         p.button->setEnabled(!text.empty());
     }
 }
