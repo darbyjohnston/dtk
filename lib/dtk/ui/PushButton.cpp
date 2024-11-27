@@ -208,8 +208,22 @@ namespace dtk
                 event.style->getColorRole(ColorRole::Hover));
         }
 
-        // Draw the icon.
+        // Draw the icon and text.
         int x = p.draw.g3.x();
+        if (_iconImage && !_text.empty())
+        {
+            const Size2I& iconSize = _iconImage->getSize();
+            x += p.draw.g3.w() / 2 - (iconSize.w + p.size.spacing + p.size.textSize.w + p.size.margin2 * 2) / 2;
+        }
+        else if (_iconImage)
+        {
+            const Size2I& iconSize = _iconImage->getSize();
+            x += p.draw.g3.w() / 2 - iconSize.w / 2;
+        }
+        else if (!_text.empty())
+        {
+            x += p.draw.g3.w() / 2 - (p.size.textSize.w + p.size.margin2 * 2) / 2;
+        }
         if (_iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
@@ -225,8 +239,6 @@ namespace dtk
                     ColorRole::TextDisabled));
             x += iconSize.w + p.size.spacing;
         }
-
-        // Draw the text.
         if (!_text.empty())
         {
             if (p.draw.glyphs.empty())
