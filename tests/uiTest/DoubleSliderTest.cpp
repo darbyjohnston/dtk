@@ -48,7 +48,7 @@ namespace dtk
                 window->show();
                 app->tick();
 
-                auto slider = DoubleSlider::create(context, nullptr, layout);
+                auto slider = DoubleSlider::create(context, layout);
                 DTK_ASSERT(slider->getModel());
                 double value = 0.0;
                 slider->setCallback([&value](double v) { value = v; });

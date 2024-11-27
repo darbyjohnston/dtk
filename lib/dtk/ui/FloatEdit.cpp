@@ -35,10 +35,6 @@ namespace dtk
         DTK_P();
 
         p.model = model;
-        if (!p.model)
-        {
-            p.model = FloatModel::create(context);
-        }
 
         p.lineEdit = LineEdit::create(context, shared_from_this());
         p.lineEdit->setFontRole(FontRole::Mono);
@@ -105,6 +101,15 @@ namespace dtk
 
     FloatEdit::~FloatEdit()
     {}
+
+    std::shared_ptr<FloatEdit> FloatEdit::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FloatEdit>(new FloatEdit);
+        out->_init(context, FloatModel::create(context), parent);
+        return out;
+    }
 
     std::shared_ptr<FloatEdit> FloatEdit::create(
         const std::shared_ptr<Context>& context,

@@ -51,10 +51,6 @@ namespace dtk
         _setMousePressEnabled(true);
 
         p.model = model;
-        if (!p.model)
-        {
-            p.model = IntModel::create(context);
-        }
 
         p.valueObserver = ValueObserver<int>::create(
             p.model->observeValue(),
@@ -83,6 +79,15 @@ namespace dtk
 
     IntSlider::~IntSlider()
     {}
+
+    std::shared_ptr<IntSlider> IntSlider::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<IntSlider>(new IntSlider);
+        out->_init(context, IntModel::create(context), parent);
+        return out;
+    }
 
     std::shared_ptr<IntSlider> IntSlider::create(
         const std::shared_ptr<Context>& context,

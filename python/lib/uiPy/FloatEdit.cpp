@@ -18,9 +18,18 @@ namespace dtk
     {
         py::class_<FloatEdit, IWidget, std::shared_ptr<FloatEdit> >(m, "FloatEdit")
             .def(
-                py::init(&FloatEdit::create),
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>&>(&FloatEdit::create)),
                 py::arg("context"),
-                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<FloatModel>&,
+                    const std::shared_ptr<IWidget>&>(&FloatEdit::create)),
+                py::arg("context"),
+                py::arg("model"),
                 py::arg("parent") = nullptr)
             .def_property("value", &FloatEdit::getValue, &FloatEdit::setValue)
             .def("setCallback", &FloatEdit::setCallback)

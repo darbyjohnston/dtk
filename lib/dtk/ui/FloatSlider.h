@@ -29,7 +29,12 @@ namespace dtk
         //! Create a new widget.
         static std::shared_ptr<FloatSlider> create(
             const std::shared_ptr<Context>&,
-            const std::shared_ptr<FloatModel>& = nullptr,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        //! Create a new widget.
+        static std::shared_ptr<FloatSlider> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FloatModel>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         //! Get the value.

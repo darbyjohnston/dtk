@@ -51,10 +51,6 @@ namespace dtk
         _setMousePressEnabled(true);
 
         p.model = model;
-        if (!p.model)
-        {
-            p.model = DoubleModel::create(context);
-        }
 
         p.valueObserver = ValueObserver<double>::create(
             p.model->observeValue(),
@@ -83,6 +79,15 @@ namespace dtk
 
     DoubleSlider::~DoubleSlider()
     {}
+
+    std::shared_ptr<DoubleSlider> DoubleSlider::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<DoubleSlider>(new DoubleSlider);
+        out->_init(context, DoubleModel::create(context), parent);
+        return out;
+    }
 
     std::shared_ptr<DoubleSlider> DoubleSlider::create(
         const std::shared_ptr<Context>& context,

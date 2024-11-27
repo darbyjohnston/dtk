@@ -18,9 +18,18 @@ namespace dtk
     {
         py::class_<DoubleEdit, IWidget, std::shared_ptr<DoubleEdit> >(m, "DoubleEdit")
             .def(
-                py::init(&DoubleEdit::create),
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>&>(&DoubleEdit::create)),
                 py::arg("context"),
-                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<DoubleModel>&,
+                    const std::shared_ptr<IWidget>&>(&DoubleEdit::create)),
+                py::arg("context"),
+                py::arg("model"),
                 py::arg("parent") = nullptr)
             .def_property("value", &DoubleEdit::getValue, &DoubleEdit::setValue)
             .def("setCallback", &DoubleEdit::setCallback)

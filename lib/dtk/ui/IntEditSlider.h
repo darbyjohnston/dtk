@@ -29,7 +29,12 @@ namespace dtk
         //! Create a new widget.
         static std::shared_ptr<IntEditSlider> create(
             const std::shared_ptr<Context>&,
-            const std::shared_ptr<IntModel>& = nullptr,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        //! Create a new widget.
+        static std::shared_ptr<IntEditSlider> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IntModel>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         //! Get the value.

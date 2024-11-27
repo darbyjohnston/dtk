@@ -34,10 +34,6 @@ namespace dtk
         setHStretch(Stretch::Expanding);
 
         p.model = model;
-        if (!p.model)
-        {
-            p.model = IntModel::create(context);
-        }
 
         p.edit = IntEdit::create(context, p.model);
 
@@ -85,6 +81,15 @@ namespace dtk
 
     IntEditSlider::~IntEditSlider()
     {}
+
+    std::shared_ptr<IntEditSlider> IntEditSlider::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<IntEditSlider>(new IntEditSlider);
+        out->_init(context, IntModel::create(context), parent);
+        return out;
+    }
 
     std::shared_ptr<IntEditSlider> IntEditSlider::create(
         const std::shared_ptr<Context>& context,

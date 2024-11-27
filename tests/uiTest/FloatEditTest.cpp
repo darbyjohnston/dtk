@@ -48,7 +48,7 @@ namespace dtk
                 window->show();
                 app->tick();
 
-                auto edit = FloatEdit::create(context, nullptr, layout);
+                auto edit = FloatEdit::create(context, layout);
                 DTK_ASSERT(edit->getModel());
                 float value = 0.F;
                 edit->setCallback([&value](float v) { value = v; });

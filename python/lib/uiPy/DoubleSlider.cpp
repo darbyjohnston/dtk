@@ -18,9 +18,18 @@ namespace dtk
     {
         py::class_<DoubleSlider, IWidget, std::shared_ptr<DoubleSlider> >(m, "DoubleSlider")
             .def(
-                py::init(&DoubleSlider::create),
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>&>(&DoubleSlider::create)),
                 py::arg("context"),
-                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<DoubleModel>&,
+                    const std::shared_ptr<IWidget>&>(&DoubleSlider::create)),
+                py::arg("context"),
+                py::arg("model"),
                 py::arg("parent") = nullptr)
             .def_property("value", &DoubleSlider::getValue, &DoubleSlider::setValue)
             .def("setCallback", &DoubleSlider::setCallback)

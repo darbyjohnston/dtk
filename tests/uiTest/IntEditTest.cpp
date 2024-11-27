@@ -48,7 +48,7 @@ namespace dtk
                 window->show();
                 app->tick();
 
-                auto edit = IntEdit::create(context, nullptr, layout);
+                auto edit = IntEdit::create(context, layout);
                 DTK_ASSERT(edit->getModel());
                 int value = 0;
                 edit->setCallback([&value](int v) { value = v; });

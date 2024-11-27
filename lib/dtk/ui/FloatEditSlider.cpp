@@ -34,10 +34,6 @@ namespace dtk
         setHStretch(Stretch::Expanding);
 
         p.model = model;
-        if (!p.model)
-        {
-            p.model = FloatModel::create(context);
-        }
 
         p.edit = FloatEdit::create(context, p.model);
 
@@ -85,6 +81,15 @@ namespace dtk
 
     FloatEditSlider::~FloatEditSlider()
     {}
+
+    std::shared_ptr<FloatEditSlider> FloatEditSlider::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FloatEditSlider>(new FloatEditSlider);
+        out->_init(context, FloatModel::create(context), parent);
+        return out;
+    }
 
     std::shared_ptr<FloatEditSlider> FloatEditSlider::create(
         const std::shared_ptr<Context>& context,

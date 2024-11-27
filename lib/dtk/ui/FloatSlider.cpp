@@ -51,10 +51,6 @@ namespace dtk
         _setMousePressEnabled(true);
 
         p.model = model;
-        if (!p.model)
-        {
-            p.model = FloatModel::create(context);
-        }
 
         p.valueObserver = ValueObserver<float>::create(
             p.model->observeValue(),
@@ -83,6 +79,15 @@ namespace dtk
 
     FloatSlider::~FloatSlider()
     {}
+
+    std::shared_ptr<FloatSlider> FloatSlider::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FloatSlider>(new FloatSlider);
+        out->_init(context, FloatModel::create(context), parent);
+        return out;
+    }
 
     std::shared_ptr<FloatSlider> FloatSlider::create(
         const std::shared_ptr<Context>& context,

@@ -18,9 +18,18 @@ namespace dtk
     {
         py::class_<FloatSlider, IWidget, std::shared_ptr<FloatSlider> >(m, "FloatSlider")
             .def(
-                py::init(&FloatSlider::create),
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>&>(&FloatSlider::create)),
                 py::arg("context"),
-                py::arg("model") = nullptr,
+                py::arg("parent") = nullptr)
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<FloatModel>&,
+                    const std::shared_ptr<IWidget>&>(&FloatSlider::create)),
+                py::arg("context"),
+                py::arg("model"),
                 py::arg("parent") = nullptr)
             .def_property("value", &FloatSlider::getValue, &FloatSlider::setValue)
             .def("setCallback", &FloatSlider::setCallback)

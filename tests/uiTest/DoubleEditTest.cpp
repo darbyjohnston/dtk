@@ -48,7 +48,7 @@ namespace dtk
                 window->show();
                 app->tick();
 
-                auto edit = DoubleEdit::create(context, nullptr, layout);
+                auto edit = DoubleEdit::create(context, layout);
                 DTK_ASSERT(edit->getModel());
                 double value = 0.0;
                 edit->setCallback([&value](double v) { value = v; });

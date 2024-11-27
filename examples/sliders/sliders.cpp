@@ -42,20 +42,20 @@ DTK_MAIN()
         // Create integer sliders.
         auto groupBox = GroupBox::create(context, "Integer Sliders", layout);
         auto vLayout = VerticalLayout::create(context, groupBox);
-        auto intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
+        auto intEditSlider = IntEditSlider::create(context, vLayout);
         intEditSlider->setCallback(
             [](int value)
             {
                 std::cout << Format("Int: {0}").arg(value) << std::endl;
             });
-        intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
+        intEditSlider = IntEditSlider::create(context, vLayout);
         intEditSlider->setRange(RangeI(100, 200));
         intEditSlider->setCallback(
             [](int value)
             {
                 std::cout << Format("Int: {0}").arg(value) << std::endl;
             });
-        intEditSlider = IntEditSlider::create(context, nullptr, vLayout);
+        intEditSlider = IntEditSlider::create(context, vLayout);
         intEditSlider->setRange(RangeI(-100, 100));
         intEditSlider->setCallback(
             [](int value)
@@ -66,20 +66,20 @@ DTK_MAIN()
         // Create float sliders.
         groupBox = GroupBox::create(context, "Float Sliders", layout);
         vLayout = VerticalLayout::create(context, groupBox);
-        auto floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
+        auto floatEditSlider = FloatEditSlider::create(context, vLayout);
         floatEditSlider->setCallback(
             [](float value)
             {
                 std::cout << Format("Float: {0}").arg(value) << std::endl;
             });
-        floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
+        floatEditSlider = FloatEditSlider::create(context, vLayout);
         floatEditSlider->setRange(RangeF(100.F, 200.F));
         floatEditSlider->setCallback(
             [](float value)
             {
                 std::cout << Format("Float: {0}").arg(value) << std::endl;
             });
-        floatEditSlider = FloatEditSlider::create(context, nullptr, vLayout);
+        floatEditSlider = FloatEditSlider::create(context, vLayout);
         floatEditSlider->setRange(RangeF(-100.F, 100.F));
         floatEditSlider->setCallback(
             [](float value)
@@ -90,20 +90,20 @@ DTK_MAIN()
         // Create double sliders.
         groupBox = GroupBox::create(context, "Double Sliders", layout);
         vLayout = VerticalLayout::create(context, groupBox);
-        auto doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
+        auto doubleEditSlider = DoubleEditSlider::create(context, vLayout);
         doubleEditSlider->setCallback(
             [](double value)
             {
                 std::cout << Format("Double: {0}").arg(value) << std::endl;
             });
-        doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
+        doubleEditSlider = DoubleEditSlider::create(context, vLayout);
         doubleEditSlider->setRange(RangeD(100.0, 200.0));
         doubleEditSlider->setCallback(
             [](double value)
             {
                 std::cout << Format("Double: {0}").arg(value) << std::endl;
             });
-        doubleEditSlider = DoubleEditSlider::create(context, nullptr, vLayout);
+        doubleEditSlider = DoubleEditSlider::create(context, vLayout);
         doubleEditSlider->setRange(RangeD(-100.0, 100.0));
         doubleEditSlider->setCallback(
             [](double value)
