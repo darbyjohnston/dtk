@@ -237,7 +237,7 @@ namespace dtk
         if (p.model)
         {
             text = Format("{0}").arg(p.model->getValue());
-            int width = p.digits;
+            int width = std::max(p.digits, 2);
             if (p.model->getRange().min() < 0 ||
                 p.model->getRange().max() < 0)
             {
