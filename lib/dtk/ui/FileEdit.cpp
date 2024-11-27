@@ -47,6 +47,8 @@ namespace dtk
         p.browseButton->setParent(p.layout);
         p.clearButton->setParent(p.layout);
 
+        _widgetUpdate();
+
         p.lineEdit->setTextCallback(
             [this](const std::string& value)
             {
@@ -55,6 +57,11 @@ namespace dtk
                 {
                     _p->callback(_p->path);
                 }
+            });
+        p.lineEdit->setTextChangedCallback(
+            [this](const std::string&)
+            {
+                _widgetUpdate();
             });
 
         p.browseButton->setClickedCallback(
@@ -68,6 +75,7 @@ namespace dtk
             {
                 _p->lineEdit->clearText();
                 _p->path = std::string();
+                _widgetUpdate();
                 if (_p->callback)
                 {
                     _p->callback(_p->path);
@@ -103,6 +111,7 @@ namespace dtk
             return;
         p.path = value;
         p.lineEdit->setText(value.string());
+        _widgetUpdate();
     }
 
     void FileEdit::setCallback(const std::function<void(const std::filesystem::path&)>& value)
@@ -135,6 +144,7 @@ namespace dtk
                     {
                         _p->path = value;
                         _p->lineEdit->setText(_p->path.string());
+                        _widgetUpdate();
                         if (_p->callback)
                         {
                             _p->callback(_p->path);
@@ -142,5 +152,13 @@ namespace dtk
                     });
             }
         }
+    }
+
+    void FileEdit::_widgetUpdate()
+    {
+        DTK_P();
+        const std::string& text = p.lineEdit->getText();
+        p.lineEdit->setTooltip(text);
+        p.clearButton->setEnabled(!text.empty());
     }
 }

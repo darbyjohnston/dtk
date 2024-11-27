@@ -45,6 +45,7 @@ namespace dtk
 
     private:
         void _openDialog();
+        void _widgetUpdate();
 
         DTK_PRIVATE();
     };

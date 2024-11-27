@@ -103,26 +103,27 @@ namespace dtk
             p.pos.y - p.size.handle - sizeHint.h,
             sizeHint.w,
             sizeHint.h));
-        struct Intersect
-        {
-            Box2I original;
-            Box2I intersected;
-        };
-        std::vector<Intersect> intersect;
-        for (const auto& box : boxes)
-        {
-            intersect.push_back({ box, dtk::intersect(box, value) });
-        }
         std::stable_sort(
-            intersect.begin(),
-            intersect.end(),
-            [](const Intersect& a, const Intersect& b)
+            boxes.begin(),
+            boxes.end(),
+            [value](const Box2I& a, const Box2I& b)
             {
+                const Box2I intersect = dtk::intersect(a, b);
                 return
-                    area(a.intersected.size()) >
-                    area(b.intersected.size());
+                    area(dtk::intersect(a, value).size()) >
+                    area(dtk::intersect(b, value).size());
             });
-        Box2I g = intersect.front().intersected;
+        Box2I g = boxes.front();
+        if (g.min.x < value.min.x)
+        {
+            g.max.x += value.min.x - g.min.x;
+            g.min.x = value.min.x;
+        }
+        if (g.min.y < value.min.y)
+        {
+            g.max.y += value.min.y - g.min.y;
+            g.min.y = value.min.y;
+        }
         p.label->setGeometry(g);
 
         p.draw.g = g;
