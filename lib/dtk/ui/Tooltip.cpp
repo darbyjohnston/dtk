@@ -103,20 +103,40 @@ namespace dtk
             p.pos.y - p.size.handle - sizeHint.h,
             sizeHint.w,
             sizeHint.h));
-        std::stable_sort(
-            boxes.begin(),
-            boxes.end(),
-            [value](const Box2I& a, const Box2I& b)
+        struct Intersect
+        {
+            Box2I box;
+            float area = 0.F;
+        };
+        std::vector<Intersect> intersect;
+        for (const auto& box : boxes)
+        {
+            intersect.push_back({ box, area(dtk::intersect(box, value)) });
+        }
+        std::sort(
+            intersect.begin(),
+            intersect.end(),
+            [value](const Intersect& a, const Intersect& b)
             {
-                return
-                    area(dtk::intersect(a, value).size()) >
-                    area(dtk::intersect(b, value).size());
+                return a.area > b.area;
             });
         Box2I g = boxes.front();
+        if (g.max.x > value.max.x)
+        {
+            const int diff = g.max.x - value.max.x;
+            g.min.x -= diff;
+            g.max.x -= diff;
+        }
         if (g.min.x < value.min.x)
         {
             g.max.x += value.min.x - g.min.x;
             g.min.x = value.min.x;
+        }
+        if (g.max.y > value.max.y)
+        {
+            const int diff = g.max.y - value.max.y;
+            g.min.y -= diff;
+            g.max.y -= diff;
         }
         if (g.min.y < value.min.y)
         {
