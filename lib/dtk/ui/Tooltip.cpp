@@ -108,7 +108,6 @@ namespace dtk
             boxes.end(),
             [value](const Box2I& a, const Box2I& b)
             {
-                const Box2I intersect = dtk::intersect(a, b);
                 return
                     area(dtk::intersect(a, value).size()) >
                     area(dtk::intersect(b, value).size());
