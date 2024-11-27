@@ -224,7 +224,7 @@ namespace dtk
         DTK_P();
         p.draw.g = _getAlignGeometry();
         p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
-        p.draw.g3 = margin(p.draw.g, -p.size.margin);
+        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
     }
 
     void LineEdit::setVisible(bool value)
