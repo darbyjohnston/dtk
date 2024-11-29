@@ -132,9 +132,22 @@ namespace dtk
         {
             p.recentObserver = ListObserver<std::filesystem::path>::create(
                 p.recentFilesModel->observeRecent(),
-                [this](const std::vector<std::filesystem::path>& value)
+                [this](const std::vector<std::filesystem::path>& paths)
                 {
-                    _p->recent = value;
+                    _p->recent.clear();
+                    for (const auto& path : paths)
+                    {
+                        auto tmp = path;
+                        if (!std::filesystem::is_directory(tmp))
+                        {
+                            tmp = tmp.parent_path();
+                        }
+                        const auto i = std::find(_p->recent.begin(), _p->recent.end(), tmp);
+                        if (i == _p->recent.end())
+                        {
+                            _p->recent.push_back(tmp);
+                        }
+                    }
                     _pathsUpdate();
                 });
         }
