@@ -23,7 +23,8 @@ namespace dtk
             .def(
                 py::init(&RecentFilesModel::create),
                 py::arg("context"),
-                py::arg("settings") = nullptr)
+                py::arg("settings") = nullptr,
+                py::arg("settingsName") = "RecentFiles")
             .def_property(
                 "recentMax",
                 &RecentFilesModel::getRecentMax,

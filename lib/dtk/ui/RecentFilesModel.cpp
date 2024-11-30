@@ -13,17 +13,20 @@ namespace dtk
     struct RecentFilesModel::Private
     {
         std::shared_ptr<Settings> settings;
+        std::string settingsName;
         std::shared_ptr<ObservableValue<size_t> > recentMax;
         std::shared_ptr<ObservableList<std::filesystem::path> > recent;
     };
 
     void RecentFilesModel::_init(
         const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings)
+        const std::shared_ptr<Settings>& settings,
+        const std::string& settingsName)
     {
         DTK_P();
 
         p.settings = settings;
+        p.settingsName = settingsName;
         p.recentMax = ObservableValue<size_t>::create(10);
 
         std::vector<std::filesystem::path> recent;
@@ -31,7 +34,7 @@ namespace dtk
         {
             try
             {
-                const auto json = std::any_cast<nlohmann::json>(p.settings->get("RecentFiles"));
+                const auto json = std::any_cast<nlohmann::json>(p.settings->get(p.settingsName));
                 if (json.is_array())
                 {
                     for (auto i = json.begin(); i != json.end(); ++i)
@@ -60,16 +63,17 @@ namespace dtk
             {
                 json.push_back(recent);
             }
-            p.settings->set("RecentFiles", json);
+            p.settings->set(p.settingsName, json);
         }
     }
 
     std::shared_ptr<RecentFilesModel> RecentFilesModel::create(
         const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings)
+        const std::shared_ptr<Settings>& settings,
+        const std::string& settingsName)
     {
         auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
-        out->_init(context, settings);
+        out->_init(context, settings, settingsName);
         return out;
     }
 
