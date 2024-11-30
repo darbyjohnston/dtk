@@ -10,6 +10,8 @@
 
 namespace dtk
 {
+    class RecentFilesModel;
+
     //! \name File Widgets
     ///@{
 
@@ -39,6 +41,9 @@ namespace dtk
 
         //! Set the callback.
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
+
+        //! Set the recent files model.
+        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;

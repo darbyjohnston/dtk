@@ -44,6 +44,7 @@ set(HEADERS
     RowLayout.h
     ScrollArea.h
     ScrollWidget.h
+    Settings.h
     Style.h
     TabBar.h
     TabWidget.h
@@ -97,6 +98,7 @@ set(SOURCE
     RowLayout.cpp
     ScrollArea.cpp
     ScrollWidget.cpp
+    Settings.cpp
     Style.cpp
     TabBar.cpp
     TabWidget.cpp

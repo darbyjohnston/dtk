@@ -13,6 +13,7 @@
 namespace dtk
 {
     class RecentFilesModel;
+    class Settings;
 
     //! \name File Widgets
     ///@{
@@ -145,19 +146,23 @@ namespace dtk
     class FileBrowserSystem : public ISystem
     {
     protected:
-        FileBrowserSystem(const std::shared_ptr<Context>&);
+        FileBrowserSystem(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<Settings>&);
 
     public:
         virtual ~FileBrowserSystem();
 
         //! Create a new system.
         static std::shared_ptr<FileBrowserSystem> create(
-            const std::shared_ptr<Context>&);
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<Settings>& = nullptr);
 
         //! Open the file browser.
         void open(
             const std::shared_ptr<IWindow>&,
-            const std::function<void(const std::filesystem::path&)>&);
+            const std::function<void(const std::filesystem::path&)>&,
+            const std::shared_ptr<RecentFilesModel>& = nullptr);
 
         //! Get whether the native file dialog is used.
         bool isNativeFileDialog() const;
@@ -176,9 +181,6 @@ namespace dtk
 
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
-
-        //! Get the recent files model.
-        const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
 
     private:
         DTK_PRIVATE();

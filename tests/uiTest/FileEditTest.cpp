@@ -69,7 +69,6 @@ namespace dtk
                 options.reverseSort = true;
                 system->setOptions(options);
                 DTK_ASSERT(options == system->getOptions());
-                DTK_ASSERT(system->getRecentFilesModel());
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);

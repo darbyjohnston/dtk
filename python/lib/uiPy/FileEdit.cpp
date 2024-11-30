@@ -5,6 +5,7 @@
 #include <uiPy/FileEdit.h>
 
 #include <dtk/ui/FileEdit.h>
+#include <dtk/ui/RecentFilesModel.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -30,6 +31,7 @@ namespace dtk
                 {
                     w->setPath(s);
                 })
-            .def("setCallback", &FileEdit::setCallback);
+            .def("setCallback", &FileEdit::setCallback)
+            .def("setRecentFilesModel", &FileEdit::setRecentFilesModel);
     }
 }

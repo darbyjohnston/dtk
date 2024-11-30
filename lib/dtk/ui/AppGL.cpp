@@ -34,6 +34,7 @@ namespace dtk
     struct App::Private
     {
         bool exit = false;
+        std::shared_ptr<Settings> settings;
         std::shared_ptr<FontSystem> fontSystem;
         std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
@@ -49,7 +50,8 @@ namespace dtk
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
-        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
+        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions,
+        const std::shared_ptr<Settings>& settings)
     {
         std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp;
         cmdLineOptionsTmp.push_back(CmdLineFlagOption::create(
@@ -65,9 +67,10 @@ namespace dtk
             cmdLineArgs,
             cmdLineOptionsTmp);
         DTK_P();
-        uiInit(context);
+        uiInit(context, settings);
         gl::init(context);
 
+        p.settings = settings;
         p.fontSystem = context->getSystem<FontSystem>();
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
@@ -99,10 +102,11 @@ namespace dtk
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
-        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
+        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions,
+        const std::shared_ptr<Settings>& settings)
     {
         auto out = std::shared_ptr<App>(new App);
-        out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
+        out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions, settings);
         return out;
     }
 
@@ -125,6 +129,11 @@ namespace dtk
     const std::list<std::shared_ptr<Window> >& App::getWindows() const
     {
         return _p->windows;
+    }
+
+    const std::shared_ptr<Settings>& App::getSettings() const
+    {
+        return _p->settings;
     }
 
     const std::shared_ptr<FontSystem>& App::getFontSystem() const

@@ -4,19 +4,46 @@
 
 #include <dtk/ui/RecentFilesModel.h>
 
+#include <dtk/ui/Settings.h>
+
+#include <nlohmann/json.hpp>
+
 namespace dtk
 {
     struct RecentFilesModel::Private
     {
+        std::shared_ptr<Settings> settings;
         std::shared_ptr<ObservableValue<size_t> > recentMax;
         std::shared_ptr<ObservableList<std::filesystem::path> > recent;
     };
 
-    void RecentFilesModel::_init(const std::shared_ptr<Context>& context)
+    void RecentFilesModel::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Settings>& settings)
     {
         DTK_P();
+
+        p.settings = settings;
         p.recentMax = ObservableValue<size_t>::create(10);
-        p.recent = ObservableList<std::filesystem::path>::create();
+
+        std::vector<std::filesystem::path> recent;
+        if (p.settings)
+        {
+            try
+            {
+                const auto json = std::any_cast<nlohmann::json>(p.settings->get("RecentFiles"));
+                if (json.is_array())
+                {
+                    for (auto i = json.begin(); i != json.end(); ++i)
+                    {
+                        recent.push_back(i->get<std::string>());
+                    }
+                }
+            }
+            catch (const std::exception&)
+            {}
+        }
+        p.recent = ObservableList<std::filesystem::path>::create(recent);
     }
 
     RecentFilesModel::RecentFilesModel() :
@@ -24,13 +51,25 @@ namespace dtk
     {}
 
     RecentFilesModel::~RecentFilesModel()
-    {}
+    {
+        DTK_P();
+        if (p.settings)
+        {
+            nlohmann::json json;
+            for (const auto& recent : p.recent->get())
+            {
+                json.push_back(recent);
+            }
+            p.settings->set("RecentFiles", json);
+        }
+    }
 
     std::shared_ptr<RecentFilesModel> RecentFilesModel::create(
-        const std::shared_ptr<Context>& context)
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Settings>& settings)
     {
         auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
-        out->_init(context);
+        out->_init(context, settings);
         return out;
     }
 

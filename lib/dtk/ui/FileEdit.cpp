@@ -19,6 +19,7 @@ namespace dtk
         std::shared_ptr<ToolButton> clearButton;
         std::shared_ptr<HorizontalLayout> layout;
         std::function<void(const std::filesystem::path&)> callback;
+        std::shared_ptr<RecentFilesModel> recentFilesModel;
     };
 
     void FileEdit::_init(
@@ -119,6 +120,11 @@ namespace dtk
         _p->callback = value;
     }
 
+    void FileEdit::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
+    {
+        _p->recentFilesModel = value;
+    }
+
     void FileEdit::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
@@ -149,7 +155,8 @@ namespace dtk
                         {
                             _p->callback(_p->path);
                         }
-                    });
+                    },
+                    p.recentFilesModel);
             }
         }
     }

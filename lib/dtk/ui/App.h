@@ -13,6 +13,7 @@ namespace dtk
     class FontSystem;
     class IWidget;
     class IconSystem;
+    class Settings;
     class Style;
     class TickEvent;
     class Window;
@@ -27,7 +28,8 @@ namespace dtk
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
-            const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
+            const std::vector<std::shared_ptr<ICmdLineOption> >& = {},
+            const std::shared_ptr<Settings>& = nullptr);
 
         App();
 
@@ -41,7 +43,8 @@ namespace dtk
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
-            const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
+            const std::vector<std::shared_ptr<ICmdLineOption> >& = {},
+            const std::shared_ptr<Settings>& = nullptr);
 
         //! Add a window.
         void addWindow(const std::shared_ptr<Window>&);
@@ -51,6 +54,9 @@ namespace dtk
 
         //! Get the windows.
         const std::list<std::shared_ptr<Window> >& getWindows() const;
+
+        //! Get the settings.
+        const std::shared_ptr<Settings>& getSettings() const;
 
         //! Get the font system.
         const std::shared_ptr<FontSystem>& getFontSystem() const;

@@ -48,6 +48,7 @@
 #include <uiPy/RowLayout.h>
 #include <uiPy/ScrollArea.h>
 #include <uiPy/ScrollWidget.h>
+#include <uiPy/Settings.h>
 #include <uiPy/Style.h>
 #include <uiPy/TabBar.h>
 #include <uiPy/TabWidget.h>
@@ -56,6 +57,7 @@
 #include <uiPy/Window.h>
 
 #include <dtk/ui/Init.h>
+#include <dtk/ui/Settings.h>
 
 #include <dtk/core/Context.h>
 
@@ -67,7 +69,12 @@ namespace dtk
 {
     void uiBind(py::module_& m)
     {
-        m.def("uiInit", &uiInit, "Initialize the library.");
+        m.def(
+            "uiInit",
+            &uiInit,
+            py::arg("context"),
+            py::arg("settings") = nullptr,
+            "Initialize the library.");
 
         style(m);
         event(m);
@@ -78,6 +85,7 @@ namespace dtk
         iDialog(m);
         iWidgetPopup(m);
         iButton(m);
+        settings(m);
 
         app(m);
         bellows(m);

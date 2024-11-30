@@ -5,6 +5,7 @@
 #include <uiPy/RecentFilesModel.h>
 
 #include <dtk/ui/RecentFilesModel.h>
+#include <dtk/ui/Settings.h>
 
 #include <dtk/core/Context.h>
 
@@ -21,7 +22,8 @@ namespace dtk
         py::class_<RecentFilesModel, std::shared_ptr<RecentFilesModel> >(m, "RecentFilesModel")
             .def(
                 py::init(&RecentFilesModel::create),
-                py::arg("context"))
+                py::arg("context"),
+                py::arg("settings") = nullptr)
             .def_property(
                 "recentMax",
                 &RecentFilesModel::getRecentMax,

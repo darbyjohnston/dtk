@@ -9,8 +9,11 @@
 namespace dtk
 {
     class Context;
+    class Settings;
 
     //! Initialize the UI library.
-    void uiInit(const std::shared_ptr<Context>&);
+    void uiInit(
+        const std::shared_ptr<Context>&,
+        const std::shared_ptr<Settings>& = nullptr);
 }
 

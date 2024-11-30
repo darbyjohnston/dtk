@@ -5,6 +5,7 @@
 #include <dtk/ui/FileBrowser.h>
 
 #include <dtk/ui/RecentFilesModel.h>
+#include <dtk/ui/Settings.h>
 
 #include <dtk/core/File.h>
 
@@ -22,16 +23,16 @@ namespace dtk
         std::filesystem::path path;
         FileBrowserOptions options;
         std::shared_ptr<FileBrowser> fileBrowser;
-        std::shared_ptr<RecentFilesModel> recentFilesModel;
     };
 
-    FileBrowserSystem::FileBrowserSystem(const std::shared_ptr<Context>& context) :
+    FileBrowserSystem::FileBrowserSystem(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Settings>& settings) :
         ISystem(context, "dtk::FileBrowserSystem"),
         _p(new Private)
     {
         DTK_P();
         p.path = std::filesystem::current_path();
-        p.recentFilesModel = RecentFilesModel::create(context);
 #if defined(dtk_NFD)
         NFD::Init();
 #endif // dtk_NFD
@@ -44,14 +45,18 @@ namespace dtk
 #endif // dtk_NFD
     }
 
-    std::shared_ptr<FileBrowserSystem> FileBrowserSystem::create(const std::shared_ptr<Context>& context)
+    std::shared_ptr<FileBrowserSystem> FileBrowserSystem::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Settings>& settings)
     {
-        return std::shared_ptr<FileBrowserSystem>(new FileBrowserSystem(context));
+        return std::shared_ptr<FileBrowserSystem>(
+            new FileBrowserSystem(context, settings));
     }
 
     void FileBrowserSystem::open(
         const std::shared_ptr<IWindow>& window,
-        const std::function<void(const std::filesystem::path&)>& callback)
+        const std::function<void(const std::filesystem::path&)>& callback,
+        const std::shared_ptr<RecentFilesModel>& recentFilesModel)
     {
         DTK_P();
         bool native = p.native;
@@ -76,7 +81,7 @@ namespace dtk
                 if (!p.fileBrowser)
                 {
                     p.fileBrowser = FileBrowser::create(context, p.path);
-                    p.fileBrowser->setRecentFilesModel(p.recentFilesModel);
+                    p.fileBrowser->setRecentFilesModel(recentFilesModel);
                 }
                 p.fileBrowser->setOptions(p.options);
                 p.fileBrowser->open(window);
@@ -124,10 +129,5 @@ namespace dtk
     void FileBrowserSystem::setOptions(const FileBrowserOptions& options)
     {
         _p->options = options;
-    }
-
-    const std::shared_ptr<RecentFilesModel>& FileBrowserSystem::getRecentFilesModel() const
-    {
-        return _p->recentFilesModel;
     }
 }
