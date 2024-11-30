@@ -13,12 +13,12 @@
 
 namespace dtk
 {
-    struct FileBrowserDirectoryWidget::Private
+    struct FileBrowserView::Private
     {
         std::filesystem::path path;
         FileBrowserOptions options;
         std::vector<FileBrowserInfo> info;
-        std::vector<std::shared_ptr<FileBrowserButton> > buttons;
+        std::vector<std::shared_ptr<FileBrowserItem> > items;
         std::shared_ptr<ButtonGroup> buttonGroup;
         std::shared_ptr<VerticalLayout> layout;
         std::function<void(const std::filesystem::path&)> callback;
@@ -31,11 +31,11 @@ namespace dtk
         SizeData size;
     };
 
-    void FileBrowserDirectoryWidget::_init(
+    void FileBrowserView::_init(
         const std::shared_ptr<Context>& context,
         const std::shared_ptr<IWidget>& parent)
     {
-        IWidget::_init(context, "dtk::FileBrowserDirectoryWidget", parent);
+        IWidget::_init(context, "dtk::FileBrowserView", parent);
         DTK_P();
 
         setAcceptsKeyFocus(true);
@@ -69,28 +69,28 @@ namespace dtk
         p.current = ObservableValue<int>::create(-1);
     }
 
-    FileBrowserDirectoryWidget::FileBrowserDirectoryWidget() :
+    FileBrowserView::FileBrowserView() :
         _p(new Private)
     {}
 
-    FileBrowserDirectoryWidget::~FileBrowserDirectoryWidget()
+    FileBrowserView::~FileBrowserView()
     {}
 
-    std::shared_ptr<FileBrowserDirectoryWidget> FileBrowserDirectoryWidget::create(
+    std::shared_ptr<FileBrowserView> FileBrowserView::create(
         const std::shared_ptr<Context>& context,
         const std::shared_ptr<IWidget>& parent)
     {
-        auto out = std::shared_ptr<FileBrowserDirectoryWidget>(new FileBrowserDirectoryWidget);
+        auto out = std::shared_ptr<FileBrowserView>(new FileBrowserView);
         out->_init(context, parent);
         return out;
     }
 
-    const std::filesystem::path& FileBrowserDirectoryWidget::getPath() const
+    const std::filesystem::path& FileBrowserView::getPath() const
     {
         return _p->path;
     }
 
-    void FileBrowserDirectoryWidget::setPath(const std::filesystem::path& path)
+    void FileBrowserView::setPath(const std::filesystem::path& path)
     {
         DTK_P();
         if (path == p.path)
@@ -99,22 +99,22 @@ namespace dtk
         _directoryUpdate();
     }
 
-    void FileBrowserDirectoryWidget::reload()
+    void FileBrowserView::reload()
     {
         _directoryUpdate();
     }
 
-    void FileBrowserDirectoryWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
+    void FileBrowserView::setCallback(const std::function<void(const std::filesystem::path&)>& value)
     {
         _p->callback = value;
     }
 
-    const FileBrowserOptions& FileBrowserDirectoryWidget::getOptions() const
+    const FileBrowserOptions& FileBrowserView::getOptions() const
     {
         return _p->options;
     }
 
-    void FileBrowserDirectoryWidget::setOptions(const FileBrowserOptions& value)
+    void FileBrowserView::setOptions(const FileBrowserOptions& value)
     {
         DTK_P();
         if (value == p.options)
@@ -123,37 +123,37 @@ namespace dtk
         _directoryUpdate();
     }
 
-    std::shared_ptr<IObservableValue<int> > FileBrowserDirectoryWidget::observeCurrent() const
+    std::shared_ptr<IObservableValue<int> > FileBrowserView::observeCurrent() const
     {
         return _p->current;
     }
 
-    Box2I FileBrowserDirectoryWidget::getRect(int index) const
+    Box2I FileBrowserView::getRect(int index) const
     {
         DTK_P();
         Box2I out;
-        if (index >= 0 && index < p.buttons.size())
+        if (index >= 0 && index < p.items.size())
         {
-            out = p.buttons[index]->getGeometry();
+            out = p.items[index]->getGeometry();
             out = move(out, -p.layout->getGeometry().min);
         }
         return out;
     }
 
-    void FileBrowserDirectoryWidget::setGeometry(const Box2I& value)
+    void FileBrowserView::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
         DTK_P();
         std::vector<int> columns;
-        for (const auto& button : p.buttons)
+        for (const auto& item : p.items)
         {
             if (columns.empty())
             {
-                columns = button->getTextWidths();
+                columns = item->getTextWidths();
             }
             else
             {
-                const auto textWidths = button->getTextWidths();
+                const auto textWidths = item->getTextWidths();
                 for (size_t i = 0; i < columns.size() && i < textWidths.size(); ++i)
                 {
                     columns[i] = std::max(columns[i], textWidths[i]);
@@ -167,14 +167,14 @@ namespace dtk
                 columns[i] += p.size.spacing;
             }
         }
-        for (const auto& button : p.buttons)
+        for (const auto& item : p.items)
         {
-            button->setColumns(columns);
+            item->setColumns(columns);
         }
         _p->layout->setGeometry(value);
     }
 
-    void FileBrowserDirectoryWidget::sizeHintEvent(const SizeHintEvent& event)
+    void FileBrowserView::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
@@ -182,15 +182,15 @@ namespace dtk
         p.size.spacing = event.style->getSizeRole(SizeRole::Spacing, event.displayScale);
 
         std::vector<int> columns;
-        for (const auto& button : p.buttons)
+        for (const auto& item : p.items)
         {
             if (columns.empty())
             {
-                columns = button->getTextWidths();
+                columns = item->getTextWidths();
             }
             else
             {
-                const auto textWidths = button->getTextWidths();
+                const auto textWidths = item->getTextWidths();
                 for (size_t i = 0; i < columns.size() && i < textWidths.size(); ++i)
                 {
                     columns[i] = std::max(columns[i], textWidths[i]);
@@ -204,9 +204,9 @@ namespace dtk
                 columns[i] += p.size.spacing;
             }
         }
-        for (const auto& button : p.buttons)
+        for (const auto& item : p.items)
         {
-            button->setColumns(columns);
+            item->setColumns(columns);
         }
 
         Size2I sizeHint = p.layout->getSizeHint();
@@ -217,13 +217,13 @@ namespace dtk
         _setSizeHint(sizeHint);
     }
 
-    void FileBrowserDirectoryWidget::keyFocusEvent(bool value)
+    void FileBrowserView::keyFocusEvent(bool value)
     {
         IWidget::keyFocusEvent(value);
         _currentUpdate();
     }
 
-    void FileBrowserDirectoryWidget::keyPressEvent(KeyEvent& event)
+    void FileBrowserView::keyPressEvent(KeyEvent& event)
     {
         DTK_P();
         if (0 == event.modifiers)
@@ -244,17 +244,17 @@ namespace dtk
                 break;
             case Key::End:
                 event.accept = true;
-                _setCurrent(static_cast<int>(p.buttons.size()) - 1);
+                _setCurrent(static_cast<int>(p.items.size()) - 1);
                 break;
             case Key::Enter:
             {
                 const int current = p.current->get();
-                if (current >= 0 && current < p.buttons.size())
+                if (current >= 0 && current < p.items.size())
                 {
                     event.accept = true;
                     takeKeyFocus();
-                    auto button = p.buttons[current];
-                    button->click();
+                    auto item = p.items[current];
+                    item->click();
                 }
                 break;
             }
@@ -274,7 +274,7 @@ namespace dtk
         }
     }
 
-    void FileBrowserDirectoryWidget::keyReleaseEvent(KeyEvent& event)
+    void FileBrowserView::keyReleaseEvent(KeyEvent& event)
     {
         IWidget::keyReleaseEvent(event);
         event.accept = true;
@@ -378,14 +378,14 @@ namespace dtk
         }
     }
 
-    void FileBrowserDirectoryWidget::_directoryUpdate()
+    void FileBrowserView::_directoryUpdate()
     {
         DTK_P();
-        for (const auto& button : p.buttons)
+        for (const auto& item : p.items)
         {
-            button->setParent(nullptr);
+            item->setParent(nullptr);
         }
-        p.buttons.clear();
+        p.items.clear();
         p.buttonGroup->clearButtons();
         p.info.clear();
         list(p.path, p.options, p.info);
@@ -393,34 +393,34 @@ namespace dtk
         {
             for (const auto& info : p.info)
             {
-                auto button = FileBrowserButton::create(context, info);
-                button->setParent(p.layout);
-                p.buttons.push_back(button);
-                p.buttonGroup->addButton(button);
+                auto item = FileBrowserItem::create(context, info);
+                item->setParent(p.layout);
+                p.items.push_back(item);
+                p.buttonGroup->addButton(item);
             }
         }
         _setCurrent(0);
         _currentUpdate();
     }
 
-    void FileBrowserDirectoryWidget::_setCurrent(int value)
+    void FileBrowserView::_setCurrent(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.buttons.size()) - 1);
+        const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
         if (p.current->setIfChanged(tmp))
         {
             _currentUpdate();
         }
     }
 
-    void FileBrowserDirectoryWidget::_currentUpdate()
+    void FileBrowserView::_currentUpdate()
     {
         DTK_P();
         const int current = p.current->get();
         const bool focus = hasKeyFocus();
-        for (size_t i = 0; i < p.buttons.size(); ++i)
+        for (size_t i = 0; i < p.items.size(); ++i)
         {
-            p.buttons[i]->setCurrent(current == i && focus);
+            p.items[i]->setCurrent(current == i && focus);
         }
     }
 }

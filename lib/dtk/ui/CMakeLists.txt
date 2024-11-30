@@ -109,10 +109,10 @@ set(SOURCE
     DrivesModel.cpp
     Event.cpp
     FileBrowser.cpp
-    FileBrowserButton.cpp
-    FileBrowserDirectoryWidget.cpp
-    FileBrowserPathsWidget.cpp
+    FileBrowserItem.cpp
+    FileBrowserShortcuts.cpp
     FileBrowserSystem.cpp
+    FileBrowserView.cpp
     FileBrowserWidget.cpp
     FileEdit.cpp
     FloatEdit.cpp

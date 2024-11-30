@@ -37,10 +37,10 @@ namespace dtk
         std::shared_ptr<ToolButton> backButton;
         std::shared_ptr<ToolButton> reloadButton;
         std::shared_ptr<LineEdit> pathEdit;
-        std::shared_ptr<FileBrowserPathsWidget> pathsWidget;
-        std::shared_ptr<ScrollWidget> pathsScrollWidget;
-        std::shared_ptr<FileBrowserDirectoryWidget> directoryWidget;
-        std::shared_ptr<ScrollWidget> directoryScrollWidget;
+        std::shared_ptr<FileBrowserShortcuts> shortcutsWidget;
+        std::shared_ptr<ScrollWidget> shortcutsScrollWidget;
+        std::shared_ptr<FileBrowserView> view;
+        std::shared_ptr<ScrollWidget> viewScrollWidget;
         std::shared_ptr<SearchBox> searchBox;
         std::shared_ptr<ComboBox> extensionsComboBox;
         std::shared_ptr<ComboBox> sortComboBox;
@@ -100,15 +100,15 @@ namespace dtk
         p.pathEdit->setHStretch(Stretch::Expanding);
         p.pathEdit->setTooltip("Current directory");
 
-        p.pathsWidget = FileBrowserPathsWidget::create(context);
-        p.pathsScrollWidget = ScrollWidget::create(context);
-        p.pathsScrollWidget->setWidget(p.pathsWidget);
-        p.pathsScrollWidget->setVStretch(Stretch::Expanding);
+        p.shortcutsWidget = FileBrowserShortcuts::create(context);
+        p.shortcutsScrollWidget = ScrollWidget::create(context);
+        p.shortcutsScrollWidget->setWidget(p.shortcutsWidget);
+        p.shortcutsScrollWidget->setVStretch(Stretch::Expanding);
 
-        p.directoryWidget = FileBrowserDirectoryWidget::create(context);
-        p.directoryScrollWidget = ScrollWidget::create(context);
-        p.directoryScrollWidget->setWidget(p.directoryWidget);
-        p.directoryScrollWidget->setVStretch(Stretch::Expanding);
+        p.view = FileBrowserView::create(context);
+        p.viewScrollWidget = ScrollWidget::create(context);
+        p.viewScrollWidget->setWidget(p.view);
+        p.viewScrollWidget->setVStretch(Stretch::Expanding);
 
         p.searchBox = SearchBox::create(context);
         p.searchBox->setTooltip("Filter");
@@ -147,8 +147,8 @@ namespace dtk
         p.pathEdit->setParent(hLayout);
         p.splitter = Splitter::create(context, Orientation::Horizontal, vLayout);
         p.splitter->setSplit({ 0.2 });
-        p.pathsScrollWidget->setParent(p.splitter);
-        p.directoryScrollWidget->setParent(p.splitter);
+        p.shortcutsScrollWidget->setParent(p.splitter);
+        p.viewScrollWidget->setParent(p.splitter);
         hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::SpacingSmall);
         p.searchBox->setParent(hLayout);
@@ -202,7 +202,7 @@ namespace dtk
         p.reloadButton->setClickedCallback(
             [this]
             {
-                _p->directoryWidget->reload();
+                _p->view->reload();
             });
 
         p.pathEdit->setTextCallback(
@@ -211,13 +211,13 @@ namespace dtk
                 _setPath(value);
             });
 
-        p.pathsWidget->setCallback(
+        p.shortcutsWidget->setCallback(
             [this](const std::filesystem::path& value)
             {
                 _setPath(value);
             });
 
-        p.directoryWidget->setCallback(
+        p.view->setCallback(
             [this](const std::filesystem::path& value)
             {
                 DTK_P();
@@ -243,7 +243,7 @@ namespace dtk
             {
                 DTK_P();
                 p.options.search = value;
-                p.directoryWidget->setOptions(p.options);
+                p.view->setOptions(p.options);
                 if (p.optionsCallback)
                 {
                     p.optionsCallback(p.options);
@@ -257,7 +257,7 @@ namespace dtk
                 if (value >= 0 && value < p.extensions.size())
                 {
                     p.options.extension = p.extensions[value];
-                    p.directoryWidget->setOptions(p.options);
+                    p.view->setOptions(p.options);
                     if (p.optionsCallback)
                     {
                         p.optionsCallback(p.options);
@@ -270,7 +270,7 @@ namespace dtk
             {
                 DTK_P();
                 p.options.sort = static_cast<FileBrowserSort>(value);
-                p.directoryWidget->setOptions(p.options);
+                p.view->setOptions(p.options);
                 if (p.optionsCallback)
                 {
                     p.optionsCallback(p.options);
@@ -282,7 +282,7 @@ namespace dtk
             {
                 DTK_P();
                 p.options.reverseSort = value;
-                p.directoryWidget->setOptions(p.options);
+                p.view->setOptions(p.options);
                 if (p.optionsCallback)
                 {
                     p.optionsCallback(p.options);
@@ -317,13 +317,13 @@ namespace dtk
             });
 
         p.currentObserver = ValueObserver<int>::create(
-            p.directoryWidget->observeCurrent(),
+            p.view->observeCurrent(),
             [this](int value)
             {
                 if (value >= 0)
                 {
-                    const Box2I r = _p->directoryWidget->getRect(value);
-                    _p->directoryScrollWidget->scrollTo(r);
+                    const Box2I r = _p->view->getRect(value);
+                    _p->viewScrollWidget->scrollTo(r);
                 }
             });
     }
@@ -365,7 +365,7 @@ namespace dtk
 
     const FileBrowserOptions& FileBrowserWidget::getOptions() const
     {
-        return _p->directoryWidget->getOptions();
+        return _p->view->getOptions();
     }
 
     void FileBrowserWidget::setOptions(const FileBrowserOptions& value)
@@ -391,7 +391,7 @@ namespace dtk
     {
         DTK_P();
         p.recentFilesModel = value;
-        p.pathsWidget->setRecentFilesModel(value);
+        p.shortcutsWidget->setRecentFilesModel(value);
     }
 
     void FileBrowserWidget::setGeometry(const Box2I& value)
@@ -429,14 +429,14 @@ namespace dtk
         p.forwardButton->setEnabled(p.currentPath < static_cast<int>(p.paths.size()) - 1);
         const std::filesystem::path path = getPath();
         p.pathEdit->setText(path.string());
-        p.directoryWidget->setPath(path);
-        p.directoryScrollWidget->setScrollPos(V2I());
+        p.view->setPath(path);
+        p.viewScrollWidget->setScrollPos(V2I());
     }
 
     void FileBrowserWidget::_optionsUpdate()
     {
         DTK_P();
-        p.directoryWidget->setOptions(p.options);
+        p.view->setOptions(p.options);
         p.searchBox->setText(p.options.search);
 
         std::vector<std::string> extensionsLabels;

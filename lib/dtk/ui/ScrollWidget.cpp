@@ -41,8 +41,6 @@ namespace dtk
         IWidget::_init(context, "dtk::ScrollWidget", parent);
         DTK_P();
 
-        setBackgroundRole(ColorRole::Base);
-
         p.scrollType = scrollType;
 
         p.scrollArea = ScrollArea::create(context, scrollType);

@@ -56,6 +56,7 @@ namespace dtk
         Button,
         Text,
         TextDisabled,
+        Trough,
         Border,
         Hover,
         Pressed,

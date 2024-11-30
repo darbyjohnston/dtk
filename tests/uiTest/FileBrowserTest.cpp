@@ -38,9 +38,9 @@ namespace dtk
         void FileBrowserTest::run()
         {
             _enums();
-            _pathsWidget();
-            _button();
-            _directoryWidget();
+            _shortcuts();
+            _item();
+            _view();
             _widget();
             _dialog();
         }
@@ -50,7 +50,7 @@ namespace dtk
             DTK_TEST_ENUM(FileBrowserSort);
         }
 
-        void FileBrowserTest::_pathsWidget()
+        void FileBrowserTest::_shortcuts()
         {
             if (auto context = _context.lock())
             {
@@ -66,7 +66,7 @@ namespace dtk
                 window->show();
                 app->tick();
 
-                auto widget = FileBrowserPathsWidget::create(context, window);
+                auto widget = FileBrowserShortcuts::create(context, window);
                 std::filesystem::path path;
                 widget->setCallback(
                     [&path](const std::filesystem::path& value)
@@ -93,7 +93,7 @@ namespace dtk
             }
         }
 
-        void FileBrowserTest::_button()
+        void FileBrowserTest::_item()
         {
             if (auto context = _context.lock())
             {
@@ -113,10 +113,10 @@ namespace dtk
 
                 FileBrowserInfo info;
                 info.path = std::filesystem::current_path();
-                auto button = FileBrowserButton::create(context, info, layout);
+                auto item = FileBrowserItem::create(context, info, layout);
 
                 window->setCursorEnter(true);
-                Box2I g = button->getGeometry();
+                Box2I g = item->getGeometry();
                 V2I c = center(g);
                 window->setCursorPos(c);
                 window->setButton(0);
@@ -124,7 +124,7 @@ namespace dtk
             }
         }
 
-        void FileBrowserTest::_directoryWidget()
+        void FileBrowserTest::_view()
         {
             if (auto context = _context.lock())
             {
@@ -140,31 +140,31 @@ namespace dtk
                 window->show();
                 app->tick();
 
-                auto widget = FileBrowserDirectoryWidget::create(context, window);
+                auto view = FileBrowserView::create(context, window);
                 std::filesystem::path path = std::filesystem::current_path();
-                widget->setPath(path);
-                widget->setPath(path);
-                DTK_ASSERT(path == widget->getPath());
-                widget->reload();
+                view->setPath(path);
+                view->setPath(path);
+                DTK_ASSERT(path == view->getPath());
+                view->reload();
                 FileBrowserOptions options;
                 options.reverseSort = true;
-                widget->setOptions(options);
-                widget->setOptions(options);
-                DTK_ASSERT(options == widget->getOptions());
-                widget->setCallback(
+                view->setOptions(options);
+                view->setOptions(options);
+                DTK_ASSERT(options == view->getOptions());
+                view->setCallback(
                     [&path](const std::filesystem::path& value)
                     {
                         path = value;
                     });
 
                 options.sort = FileBrowserSort::Extension;
-                widget->setOptions(options);
+                view->setOptions(options);
                 app->tick();
                 options.sort = FileBrowserSort::Size;
-                widget->setOptions(options);
+                view->setOptions(options);
                 app->tick();
                 options.sort = FileBrowserSort::Time;
-                widget->setOptions(options);
+                view->setOptions(options);
                 app->tick();
 
                 window->setCursorEnter(true);

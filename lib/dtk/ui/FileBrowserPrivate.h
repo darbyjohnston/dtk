@@ -10,19 +10,19 @@
 
 namespace dtk
 {
-    class FileBrowserPathsWidget : public IWidget
+    class FileBrowserShortcuts : public IWidget
     {
     protected:
         void _init(
             const std::shared_ptr<Context>&,
             const std::shared_ptr<IWidget>& parent);
 
-        FileBrowserPathsWidget();
+        FileBrowserShortcuts();
 
     public:
-        virtual ~FileBrowserPathsWidget();
+        virtual ~FileBrowserShortcuts();
 
-        static std::shared_ptr<FileBrowserPathsWidget> create(
+        static std::shared_ptr<FileBrowserShortcuts> create(
             const std::shared_ptr<Context>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -47,7 +47,7 @@ namespace dtk
         std::filesystem::file_time_type time;
     };
 
-    class FileBrowserButton : public IButton
+    class FileBrowserItem : public IButton
     {
     protected:
         void _init(
@@ -55,12 +55,12 @@ namespace dtk
             const FileBrowserInfo&,
             const std::shared_ptr<IWidget>& parent);
 
-        FileBrowserButton();
+        FileBrowserItem();
 
     public:
-        virtual ~FileBrowserButton();
+        virtual ~FileBrowserItem();
 
-        static std::shared_ptr<FileBrowserButton> create(
+        static std::shared_ptr<FileBrowserItem> create(
             const std::shared_ptr<Context>&,
             const FileBrowserInfo&,
             const std::shared_ptr<IWidget>& parent = nullptr);
@@ -80,19 +80,19 @@ namespace dtk
         DTK_PRIVATE();
     };
 
-    class FileBrowserDirectoryWidget : public IWidget
+    class FileBrowserView : public IWidget
     {
     protected:
         void _init(
             const std::shared_ptr<Context>&,
             const std::shared_ptr<IWidget>& parent);
 
-        FileBrowserDirectoryWidget();
+        FileBrowserView();
 
     public:
-        virtual ~FileBrowserDirectoryWidget();
+        virtual ~FileBrowserView();
 
-        static std::shared_ptr<FileBrowserDirectoryWidget> create(
+        static std::shared_ptr<FileBrowserView> create(
             const std::shared_ptr<Context>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 

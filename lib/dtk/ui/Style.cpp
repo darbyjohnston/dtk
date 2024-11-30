@@ -69,6 +69,7 @@ namespace dtk
         "Button",
         "Text",
         "TextDisabled",
+        "Trough",
         "Border",
         "Hover",
         "Pressed",
@@ -95,6 +96,7 @@ namespace dtk
         out[ColorRole::Button] = Color4F(.3F, .3F, .3F);
         out[ColorRole::Text] = Color4F(1.F, 1.F, 1.F);
         out[ColorRole::TextDisabled] = Color4F(.5F, .5F, .5F);
+        out[ColorRole::Trough] = Color4F(.15F, .15F, .15F);
         out[ColorRole::Border] = Color4F(.13F, .13F, .13F);
         out[ColorRole::Hover] = Color4F(1.F, 1.F, 1.F, .1F);
         out[ColorRole::Pressed] = Color4F(1.F, 1.F, 1.F, .2F);

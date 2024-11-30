@@ -14,7 +14,7 @@
 
 namespace dtk
 {
-    struct FileBrowserButton::Private
+    struct FileBrowserItem::Private
     {
         std::vector<std::string> labels;
         std::vector<int> columns;
@@ -42,12 +42,12 @@ namespace dtk
         DrawData draw;
     };
 
-    void FileBrowserButton::_init(
+    void FileBrowserItem::_init(
         const std::shared_ptr<Context>& context,
         const FileBrowserInfo& info,
         const std::shared_ptr<IWidget>& parent)
     {
-        IButton::_init(context, "dtk::FileBrowser", parent);
+        IButton::_init(context, "dtk::FileBrowserItem", parent);
         DTK_P();
 
         setButtonRole(ColorRole::None);
@@ -90,29 +90,29 @@ namespace dtk
         //p.labels.push_back(std::format("{}", info.time));
     }
 
-    FileBrowserButton::FileBrowserButton() :
+    FileBrowserItem::FileBrowserItem() :
         _p(new Private)
     {}
 
-    FileBrowserButton::~FileBrowserButton()
+    FileBrowserItem::~FileBrowserItem()
     {}
 
-    std::shared_ptr<FileBrowserButton> FileBrowserButton::create(
+    std::shared_ptr<FileBrowserItem> FileBrowserItem::create(
         const std::shared_ptr<Context>& context,
         const FileBrowserInfo& info,
         const std::shared_ptr<IWidget>& parent)
     {
-        auto out = std::shared_ptr<FileBrowserButton>(new FileBrowserButton);
+        auto out = std::shared_ptr<FileBrowserItem>(new FileBrowserItem);
         out->_init(context, info, parent);
         return out;
     }
 
-    const std::vector<int>& FileBrowserButton::getTextWidths() const
+    const std::vector<int>& FileBrowserItem::getTextWidths() const
     {
         return _p->size.textWidths;
     }
 
-    void FileBrowserButton::setColumns(const std::vector<int>& value)
+    void FileBrowserItem::setColumns(const std::vector<int>& value)
     {
         DTK_P();
         if (value == p.columns)
@@ -122,7 +122,7 @@ namespace dtk
         _setDrawUpdate();
     }
 
-    void FileBrowserButton::setCurrent(bool value)
+    void FileBrowserItem::setCurrent(bool value)
     {
         DTK_P();
         if (value == p.current)
@@ -131,7 +131,7 @@ namespace dtk
         _setDrawUpdate();
     }
 
-    void FileBrowserButton::setGeometry(const Box2I& value)
+    void FileBrowserItem::setGeometry(const Box2I& value)
     {
         IButton::setGeometry(value);
         DTK_P();
@@ -139,7 +139,7 @@ namespace dtk
         p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
     }
 
-    void FileBrowserButton::sizeHintEvent(const SizeHintEvent& event)
+    void FileBrowserItem::sizeHintEvent(const SizeHintEvent& event)
     {
         IButton::sizeHintEvent(event);
         DTK_P();
@@ -181,7 +181,7 @@ namespace dtk
         _setSizeHint(sizeHint);
     }
 
-    void FileBrowserButton::clipEvent(const Box2I& clipRect, bool clipped)
+    void FileBrowserItem::clipEvent(const Box2I& clipRect, bool clipped)
     {
         IWidget::clipEvent(clipRect, clipped);
         DTK_P();
@@ -191,7 +191,7 @@ namespace dtk
         }
     }
 
-    void FileBrowserButton::drawEvent(
+    void FileBrowserItem::drawEvent(
         const Box2I& drawRect,
         const DrawEvent& event)
     {

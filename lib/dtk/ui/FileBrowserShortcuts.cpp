@@ -17,7 +17,7 @@
 
 namespace dtk
 {
-    struct FileBrowserPathsWidget::Private
+    struct FileBrowserShortcuts::Private
     {
         std::shared_ptr<DrivesModel> drivesModel;
         std::vector<std::filesystem::path> drives;
@@ -32,11 +32,11 @@ namespace dtk
         std::shared_ptr<ListObserver<std::filesystem::path> > recentObserver;
     };
 
-    void FileBrowserPathsWidget::_init(
+    void FileBrowserShortcuts::_init(
         const std::shared_ptr<Context>& context,
         const std::shared_ptr<IWidget>& parent)
     {
-        IWidget::_init(context, "dtk::FileBrowserPathsWidget", parent);
+        IWidget::_init(context, "dtk::FileBrowserShortcuts", parent);
         DTK_P();
 
         setBackgroundRole(ColorRole::Base);
@@ -102,28 +102,28 @@ namespace dtk
             });
     }
 
-    FileBrowserPathsWidget::FileBrowserPathsWidget() :
+    FileBrowserShortcuts::FileBrowserShortcuts() :
         _p(new Private)
     {}
 
-    FileBrowserPathsWidget::~FileBrowserPathsWidget()
+    FileBrowserShortcuts::~FileBrowserShortcuts()
     {}
 
-    std::shared_ptr<FileBrowserPathsWidget> FileBrowserPathsWidget::create(
+    std::shared_ptr<FileBrowserShortcuts> FileBrowserShortcuts::create(
         const std::shared_ptr<Context>& context,
         const std::shared_ptr<IWidget>& parent)
     {
-        auto out = std::shared_ptr<FileBrowserPathsWidget>(new FileBrowserPathsWidget);
+        auto out = std::shared_ptr<FileBrowserShortcuts>(new FileBrowserShortcuts);
         out->_init(context, parent);
         return out;
     }
 
-    void FileBrowserPathsWidget::setCallback(const std::function<void(const std::filesystem::path&)>& value)
+    void FileBrowserShortcuts::setCallback(const std::function<void(const std::filesystem::path&)>& value)
     {
         _p->callback = value;
     }
 
-    void FileBrowserPathsWidget::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
+    void FileBrowserShortcuts::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
     {
         DTK_P();
         p.recentObserver.reset();
@@ -153,19 +153,19 @@ namespace dtk
         }
     }
 
-    void FileBrowserPathsWidget::setGeometry(const Box2I& value)
+    void FileBrowserShortcuts::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
         _p->layout->setGeometry(value);
     }
 
-    void FileBrowserPathsWidget::sizeHintEvent(const SizeHintEvent& event)
+    void FileBrowserShortcuts::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
         _setSizeHint(_p->layout->getSizeHint());
     }
 
-    void FileBrowserPathsWidget::_pathsUpdate()
+    void FileBrowserShortcuts::_pathsUpdate()
     {
         DTK_P();
 
