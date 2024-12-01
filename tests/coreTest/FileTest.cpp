@@ -77,6 +77,7 @@ namespace dtk
                 DTK_ASSERT("b" == pieces[1]);
                 DTK_ASSERT("c" == pieces[2]);
             }
+#if defined(_WINDOWS)
             {
                 const std::vector<std::string> pieces = split("c:");
                 DTK_ASSERT(1 == pieces.size());
@@ -93,6 +94,7 @@ namespace dtk
                 DTK_ASSERT("c:\\" == pieces[0]);
                 DTK_ASSERT("a" == pieces[1]);
             }
+#endif // _WINDOWS
         }
 
         void FileTest::_drives()
