@@ -61,7 +61,7 @@ namespace dtk
         p.bellows["Recent"]->setOpen(true);
         p.bellows["Recent"]->setWidget(p.listWidgets["Recent"]);
 
-        _pathsUpdate();
+        _widgetUpdate();
 
         p.listWidgets["Drives"]->setCallback(
             [this](int index, bool)
@@ -98,7 +98,7 @@ namespace dtk
             [this](const std::vector<std::filesystem::path>& value)
             {
                 _p->drives = value;
-                _pathsUpdate();
+                _widgetUpdate();
             });
     }
 
@@ -148,7 +148,7 @@ namespace dtk
                             _p->recent.push_back(tmp);
                         }
                     }
-                    _pathsUpdate();
+                    _widgetUpdate();
                 });
         }
     }
@@ -165,7 +165,7 @@ namespace dtk
         _setSizeHint(_p->layout->getSizeHint());
     }
 
-    void FileBrowserShortcuts::_pathsUpdate()
+    void FileBrowserShortcuts::_widgetUpdate()
     {
         DTK_P();
 

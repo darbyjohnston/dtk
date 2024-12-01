@@ -6,13 +6,15 @@
 
 #include <dtk/ui/Settings.h>
 
+#include <dtk/core/Context.h>
+
 #include <nlohmann/json.hpp>
 
 namespace dtk
 {
     struct RecentFilesModel::Private
     {
-        std::shared_ptr<Settings> settings;
+        std::weak_ptr<Context> context;
         std::string settingsName;
         std::shared_ptr<ObservableValue<size_t> > recentMax;
         std::shared_ptr<ObservableList<std::filesystem::path> > recent;
@@ -20,32 +22,29 @@ namespace dtk
 
     void RecentFilesModel::_init(
         const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings,
         const std::string& settingsName)
     {
         DTK_P();
 
-        p.settings = settings;
+        p.context = context;
         p.settingsName = settingsName;
         p.recentMax = ObservableValue<size_t>::create(10);
 
         std::vector<std::filesystem::path> recent;
-        if (p.settings)
+        try
         {
-            try
+            auto settings = context->getSystem<Settings>();
+            const auto json = std::any_cast<nlohmann::json>(settings->get(p.settingsName));
+            if (json.is_array())
             {
-                const auto json = std::any_cast<nlohmann::json>(p.settings->get(p.settingsName));
-                if (json.is_array())
+                for (auto i = json.begin(); i != json.end(); ++i)
                 {
-                    for (auto i = json.begin(); i != json.end(); ++i)
-                    {
-                        recent.push_back(i->get<std::string>());
-                    }
+                    recent.push_back(i->get<std::string>());
                 }
             }
-            catch (const std::exception&)
-            {}
         }
+        catch (const std::exception&)
+        {}
         p.recent = ObservableList<std::filesystem::path>::create(recent);
     }
 
@@ -56,24 +55,24 @@ namespace dtk
     RecentFilesModel::~RecentFilesModel()
     {
         DTK_P();
-        if (p.settings)
+        if (auto context = p.context.lock())
         {
             nlohmann::json json;
             for (const auto& recent : p.recent->get())
             {
                 json.push_back(recent);
             }
-            p.settings->set(p.settingsName, json);
+            auto settings = context->getSystem<Settings>();
+            settings->set(p.settingsName, json);
         }
     }
 
     std::shared_ptr<RecentFilesModel> RecentFilesModel::create(
         const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings,
         const std::string& settingsName)
     {
         auto out = std::shared_ptr<RecentFilesModel>(new RecentFilesModel);
-        out->_init(context, settings, settingsName);
+        out->_init(context, settingsName);
         return out;
     }
 

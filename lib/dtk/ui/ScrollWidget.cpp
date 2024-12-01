@@ -15,6 +15,7 @@ namespace dtk
     {
         ScrollType scrollType = ScrollType::Both;
         bool scrollBarsVisible = true;
+        bool scrollBarsAutoHide = true;
         bool scrollEventsEnabled = true;
         bool border = true;
         std::shared_ptr<IWidget> widget;
@@ -173,6 +174,8 @@ namespace dtk
         {
             p.widget->setParent(_p->scrollArea);
         }
+        _setSizeUpdate();
+        _setDrawUpdate();
     }
 
     Box2I ScrollWidget::getViewport() const
@@ -207,17 +210,7 @@ namespace dtk
 
     bool ScrollWidget::areScrollBarsVisible() const
     {
-        DTK_P();
-        bool out = false;
-        if (p.horizontalScrollBar)
-        {
-            out |= p.horizontalScrollBar->isVisible(false);
-        }
-        if (p.verticalScrollBar)
-        {
-            out |= p.verticalScrollBar->isVisible(false);
-        }
-        return out;
+        return _p->scrollBarsVisible;
     }
 
     void ScrollWidget::setScrollBarsVisible(bool value)
@@ -226,14 +219,21 @@ namespace dtk
         if (value == p.scrollBarsVisible)
             return;
         p.scrollBarsVisible = value;
-        if (p.horizontalScrollBar)
-        {
-            p.horizontalScrollBar->setVisible(value);
-        }
-        if (p.verticalScrollBar)
-        {
-            p.verticalScrollBar->setVisible(value);
-        }
+        _scrollBarsUpdate();
+    }
+
+    bool ScrollWidget::getScrollBarsAutoHide() const
+    {
+        return _p->scrollBarsAutoHide;
+    }
+
+    void ScrollWidget::setScrollBarsAutoHide(bool value)
+    {
+        DTK_P();
+        if (value == p.scrollBarsAutoHide)
+            return;
+        p.scrollBarsAutoHide = value;
+        _scrollBarsUpdate();
     }
 
     bool ScrollWidget::areScrollEventsEnabled() const
@@ -275,7 +275,9 @@ namespace dtk
     void ScrollWidget::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
-        _p->layout->setGeometry(value);
+        DTK_P();
+        p.layout->setGeometry(value);
+        _scrollBarsUpdate();
     }
 
     void ScrollWidget::sizeHintEvent(const SizeHintEvent& event)
@@ -367,5 +369,30 @@ namespace dtk
         DTK_P();
         const Size2I scrollAreaSize = p.scrollArea->getGeometry().size();
         return scrollAreaSize.h;
+    }
+
+    void ScrollWidget::_scrollBarsUpdate()
+    {
+        DTK_P();
+        const Size2I scrollSize = p.scrollArea->getScrollSize();
+        const Size2I scrollAreaSize = p.scrollArea->getGeometry().size();
+        if (p.horizontalScrollBar)
+        {
+            bool visible = p.scrollBarsVisible;
+            if (p.scrollBarsAutoHide)
+            {
+                visible &= scrollSize.w > scrollAreaSize.w;
+            }
+            p.horizontalScrollBar->setVisible(visible);
+        }
+        if (p.verticalScrollBar)
+        {
+            bool visible = p.scrollBarsVisible;
+            if (p.scrollBarsAutoHide)
+            {
+                visible &= scrollSize.h > scrollAreaSize.h;
+            }
+            p.verticalScrollBar->setVisible(visible);
+        }
     }
 }

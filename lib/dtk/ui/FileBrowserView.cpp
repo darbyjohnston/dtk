@@ -325,8 +325,7 @@ namespace dtk
                 }
             }
             catch (const std::exception&)
-            {
-            }
+            {}
 
             std::function<int(const FileBrowserInfo& a, const FileBrowserInfo& b)> sort;
             switch (options.sort)

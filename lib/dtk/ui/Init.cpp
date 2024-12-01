@@ -15,15 +15,19 @@ namespace dtk
 {
     void uiInit(
         const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings)
+        const std::filesystem::path& settingsPath)
     {
+        if (!context->getSystem<Settings>())
+        {
+            context->addSystem(Settings::create(context, settingsPath));
+        }
         if (!context->getSystem<DialogSystem>())
         {
             context->addSystem(DialogSystem::create(context));
         }
         if (!context->getSystem<FileBrowserSystem>())
         {
-            context->addSystem(FileBrowserSystem::create(context, settings));
+            context->addSystem(FileBrowserSystem::create(context));
         }
         if (!context->getSystem<IconSystem>())
         {

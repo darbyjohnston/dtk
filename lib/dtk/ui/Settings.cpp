@@ -26,29 +26,34 @@ namespace dtk
         std::map<std::string, std::any> settings;
     };
 
-    Settings::Settings(const std::filesystem::path& path) :
+    Settings::Settings(
+        const std::shared_ptr<Context>& context,
+        const std::filesystem::path& path) :
+        ISystem(context, "dtk::Settings"),
         _p(new Private)
     {
         DTK_P();
 
         p.path = path;
 
-        if (path.has_parent_path())
+        if (!p.path.empty())
         {
-            std::filesystem::create_directories(path.parent_path());
-        }
-
-        nlohmann::json json;
-        if (std::filesystem::exists(path))
-        {
-            const std::string contents = read(FileIO::create(path, FileMode::Read));
-            json = nlohmann::json::parse(contents);
-        }
-        if (json.is_object())
-        {
-            for (auto i = json.begin(); i != json.end(); ++i)
+            if (p.path.has_parent_path())
             {
-                p.settings[i.key()] = i.value();
+                std::filesystem::create_directories(p.path.parent_path());
+            }
+            nlohmann::json json;
+            if (std::filesystem::exists(p.path))
+            {
+                const std::string contents = read(FileIO::create(p.path, FileMode::Read));
+                json = nlohmann::json::parse(contents);
+            }
+            if (json.is_object())
+            {
+                for (auto i = json.begin(); i != json.end(); ++i)
+                {
+                    p.settings[i.key()] = i.value();
+                }
             }
         }
     }
@@ -56,23 +61,29 @@ namespace dtk
     Settings::~Settings()
     {
         DTK_P();
-        try
+        if (!p.path.empty())
         {
-            nlohmann::json json;
-            for (const auto& i : p.settings)
+            try
             {
-                json[i.first] = std::any_cast<nlohmann::json>(i.second);
-            }
+                nlohmann::json json;
+                for (const auto& i : p.settings)
+                {
+                    json[i.first] = std::any_cast<nlohmann::json>(i.second);
+                }
 
-            FileIO::create(p.path, FileMode::Write)->write(json.dump(4));
+                FileIO::create(p.path, FileMode::Write)->write(json.dump(4));
+            }
+            catch (const std::exception&)
+            {
+            }
         }
-        catch (const std::exception&)
-        {}
     }
 
-    std::shared_ptr<Settings> Settings::create(const std::filesystem::path& path)
+    std::shared_ptr<Settings> Settings::create(
+        const std::shared_ptr<Context>& context,
+        const std::filesystem::path& path)
     {
-        auto out = std::shared_ptr<Settings>(new Settings(path));
+        auto out = std::shared_ptr<Settings>(new Settings(context, path));
         return out;
     }
 

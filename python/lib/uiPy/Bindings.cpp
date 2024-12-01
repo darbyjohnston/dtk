@@ -73,7 +73,7 @@ namespace dtk
             "uiInit",
             &uiInit,
             py::arg("context"),
-            py::arg("settings") = nullptr,
+            py::arg("settingsPath") = std::filesystem::path(),
             "Initialize the library.");
 
         style(m);

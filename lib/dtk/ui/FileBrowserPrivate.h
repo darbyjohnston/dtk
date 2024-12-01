@@ -10,6 +10,35 @@
 
 namespace dtk
 {
+    class FileBrowserPath : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        FileBrowserPath();
+
+    public:
+        virtual ~FileBrowserPath();
+
+        static std::shared_ptr<FileBrowserPath> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setPath(const std::filesystem::path&);
+
+        void setCallback(const std::function<void(const std::filesystem::path&)>&);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        DTK_PRIVATE();
+    };
+
     class FileBrowserShortcuts : public IWidget
     {
     protected:
@@ -34,7 +63,7 @@ namespace dtk
         void sizeHintEvent(const SizeHintEvent&) override;
 
     private:
-        void _pathsUpdate();
+        void _widgetUpdate();
 
         DTK_PRIVATE();
     };

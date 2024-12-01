@@ -6,7 +6,6 @@
 
 #include <dtk/ui/ProgressDialog.h>
 #include <dtk/ui/RowLayout.h>
-#include <dtk/ui/Settings.h>
 #include <dtk/ui/Window.h>
 
 #include <dtk/core/Timer.h>
@@ -19,8 +18,7 @@ protected:
     void _init(
         const std::shared_ptr<Context>&,
         const std::string& name,
-        const Size2I&,
-        const std::shared_ptr<Settings>&);
+        const Size2I&);
 
     MainWindow();
 
@@ -30,8 +28,7 @@ public:
     static std::shared_ptr<Window> create(
         const std::shared_ptr<Context>&,
         const std::string& name,
-        const Size2I&,
-        const std::shared_ptr<Settings>&);
+        const Size2I&);
 
 private:
     std::shared_ptr<VerticalLayout> _layout;

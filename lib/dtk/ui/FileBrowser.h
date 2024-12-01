@@ -13,7 +13,6 @@
 namespace dtk
 {
     class RecentFilesModel;
-    class Settings;
 
     //! \name File Widgets
     ///@{
@@ -76,11 +75,11 @@ namespace dtk
         //! Get the options.
         const FileBrowserOptions& getOptions() const;
 
+        //! Observe the options.
+        std::shared_ptr<IObservableValue<FileBrowserOptions> > observeOptions() const;
+
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
-
-        //! Set the options callback.
-        void setOptionsCallback(const std::function<void(const FileBrowserOptions&)>&);
 
         //! Get the recent files model.
         const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
@@ -129,6 +128,9 @@ namespace dtk
         //! Get the options.
         const FileBrowserOptions& getOptions() const;
 
+        //! Observe the options.
+        std::shared_ptr<IObservableValue<FileBrowserOptions> > observeOptions() const;
+
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
 
@@ -146,17 +148,14 @@ namespace dtk
     class FileBrowserSystem : public ISystem
     {
     protected:
-        FileBrowserSystem(
-            const std::shared_ptr<Context>&,
-            const std::shared_ptr<Settings>&);
+        FileBrowserSystem(const std::shared_ptr<Context>&);
 
     public:
         virtual ~FileBrowserSystem();
 
         //! Create a new system.
         static std::shared_ptr<FileBrowserSystem> create(
-            const std::shared_ptr<Context>&,
-            const std::shared_ptr<Settings>& = nullptr);
+            const std::shared_ptr<Context>&);
 
         //! Open the file browser.
         void open(

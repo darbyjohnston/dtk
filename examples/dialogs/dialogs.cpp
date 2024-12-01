@@ -15,8 +15,7 @@
 void MainWindow::_init(
     const std::shared_ptr<Context>& context,
     const std::string& name,
-    const Size2I& size,
-    const std::shared_ptr<Settings>& settings)
+    const Size2I& size)
 {
     Window::_init(context, name, size);
 
@@ -96,7 +95,7 @@ void MainWindow::_init(
         });
 
     // File browser.
-    auto recentFilesModel = RecentFilesModel::create(context, settings);
+    auto recentFilesModel = RecentFilesModel::create(context);
     auto fileEdit = FileEdit::create(context, _layout);
     fileEdit->setRecentFilesModel(recentFilesModel);
     fileEdit->setPath("File Browser");
@@ -111,11 +110,10 @@ MainWindow::~MainWindow()
 std::shared_ptr<Window> MainWindow::create(
     const std::shared_ptr<Context>& context,
     const std::string& name,
-    const Size2I& size,
-    const std::shared_ptr<Settings>& settings)
+    const Size2I& size)
 {
     auto out = std::shared_ptr<MainWindow>(new MainWindow);
-    out->_init(context, name, size, settings);
+    out->_init(context, name, size);
     return out;
 }
 
@@ -125,8 +123,14 @@ DTK_MAIN()
     {
         auto context = Context::create();
         auto args = convert(argc, argv);
-        auto settings = Settings::create(getSettingsPath("dtk", "dialogs.settings"));
-        auto app = App::create(context, args, "dialogs", "Dialogs example", {}, {}, settings);
+        auto app = App::create(
+            context,
+            args,
+            "dialogs",
+            "Dialogs example",
+            {},
+            {},
+            getSettingsPath("dtk", "dialogs.settings"));
         if (app->getExit() != 0)
             return app->getExit();
 
@@ -137,8 +141,7 @@ DTK_MAIN()
         auto window = MainWindow::create(
             context,
             "dialogs",
-            Size2I(1280, 960),
-            settings);
+            Size2I(1280, 960));
         app->addWindow(window);
 
         window->show();

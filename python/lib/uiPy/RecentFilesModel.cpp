@@ -5,7 +5,6 @@
 #include <uiPy/RecentFilesModel.h>
 
 #include <dtk/ui/RecentFilesModel.h>
-#include <dtk/ui/Settings.h>
 
 #include <dtk/core/Context.h>
 
@@ -23,7 +22,6 @@ namespace dtk
             .def(
                 py::init(&RecentFilesModel::create),
                 py::arg("context"),
-                py::arg("settings") = nullptr,
                 py::arg("settingsName") = "RecentFiles")
             .def_property(
                 "recentMax",

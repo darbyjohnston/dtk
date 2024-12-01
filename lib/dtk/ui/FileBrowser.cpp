@@ -90,6 +90,11 @@ namespace dtk
         return _p->widget->getOptions();
     }
 
+    std::shared_ptr<IObservableValue<FileBrowserOptions> > FileBrowser::observeOptions() const
+    {
+        return _p->widget->observeOptions();
+    }
+
     void FileBrowser::setOptions(const FileBrowserOptions& value)
     {
         _p->widget->setOptions(value);

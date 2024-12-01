@@ -13,7 +13,9 @@
 #include <nfd.hpp>
 #endif // dtk_NFD
 
-#include <filesystem>
+#include <nlohmann/json.hpp>
+
+#include <sstream>
 
 namespace dtk
 {
@@ -23,34 +25,61 @@ namespace dtk
         std::filesystem::path path;
         FileBrowserOptions options;
         std::shared_ptr<FileBrowser> fileBrowser;
+        std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
+        std::weak_ptr<Settings> settings;
     };
 
-    FileBrowserSystem::FileBrowserSystem(
-        const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings) :
+    FileBrowserSystem::FileBrowserSystem(const std::shared_ptr<Context>& context) :
         ISystem(context, "dtk::FileBrowserSystem"),
         _p(new Private)
     {
         DTK_P();
+
         p.path = std::filesystem::current_path();
+
 #if defined(dtk_NFD)
         NFD::Init();
 #endif // dtk_NFD
+
+        try
+        {
+            auto settings = context->getSystem<Settings>();
+            p.settings = settings;
+            const auto json = std::any_cast<nlohmann::json>(settings->get("FileBrowser"));
+            if (json.is_object())
+            {
+                std::stringstream ss(json["Sort"].get<std::string>());
+                ss >> p.options.sort;
+                p.options.reverseSort = json["ReverseSort"].get<bool>();
+            }
+        }
+        catch (const std::exception&)
+        {}
     }
 
     FileBrowserSystem::~FileBrowserSystem()
     {
+        DTK_P();
+
 #if defined(dtk_NFD)
         NFD::Quit();
 #endif // dtk_NFD
+
+        if (auto settings = p.settings.lock())
+        {
+            nlohmann::json json;
+            std::stringstream ss;
+            ss << p.options.sort;
+            json["Sort"] = ss.str();
+            json["ReverseSort"] = p.options.reverseSort;
+            settings->set("FileBrowser", json);
+        }
     }
 
     std::shared_ptr<FileBrowserSystem> FileBrowserSystem::create(
-        const std::shared_ptr<Context>& context,
-        const std::shared_ptr<Settings>& settings)
+        const std::shared_ptr<Context>& context)
     {
-        return std::shared_ptr<FileBrowserSystem>(
-            new FileBrowserSystem(context, settings));
+        return std::shared_ptr<FileBrowserSystem>(new FileBrowserSystem(context));
     }
 
     void FileBrowserSystem::open(
@@ -81,10 +110,12 @@ namespace dtk
                 if (!p.fileBrowser)
                 {
                     p.fileBrowser = FileBrowser::create(context, p.path);
-                    p.fileBrowser->setRecentFilesModel(recentFilesModel);
                 }
                 p.fileBrowser->setOptions(p.options);
+                p.fileBrowser->setRecentFilesModel(recentFilesModel);
+
                 p.fileBrowser->open(window);
+
                 p.fileBrowser->setCallback(
                     [this, callback](const std::filesystem::path& value)
                     {
@@ -96,6 +127,13 @@ namespace dtk
                     {
                         _p->path = _p->fileBrowser->getPath();
                         _p->options = _p->fileBrowser->getOptions();
+                    });
+
+                p.optionsObserver = ValueObserver<FileBrowserOptions>::create(
+                    p.fileBrowser->observeOptions(),
+                    [this](const FileBrowserOptions& value)
+                    {
+                        _p->options = value;
                     });
             }
         }

@@ -7,7 +7,6 @@
 #include <dtk/ui/FileBrowser.h>
 #include <dtk/ui/IWindow.h>
 #include <dtk/ui/RecentFilesModel.h>
-#include <dtk/ui/Settings.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -22,8 +21,7 @@ namespace dtk
         py::class_<FileBrowserSystem, ISystem, std::shared_ptr<FileBrowserSystem> >(m, "FileBrowserSystem")
             .def(
                 py::init(&FileBrowserSystem::create),
-                py::arg("context"),
-                py::arg("settings") = nullptr)
+                py::arg("context"))
             .def("open", &FileBrowserSystem::open,
                 py::arg("window"),
                 py::arg("callback"),

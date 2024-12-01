@@ -15,6 +15,9 @@ namespace dtk
     //! \name Files
     ///@{
 
+    //! Split a path.
+    std::vector<std::string> split(std::filesystem::path);
+
     //! Get the list of file system drives.
     std::vector<std::filesystem::path> getDrives();
 

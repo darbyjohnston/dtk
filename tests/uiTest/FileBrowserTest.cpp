@@ -216,11 +216,6 @@ namespace dtk
                     {
                         cancel = true;
                     });
-                fileBrowserWidget->setOptionsCallback(
-                    [&options](const FileBrowserOptions& value)
-                    {
-                        options = value;
-                    });
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);

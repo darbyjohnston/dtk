@@ -22,6 +22,11 @@ namespace dtk
                 const std::shared_ptr<Context>&);
 
             void run() override;
+
+        private:
+            void _split();
+            void _drives();
+            void _userPaths();
         };
     }
 }

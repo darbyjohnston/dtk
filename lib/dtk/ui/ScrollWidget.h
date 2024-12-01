@@ -61,6 +61,12 @@ namespace dtk
         //! Set whether the scroll bars are visible.
         void setScrollBarsVisible(bool);
 
+        //! Get whether the scroll bars auto-hide.
+        bool getScrollBarsAutoHide() const;
+
+        //! Set whether the scroll bars auto-hide.
+        void setScrollBarsAutoHide(bool);
+
         //! Get whether scroll events are enabled.
         bool areScrollEventsEnabled() const;
 
@@ -89,6 +95,8 @@ namespace dtk
     private:
         int _getLineStep() const;
         int _getPageStep() const;
+
+        void _scrollBarsUpdate();
 
         DTK_PRIVATE();
     };

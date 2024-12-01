@@ -4,12 +4,10 @@
 
 #pragma once
 
-#include <dtk/core/Util.h>
+#include <dtk/core/ISystem.h>
 
 #include <any>
 #include <filesystem>
-#include <memory>
-#include <string>
 
 namespace dtk
 {
@@ -19,16 +17,20 @@ namespace dtk
         const std::string& fileName);
 
     //! Settings.
-    class Settings : public std::enable_shared_from_this<Settings>
+    class Settings : public ISystem
     {
     protected:
-        Settings(const std::filesystem::path&);
+        Settings(
+            const std::shared_ptr<Context>&,
+            const std::filesystem::path&);
 
     public:
         ~Settings();
 
-        //! Create a new settings.
-        static std::shared_ptr<Settings> create(const std::filesystem::path&);
+        //! Create a new system.
+        static std::shared_ptr<Settings> create(
+            const std::shared_ptr<Context>&,
+            const std::filesystem::path&);
 
         //! Get a value.
         std::any get(const std::string& key);

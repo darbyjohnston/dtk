@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <array>
+#include <list>
 
 namespace dtk
 {
@@ -18,5 +19,24 @@ namespace dtk
         "Desktop",
         "Documents",
         "Downloads");
+
+    std::vector<std::string> split(std::filesystem::path path)
+    {
+        std::list<std::string> out;
+        const std::filesystem::path root = path.root_path();
+        while (!path.empty() && path != root)
+        {
+            if (!path.filename().empty())
+            {
+                out.push_front(path.filename().string());
+            }
+            path = path.parent_path();
+        }
+        if (!path.empty())
+        {
+            out.push_front(path.string());
+        }
+        return std::vector<std::string>(out.begin(), out.end());
+    }
 }
 

@@ -12,7 +12,6 @@
 namespace dtk
 {
     class Context;
-    class Settings;
 
     //! \name File Widgets
     ///@{
@@ -25,7 +24,6 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
-            const std::shared_ptr<Settings>&,
             const std::string& settingsName);
 
         RecentFilesModel();
@@ -36,7 +34,6 @@ namespace dtk
         //! Create a new model.
         static std::shared_ptr<RecentFilesModel> create(
             const std::shared_ptr<Context>&,
-            const std::shared_ptr<Settings>& = nullptr,
             const std::string& settingsName = "RecentFiles");
 
         //! Get the maximum number of recent files.

@@ -30,11 +30,10 @@ namespace dtk
                 py::arg("summary"),
                 py::arg("cmdLineArgs") = std::vector<std::shared_ptr<ICmdLineArg> >(),
                 py::arg("cmdLineOptions") = std::vector<std::shared_ptr<ICmdLineOption> >(),
-                py::arg("settings") = nullptr)
+                py::arg("settingsPath") = std::string())
             .def("addWindow", &App::addWindow, py::arg("window"))
             .def("removeWindow", &App::removeWindow, py::arg("window"))
             .def("getWindows", &App::getWindows)
-            .def("getSettings", &App::getSettings)
             .def("getFontSystem", &App::getFontSystem)
             .def("getIconSystem", &App::getIconSystem)
             .def("getStyle", &App::getStyle)

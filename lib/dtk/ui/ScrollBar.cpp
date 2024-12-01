@@ -19,7 +19,6 @@ namespace dtk
         {
             bool init = true;
             float displayScale = 0.F;
-            int border = 0;
             int handle = 0;
         };
         SizeData size;
@@ -106,7 +105,6 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
         }
 
@@ -121,8 +119,6 @@ namespace dtk
             break;
         default: break;
         }
-        sizeHint.w += p.size.border * 2;
-        sizeHint.h += p.size.border * 2;
         _setSizeHint(sizeHint);
     }
 
@@ -283,7 +279,7 @@ namespace dtk
         }
         default: break;
         }
-        return margin(out, -p.size.border);
+        return out;
     }
 
     int ScrollBar::_getScrollPosMax() const

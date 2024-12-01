@@ -27,10 +27,84 @@ namespace dtk
         
         void FileTest::run()
         {
+            _split();
+            _drives();
+            _userPaths();
+        }
+
+        void FileTest::_split()
+        {
+            {
+                const std::vector<std::string> pieces = split("");
+                DTK_ASSERT(pieces.empty());
+            }
+            {
+                const std::vector<std::string> pieces = split("/");
+                DTK_ASSERT(1 == pieces.size());
+                DTK_ASSERT("/" == pieces[0]);
+            }
+            {
+                const std::vector<std::string> pieces = split("a");
+                DTK_ASSERT(1 == pieces.size());
+                DTK_ASSERT("a" == pieces[0]);
+            }
+            {
+                const std::vector<std::string> pieces = split("/a");
+                DTK_ASSERT(2 == pieces.size());
+                DTK_ASSERT("/" == pieces[0]);
+                DTK_ASSERT("a" == pieces[1]);
+            }
+            {
+                const std::vector<std::string> pieces = split("/a/b/c");
+                DTK_ASSERT(4 == pieces.size());
+                DTK_ASSERT("/" == pieces[0]);
+                DTK_ASSERT("a" == pieces[1]);
+                DTK_ASSERT("b" == pieces[2]);
+                DTK_ASSERT("c" == pieces[3]);
+            }
+            {
+                const std::vector<std::string> pieces = split("/a/b/c/");
+                DTK_ASSERT(4 == pieces.size());
+                DTK_ASSERT("/" == pieces[0]);
+                DTK_ASSERT("a" == pieces[1]);
+                DTK_ASSERT("b" == pieces[2]);
+                DTK_ASSERT("c" == pieces[3]);
+            }
+            {
+                const std::vector<std::string> pieces = split("a/b/c/");
+                DTK_ASSERT(3 == pieces.size());
+                DTK_ASSERT("a" == pieces[0]);
+                DTK_ASSERT("b" == pieces[1]);
+                DTK_ASSERT("c" == pieces[2]);
+            }
+            {
+                const std::vector<std::string> pieces = split("c:");
+                DTK_ASSERT(1 == pieces.size());
+                DTK_ASSERT("c:" == pieces[0]);
+            }
+            {
+                const std::vector<std::string> pieces = split("c:\\");
+                DTK_ASSERT(1 == pieces.size());
+                DTK_ASSERT("c:\\" == pieces[0]);
+            }
+            {
+                const std::vector<std::string> pieces = split("c:\\a");
+                DTK_ASSERT(2 == pieces.size());
+                DTK_ASSERT("c:\\" == pieces[0]);
+                DTK_ASSERT("a" == pieces[1]);
+            }
+        }
+
+        void FileTest::_drives()
+        {
             for (const auto& drive : getDrives())
             {
                 _print(Format("Drive: {0}").arg(drive));
             }
+        }
+
+        void FileTest::_userPaths()
+        {
             for (auto path : getUserPathEnums())
             {
                 _print(Format("{0}: {1}").arg(path).arg(getUserPath(path)));
