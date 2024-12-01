@@ -57,11 +57,11 @@
 #include <uiPy/Window.h>
 
 #include <dtk/ui/Init.h>
-#include <dtk/ui/Settings.h>
 
 #include <dtk/core/Context.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 namespace py = pybind11;
 
@@ -73,7 +73,7 @@ namespace dtk
             "uiInit",
             &uiInit,
             py::arg("context"),
-            py::arg("settingsPath") = std::filesystem::path(),
+            py::arg("settingsPath") = std::string(),
             "Initialize the library.");
 
         style(m);

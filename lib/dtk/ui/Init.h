@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <filesystem>
 #include <memory>
+#include <string>
 
 namespace dtk
 {
@@ -14,6 +14,6 @@ namespace dtk
     //! Initialize the UI library.
     void uiInit(
         const std::shared_ptr<Context>&,
-        const std::filesystem::path& settingsPath = std::filesystem::path());
+        const std::string& settingsPath = std::string());
 }
 

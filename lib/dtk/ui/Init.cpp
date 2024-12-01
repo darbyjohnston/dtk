@@ -15,7 +15,7 @@ namespace dtk
 {
     void uiInit(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& settingsPath)
+        const std::string& settingsPath)
     {
         if (!context->getSystem<Settings>())
         {

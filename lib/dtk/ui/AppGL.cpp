@@ -50,7 +50,7 @@ namespace dtk
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
         const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions,
-        const std::filesystem::path& settingsPath)
+        const std::string& settingsPath)
     {
         std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp;
         cmdLineOptionsTmp.push_back(CmdLineFlagOption::create(
@@ -101,7 +101,7 @@ namespace dtk
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
         const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions,
-        const std::filesystem::path& settingsPath)
+        const std::string& settingsPath)
     {
         auto out = std::shared_ptr<App>(new App);
         out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions, settingsPath);

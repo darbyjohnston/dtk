@@ -6,7 +6,6 @@
 
 #include <dtk/core/IApp.h>
 
-#include <filesystem>
 #include <list>
 
 namespace dtk
@@ -29,7 +28,7 @@ namespace dtk
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
             const std::vector<std::shared_ptr<ICmdLineOption> >& = {},
-            const std::filesystem::path& settingsPath = std::filesystem::path());
+            const std::string& settingsPath = std::string());
 
         App();
 
@@ -44,7 +43,7 @@ namespace dtk
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
             const std::vector<std::shared_ptr<ICmdLineOption> >& = {},
-            const std::filesystem::path& settingsPath = std::filesystem::path());
+            const std::string& settingsPath = std::string());
 
         //! Add a window.
         void addWindow(const std::shared_ptr<Window>&);

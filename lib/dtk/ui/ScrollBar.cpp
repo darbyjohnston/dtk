@@ -19,6 +19,7 @@ namespace dtk
         {
             bool init = true;
             float displayScale = 0.F;
+            int border = 0;
             int handle = 0;
         };
         SizeData size;
@@ -105,6 +106,7 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
         }
 
@@ -258,9 +260,9 @@ namespace dtk
             const int x = p.scrollPos / static_cast<float>(w) * (g.w() - w2);
             out = Box2I(
                 g.x() + x,
-                g.y(),
+                g.y() + p.size.border,
                 w2,
-                g.h());
+                g.h() - p.size.border);
             break;
         }
         case Orientation::Vertical:
@@ -271,9 +273,9 @@ namespace dtk
                 p.size.handle * 2);
             const int y = p.scrollPos / static_cast<float>(h) * (g.h() - h2);
             out = Box2I(
-                g.x(),
+                g.x() + p.size.border,
                 g.y() + y,
-                g.w(),
+                g.w() - p.size.border,
                 h2);
             break;
         }

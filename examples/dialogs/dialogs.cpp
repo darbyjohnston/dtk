@@ -130,7 +130,7 @@ DTK_MAIN()
             "Dialogs example",
             {},
             {},
-            getSettingsPath("dtk", "dialogs.settings"));
+            getSettingsPath("dtk", "dialogs.settings").string());
         if (app->getExit() != 0)
             return app->getExit();
 

@@ -7,12 +7,12 @@ import dtk
 import sys
         
 context = dtk.Context()
-app = dtk.App(context, sys.argv, "buttons", "Buttons example")
+app = dtk.App(context, sys.argv, "bellows", "Bellows example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = dtk.Window(context, "buttons", dtk.Size2I(1280, 960))
+window = dtk.Window(context, "bellows", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
