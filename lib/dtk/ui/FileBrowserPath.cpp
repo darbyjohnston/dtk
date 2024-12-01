@@ -48,6 +48,7 @@ namespace dtk
         p.editButton = ToolButton::create(context, p.layout);
         p.editButton->setCheckable(true);
         p.editButton->setIcon("Edit");
+        p.editButton->setTooltip("Edit the path");
 
         p.stackLayout = StackLayout::create(context, p.layout);
         p.stackLayout->setHStretch(Stretch::Expanding);

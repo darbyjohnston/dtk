@@ -25,6 +25,7 @@ namespace
 #include <Icons/DirectoryBack.h>
 #include <Icons/DirectoryForward.h>
 #include <Icons/DirectoryUp.h>
+#include <Icons/Edit.h>
 #include <Icons/Empty.h>
 #include <Icons/File.h>
 #include <Icons/FileBrowser.h>
@@ -40,6 +41,10 @@ namespace
 #include <Icons/MenuChecked.h>
 #include <Icons/Mute.h>
 #include <Icons/Next.h>
+#include <Icons/PanelBottom.h>
+#include <Icons/PanelLeft.h>
+#include <Icons/PanelRight.h>
+#include <Icons/PanelTop.h>
 #include <Icons/PlaybackForward.h>
 #include <Icons/PlaybackReverse.h>
 #include <Icons/PlaybackStop.h>
@@ -128,6 +133,7 @@ namespace dtk
         p.iconData["DirectoryBack"] = DirectoryBack_svg;
         p.iconData["DirectoryForward"] = DirectoryForward_svg;
         p.iconData["DirectoryUp"] = DirectoryUp_svg;
+        p.iconData["Edit"] = Edit_svg;
         p.iconData["Empty"] = Empty_svg;
         p.iconData["File"] = File_svg;
         p.iconData["FileBrowser"] = FileBrowser_svg;
@@ -143,6 +149,10 @@ namespace dtk
         p.iconData["MenuChecked"] = MenuChecked_svg;
         p.iconData["Mute"] = Mute_svg;
         p.iconData["Next"] = Next_svg;
+        p.iconData["PanelBottom"] = PanelBottom_svg;
+        p.iconData["PanelLeft"] = PanelLeft_svg;
+        p.iconData["PanelRight"] = PanelRight_svg;
+        p.iconData["PanelTop"] = PanelTop_svg;
         p.iconData["PlaybackForward"] = PlaybackForward_svg;
         p.iconData["PlaybackReverse"] = PlaybackReverse_svg;
         p.iconData["PlaybackStop"] = PlaybackStop_svg;
