@@ -35,12 +35,6 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! Get the margin role.
-        SizeRole getMarginRole() const;
-
-        //! Set the margin role.
-        void setMarginRole(SizeRole);
-
         void setText(const std::string&) override;
         void setFontRole(FontRole) override;
 

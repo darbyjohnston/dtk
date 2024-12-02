@@ -153,32 +153,10 @@ namespace dtk
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    pos.x += size.w;
-                    if (sizeHints[count].w > 0)
-                    {
-                        for (size_t i = count + 1; i < sizeHints.size(); ++i)
-                        {
-                            if (sizeHints[i].w > 0)
-                            {
-                                pos.x += p.size.spacing;
-                                break;
-                            }
-                        }
-                    }
+                    pos.x += size.w + p.size.spacing;
                     break;
                 case Orientation::Vertical:
-                    pos.y += size.h;
-                    if (sizeHints[count].h > 0)
-                    {
-                        for (size_t i = count + 1; i < sizeHints.size(); ++i)
-                        {
-                            if (sizeHints[i].h > 0)
-                            {
-                                pos.y += p.size.spacing;
-                                break;
-                            }
-                        }
-                    }
+                    pos.y += size.h + p.size.spacing;
                     break;
                 default: break;
                 }

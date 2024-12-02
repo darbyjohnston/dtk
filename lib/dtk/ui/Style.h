@@ -28,7 +28,7 @@ namespace dtk
         SpacingLarge,
         SpacingTool,
         Border,
-        BorderFocus,
+        LabelPad,
         ScrollArea,
         Slider,
         Handle,

@@ -44,6 +44,7 @@ DTK_MAIN()
         // Create push buttons.
         auto groupBox = GroupBox::create(context, "Push Buttons", layout);
         auto hLayout = HorizontalLayout::create(context, groupBox);
+        hLayout->setSpacingRole(SizeRole::SpacingSmall);
         auto pushButton = PushButton::create(context, "Click", hLayout);
         pushButton->setClickedCallback(
             []
@@ -58,6 +59,7 @@ DTK_MAIN()
         // Create tool buttons.
         groupBox = GroupBox::create(context, "Tool Buttons", layout);
         hLayout = HorizontalLayout::create(context, groupBox);
+        hLayout->setSpacingRole(SizeRole::SpacingSmall);
         auto toolButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
         toolButtonGroup->setCheckedCallback(
             [](int index, bool value)
@@ -90,7 +92,7 @@ DTK_MAIN()
         // Create check boxes.
         groupBox = GroupBox::create(context, "Check Boxes", layout);
         auto vLayout = VerticalLayout::create(context, groupBox);
-        vLayout->setSpacingRole(SizeRole::SpacingTool);
+        vLayout->setSpacingRole(SizeRole::SpacingSmall);
         auto checkBox = CheckBox::create(context, "Check", vLayout);
         checkBox->setCheckedCallback(
             [](bool value)
@@ -103,7 +105,7 @@ DTK_MAIN()
         // Create radio buttons.
         groupBox = GroupBox::create(context, "Radio Buttons", layout);
         vLayout = VerticalLayout::create(context, groupBox);
-        vLayout->setSpacingRole(SizeRole::SpacingTool);
+        vLayout->setSpacingRole(SizeRole::SpacingSmall);
         auto radioButtonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
         radioButtonGroup->setCheckedCallback(
             [](int index, bool value)

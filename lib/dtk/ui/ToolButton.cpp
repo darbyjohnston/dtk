@@ -10,15 +10,13 @@ namespace dtk
 {
     struct ToolButton::Private
     {
-        SizeRole marginRole = SizeRole::MarginInside;
-
         struct SizeData
         {
             bool init = true;
             float displayScale = 0.F;
             int margin = 0;
-            int spacing = 0;
-            int borderFocus = 0;
+            int border = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -29,7 +27,6 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
-            Box2I g3;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
         DrawData draw;
@@ -70,21 +67,6 @@ namespace dtk
         return out;
     }
 
-    SizeRole ToolButton::getMarginRole() const
-    {
-        return _p->marginRole;
-    }
-
-    void ToolButton::setMarginRole(SizeRole value)
-    {
-        DTK_P();
-        if (value == p.marginRole)
-            return;
-        p.marginRole = value;
-        _setSizeUpdate();
-        _setDrawUpdate();
-    }
-
     void ToolButton::setText(const std::string& value)
     {
         const bool changed = value != _text;
@@ -116,8 +98,9 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, acceptsKeyFocus() ?  -p.size.borderFocus : 0);
-        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+        p.draw.g2 = margin(
+            p.draw.g,
+            -(acceptsKeyFocus() ? p.size.border : 0));
     }
 
     void ToolButton::setAcceptsKeyFocus(bool value)
@@ -141,9 +124,9 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -153,8 +136,8 @@ namespace dtk
         Size2I sizeHint;
         if (!_text.empty())
         {
-            sizeHint.w = p.size.textSize.w + p.size.margin * 2;
-            sizeHint.h = p.size.fontMetrics.lineHeight;
+            sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
             if (_icon.empty())
             {
                 const int max = std::max(sizeHint.w, sizeHint.h);
@@ -164,17 +147,12 @@ namespace dtk
         }
         if (_iconImage)
         {
-            if (!_text.empty())
-            {
-                sizeHint.w += p.size.spacing;
-            }
             sizeHint.w += _iconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.margin);
         if (acceptsKeyFocus())
         {
-            sizeHint = margin(sizeHint, p.size.borderFocus);
+            sizeHint = margin(sizeHint, p.size.border);
         }
         _setSizeHint(sizeHint);
     }
@@ -196,20 +174,12 @@ namespace dtk
         IButton::drawEvent(drawRect, event);
         DTK_P();
 
-        // Draw the focus.
-        if (hasKeyFocus())
-        {
-            event.render->drawMesh(
-                border(p.draw.g, p.size.borderFocus),
-                event.style->getColorRole(ColorRole::KeyFocus));
-        }
-
         // Draw the background.
         const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
         if (colorRole != ColorRole::None)
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(colorRole));
         }
 
@@ -217,18 +187,26 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
+        // Draw the focus.
+        if (hasKeyFocus())
+        {
+            event.render->drawMesh(
+                border(p.draw.g, p.size.border),
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
+
         // Draw the icon.
-        int x = p.draw.g3.x();
+        int x = p.draw.g2.x();
         if (_iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
@@ -236,13 +214,13 @@ namespace dtk
                 _iconImage,
                 Box2I(
                     x,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
-            x += iconSize.w + p.size.spacing;
+            x += iconSize.w;
         }
             
         // Draw the text.
@@ -255,8 +233,8 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+                V2I(x + p.size.margin + p.size.pad,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));

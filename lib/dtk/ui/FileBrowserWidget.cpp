@@ -138,7 +138,7 @@ namespace dtk
         vLayout->setMarginRole(SizeRole::MarginSmall);
         vLayout->setVStretch(Stretch::Expanding);
         auto hLayout = HorizontalLayout::create(context, vLayout);
-        hLayout->setSpacingRole(SizeRole::SpacingSmall);
+        hLayout->setSpacingRole(SizeRole::None);
         p.upButton->setParent(hLayout);
         p.backButton->setParent(hLayout);
         p.forwardButton->setParent(hLayout);

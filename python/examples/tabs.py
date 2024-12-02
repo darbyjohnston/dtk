@@ -20,9 +20,10 @@ tabWidget = dtk.TabWidget(context, window)
         
 # Add tabs.
 for i in range(0, 10):
-    label = dtk.Label(context, dtk.getLoremIpsum(1000))
+    label = dtk.Label(context, dtk.getLoremIpsum(100))
     label.marginRole = dtk.SizeRole.MarginSmall
     scrollWidget = dtk.ScrollWidget(context)
+    scrollWidget.border = False
     scrollWidget.widget = label
     tabWidget.addTab("Tab {}".format(i), scrollWidget)
 

@@ -61,7 +61,7 @@ namespace dtk
         _titleLabel->setBackgroundRole(ColorRole::Button);
 
         _label = Label::create(context, text);
-        _label->setMarginRole(SizeRole::MarginSmall);
+        _label->setMarginRole(SizeRole::Margin);
         _label->setAlign(HAlign::Center, VAlign::Top);
 
         _okButton = PushButton::create(context, "OK");
@@ -70,12 +70,11 @@ namespace dtk
         _layout->setSpacingRole(SizeRole::None);
         _titleLabel->setParent(_layout);
         Divider::create(context, Orientation::Vertical, _layout);
-        auto vLayout = VerticalLayout::create(context, _layout);
-        vLayout->setMarginRole(SizeRole::MarginSmall);
-        vLayout->setSpacingRole(SizeRole::SpacingSmall);
-        _label->setParent(vLayout);
-        auto hLayout = HorizontalLayout::create(context, vLayout);
-        hLayout->setSpacingRole(SizeRole::None);
+        _label->setParent(_layout);
+        Divider::create(context, Orientation::Vertical, _layout);
+        auto hLayout = HorizontalLayout::create(context, _layout);
+        hLayout->setMarginRole(SizeRole::MarginSmall);
+        hLayout->setSpacingRole(SizeRole::SpacingSmall);
         auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
         spacer->setHStretch(Stretch::Expanding);
         _okButton->setParent(hLayout);

@@ -41,7 +41,7 @@ DTK_MAIN()
 
         // Add a bellows.
         auto vLayout = VerticalLayout::create(context);
-        vLayout->setMarginRole(SizeRole::Margin);
+        vLayout->setMarginRole(SizeRole::MarginSmall);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
         for (size_t i = 0; i < 10; ++i)
         {
@@ -52,8 +52,8 @@ DTK_MAIN()
 
         // Add a bellows.
         vLayout = VerticalLayout::create(context);
-        vLayout->setMarginRole(SizeRole::Margin);
-        vLayout->setSpacingRole(SizeRole::None);
+        vLayout->setMarginRole(SizeRole::MarginSmall);
+        vLayout->setSpacingRole(SizeRole::SpacingSmall);
         const std::vector<std::string> icons =
         {
             "Audio",
@@ -80,8 +80,8 @@ DTK_MAIN()
 
         // Add a bellows.
         vLayout = VerticalLayout::create(context);
-        vLayout->setMarginRole(SizeRole::Margin);
-        vLayout->setSpacingRole(SizeRole::None);
+        vLayout->setMarginRole(SizeRole::MarginSmall);
+        vLayout->setSpacingRole(SizeRole::SpacingSmall);
         for (size_t i = 0; i < 10; ++i)
         {
             CheckBox::create(context, Format("Check Box {0}").arg(i), vLayout);

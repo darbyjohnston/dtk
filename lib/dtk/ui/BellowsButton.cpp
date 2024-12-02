@@ -15,8 +15,8 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int margin = 0;
-            int spacing = 0;
-            int borderFocus = 0;
+            int border = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -66,7 +66,7 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.borderFocus));
+        p.draw.g2 = margin(p.draw.g, -p.size.border);
     }
 
     void BellowsButton::sizeHintEvent(const SizeHintEvent& event)
@@ -80,8 +80,8 @@ namespace dtk
             p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -91,19 +91,15 @@ namespace dtk
         Size2I sizeHint;
         if (!_text.empty())
         {
-            sizeHint.w = p.size.textSize.w + p.size.margin * 2;
-            sizeHint.h = p.size.fontMetrics.lineHeight;
+            sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
         }
         if (_iconImage)
         {
-            if (!_text.empty())
-            {
-                sizeHint.w += p.size.spacing;
-            }
             sizeHint.w += _iconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        sizeHint = margin(sizeHint, p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -151,7 +147,7 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.borderFocus),
+                border(p.draw.g, p.size.border),
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
@@ -171,7 +167,7 @@ namespace dtk
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
-            x += iconSize.w + p.size.spacing;
+            x += iconSize.w;
         }
 
         // Draw the text.
@@ -184,7 +180,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin,
+                V2I(x + p.size.margin + p.size.pad,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :

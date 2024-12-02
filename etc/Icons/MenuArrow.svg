@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="10"
-   height="10"
-   viewBox="0 0 2.6458332 2.6458333"
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333331 4.2333333"
    version="1.1"
    id="svg8"
    inkscape:version="1.4-rc1 (61ec3f2, 2024-09-26)"
@@ -25,17 +25,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="40.65864"
-     inkscape:cx="5.0050863"
-     inkscape:cy="4.9927887"
+     inkscape:zoom="42.625"
+     inkscape:cx="7.9882698"
+     inkscape:cy="8"
      inkscape:document-units="px"
      inkscape:current-layer="ForwardPlayback"
      showgrid="true"
      units="px"
      inkscape:window-width="1419"
      inkscape:window-height="884"
-     inkscape:window-x="119"
-     inkscape:window-y="72"
+     inkscape:window-x="120"
+     inkscape:window-y="56"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0"
      inkscape:showpageshadow="2"
@@ -46,8 +46,8 @@
        empspacing="10"
        originx="0"
        originy="0"
-       spacingy="1"
-       spacingx="1"
+       spacingy="0.26458331"
+       spacingx="0.26458333"
        units="px" />
   </sodipodi:namedview>
   <metadata
@@ -73,7 +73,7 @@
        inkscape:export-ydpi="96">
       <path
          style="fill:#0f0f0f;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 0.2645834,292.50206 1.0583332,1.32292 1.0583333,-1.32292 z"
+         d="m 1.0583334,293.29581 1.0583332,1.32292 1.0583333,-1.32292 z"
          id="path782"
          sodipodi:nodetypes="cccc" />
     </g>

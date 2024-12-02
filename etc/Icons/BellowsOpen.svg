@@ -2,12 +2,12 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="10"
-   height="10"
-   viewBox="0 0 2.6458332 2.6458333"
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333331 4.2333333"
    version="1.1"
    id="svg8"
-   inkscape:version="1.4-beta3 (01c8a1c, 2024-08-28, custom)"
+   inkscape:version="1.4-rc1 (61ec3f2, 2024-09-26)"
    sodipodi:docname="BellowsOpen.svg"
    inkscape:export-filename="BellowsOpen.png"
    inkscape:export-xdpi="96"
@@ -37,7 +37,7 @@
      units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1010"
-     inkscape:window-x="1913"
+     inkscape:window-x="-6"
      inkscape:window-y="-6"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="0"
@@ -78,7 +78,7 @@
          sodipodi:nodetypes="cccc"
          inkscape:connector-curvature="0"
          id="path4520"
-         d="M 1.6221279e-6,292.23748 1.3229116,293.82497 l 1.32292,-1.58749 z"
+         d="m 0.7937516,293.03123 1.32291,1.58749 1.32292,-1.58749 z"
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.158118px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
   </g>

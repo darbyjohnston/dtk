@@ -23,12 +23,6 @@ namespace dtk
         std::shared_ptr<VerticalLayout> layout;
         std::function<void(const std::filesystem::path&)> callback;
         std::shared_ptr<ObservableValue<int> > current;
-
-        struct SizeData
-        {
-            int spacing = 0;
-        };
-        SizeData size;
     };
 
     void FileBrowserView::_init(
@@ -144,77 +138,33 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        std::vector<int> columns;
+
+        size_t columnsCount = 0;
         for (const auto& item : p.items)
         {
-            if (columns.empty())
-            {
-                columns = item->getTextWidths();
-            }
-            else
-            {
-                const auto textWidths = item->getTextWidths();
-                for (size_t i = 0; i < columns.size() && i < textWidths.size(); ++i)
-                {
-                    columns[i] = std::max(columns[i], textWidths[i]);
-                }
-            }
+            columnsCount = std::max(columnsCount, item->getTextWidths().size());
         }
-        if (!columns.empty())
+        std::vector<int> columns(columnsCount, 0);
+        for (const auto& item : p.items)
         {
-            for (size_t i = 0; i < columns.size() - 1; ++i)
+            const auto textWidths = item->getTextWidths();
+            for (size_t i = 0; i < columns.size() && i < textWidths.size(); ++i)
             {
-                columns[i] += p.size.spacing;
+                columns[i] = std::max(columns[i], textWidths[i]);
             }
         }
         for (const auto& item : p.items)
         {
             item->setColumns(columns);
         }
+
         _p->layout->setGeometry(value);
     }
 
     void FileBrowserView::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
-        DTK_P();
-
-        p.size.spacing = event.style->getSizeRole(SizeRole::Spacing, event.displayScale);
-
-        std::vector<int> columns;
-        for (const auto& item : p.items)
-        {
-            if (columns.empty())
-            {
-                columns = item->getTextWidths();
-            }
-            else
-            {
-                const auto textWidths = item->getTextWidths();
-                for (size_t i = 0; i < columns.size() && i < textWidths.size(); ++i)
-                {
-                    columns[i] = std::max(columns[i], textWidths[i]);
-                }
-            }
-        }
-        if (!columns.empty())
-        {
-            for (size_t i = 0; i < columns.size() - 1; ++i)
-            {
-                columns[i] += p.size.spacing;
-            }
-        }
-        for (const auto& item : p.items)
-        {
-            item->setColumns(columns);
-        }
-
-        Size2I sizeHint = p.layout->getSizeHint();
-        for (size_t i = 0; i < columns.size(); ++i)
-        {
-            sizeHint.w += columns[i];
-        }
-        _setSizeHint(sizeHint);
+        _setSizeHint(_p->layout->getSizeHint());
     }
 
     void FileBrowserView::keyFocusEvent(bool value)

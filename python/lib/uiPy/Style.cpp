@@ -26,7 +26,7 @@ namespace dtk
             .value("SpacingLarge", SizeRole::SpacingLarge)
             .value("SpacingTool", SizeRole::SpacingTool)
             .value("Border", SizeRole::Border)
-            .value("BorderFocus", SizeRole::BorderFocus)
+            .value("LabelPad", SizeRole::LabelPad)
             .value("ScrollArea", SizeRole::ScrollArea)
             .value("Slider", SizeRole::Slider)
             .value("Handle", SizeRole::Handle)

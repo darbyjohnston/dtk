@@ -44,6 +44,7 @@
 #include <uiPy/MessageDialog.h>
 #include <uiPy/ProgressDialog.h>
 #include <uiPy/PushButton.h>
+#include <uiPy/RadioButton.h>
 #include <uiPy/RecentFilesModel.h>
 #include <uiPy/RowLayout.h>
 #include <uiPy/ScrollArea.h>
@@ -120,6 +121,7 @@ namespace dtk
         messageDialog(m);
         progressDialog(m);
         pushButton(m);
+        radioButton(m);
         recentFilesModel(m);
         rowLayout(m);
         scrollArea(m);

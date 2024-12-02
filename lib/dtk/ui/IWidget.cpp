@@ -356,6 +356,7 @@ namespace dtk
             event.accept = true;
         }
         _mouseInside = true;
+        _mousePos = event.pos;
     }
 
     void IWidget::mouseLeaveEvent()
@@ -385,6 +386,7 @@ namespace dtk
         if (_mousePressEnabled && button && modifiers)
         {
             event.accept = true;
+            _mousePos = event.pos;
             _mousePress = true;
             _mousePressPos = event.pos;
         }

@@ -32,13 +32,15 @@ DTK_MAIN()
 
         // Create the tab widget.
         auto tabWidget = TabWidget::create(context, window);
+        //tabWidget->setTabsClosable(true);
 
         // Add tabs.
         for (size_t i = 0; i < 10; ++i)
         {
-            auto label = Label::create(context, getLoremIpsum(1000));
+            auto label = Label::create(context, getLoremIpsum(100));
             label->setMarginRole(SizeRole::MarginSmall);
             auto scrollWidget = ScrollWidget::create(context);
+            scrollWidget->setBorder(false);
             scrollWidget->setWidget(label);
             tabWidget->addTab(Format("Tab {0}").arg(i), scrollWidget);
         }

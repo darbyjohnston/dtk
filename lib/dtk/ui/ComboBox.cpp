@@ -41,9 +41,8 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int margin = 0;
-            int spacing = 0;
             int border = 0;
-            int borderFocus = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -54,7 +53,6 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
-            Box2I g3;
             std::vector<std::shared_ptr<Glyph> > glyphs;
             float iconScale = 1.F;
             std::shared_ptr<Image> iconImage;
@@ -193,8 +191,7 @@ namespace dtk
         IWidget::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
-        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+        p.draw.g2 = margin(p.draw.g, -p.size.border);
     }
 
     void ComboBox::sizeHintEvent(const SizeHintEvent& event)
@@ -207,9 +204,8 @@ namespace dtk
         {
             p.size.displayScale = event.displayScale;
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = Size2I();
@@ -241,24 +237,19 @@ namespace dtk
         }
 
         Size2I sizeHint;
-        sizeHint.w = p.size.textSize.w + p.size.margin * 2;
-        sizeHint.h = p.size.fontMetrics.lineHeight;
+        sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
+        sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
         if (p.draw.iconImage)
         {
-            if (!p.text.empty())
-            {
-                sizeHint.w += p.size.spacing;
-            }
             sizeHint.w += p.draw.iconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, p.draw.iconImage->getHeight());
         }
         if (p.draw.arrowIconImage)
         {
-            sizeHint.w += p.size.spacing;
             sizeHint.w += p.draw.arrowIconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, p.draw.arrowIconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        sizeHint = margin(sizeHint, p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -271,18 +262,9 @@ namespace dtk
 
         // Draw the focus and border.
         const Box2I& g = getGeometry();
-        if (hasKeyFocus())
-        {
-            event.render->drawMesh(
-                border(g, p.size.borderFocus),
-                event.style->getColorRole(ColorRole::KeyFocus));
-        }
-        else
-        {
-            event.render->drawMesh(
-                border(margin(g, p.size.border - p.size.borderFocus), p.size.border),
-                event.style->getColorRole(ColorRole::Border));
-        }
+        event.render->drawMesh(
+            border(g, p.size.border),
+            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the background.
         event.render->drawRect(
@@ -304,7 +286,7 @@ namespace dtk
         }
 
         // Draw the icon.
-        int x = p.draw.g3.x();
+        int x = p.draw.g2.x();
         if (p.draw.iconImage)
         {
             const Size2I& iconSize = p.draw.iconImage->getSize();
@@ -312,13 +294,13 @@ namespace dtk
                 p.draw.iconImage,
                 Box2I(
                     x,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
-            x += iconSize.w + p.size.spacing;
+            x += iconSize.w;
         }
 
         // Draw the text.
@@ -331,8 +313,8 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+                V2I(x + p.size.margin + p.size.pad,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
@@ -345,8 +327,8 @@ namespace dtk
             event.render->drawImage(
                 p.draw.arrowIconImage,
                 Box2I(
-                    p.draw.g3.x() + p.draw.g3.w() - iconSize.w,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
+                    p.draw.g2.x() + p.draw.g2.w() - iconSize.w - p.size.margin,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?

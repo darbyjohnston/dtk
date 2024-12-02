@@ -43,7 +43,7 @@ namespace dtk
         p.clearButton->setTooltip("Clear the file name");
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
-        p.layout->setSpacingRole(SizeRole::SpacingTool);
+        p.layout->setSpacingRole(SizeRole::None);
         p.lineEdit->setParent(p.layout);
         p.browseButton->setParent(p.layout);
         p.clearButton->setParent(p.layout);

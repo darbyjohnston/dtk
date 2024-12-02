@@ -15,10 +15,8 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int margin = 0;
-            int margin2 = 0;
-            int spacing = 0;
             int border = 0;
-            int borderFocus = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -100,13 +98,13 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
+        p.draw.g2 = margin(p.draw.g, -p.size.border);
         p.draw.g3 = margin(
             p.draw.g2,
-            -p.size.margin,
-            -p.size.margin2,
-            -p.size.margin,
-            -p.size.margin2);
+            -p.size.pad,
+            0,
+            -p.size.pad,
+            0);
     }
 
     void PushButton::sizeHintEvent(const SizeHintEvent& event)
@@ -119,11 +117,9 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(SizeRole::Margin, p.size.displayScale);
-            p.size.margin2 = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -133,22 +129,18 @@ namespace dtk
         Size2I sizeHint;
         if (!_text.empty())
         {
-            sizeHint.w = p.size.textSize.w + p.size.margin2 * 2;
-            sizeHint.h = p.size.fontMetrics.lineHeight;
+            sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
         }
         if (_iconImage)
         {
             sizeHint.w += _iconImage->getWidth();
-            if (!_text.empty())
-            {
-                sizeHint.w += p.size.spacing;
-            }
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
         sizeHint = margin(
             sizeHint,
-            p.size.margin + p.size.borderFocus,
-            p.size.margin2 + p.size.borderFocus);
+            p.size.pad + p.size.border,
+            p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -170,19 +162,9 @@ namespace dtk
         DTK_P();
 
         // Draw the focus and border.
-        const Box2I& g = getGeometry();
-        if (hasKeyFocus())
-        {
-            event.render->drawMesh(
-                border(g, p.size.borderFocus),
-                event.style->getColorRole(ColorRole::KeyFocus));
-        }
-        else
-        {
-            event.render->drawMesh(
-                border(margin(g, p.size.border - p.size.borderFocus), p.size.border),
-                event.style->getColorRole(ColorRole::Border));
-        }
+        event.render->drawMesh(
+            border(p.draw.g, p.size.border),
+            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the background.
         const auto mesh = rect(p.draw.g2);
@@ -213,7 +195,7 @@ namespace dtk
         if (_iconImage && !_text.empty())
         {
             const Size2I& iconSize = _iconImage->getSize();
-            x += p.draw.g3.w() / 2 - (iconSize.w + p.size.spacing + p.size.textSize.w + p.size.margin2 * 2) / 2;
+            x += p.draw.g3.w() / 2 - (iconSize.w + p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2) / 2;
         }
         else if (_iconImage)
         {
@@ -222,7 +204,7 @@ namespace dtk
         }
         else if (!_text.empty())
         {
-            x += p.draw.g3.w() / 2 - (p.size.textSize.w + p.size.margin2 * 2) / 2;
+            x += p.draw.g3.w() / 2 - (p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2) / 2;
         }
         if (_iconImage)
         {
@@ -237,7 +219,7 @@ namespace dtk
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
-            x += iconSize.w + p.size.spacing;
+            x += iconSize.w;
         }
         if (!_text.empty())
         {
@@ -248,7 +230,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin2,
+                V2I(x + p.size.margin + p.size.pad,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :

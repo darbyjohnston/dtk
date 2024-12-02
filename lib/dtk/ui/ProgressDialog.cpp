@@ -208,7 +208,7 @@ namespace dtk
         _titleLabel->setBackgroundRole(ColorRole::Button);
 
         _label = Label::create(context, text);
-        _label->setMarginRole(SizeRole::MarginSmall);
+        _label->setMarginRole(SizeRole::MarginInside);
         _label->setVAlign(VAlign::Top);
 
         _progressWidget = ProgressWidget::create(context);
@@ -219,14 +219,14 @@ namespace dtk
         _layout->setSpacingRole(SizeRole::None);
         _titleLabel->setParent(_layout);
         Divider::create(context, Orientation::Vertical, _layout);
-        auto vLayout = VerticalLayout::create(context, _layout);
-        vLayout->setMarginRole(SizeRole::MarginSmall);
-        vLayout->setSpacingRole(SizeRole::SpacingSmall);
-        auto hLayout = HorizontalLayout::create(context, vLayout);
-        hLayout->setSpacingRole(SizeRole::SpacingTool);
+        auto hLayout = HorizontalLayout::create(context, _layout);
+        hLayout->setMarginRole(SizeRole::Margin);
+        hLayout->setSpacingRole(SizeRole::SpacingSmall);
         _label->setParent(hLayout);
         _progressWidget->setParent(hLayout);
-        hLayout = HorizontalLayout::create(context, vLayout);
+        Divider::create(context, Orientation::Vertical, _layout);
+        hLayout = HorizontalLayout::create(context, _layout);
+        hLayout->setMarginRole(SizeRole::MarginSmall);
         hLayout->setSpacingRole(SizeRole::None);
         auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
         spacer->setHStretch(Stretch::Expanding);

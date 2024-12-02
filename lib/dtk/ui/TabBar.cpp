@@ -371,10 +371,7 @@ namespace dtk
                 p.buttonGroup->addButton(button);
                 p.buttons.push_back(button);
 
-                if (p.text.size() > 1 && i < p.text.size() - 1)
-                {
-                    Divider::create(context, Orientation::Horizontal, p.buttonLayout);
-                }
+                Divider::create(context, Orientation::Horizontal, p.buttonLayout);
             }
         }
         p.buttonGroup->setChecked(p.currentTab, true);

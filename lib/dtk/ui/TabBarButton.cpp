@@ -20,9 +20,8 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int margin = 0;
-            int spacing = 0;
-            int borderFocus = 0;
-
+            int border = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -106,7 +105,7 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.borderFocus));
+        p.draw.g2 = margin(p.draw.g, -p.size.border);
         if (p.closeButton)
         {
             const Size2I& closeSizeHint = p.closeButton->getSizeHint();
@@ -128,8 +127,8 @@ namespace dtk
             p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingTool, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -137,15 +136,15 @@ namespace dtk
         }
 
         Size2I sizeHint(
-            p.size.textSize.w + p.size.margin * 2,
-            p.size.fontMetrics.lineHeight);
+            p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2,
+            p.size.fontMetrics.lineHeight + p.size.margin * 2);
         if (p.closeButton)
         {
             const Size2I& closeSizeHint = p.closeButton->getSizeHint();
-            sizeHint.w += p.size.spacing + closeSizeHint.w;
+            sizeHint.w += closeSizeHint.w;
             sizeHint.h = std::max(sizeHint.h, closeSizeHint.h);
         }
-        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        sizeHint = margin(sizeHint, p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -191,7 +190,7 @@ namespace dtk
         if (p.current)
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.borderFocus),
+                border(p.draw.g, p.size.border),
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
@@ -203,7 +202,8 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            V2I(p.draw.g2.x() + p.size.margin, p.draw.g2.y()),
+            V2I(p.draw.g2.x() + p.size.margin + p.size.pad,
+                p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
             event.style->getColorRole(ColorRole::Text));
     }
 }

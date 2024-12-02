@@ -40,6 +40,7 @@ set(HEADERS
     MessageDialog.h
     ProgressDialog.h
     PushButton.h
+    RadioButton.h
     RecentFilesModel.h
     RowLayout.h
     ScrollArea.h
@@ -94,6 +95,7 @@ set(SOURCE
     MessageDialog.cpp
     ProgressDialog.cpp
     PushButton.cpp
+    RadioButton.cpp
     RecentFilesModel.cpp
     RowLayout.cpp
     ScrollArea.cpp

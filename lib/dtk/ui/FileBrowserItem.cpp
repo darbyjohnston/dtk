@@ -25,8 +25,8 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int margin = 0;
-            int spacing = 0;
-            int borderFocus = 0;
+            int border = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             std::vector<int> textWidths;
@@ -136,7 +136,7 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
+        p.draw.g2 = margin(p.draw.g, -p.size.border);
     }
 
     void FileBrowserItem::sizeHintEvent(const SizeHintEvent& event)
@@ -150,8 +150,8 @@ namespace dtk
             p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::Spacing, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textWidths.clear();
@@ -166,18 +166,18 @@ namespace dtk
         Size2I sizeHint;
         if (!p.labels.empty())
         {
-            sizeHint.h = p.size.fontMetrics.lineHeight;
+            for (const int w : p.size.textWidths)
+            {
+                sizeHint.w += w + p.size.pad * 2 + p.size.margin * 2;
+            }
+            sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
         }
         if (_iconImage)
         {
             sizeHint.w += _iconImage->getWidth();
-            if (!p.labels.empty())
-            {
-                sizeHint.w += p.size.spacing;
-            }
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        sizeHint = margin(sizeHint, p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -216,33 +216,33 @@ namespace dtk
         if (p.current)
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.borderFocus),
+                border(p.draw.g, p.size.border),
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the icon.
-        int x = p.draw.g2.x() + p.size.margin;
+        int x = p.draw.g2.x();
         if (_iconImage)
         {
-            const Size2I& size = _iconImage->getSize();
+            const Size2I& iconSize = _iconImage->getSize();
             event.render->drawImage(
                 _iconImage,
                 Box2I(
                     x,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - size.h / 2,
-                    size.w,
-                    size.h),
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                    iconSize.w,
+                    iconSize.h),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
-            x += size.w + p.size.spacing;
+            x += iconSize.w;
         }
 
         // Draw the text.
         int rightColumnsWidth = 0;
         for (size_t i = 1; i < p.columns.size(); ++i)
         {
-            rightColumnsWidth += p.columns[i];
+            rightColumnsWidth += p.columns[i] + p.size.margin * 2 + p.size.pad * 2;
         }
         const bool glyphsInit = p.draw.glyphs.empty();
         for (size_t i = 0; i < p.labels.size() && i < p.columns.size(); ++i)
@@ -255,18 +255,18 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs[i],
                 p.size.fontMetrics,
-                V2I(x + p.size.margin,
+                V2I(x + p.size.margin + p.size.pad,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.fontMetrics.lineHeight / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
             if (0 == i)
             {
-                x = p.draw.g2.max.x - p.size.margin - rightColumnsWidth;
+                x = p.draw.g2.max.x - rightColumnsWidth;
             }
             else
             {
-                x += p.columns[i];
+                x += p.columns[i] + p.size.margin * 2 + p.size.pad * 2;
             }
         }
     }

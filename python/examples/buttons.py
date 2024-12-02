@@ -24,6 +24,7 @@ scrollWidget.widget = layout
 # Create push buttons.
 groupBox = dtk.GroupBox(context, "Push Buttons", layout)
 hLayout = dtk.HorizontalLayout(context, groupBox)
+hLayout.spacingRole = dtk.SizeRole.SpacingSmall
 pushButton = dtk.PushButton(context, "Click", hLayout)
 pushButton.setClickedCallback(lambda: print("Click"))
 pushButton = dtk.PushButton(context, "Text", hLayout)
@@ -34,9 +35,11 @@ pushButton.enabled = False
 # Create tool buttons.
 groupBox = dtk.GroupBox(context, "Tool Buttons", layout)
 hLayout = dtk.HorizontalLayout(context, groupBox)
+hLayout.spacingRole = dtk.SizeRole.SpacingSmall
 toolButtonGroup = dtk.ButtonGroup(context, dtk.ButtonGroupType.Radio)
 toolButtonGroup.setCheckedCallback(lambda index, checked: print("Tool:", index))
 hLayout = dtk.HorizontalLayout(context, groupBox)
+hLayout.spacingRole = dtk.SizeRole.SpacingSmall
 toolIcons = [
     "PlaybackReverse",
     "PlaybackStop",
@@ -60,10 +63,25 @@ toolButtonGroup.addButton(toolButton)
 # Create check boxes.
 groupBox = dtk.GroupBox(context, "Check Boxes", layout)
 vLayout = dtk.VerticalLayout(context, groupBox)
-checkBox = dtk.CheckBox(context, "Checkable", vLayout)
+vLayout.spacingRole = dtk.SizeRole.SpacingSmall
+checkBox = dtk.CheckBox(context, "Check", vLayout)
 checkBox.setCheckedCallback(lambda checked: print("Checked:", checked))
 checkBox = dtk.CheckBox(context, "Disabled", vLayout)
 checkBox.enabled = False
+
+# Create radio buttons.
+groupBox = dtk.GroupBox(context, "Radio Buttons", layout)
+vLayout = dtk.VerticalLayout(context, groupBox)
+vLayout.spacingRole = dtk.SizeRole.SpacingSmall
+radioButtonGroup = dtk.ButtonGroup(context, dtk.ButtonGroupType.Radio)
+radioButtonGroup.setCheckedCallback(lambda index, checked: print("Radio:", index))
+for i in range(0, 3):
+    radioButton = dtk.RadioButton(context, "Radio {}".format(i), vLayout)
+    radioButton.setCheckedCallback(lambda checked: print("Radio:", checked))
+    radioButton.checked = 0 == i
+    radioButtonGroup.addButton(radioButton)
+radioButton = dtk.RadioButton(context, "Disabled", vLayout)
+radioButton.enabled = False
 
 window.show()
 app.run()

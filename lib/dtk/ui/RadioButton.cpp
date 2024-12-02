@@ -17,7 +17,7 @@ namespace dtk
             int margin = 0;
             int spacing = 0;
             int border = 0;
-            int borderFocus = 0;
+            int pad = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -30,7 +30,6 @@ namespace dtk
             Box2I g;
             Box2I g2;
             Box2I g3;
-            Box2I g4;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
         DrawData draw;
@@ -103,11 +102,10 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.borderFocus);
-        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
-        p.draw.g4 = Box2I(
-            p.draw.g3.x(),
-            p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.diameter / 2,
+        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
+        p.draw.g3 = Box2I(
+            p.draw.g2.x(),
+            p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.diameter / 2,
             p.size.diameter,
             p.size.diameter);
     }
@@ -125,7 +123,7 @@ namespace dtk
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
             p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.borderFocus = event.style->getSizeRole(SizeRole::BorderFocus, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
             p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
@@ -136,9 +134,9 @@ namespace dtk
         Size2I sizeHint;
         sizeHint.w += p.size.diameter;
         sizeHint.w += p.size.spacing;
-        sizeHint.w += p.size.textSize.w + p.size.margin * 2;
+        sizeHint.w += p.size.textSize.w + p.size.pad * 2;
         sizeHint.h = p.size.fontMetrics.lineHeight;
-        sizeHint = margin(sizeHint, p.size.margin + p.size.borderFocus);
+        sizeHint = margin(sizeHint, p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -159,34 +157,34 @@ namespace dtk
         IButton::drawEvent(drawRect, event);
         DTK_P();
 
-        // Draw the focus.
-        if (hasKeyFocus())
-        {
-            event.render->drawMesh(
-                border(p.draw.g, p.size.borderFocus),
-                event.style->getColorRole(ColorRole::KeyFocus));
-        }
-
         // Draw the mouse states.
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
+        }
+
+        // Draw the focus.
+        if (hasKeyFocus())
+        {
+            event.render->drawMesh(
+                border(p.draw.g, p.size.border),
+                event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the button.
         event.render->drawMesh(
-            circle(center(p.draw.g4), p.size.diameter / 2),
+            circle(center(p.draw.g3), p.size.diameter / 2),
             event.style->getColorRole(ColorRole::Border));
         event.render->drawMesh(
-            circle(center(p.draw.g4), p.size.diameter / 2 - p.size.border),
+            circle(center(p.draw.g3), p.size.diameter / 2 - p.size.border),
             event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base));
 
         // Draw the text.
@@ -197,7 +195,7 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            V2I(p.draw.g3.x() + p.size.diameter + p.size.spacing + p.size.margin,
+            V2I(p.draw.g3.x() + p.size.diameter + p.size.spacing + p.size.pad,
                 p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
             event.style->getColorRole(isEnabled() ?
                 ColorRole::Text :

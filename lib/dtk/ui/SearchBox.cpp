@@ -32,7 +32,7 @@ namespace dtk
         p.button = ToolButton::create(context);
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
-        p.layout->setSpacingRole(SizeRole::SpacingTool);
+        p.layout->setSpacingRole(SizeRole::None);
         p.lineEdit->setParent(p.layout);
         p.button->setParent(p.layout);
 

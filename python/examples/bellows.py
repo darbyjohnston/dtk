@@ -23,7 +23,7 @@ scrollWidget.widget = layout;
 
 # Add a bellows.
 vLayout = dtk.VerticalLayout(context)
-vLayout.marginRole = dtk.SizeRole.Margin
+vLayout.marginRole = dtk.SizeRole.MarginSmall
 vLayout.spacingRole = dtk.SizeRole.SpacingSmall
 for i in range(0, 10):
     dtk.PushButton(context, "Push Button {}".format(i), vLayout)
@@ -32,8 +32,8 @@ bellows.widget = vLayout
 
 # Add a bellows.
 vLayout = dtk.VerticalLayout(context)
-vLayout.marginRole = dtk.SizeRole.Margin
-vLayout.spacingRole = dtk.SizeRole.SizeRole_None
+vLayout.marginRole = dtk.SizeRole.MarginSmall
+vLayout.spacingRole = dtk.SizeRole.SpacingSmall
 icons = [
     "Audio",
     "Close",
@@ -55,8 +55,8 @@ bellows.widget = vLayout
 
 # Add a bellows.
 vLayout = dtk.VerticalLayout(context)
-vLayout.marginRole = dtk.SizeRole.Margin
-vLayout.spacingRole = dtk.SizeRole.SizeRole_None
+vLayout.marginRole = dtk.SizeRole.MarginSmall
+vLayout.spacingRole = dtk.SizeRole.SpacingSmall
 for i in range(0, 10):
     dtk.CheckBox(context, "Check Box {}".format(i), vLayout)
 bellows = dtk.Bellows(context, "Check Boxes", layout)
