@@ -109,7 +109,6 @@ set(SOURCE
     DrivesModel.cpp
     Event.cpp
     FileBrowser.cpp
-    FileBrowserItem.cpp
     FileBrowserPath.cpp
     FileBrowserShortcuts.cpp
     FileBrowserSystem.cpp

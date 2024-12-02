@@ -4,25 +4,57 @@
 
 #include <dtk/ui/FileBrowserPrivate.h>
 
-#include <dtk/ui/ButtonGroup.h>
-#include <dtk/ui/RowLayout.h>
+#include <dtk/ui/DrawUtil.h>
 
+#include <dtk/core/Format.h>
 #include <dtk/core/String.h>
 
 #include <filesystem>
 
 namespace dtk
 {
+    namespace
+    {
+        struct FileBrowserItem
+        {
+            std::shared_ptr<Image> icon;
+            std::vector<std::string> text;
+            std::vector<Size2I> textSizes;
+            Size2I size;
+        };
+    }
+
     struct FileBrowserView::Private
     {
         std::filesystem::path path;
         FileBrowserOptions options;
         std::vector<FileBrowserInfo> info;
-        std::vector<std::shared_ptr<FileBrowserItem> > items;
-        std::shared_ptr<ButtonGroup> buttonGroup;
-        std::shared_ptr<VerticalLayout> layout;
-        std::function<void(const std::filesystem::path&)> callback;
         std::shared_ptr<ObservableValue<int> > current;
+        std::vector<FileBrowserItem> items;
+        std::function<void(const std::filesystem::path&)> callback;
+
+        float iconScale = 1.F;
+        std::shared_ptr<Image> directoryImage;
+        std::shared_ptr<Image> fileImage;
+
+        struct SizeData
+        {
+            bool init = true;
+            float displayScale = 0.F;
+            int margin = 0;
+            int border = 0;
+            int pad = 0;
+            FontInfo fontInfo;
+            FontMetrics fontMetrics;
+        };
+        SizeData size;
+
+        struct MouseData
+        {
+            int hover = -1;
+            int pressed = -1;
+        };
+        MouseData mouse;
     };
 
     void FileBrowserView::_init(
@@ -34,31 +66,8 @@ namespace dtk
 
         setAcceptsKeyFocus(true);
         setBackgroundRole(ColorRole::Base);
-
-        p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Click);
-
-        p.layout = VerticalLayout::create(context, shared_from_this());
-        p.layout->setSpacingRole(SizeRole::None);
-
-        p.buttonGroup->setClickedCallback(
-            [this](int value)
-            {
-                DTK_P();
-                takeKeyFocus();
-                if (value >= 0 && value < p.info.size())
-                {
-                    const FileBrowserInfo info = p.info[value];
-                    if (p.callback)
-                    {
-                        p.callback(info.path);
-                    }
-                    if (info.isDir)
-                    {
-                        p.path = info.path;
-                        _directoryUpdate();
-                    }
-                }
-            });
+        _setMouseHoverEnabled(true);
+        _setMousePressEnabled(true);
 
         p.current = ObservableValue<int>::create(-1);
     }
@@ -125,52 +134,254 @@ namespace dtk
     Box2I FileBrowserView::getRect(int index) const
     {
         DTK_P();
-        Box2I out;
-        if (index >= 0 && index < p.items.size())
+        int y = 0;
+        int i = 0;
+        for (; i < index && i < p.items.size(); ++i)
         {
-            out = p.items[index]->getGeometry();
-            out = move(out, -p.layout->getGeometry().min);
+            const FileBrowserItem& item = p.items[i];
+            y += item.size.h;
         }
-        return out;
-    }
-
-    void FileBrowserView::setGeometry(const Box2I& value)
-    {
-        IWidget::setGeometry(value);
-        DTK_P();
-
-        size_t columnsCount = 0;
-        for (const auto& item : p.items)
+        int h = 0;
+        if (i < p.items.size())
         {
-            columnsCount = std::max(columnsCount, item->getTextWidths().size());
+            h = p.items[i].size.h;
         }
-        std::vector<int> columns(columnsCount, 0);
-        for (const auto& item : p.items)
-        {
-            const auto textWidths = item->getTextWidths();
-            for (size_t i = 0; i < columns.size() && i < textWidths.size(); ++i)
-            {
-                columns[i] = std::max(columns[i], textWidths[i]);
-            }
-        }
-        for (const auto& item : p.items)
-        {
-            item->setColumns(columns);
-        }
-
-        _p->layout->setGeometry(value);
+        return Box2I(0, y, getGeometry().w(), h);
     }
 
     void FileBrowserView::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
-        _setSizeHint(_p->layout->getSizeHint());
+        DTK_P();
+
+        if (event.displayScale != p.iconScale)
+        {
+            p.iconScale = event.displayScale;
+            p.directoryImage.reset();
+            p.fileImage.reset();
+        }
+        if (!p.directoryImage)
+        {
+            p.directoryImage = event.iconSystem->get("Directory", event.displayScale);
+        }
+        if (!p.fileImage)
+        {
+            p.fileImage = event.iconSystem->get("File", event.displayScale);
+        }
+
+        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
+        if (p.size.init || displayScaleChanged)
+        {
+            p.size.init = false;
+            p.size.displayScale = event.displayScale;
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
+            p.size.fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
+            p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
+            for (size_t i = 0; i < p.info.size() && i < p.items.size(); ++i)
+            {
+                auto& item = p.items[i];
+                item.icon = p.info[i].isDir ? p.directoryImage : p.fileImage;
+                item.size = item.icon ? item.icon->getSize() : Size2I();
+                item.textSizes.clear();
+                for (const auto& text : item.text)
+                {
+                    const Size2I textSize = event.fontSystem->getSize(text, p.size.fontInfo);
+                    item.textSizes.push_back(textSize);
+                    item.size.w += textSize.w + p.size.pad * 2 + p.size.margin * 2;
+                    item.size.h = std::max(item.size.h, textSize.h) + p.size.margin * 2;
+                }
+            }
+        }
+
+        Size2I sizeHint;
+        for (const auto& item : p.items)
+        {
+            sizeHint.w = std::max(sizeHint.w, item.size.w);
+            sizeHint.h += item.size.h;
+        }
+        _setSizeHint(sizeHint);
+    }
+
+    void FileBrowserView::drawEvent(
+        const Box2I& drawRect,
+        const DrawEvent& event)
+    {
+        IWidget::drawEvent(drawRect, event);
+        DTK_P();
+        const Box2I& g = getGeometry();
+
+        // Draw the mouse states.
+        if (p.mouse.pressed != -1)
+        {
+            const Box2I g2 = move(getRect(p.mouse.pressed), g.min);
+            event.render->drawRect(
+                g2,
+                event.style->getColorRole(ColorRole::Pressed));
+        }
+        else if (p.mouse.hover != -1)
+        {
+            const Box2I g2 = move(getRect(p.mouse.hover), g.min);
+            event.render->drawRect(
+                g2,
+                event.style->getColorRole(ColorRole::Hover));
+        }
+
+        // Draw the current state.
+        if (p.current->get() != -1 && hasKeyFocus())
+        {
+            const Box2I g2 = move(getRect(p.current->get()), g.min);
+            event.render->drawMesh(
+                border(g2, p.size.border),
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
+
+        // Draw the items.
+        int y = g.min.y;
+        for (const auto& item : p.items)
+        {
+            int x = g.min.x;
+            const Box2I g2(x, y, item.size.w, item.size.h);
+            if (intersects(g2, drawRect))
+            {
+                if (item.icon)
+                {
+                    const Size2I& iconSize = item.icon->getSize();
+                    event.render->drawImage(
+                        item.icon,
+                        Box2I(
+                            x,
+                            y + item.size.h / 2 - iconSize.h / 2,
+                            iconSize.w,
+                            iconSize.h),
+                        event.style->getColorRole(ColorRole::Text));
+                    x += iconSize.w;
+                }
+                int rightColumnsSize = 0;
+                for (int i = 1; i < item.text.size() && i < item.textSizes.size(); ++i)
+                {
+                    rightColumnsSize += item.textSizes[i].w + p.size.pad * 2 + p.size.margin * 2;
+                }
+                for (int i = 0; i < item.text.size() && i < item.textSizes.size(); ++i)
+                {
+                    const auto glyphs = event.fontSystem->getGlyphs(item.text[i], p.size.fontInfo);
+                    event.render->drawText(
+                        glyphs,
+                        p.size.fontMetrics,
+                        V2I(x + p.size.pad + p.size.margin, y + item.size.h / 2 - item.textSizes[i].h / 2),
+                        event.style->getColorRole(isEnabled() ?
+                            ColorRole::Text :
+                            ColorRole::TextDisabled));
+                    if (0 == i)
+                    {
+                        x = g.max.x - rightColumnsSize;
+                    }
+                    else
+                    {
+                        x += item.textSizes[i].w + +p.size.pad * 2 + p.size.margin * 2;
+                    }
+                }
+            }
+            y += item.size.h;
+        }
+    }
+
+    void FileBrowserView::mouseEnterEvent(MouseEnterEvent& event)
+    {
+        IWidget::mouseEnterEvent(event);
+        DTK_P();
+        const Box2I& g = getGeometry();
+        int hover = -1;
+        int y = 0;
+        for (size_t i = 0; i < p.items.size(); ++i)
+        {
+            const auto& item = p.items[i];
+            const Box2I g2(g.min.x, g.min.y + y, g.w(), item.size.h);
+            if (contains(g2, event.pos))
+            {
+                hover = i;
+                break;
+            }
+            y += item.size.h;
+        }
+        if (hover != p.mouse.hover)
+        {
+            p.mouse.hover = hover;
+            _setDrawUpdate();
+        }
+    }
+
+    void FileBrowserView::mouseLeaveEvent()
+    {
+        IWidget::mouseLeaveEvent();
+        DTK_P();
+        int hover = -1;
+        if (hover != p.mouse.hover)
+        {
+            p.mouse.hover = hover;
+            _setDrawUpdate();
+        }
+    }
+
+    void FileBrowserView::mouseMoveEvent(MouseMoveEvent& event)
+    {
+        IWidget::mouseMoveEvent(event);
+        DTK_P();
+        const Box2I& g = getGeometry();
+        int hover = -1;
+        int y = 0;
+        for (size_t i = 0; i < p.items.size(); ++i)
+        {
+            const auto& item = p.items[i];
+            const Box2I g2(g.min.x, g.min.y + y, g.w(), item.size.h);
+            if (contains(g2, event.pos))
+            {
+                hover = i;
+                break;
+            }
+            y += item.size.h;
+        }
+        if (hover != p.mouse.hover)
+        {
+            p.mouse.hover = hover;
+            _setDrawUpdate();
+        }
+    }
+
+    void FileBrowserView::mousePressEvent(MouseClickEvent& event)
+    {
+        IWidget::mousePressEvent(event);
+        DTK_P();
+        takeKeyFocus();
+        if (p.mouse.hover != -1)
+        {
+            _setCurrent(p.mouse.hover);
+            p.mouse.pressed = p.mouse.hover;
+            _setDrawUpdate();
+        }
+    }
+
+    void FileBrowserView::mouseReleaseEvent(MouseClickEvent& event)
+    {
+        IWidget::mouseReleaseEvent(event);
+        DTK_P();
+        const Box2I& g = getGeometry();
+        if (p.mouse.pressed != -1)
+        {
+            if (contains(getRect(p.mouse.pressed), event.pos - g.min))
+            {
+                _click(p.mouse.pressed);
+            }
+            p.mouse.pressed = -1;
+            _setDrawUpdate();
+        }
     }
 
     void FileBrowserView::keyFocusEvent(bool value)
     {
         IWidget::keyFocusEvent(value);
-        _currentUpdate();
+        _setDrawUpdate();
     }
 
     void FileBrowserView::keyPressEvent(KeyEvent& event)
@@ -182,32 +393,43 @@ namespace dtk
             {
             case Key::Up:
                 event.accept = true;
-                _setCurrent(p.current->get() - 1);
+                if (!hasKeyFocus())
+                {
+                    takeKeyFocus();
+                    _setCurrent(p.mouse.hover);
+                }
+                else
+                {
+                    _setCurrent(p.current->get() - 1);
+                }
                 break;
             case Key::Down:
                 event.accept = true;
-                _setCurrent(p.current->get() + 1);
+                if (!hasKeyFocus())
+                {
+                    takeKeyFocus();
+                    _setCurrent(p.mouse.hover);
+                }
+                else
+                {
+                    _setCurrent(p.current->get() + 1);
+                }
                 break;
             case Key::Home:
                 event.accept = true;
+                takeKeyFocus();
                 _setCurrent(0);
                 break;
             case Key::End:
                 event.accept = true;
-                _setCurrent(static_cast<int>(p.items.size()) - 1);
+                takeKeyFocus();
+                _setCurrent(static_cast<int>(p.info.size()) - 1);
                 break;
             case Key::Enter:
-            {
-                const int current = p.current->get();
-                if (current >= 0 && current < p.items.size())
-                {
-                    event.accept = true;
-                    takeKeyFocus();
-                    auto item = p.items[current];
-                    item->click();
-                }
+                event.accept = true;
+                takeKeyFocus();
+                _click(p.current->get());
                 break;
-            }
             case Key::Escape:
                 if (hasKeyFocus())
                 {
@@ -330,46 +552,84 @@ namespace dtk
     void FileBrowserView::_directoryUpdate()
     {
         DTK_P();
-        for (const auto& item : p.items)
-        {
-            item->setParent(nullptr);
-        }
-        p.items.clear();
-        p.buttonGroup->clearButtons();
         p.info.clear();
+        p.items.clear();
         list(p.path, p.options, p.info);
         if (auto context = getContext())
         {
-            for (const auto& info : p.info)
+            for (size_t i = 0; i < p.info.size(); ++i)
             {
-                auto item = FileBrowserItem::create(context, info);
-                item->setParent(p.layout);
+                const FileBrowserInfo& info = p.info[i];
+                FileBrowserItem item;
+
+                // File name.
+                std::string text = info.path.filename().string();
+                item.text.push_back(text);
+
+                // File extension.
+                text = !info.isDir ?
+                    info.path.extension().string() :
+                    std::string();
+                item.text.push_back(text);
+
+                // File size.
+                if (!info.isDir)
+                {
+                    if (info.size < megabyte)
+                    {
+                        text = Format("{0}KB").
+                            arg(info.size / static_cast<float>(kilobyte), 2);
+                    }
+                    else if (info.size < gigabyte)
+                    {
+                        text = Format("{0}MB").
+                            arg(info.size / static_cast<float>(megabyte), 2);
+                    }
+                    else
+                    {
+                        text = Format("{0}GB").
+                            arg(info.size / static_cast<float>(gigabyte), 2);
+                    }
+                    item.text.push_back(text);
+                }
+
+                // File last modification time.
+                // \todo std::format is available in C++20.
+                //text = std::format("{}", info.time);
+
                 p.items.push_back(item);
-                p.buttonGroup->addButton(item);
             }
         }
         _setCurrent(0);
-        _currentUpdate();
+        p.size.init = true;
     }
 
-    void FileBrowserView::_setCurrent(int value)
+    void FileBrowserView::_setCurrent(int index)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+        const int tmp = clamp(index, 0, static_cast<int>(p.info.size()) - 1);
         if (p.current->setIfChanged(tmp))
         {
-            _currentUpdate();
+            _setDrawUpdate();
         }
     }
 
-    void FileBrowserView::_currentUpdate()
+    void FileBrowserView::_click(int index)
     {
         DTK_P();
-        const int current = p.current->get();
-        const bool focus = hasKeyFocus();
-        for (size_t i = 0; i < p.items.size(); ++i)
+        takeKeyFocus();
+        if (index >= 0 && index < p.info.size())
         {
-            p.items[i]->setCurrent(current == i && focus);
+            const FileBrowserInfo info = p.info[index];
+            if (p.callback)
+            {
+                p.callback(info.path);
+            }
+            if (info.isDir)
+            {
+                p.path = info.path;
+                _directoryUpdate();
+            }
         }
     }
 }

@@ -76,39 +76,6 @@ namespace dtk
         std::filesystem::file_time_type time;
     };
 
-    class FileBrowserItem : public IButton
-    {
-    protected:
-        void _init(
-            const std::shared_ptr<Context>&,
-            const FileBrowserInfo&,
-            const std::shared_ptr<IWidget>& parent);
-
-        FileBrowserItem();
-
-    public:
-        virtual ~FileBrowserItem();
-
-        static std::shared_ptr<FileBrowserItem> create(
-            const std::shared_ptr<Context>&,
-            const FileBrowserInfo&,
-            const std::shared_ptr<IWidget>& parent = nullptr);
-
-        const std::vector<int>& getTextWidths() const;
-
-        void setColumns(const std::vector<int>&);
-
-        void setCurrent(bool);
-
-        void setGeometry(const Box2I&) override;
-        void sizeHintEvent(const SizeHintEvent&) override;
-        void clipEvent(const Box2I&, bool) override;
-        void drawEvent(const Box2I&, const DrawEvent&) override;
-
-    private:
-        DTK_PRIVATE();
-    };
-
     class FileBrowserView : public IWidget
     {
     protected:
@@ -139,8 +106,13 @@ namespace dtk
 
         Box2I getRect(int) const;
 
-        void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
+        void drawEvent(const Box2I& drawRect, const DrawEvent&) override;
+        void mouseEnterEvent(MouseEnterEvent&) override;
+        void mouseLeaveEvent() override;
+        void mouseMoveEvent(MouseMoveEvent&) override;
+        void mousePressEvent(MouseClickEvent&) override;
+        void mouseReleaseEvent(MouseClickEvent&) override;
         void keyFocusEvent(bool) override;
         void keyPressEvent(KeyEvent&) override;
         void keyReleaseEvent(KeyEvent&) override;
@@ -148,7 +120,7 @@ namespace dtk
     private:
         void _directoryUpdate();
         void _setCurrent(int);
-        void _currentUpdate();
+        void _click(int);
 
         DTK_PRIVATE();
     };
