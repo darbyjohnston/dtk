@@ -291,20 +291,7 @@ namespace dtk
     {
         IWidget::mouseEnterEvent(event);
         DTK_P();
-        const Box2I& g = getGeometry();
-        int hover = -1;
-        int y = 0;
-        for (size_t i = 0; i < p.items.size(); ++i)
-        {
-            const auto& item = p.items[i];
-            const Box2I g2(g.min.x, g.min.y + y, g.w(), item.size.h);
-            if (contains(g2, event.pos))
-            {
-                hover = i;
-                break;
-            }
-            y += item.size.h;
-        }
+        const int hover = _getItem(event.pos);
         if (hover != p.mouse.hover)
         {
             p.mouse.hover = hover;
@@ -328,20 +315,7 @@ namespace dtk
     {
         IWidget::mouseMoveEvent(event);
         DTK_P();
-        const Box2I& g = getGeometry();
-        int hover = -1;
-        int y = 0;
-        for (size_t i = 0; i < p.items.size(); ++i)
-        {
-            const auto& item = p.items[i];
-            const Box2I g2(g.min.x, g.min.y + y, g.w(), item.size.h);
-            if (contains(g2, event.pos))
-            {
-                hover = i;
-                break;
-            }
-            y += item.size.h;
-        }
+        const int hover = _getItem(event.pos);
         if (hover != p.mouse.hover)
         {
             p.mouse.hover = hover;
@@ -354,6 +328,12 @@ namespace dtk
         IWidget::mousePressEvent(event);
         DTK_P();
         takeKeyFocus();
+        const int hover = _getItem(event.pos);
+        if (hover != p.mouse.hover)
+        {
+            p.mouse.hover = hover;
+            _setDrawUpdate();
+        }
         if (p.mouse.hover != -1)
         {
             _setCurrent(p.mouse.hover);
@@ -450,6 +430,26 @@ namespace dtk
     {
         IWidget::keyReleaseEvent(event);
         event.accept = true;
+    }
+
+    int FileBrowserView::_getItem(const V2I& value) const
+    {
+        DTK_P();
+        int out = -1;
+        const Box2I& g = getGeometry();
+        int y = 0;
+        for (size_t i = 0; i < p.items.size(); ++i)
+        {
+            const auto& item = p.items[i];
+            const Box2I g2(g.min.x, g.min.y + y, g.w(), item.size.h);
+            if (contains(g2, value))
+            {
+                out = i;
+                break;
+            }
+            y += item.size.h;
+        }
+        return out;
     }
 
     namespace
@@ -601,6 +601,8 @@ namespace dtk
             }
         }
         _setCurrent(0);
+        _setSizeUpdate();
+        _setDrawUpdate();
         p.size.init = true;
     }
 

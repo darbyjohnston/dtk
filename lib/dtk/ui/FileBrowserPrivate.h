@@ -118,6 +118,7 @@ namespace dtk
         void keyReleaseEvent(KeyEvent&) override;
 
     private:
+        int _getItem(const V2I&) const;
         void _directoryUpdate();
         void _setCurrent(int);
         void _click(int);

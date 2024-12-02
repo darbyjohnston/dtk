@@ -26,7 +26,6 @@ namespace dtk
         private:
             void _enums();
             void _shortcuts();
-            void _item();
             void _view();
             void _widget();
             void _dialog();

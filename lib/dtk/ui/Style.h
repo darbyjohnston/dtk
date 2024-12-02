@@ -27,6 +27,7 @@ namespace dtk
         SpacingSmall,
         SpacingLarge,
         SpacingTool,
+        Icon,
         Border,
         LabelPad,
         ScrollArea,

@@ -43,7 +43,7 @@ namespace dtk
         setHStretch(Stretch::Expanding);
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
-        p.layout->setSpacingRole(SizeRole::None);
+        p.layout->setSpacingRole(SizeRole::SpacingTool);
 
         p.editButton = ToolButton::create(context, p.layout);
         p.editButton->setCheckable(true);

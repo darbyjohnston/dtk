@@ -73,7 +73,7 @@ DTK_MAIN()
             "PlaybackForward"
         };
         auto hLayout2 = HorizontalLayout::create(context, hLayout);
-        hLayout2->setSpacingRole(SizeRole::None);
+        hLayout2->setSpacingRole(SizeRole::SpacingTool);
         for (size_t i = 0; i < 3; ++i)
         {
             auto toolButton = ToolButton::create(context, hLayout2);

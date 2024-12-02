@@ -100,7 +100,7 @@ namespace dtk
         p.draw.g = value;
         p.draw.g2 = margin(
             p.draw.g,
-            -(acceptsKeyFocus() ? p.size.border : 0));
+            -(p.size.margin + acceptsKeyFocus() ? p.size.border : 0));
     }
 
     void ToolButton::setAcceptsKeyFocus(bool value)
@@ -136,8 +136,8 @@ namespace dtk
         Size2I sizeHint;
         if (!_text.empty())
         {
-            sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
-            sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
+            sizeHint.w = p.size.textSize.w + p.size.pad * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight;
             if (_icon.empty())
             {
                 const int max = std::max(sizeHint.w, sizeHint.h);
@@ -150,6 +150,7 @@ namespace dtk
             sizeHint.w += _iconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
+        sizeHint = margin(sizeHint, p.size.margin);
         if (acceptsKeyFocus())
         {
             sizeHint = margin(sizeHint, p.size.border);
@@ -210,6 +211,10 @@ namespace dtk
         if (_iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
+            if (_text.empty())
+            {
+                x = p.draw.g2.x() + p.draw.g2.w() / 2 - iconSize.w / 2;
+            }
             event.render->drawImage(
                 _iconImage,
                 Box2I(

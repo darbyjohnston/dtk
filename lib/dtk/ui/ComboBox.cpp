@@ -191,7 +191,7 @@ namespace dtk
         IWidget::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
+        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
     }
 
     void ComboBox::sizeHintEvent(const SizeHintEvent& event)
@@ -237,8 +237,8 @@ namespace dtk
         }
 
         Size2I sizeHint;
-        sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
-        sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
+        sizeHint.w = p.size.textSize.w + p.size.pad * 2;
+        sizeHint.h = p.size.fontMetrics.lineHeight;
         if (p.draw.iconImage)
         {
             sizeHint.w += p.draw.iconImage->getWidth();
@@ -249,7 +249,7 @@ namespace dtk
             sizeHint.w += p.draw.arrowIconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, p.draw.arrowIconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.border);
+        sizeHint = margin(sizeHint, p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -260,30 +260,30 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
-        // Draw the focus and border.
-        const Box2I& g = getGeometry();
-        event.render->drawMesh(
-            border(g, p.size.border),
-            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
-
         // Draw the background.
         event.render->drawRect(
-            p.draw.g2,
+            p.draw.g,
             event.style->getColorRole(ColorRole::Button));
 
         // Draw the mouse states.
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
+
+        // Draw the focus and border.
+        const Box2I& g = getGeometry();
+        event.render->drawMesh(
+            border(g, p.size.border),
+            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the icon.
         int x = p.draw.g2.x();
@@ -313,7 +313,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin + p.size.pad,
+                V2I(x + p.size.pad,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
@@ -327,7 +327,7 @@ namespace dtk
             event.render->drawImage(
                 p.draw.arrowIconImage,
                 Box2I(
-                    p.draw.g2.x() + p.draw.g2.w() - iconSize.w - p.size.margin,
+                    p.draw.g2.x() + p.draw.g2.w() - iconSize.w,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),

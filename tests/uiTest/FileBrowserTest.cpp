@@ -39,7 +39,6 @@ namespace dtk
         {
             _enums();
             _shortcuts();
-            _item();
             _view();
             _widget();
             _dialog();
@@ -90,37 +89,6 @@ namespace dtk
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Enter);
-            }
-        }
-
-        void FileBrowserTest::_item()
-        {
-            if (auto context = _context.lock())
-            {
-                std::vector<std::string> argv;
-                argv.push_back("FileBrowserTest");
-                auto app = App::create(
-                    context,
-                    argv,
-                    "FileBrowserTest",
-                    "File browser test.");
-                auto window = Window::create(context, app, "FileBrowserTest");
-                auto layout = VerticalLayout::create(context, window);
-                layout->setMarginRole(SizeRole::MarginLarge);
-                app->addWindow(window);
-                window->show();
-                app->tick();
-
-                FileBrowserInfo info;
-                info.path = std::filesystem::current_path();
-                auto item = FileBrowserItem::create(context, info, layout);
-
-                window->setCursorEnter(true);
-                Box2I g = item->getGeometry();
-                V2I c = center(g);
-                window->setCursorPos(c);
-                window->setButton(0);
-                window->setCursorPos(V2I(0, 0));
             }
         }
 

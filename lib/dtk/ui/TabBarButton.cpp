@@ -105,7 +105,7 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
+        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
         if (p.closeButton)
         {
             const Size2I& closeSizeHint = p.closeButton->getSizeHint();
@@ -136,15 +136,15 @@ namespace dtk
         }
 
         Size2I sizeHint(
-            p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2,
-            p.size.fontMetrics.lineHeight + p.size.margin * 2);
+            p.size.textSize.w + p.size.pad * 2,
+            p.size.fontMetrics.lineHeight);
         if (p.closeButton)
         {
             const Size2I& closeSizeHint = p.closeButton->getSizeHint();
             sizeHint.w += closeSizeHint.w;
             sizeHint.h = std::max(sizeHint.h, closeSizeHint.h);
         }
-        sizeHint = margin(sizeHint, p.size.border);
+        sizeHint = margin(sizeHint, p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -202,7 +202,7 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            V2I(p.draw.g2.x() + p.size.margin + p.size.pad,
+            V2I(p.draw.g2.x() + p.size.pad,
                 p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
             event.style->getColorRole(ColorRole::Text));
     }

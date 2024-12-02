@@ -47,6 +47,7 @@ namespace dtk
         out[SizeRole::SpacingSmall] = 5;
         out[SizeRole::SpacingLarge] = 20;
         out[SizeRole::SpacingTool] = 2;
+        out[SizeRole::Icon] = 20;
         out[SizeRole::Border] = 1;
         out[SizeRole::LabelPad] = 4;
         out[SizeRole::ScrollArea] = 200;

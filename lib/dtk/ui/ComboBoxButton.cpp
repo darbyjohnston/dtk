@@ -83,7 +83,7 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
+        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
     }
 
     void ComboBoxButton::sizeHintEvent(const SizeHintEvent& event)
@@ -107,7 +107,7 @@ namespace dtk
         Size2I sizeHint;
         if (!_text.empty())
         {
-            sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
+            sizeHint.w = p.size.textSize.w + p.size.pad * 2;
             sizeHint.h = p.size.fontMetrics.lineHeight;
         }
         if (_iconImage)
@@ -115,7 +115,7 @@ namespace dtk
             sizeHint.w += _iconImage->getWidth();
             sizeHint.h = std::max(sizeHint.h, _iconImage->getHeight());
         }
-        sizeHint = margin(sizeHint, p.size.border);
+        sizeHint = margin(sizeHint, p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -197,7 +197,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin + p.size.pad,
+                V2I(x + p.size.pad,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(ColorRole::Text));
         }

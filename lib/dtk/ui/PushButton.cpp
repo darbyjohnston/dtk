@@ -101,10 +101,10 @@ namespace dtk
         p.draw.g2 = margin(p.draw.g, -p.size.border);
         p.draw.g3 = margin(
             p.draw.g2,
-            -p.size.pad,
-            0,
-            -p.size.pad,
-            0);
+            -(p.size.margin + p.size.pad),
+            -p.size.margin,
+            -(p.size.margin + p.size.pad),
+            -p.size.margin);
     }
 
     void PushButton::sizeHintEvent(const SizeHintEvent& event)
@@ -129,8 +129,8 @@ namespace dtk
         Size2I sizeHint;
         if (!_text.empty())
         {
-            sizeHint.w = p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2;
-            sizeHint.h = p.size.fontMetrics.lineHeight + p.size.margin * 2;
+            sizeHint.w = p.size.textSize.w + p.size.pad * 2;
+            sizeHint.h = p.size.fontMetrics.lineHeight;
         }
         if (_iconImage)
         {
@@ -139,8 +139,8 @@ namespace dtk
         }
         sizeHint = margin(
             sizeHint,
-            p.size.pad + p.size.border,
-            p.size.border);
+            p.size.margin + p.size.pad + p.size.border,
+            p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
     }
 
@@ -195,7 +195,7 @@ namespace dtk
         if (_iconImage && !_text.empty())
         {
             const Size2I& iconSize = _iconImage->getSize();
-            x += p.draw.g3.w() / 2 - (iconSize.w + p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2) / 2;
+            x += p.draw.g3.w() / 2 - (iconSize.w + p.size.textSize.w + p.size.pad * 2) / 2;
         }
         else if (_iconImage)
         {
@@ -204,7 +204,7 @@ namespace dtk
         }
         else if (!_text.empty())
         {
-            x += p.draw.g3.w() / 2 - (p.size.textSize.w + p.size.pad * 2 + p.size.margin * 2) / 2;
+            x += p.draw.g3.w() / 2 - (p.size.textSize.w + p.size.pad * 2) / 2;
         }
         if (_iconImage)
         {
@@ -230,7 +230,7 @@ namespace dtk
             event.render->drawText(
                 p.draw.glyphs,
                 p.size.fontMetrics,
-                V2I(x + p.size.margin + p.size.pad,
+                V2I(x + p.size.pad,
                     p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
