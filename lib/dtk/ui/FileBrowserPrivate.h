@@ -30,6 +30,10 @@ namespace dtk
 
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
+        void setEdit(bool);
+
+        void setEditCallback(const std::function<void(bool)>&);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
 
@@ -93,6 +97,7 @@ namespace dtk
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         const std::filesystem::path& getPath() const;
+
         void setPath(const std::filesystem::path&);
 
         void reload();
@@ -100,6 +105,7 @@ namespace dtk
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
         const FileBrowserOptions& getOptions() const;
+
         void setOptions(const FileBrowserOptions&);
 
         std::shared_ptr<IObservableValue<int> > observeCurrent() const;

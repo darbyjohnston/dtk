@@ -21,6 +21,8 @@ namespace dtk
     bool FileBrowserOptions::operator == (const FileBrowserOptions& other) const
     {
         return
+            leftPanel == other.leftPanel &&
+            pathEdit == other.pathEdit &&
             search == other.search &&
             extensions == other.extensions &&
             extension == other.extension &&

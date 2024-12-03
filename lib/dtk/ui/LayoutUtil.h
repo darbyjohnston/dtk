@@ -17,10 +17,10 @@ namespace dtk
     Box2I align(
         const Box2I&  box,
         const Size2I& sizeHint,
-        Stretch             hStretch,
-        Stretch             vStretch,
-        HAlign              hAlign,
-        VAlign              vAlign);
+        Stretch       hStretch,
+        Stretch       vStretch,
+        HAlign        hAlign,
+        VAlign        vAlign);
 
     //! Get a format string for the given number.
     std::string format(int);

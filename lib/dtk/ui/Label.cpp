@@ -140,7 +140,7 @@ namespace dtk
         IWidget::setGeometry(value);
         DTK_P();
         p.draw.g = align(
-            getGeometry(),
+            value,
             getSizeHint(),
             Stretch::Fixed,
             Stretch::Fixed,

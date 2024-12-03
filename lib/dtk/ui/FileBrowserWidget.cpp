@@ -32,6 +32,7 @@ namespace dtk
         std::shared_ptr<RecentFilesModel> recentFilesModel;
 
         std::shared_ptr<Label> titleLabel;
+        std::shared_ptr<ToolButton> leftPanelButton;
         std::shared_ptr<ToolButton> upButton;
         std::shared_ptr<ToolButton> forwardButton;
         std::shared_ptr<ToolButton> backButton;
@@ -76,6 +77,11 @@ namespace dtk
         p.titleLabel = Label::create(context, "File Browser");
         p.titleLabel->setMarginRole(SizeRole::MarginSmall);
         p.titleLabel->setBackgroundRole(ColorRole::Button);
+
+        p.leftPanelButton = ToolButton::create(context);
+        p.leftPanelButton->setCheckable(true);
+        p.leftPanelButton->setIcon("PanelLeft");
+        p.leftPanelButton->setTooltip("Toggle the left panel");
 
         p.upButton = ToolButton::create(context);
         p.upButton->setIcon("DirectoryUp");
@@ -139,6 +145,8 @@ namespace dtk
         vLayout->setVStretch(Stretch::Expanding);
         auto hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::SpacingTool);
+        hLayout->setVAlign(VAlign::Center);
+        p.leftPanelButton->setParent(hLayout);
         p.upButton->setParent(hLayout);
         p.backButton->setParent(hLayout);
         p.forwardButton->setParent(hLayout);
@@ -162,6 +170,19 @@ namespace dtk
 
         _pathUpdate();
         _optionsUpdate();
+
+        p.leftPanelButton->setCheckedCallback(
+            [this](bool value)
+            {
+                DTK_P();
+                FileBrowserOptions options = p.options->get();
+                options.leftPanel = value;
+                if (p.options->setIfChanged(options))
+                {
+                    p.view->setOptions(options);
+                    _optionsUpdate();
+                }
+            });
 
         p.upButton->setClickedCallback(
             [this]
@@ -209,6 +230,18 @@ namespace dtk
             {
                 _setPath(value);
             });
+        p.pathWidget->setEditCallback(
+            [this](bool value)
+            {
+                DTK_P();
+                FileBrowserOptions options = p.options->get();
+                options.pathEdit = value;
+                if (p.options->setIfChanged(options))
+                {
+                    p.view->setOptions(options);
+                    _optionsUpdate();
+                }
+            });
 
         p.shortcutsWidget->setCallback(
             [this](const std::filesystem::path& value)
@@ -246,6 +279,7 @@ namespace dtk
                 if (p.options->setIfChanged(options))
                 {
                     p.view->setOptions(options);
+                    _optionsUpdate();
                 }
             });
 
@@ -260,6 +294,7 @@ namespace dtk
                     if (p.options->setIfChanged(options))
                     {
                         p.view->setOptions(options);
+                        _optionsUpdate();
                     }
                 }
             });
@@ -273,6 +308,7 @@ namespace dtk
                 if (p.options->setIfChanged(options))
                 {
                     p.view->setOptions(options);
+                    _optionsUpdate();
                 }
             });
 
@@ -285,6 +321,7 @@ namespace dtk
                 if (p.options->setIfChanged(options))
                 {
                     p.view->setOptions(options);
+                    _optionsUpdate();
                 }
             });
 
@@ -438,6 +475,12 @@ namespace dtk
     {
         DTK_P();
         const FileBrowserOptions options = p.options->get();
+
+        p.leftPanelButton->setChecked(options.leftPanel);
+        p.shortcutsScrollWidget->setVisible(options.leftPanel);
+
+        p.pathWidget->setEdit(options.pathEdit);
+
         p.view->setOptions(options);
         p.searchBox->setText(options.search);
 

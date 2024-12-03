@@ -4,6 +4,8 @@
 
 #include <dtk/ui/RowLayout.h>
 
+#include <dtk/ui/LayoutUtil.h>
+
 namespace dtk
 {
     struct RowLayout::Private
@@ -84,7 +86,8 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        const Box2I g = margin(getGeometry(), -p.size.margin);
+        const Box2I g = margin(value, -p.size.margin);
+
         std::vector<Size2I> sizeHints;
         size_t expanding = 0;
         std::shared_ptr<IWidget> lastVisibleChild;

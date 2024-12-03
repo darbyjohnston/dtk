@@ -5,7 +5,6 @@
 #include <dtk/ui/FloatEdit.h>
 
 #include <dtk/ui/IncButtons.h>
-#include <dtk/ui/LayoutUtil.h>
 #include <dtk/ui/LineEdit.h>
 #include <dtk/ui/RowLayout.h>
 

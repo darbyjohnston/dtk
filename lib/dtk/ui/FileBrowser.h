@@ -33,6 +33,8 @@ namespace dtk
     //! File browser options.
     struct FileBrowserOptions
     {
+        bool                     leftPanel   = true;
+        bool                     pathEdit    = false;
         std::string              search;
         std::vector<std::string> extensions;
         std::string              extension;

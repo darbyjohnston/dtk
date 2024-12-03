@@ -31,6 +31,7 @@ namespace dtk
         std::vector<std::shared_ptr<Divider> > dividers;
         std::shared_ptr<LineEdit> lineEdit;
         std::function<void(const std::filesystem::path&)> callback;
+        std::function<void(bool)> editCallback;
     };
 
     void FileBrowserPath::_init(
@@ -67,8 +68,11 @@ namespace dtk
         p.editButton->setCheckedCallback(
             [this](bool value)
             {
-                _p->edit = value;
-                _widgetUpdate();
+                setEdit(value);
+                if (_p->editCallback)
+                {
+                    _p->editCallback(value);
+                }
             });
 
         p.buttonGroup->setClickedCallback(
@@ -130,6 +134,20 @@ namespace dtk
     void FileBrowserPath::setCallback(const std::function<void(const std::filesystem::path&)>& value)
     {
         _p->callback = value;
+    }
+
+    void FileBrowserPath::setEdit(bool value)
+    {
+        DTK_P();
+        if (value == p.edit)
+            return;
+        p.edit = value;
+        _widgetUpdate();
+    }
+
+    void FileBrowserPath::setEditCallback(const std::function<void(bool)>& value)
+    {
+        _p->editCallback = value;
     }
 
     void FileBrowserPath::setGeometry(const Box2I& value)

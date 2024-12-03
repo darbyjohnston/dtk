@@ -48,9 +48,27 @@ namespace dtk
             const auto json = std::any_cast<nlohmann::json>(settings->get("FileBrowser"));
             if (json.is_object())
             {
-                std::stringstream ss(json["Sort"].get<std::string>());
-                ss >> p.options.sort;
-                p.options.reverseSort = json["ReverseSort"].get<bool>();
+                auto i = json.find("LeftPanel");
+                if (i != json.end())
+                {
+                    p.options.leftPanel = i->get<bool>();
+                }
+                i = json.find("PathEdit");
+                if (i != json.end())
+                {
+                    p.options.pathEdit = i->get<bool>();
+                }
+                i = json.find("Sort");
+                if (i != json.end())
+                {
+                    std::stringstream ss(i->get<std::string>());
+                    ss >> p.options.sort;
+                }
+                i = json.find("ReverseSort");
+                if (i != json.end())
+                {
+                    p.options.reverseSort = i->get<bool>();
+                }
             }
         }
         catch (const std::exception&)
@@ -70,6 +88,8 @@ namespace dtk
             nlohmann::json json;
             std::stringstream ss;
             ss << p.options.sort;
+            json["LeftPanel"] = p.options.leftPanel;
+            json["PathEdit"] = p.options.pathEdit;
             json["Sort"] = ss.str();
             json["ReverseSort"] = p.options.reverseSort;
             settings->set("FileBrowser", json);

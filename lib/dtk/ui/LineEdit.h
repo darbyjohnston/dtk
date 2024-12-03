@@ -80,8 +80,6 @@ namespace dtk
         void textEvent(TextEvent&) override;
 
     private:
-        Box2I _getAlignGeometry() const;
-
         int _getCursorPos(const V2I&);
 
         void _textUpdate();
