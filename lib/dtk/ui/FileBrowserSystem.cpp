@@ -58,6 +58,11 @@ namespace dtk
                 {
                     p.options.pathEdit = i->get<bool>();
                 }
+                i = json.find("Extension");
+                if (i != json.end())
+                {
+                    p.options.extension = i->get<std::string>();
+                }
                 i = json.find("Sort");
                 if (i != json.end())
                 {
@@ -86,10 +91,11 @@ namespace dtk
         if (auto settings = p.settings.lock())
         {
             nlohmann::json json;
-            std::stringstream ss;
-            ss << p.options.sort;
             json["LeftPanel"] = p.options.leftPanel;
             json["PathEdit"] = p.options.pathEdit;
+            json["Extension"] = p.options.extension;
+            std::stringstream ss;
+            ss << p.options.sort;
             json["Sort"] = ss.str();
             json["ReverseSort"] = p.options.reverseSort;
             settings->set("FileBrowser", json);
