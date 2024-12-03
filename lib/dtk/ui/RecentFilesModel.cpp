@@ -35,9 +35,9 @@ namespace dtk
         {
             auto settings = context->getSystem<Settings>();
             const auto json = std::any_cast<nlohmann::json>(settings->get(p.settingsName));
-            if (json.is_array())
+            for (auto i = json.begin(); i != json.end(); ++i)
             {
-                for (auto i = json.begin(); i != json.end(); ++i)
+                if (i->is_string())
                 {
                     recent.push_back(i->get<std::string>());
                 }

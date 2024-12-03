@@ -46,34 +46,31 @@ namespace dtk
             auto settings = context->getSystem<Settings>();
             p.settings = settings;
             const auto json = std::any_cast<nlohmann::json>(settings->get("FileBrowser"));
-            if (json.is_object())
+            auto i = json.find("LeftPanel");
+            if (i != json.end() && i->is_boolean())
             {
-                auto i = json.find("LeftPanel");
-                if (i != json.end())
-                {
-                    p.options.leftPanel = i->get<bool>();
-                }
-                i = json.find("PathEdit");
-                if (i != json.end())
-                {
-                    p.options.pathEdit = i->get<bool>();
-                }
-                i = json.find("Extension");
-                if (i != json.end())
-                {
-                    p.options.extension = i->get<std::string>();
-                }
-                i = json.find("Sort");
-                if (i != json.end())
-                {
-                    std::stringstream ss(i->get<std::string>());
-                    ss >> p.options.sort;
-                }
-                i = json.find("ReverseSort");
-                if (i != json.end())
-                {
-                    p.options.reverseSort = i->get<bool>();
-                }
+                p.options.leftPanel = i->get<bool>();
+            }
+            i = json.find("PathEdit");
+            if (i != json.end() && i->is_boolean())
+            {
+                p.options.pathEdit = i->get<bool>();
+            }
+            i = json.find("Extension");
+            if (i != json.end() && i->is_string())
+            {
+                p.options.extension = i->get<std::string>();
+            }
+            i = json.find("Sort");
+            if (i != json.end() && i->is_string())
+            {
+                std::stringstream ss(i->get<std::string>());
+                ss >> p.options.sort;
+            }
+            i = json.find("ReverseSort");
+            if (i != json.end() && i->is_boolean())
+            {
+                p.options.reverseSort = i->get<bool>();
             }
         }
         catch (const std::exception&)
