@@ -22,6 +22,13 @@ namespace dtk
             int spacing = 0;
         };
         SizeData size;
+
+        struct GeomData
+        {
+            Box2I g;
+            Box2I g2;
+        };
+        GeomData geom;
     };
 
     void RowLayout::_init(
@@ -86,7 +93,8 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        const Box2I g = margin(value, -p.size.margin);
+        p.geom.g = align(value, getSizeHint(), getHAlign(), getVAlign());
+        p.geom.g2 = margin(p.geom.g, -p.size.margin);
 
         std::vector<Size2I> sizeHints;
         size_t expanding = 0;
@@ -117,9 +125,9 @@ namespace dtk
             }
         }
         const std::pair<int, int> extra(
-            getGeometry().w() - getSizeHint().w,
-            getGeometry().h() - getSizeHint().h);
-        V2I pos = g.min;
+            p.geom.g.w() - getSizeHint().w,
+            p.geom.g.h() - getSizeHint().h);
+        V2I pos = p.geom.g2.min;
         size_t count = 0;
         for (const auto& child : children)
         {
@@ -129,7 +137,19 @@ namespace dtk
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    size.h = g.h();
+                    switch (getVAlign())
+                    {
+                    case VAlign::Fill:
+                        size.h = p.geom.g2.h();
+                        break;
+                    case VAlign::Center:
+                        pos.y = p.geom.g2.min.y + p.geom.g2.h() / 2 - size.h / 2;
+                        break;
+                    case VAlign::Bottom:
+                        pos.y = p.geom.g2.min.y + p.geom.g2.h() - size.h;
+                        break;
+                    default: break;
+                    }
                     if (expanding > 0 && Stretch::Expanding == child->getHStretch())
                     {
                         size.w += extra.first / expanding;
@@ -140,7 +160,19 @@ namespace dtk
                     }
                     break;
                 case Orientation::Vertical:
-                    size.w = g.w();
+                    switch (getHAlign())
+                    {
+                    case HAlign::Fill:
+                        size.w = p.geom.g2.w();
+                        break;
+                    case HAlign::Center:
+                        pos.x = p.geom.g2.min.x + p.geom.g2.w() / 2 - size.w / 2;
+                        break;
+                    case HAlign::Right:
+                        pos.x = p.geom.g2.min.x + p.geom.g2.w() - size.w;
+                        break;
+                    default: break;
+                    }
                     if (expanding > 0 && Stretch::Expanding == child->getVStretch())
                     {
                         size.h += extra.second / expanding;
@@ -170,7 +202,7 @@ namespace dtk
 
     Box2I RowLayout::getChildrenClipRect() const
     {
-        return margin(getGeometry(), -_p->size.margin);
+        return _p->geom.g2;
     }
 
     void RowLayout::sizeHintEvent(const SizeHintEvent& event)

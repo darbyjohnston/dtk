@@ -37,6 +37,7 @@ namespace dtk
     //! Horizontal alignment.
     enum class HAlign
     {
+        Fill,
         Left,
         Center,
         Right,
@@ -49,6 +50,7 @@ namespace dtk
     //! Vertical alignment.
     enum class VAlign
     {
+        Fill,
         Top,
         Center,
         Bottom,

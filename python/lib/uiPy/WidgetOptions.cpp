@@ -25,12 +25,14 @@ namespace dtk
             .export_values();
 
         py::enum_<HAlign>(m, "HAlign")
+            .value("Fill", HAlign::Fill)
             .value("Left", HAlign::Left)
             .value("Center", HAlign::Center)
             .value("Right", HAlign::Right)
             .export_values();
 
         py::enum_<VAlign>(m, "VAlign")
+            .value("Fill", VAlign::Fill)
             .value("Top", VAlign::Top)
             .value("Center", VAlign::Center)
             .value("Bottom", VAlign::Bottom)

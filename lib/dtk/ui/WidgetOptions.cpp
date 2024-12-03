@@ -24,12 +24,14 @@ namespace dtk
 
     DTK_ENUM_IMPL(
         HAlign,
+        "Fill",
         "Left",
         "Center",
         "Right");
 
     DTK_ENUM_IMPL(
         VAlign,
+        "Fill",
         "Top",
         "Center",
         "Bottom");

@@ -45,6 +45,7 @@ namespace dtk
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::SpacingTool);
+        p.layout->setVAlign(VAlign::Center);
 
         p.editButton = ToolButton::create(context, p.layout);
         p.editButton->setCheckable(true);

@@ -291,8 +291,8 @@ namespace dtk
         Size2I _sizeHint;
         Stretch _hStretch = Stretch::Fixed;
         Stretch _vStretch = Stretch::Fixed;
-        HAlign _hAlign = HAlign::Center;
-        VAlign _vAlign = VAlign::Center;
+        HAlign _hAlign = HAlign::Fill;
+        VAlign _vAlign = VAlign::Fill;
         Box2I _geometry;
         bool _visible = true;
         bool _parentsVisible = true;

@@ -17,8 +17,6 @@ namespace dtk
     Box2I align(
         const Box2I&  box,
         const Size2I& sizeHint,
-        Stretch       hStretch,
-        Stretch       vStretch,
         HAlign        hAlign,
         VAlign        vAlign);
 

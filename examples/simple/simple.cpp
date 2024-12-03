@@ -30,7 +30,7 @@ namespace dtk
             void Window::drawEvent(const Box2I& drawRect, const DrawEvent& event)
             {
                 dtk::Window::drawEvent(drawRect, event);
-                /*const std::string text = "Hello world";
+                const std::string text = "Hello world";
                 FontInfo fontInfo;
                 fontInfo.size = 0;
                 Size2I textSize;
@@ -46,17 +46,7 @@ namespace dtk
                     textGlyphs,
                     fontMetrics,
                     convert(center(g) - V2I(textSize.w, textSize.h) / 2),
-                    Color4F(1.F, 1.F, 1.F));*/
-                event.render->drawRect(
-                    Box2I(0, 0, 100, 100),
-                    Color4F(0.F, 0.F, 1.F));
-
-                event.render->drawRect(
-                    Box2I(10, 10, 80, 80),
-                    Color4F(1.F, 0.F, 0.F));
-                event.render->drawRect(
-                    Box2F(11, 11, 78, 78),
-                    Color4F(0.F, 1.F, 0.F));
+                    Color4F(1.F, 1.F, 1.F));
             }
         }
     }
@@ -75,7 +65,7 @@ DTK_MAIN()
         auto window = dtk::examples::simple::Window::create(
             context,
             "simple",
-            Size2I(100, 100));
+            Size2I(1280, 960));
         app->addWindow(window);
         window->show();
         app->run();

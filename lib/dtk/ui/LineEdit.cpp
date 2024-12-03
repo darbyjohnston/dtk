@@ -136,6 +136,7 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::LineEdit", parent);
         DTK_P();
+        setHAlign(HAlign::Fill);
         setAcceptsKeyFocus(true);
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
@@ -226,13 +227,7 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        p.geom.g = align(
-            value,
-            getSizeHint(),
-            Stretch::Expanding,
-            Stretch::Expanding,
-            getHAlign(),
-            getVAlign());
+        p.geom.g = align(value, getSizeHint(), getHAlign(), getVAlign());
         p.geom.g2 = margin(p.geom.g, -p.size.border);
         p.geom.g3 = margin(p.geom.g2, -p.size.margin);
     }
@@ -338,9 +333,8 @@ namespace dtk
         const bool enabled = isEnabled();
 
         // Draw the focus and border.
-        const Box2I& g = getGeometry();
         event.render->drawMesh(
-            border(g, p.size.border),
+            border(p.geom.g, p.size.border),
             event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the background.
@@ -352,7 +346,7 @@ namespace dtk
         const ClipRectEnabledState clipRectEnabledState(event.render);
         const ClipRectState clipRectState(event.render);
         event.render->setClipRectEnabled(true);
-        event.render->setClipRect(intersect(margin(p.geom.g, -p.size.border), drawRect));
+        event.render->setClipRect(intersect(p.geom.g2, drawRect));
 
         // Draw the selection.
         if (p.selection.isValid())

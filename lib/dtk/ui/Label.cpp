@@ -139,13 +139,7 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.g = align(
-            value,
-            getSizeHint(),
-            Stretch::Fixed,
-            Stretch::Fixed,
-            getHAlign(),
-            getVAlign());
+        p.draw.g = align(value, getSizeHint(), getHAlign(), getVAlign());
         p.draw.g2 = margin(p.draw.g, -p.size.margin);
     }
 
