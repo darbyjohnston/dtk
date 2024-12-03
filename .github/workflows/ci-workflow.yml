@@ -86,8 +86,8 @@ jobs:
         cd dtk/src/dtk-build
         xvfb-run ctest --verbose -C Debug
 
-  macos-12-build:
-    runs-on: macos-12
+  macos-13-build:
+    runs-on: macos-13
 
     env:
       DTK_API: GL_4_1
@@ -128,8 +128,8 @@ jobs:
         cd dtk/src/dtk-build
         ctest --verbose -C Debug
 
-  macos-14-build:
-    runs-on: macos-14
+  macos-build:
+    runs-on: macos-latest
 
     env:
       DTK_API: GL_4_1
