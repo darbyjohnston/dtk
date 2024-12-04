@@ -43,6 +43,7 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::Label", parent);
         setHAlign(HAlign::Left);
+        setVAlign(VAlign::Center);
     }
 
     Label::Label() :

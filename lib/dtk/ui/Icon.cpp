@@ -37,6 +37,7 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::Icon", parent);
         setHAlign(HAlign::Left);
+        setVAlign(VAlign::Center);
     }
 
     Icon::Icon() :
