@@ -56,6 +56,9 @@ namespace dtk
     public:
         virtual ~IApp() = 0;
 
+        //! Get the executable file name.
+        const std::string& getExeName() const;
+
         //! Get the exit code.
         int getExit() const;
 

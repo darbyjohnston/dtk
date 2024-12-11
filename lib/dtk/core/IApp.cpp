@@ -37,6 +37,7 @@ namespace dtk
     struct IApp::Private
     {
         std::vector<std::string> argv;
+        std::string exeName;
         std::string name;
         std::string summary;
         Options options;
@@ -59,6 +60,7 @@ namespace dtk
 
         _context = context;
 
+        p.exeName = argv[0];
         p.name = name;
         p.summary = summary;
         for (size_t i = 1; i < argv.size(); ++i)
@@ -98,6 +100,11 @@ namespace dtk
         auto logSystem = _context->getSystem<LogSystem>();
         logSystem->print(p.name, "Exiting...");
         logSystem->tick();
+    }
+
+    const std::string& IApp::getExeName() const
+    {
+        return _p->exeName;
     }
 
     int IApp::getExit() const
