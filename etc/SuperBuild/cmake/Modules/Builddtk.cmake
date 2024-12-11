@@ -2,6 +2,7 @@ include(ExternalProject)
 
 set(dtk_ARGS
     ${dtk_DEPS_ARGS}
+    -Ddtk_UI_LIB=${dtk_UI_LIB}
     -Ddtk_API=${dtk_API}
     -Ddtk_NFD=${dtk_NFD}
     -Ddtk_PYTHON=${dtk_PYTHON}
