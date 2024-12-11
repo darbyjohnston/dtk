@@ -9,28 +9,32 @@ find_dependency(ZLIB)
 find_dependency(nlohmann_json)
 find_dependency(PNG)
 find_dependency(Freetype)
-if(@dtk_API@ STREQUAL "GL_4_1" OR
-    @dtk_API@ STREQUAL "GL_4_1_Debug" OR
-    @dtk_API@ STREQUAL "GLES_2")
-    find_dependency(OpenGL)
-    find_dependency(glfw3)
-endif()
-if(@dtk_NFD@)
-    find_dependency(NFD)
-endif()
-if(@dtk_PYTHON@)
-    find_dependency(Python3)
-    find_dependency(pybind11)
+if(@dtk_UI_LIB@)
+    if(@dtk_API@ STREQUAL "GL_4_1" OR
+        @dtk_API@ STREQUAL "GL_4_1_Debug" OR
+        @dtk_API@ STREQUAL "GLES_2")
+        find_dependency(OpenGL)
+        find_dependency(glfw3)
+    endif()
+    if(@dtk_NFD@)
+        find_dependency(NFD)
+    endif()
+    if(@dtk_PYTHON@)
+        find_dependency(Python3)
+        find_dependency(pybind11)
+    endif()
 endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/gladTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/dtkCoreTargets.cmake")
-if(@dtk_API@ STREQUAL "GL_4_1" OR
-    @dtk_API@ STREQUAL "GL_4_1_Debug" OR
-    @dtk_API@ STREQUAL "GLES_2")
-    include("${CMAKE_CURRENT_LIST_DIR}/dtkGLTargets.cmake")
+if(@dtk_UI_LIB@)
+    include("${CMAKE_CURRENT_LIST_DIR}/gladTargets.cmake")
+    if(@dtk_API@ STREQUAL "GL_4_1" OR
+        @dtk_API@ STREQUAL "GL_4_1_Debug" OR
+        @dtk_API@ STREQUAL "GLES_2")
+        include("${CMAKE_CURRENT_LIST_DIR}/dtkGLTargets.cmake")
+    endif()
+    include("${CMAKE_CURRENT_LIST_DIR}/dtkUITargets.cmake")
 endif()
-include("${CMAKE_CURRENT_LIST_DIR}/dtkUITargets.cmake")
 
 # \todo Is this the correct way to add the include directory?
 include_directories("@PACKAGE_INCLUDE_INSTALL_DIR@")

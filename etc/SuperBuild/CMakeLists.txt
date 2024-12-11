@@ -11,6 +11,7 @@ project(dtk-SuperBuild)
 # Options
 
 set(dtk_DEPS_ONLY OFF CACHE BOOL "Build the dependencies only")
+set(dtk_UI_LIB ON CACHE BOOL "Build the user interface library")
 set(dtk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
 if(WIN32 OR APPLE)
     set(dtk_NFD_DEFAULT TRUE)
@@ -67,6 +68,7 @@ string(REPLACE ";" "|" CMAKE_MODULE_PATH_TMP "${CMAKE_MODULE_PATH}")
 string(REPLACE ";" "|" CMAKE_PREFIX_PATH_TMP "${CMAKE_PREFIX_PATH}")
 
 set(dtk_DEPS_ARGS
+    -Ddtk_UI_LIB=${dtk_UI_LIB}
     -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH_TMP}
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
@@ -105,18 +107,20 @@ endif()
 if(dtk_lunasvg)
     list(APPEND dtk_DEPS lunasvg)
 endif()
-if(dtk_glfw3)
-    if ("${dtk_API}" STREQUAL "GL_4_1" OR
-        "${dtk_API}" STREQUAL "GL_4_1_Debug" OR
-        "${dtk_API}" STREQUAL "GLES_2")
-        list(APPEND dtk_DEPS glfw3)
+if(dtk_UI_LIB)
+    if(dtk_glfw3)
+        if ("${dtk_API}" STREQUAL "GL_4_1" OR
+            "${dtk_API}" STREQUAL "GL_4_1_Debug" OR
+            "${dtk_API}" STREQUAL "GLES_2")
+            list(APPEND dtk_DEPS glfw3)
+        endif()
     endif()
-endif()
-if(dtk_NFD)
-    list(APPEND dtk_DEPS NFD)
-endif()
-if(dtk_PYTHON)
-    list(APPEND dtk_DEPS pybind11)
+    if(dtk_NFD)
+        list(APPEND dtk_DEPS NFD)
+    endif()
+    if(dtk_PYTHON)
+        list(APPEND dtk_DEPS pybind11)
+    endif()
 endif()
 foreach(DEP ${dtk_DEPS})
     include(Build${DEP})

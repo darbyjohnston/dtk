@@ -4,6 +4,7 @@
 
 #include "dtktest.h"
 
+#if defined(DTK_UI_LIB)
 #include <uiTest/ActionTest.h>
 #include <uiTest/AppTest.h>
 #include <uiTest/BellowsTest.h>
@@ -62,6 +63,7 @@
 #include <glTest/ShaderTest.h>
 #include <glTest/WindowTest.h>
 #endif // dtk_API_GL_4_1
+#endif // DTK_UI_LIB
 
 #include <coreTest/AppTest.h>
 #include <coreTest/BoxPackTest.h>
@@ -98,11 +100,13 @@
 
 #include <testLib/ITest.h>
 
+#if defined(DTK_UI_LIB)
 #include <dtk/ui/Init.h>
 
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
 #include <dtk/gl/Init.h>
 #endif // dtk_API_GL_4_1
+#endif // DTK_UI_LIB
 
 #include <dtk/core/CmdLine.h>
 #include <dtk/core/Context.h>
@@ -140,10 +144,12 @@ namespace dtk
                 });
             DTK_P();
             p.startTime = std::chrono::steady_clock::now();                
+#if defined(DTK_UI_LIB)
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
             gl::init(context);
 #endif // dtk_API_GL_4_1
             uiInit(context);
+#endif // DTK_UI_LIB
 
             p.tests.push_back(core_test::AppTest::create(context));
             p.tests.push_back(core_test::BoxPackTest::create(context));
@@ -178,6 +184,7 @@ namespace dtk
             p.tests.push_back(core_test::TimerTest::create(context));
             p.tests.push_back(core_test::VectorTest::create(context));
 
+#if defined(DTK_UI_TEST)
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
             p.tests.push_back(gl_test::MeshTest::create(context));
             p.tests.push_back(gl_test::OffscreenBufferTest::create(context));
@@ -237,6 +244,7 @@ namespace dtk
             p.tests.push_back(ui_test::WidgetOptionsTest::create(context));
 
             p.tests.push_back(ui_test::AppTest::create(context));
+#endif // DTK_UI_LIB
         }
 
         App::App() :

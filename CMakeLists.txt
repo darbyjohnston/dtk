@@ -13,6 +13,7 @@ project(
 #-------------------------------------------------------------------------------
 # Options
 
+set(dtk_UI_LIB ON CACHE BOOL "Build the user interface library")
 set(dtk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
 if(WIN32 OR APPLE)
     set(dtk_NFD_DEFAULT TRUE)
@@ -57,6 +58,10 @@ if(MSVC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
 endif()
 
+if(dtk_UI_LIB)
+    add_definitions(-DDTK_UI_LIB)
+endif()
+
 if(dtk_IGNORE_PREFIX_PATH)
     set(CMAKE_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH})
 endif()
@@ -98,54 +103,56 @@ find_package(PNG REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(lunasvg REQUIRED)
 
-if ("${dtk_API}" STREQUAL "GL_4_1")
-    include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1/include)
-elseif ("${dtk_API}" STREQUAL "GL_4_1_Debug")
-    include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1_Debug/include)
-elseif ("${dtk_API}" STREQUAL "GLES_2")
-    include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GLES_2/include)
-endif()
-if ("${dtk_API}" STREQUAL "GL_4_1" OR
-    "${dtk_API}" STREQUAL "GL_4_1_Debug" OR
-    "${dtk_API}" STREQUAL "GLES_2")
-    find_package(OpenGL REQUIRED)
-    find_package(glfw3 REQUIRED)
-    add_subdirectory(deps/glad_${dtk_API})
-endif()
-add_definitions(-Ddtk_API_${dtk_API})
-if("${dtk_API}" STREQUAL "GL_4_1_Debug")
-    add_definitions(-Ddtk_API_GL_4_1)
-endif()
-
-if(dtk_NFD)
-    find_package(NFD REQUIRED)
-    if(NFD_FOUND)
-        add_definitions(-Ddtk_NFD)
+if(dtk_UI_LIB)
+    if ("${dtk_API}" STREQUAL "GL_4_1")
+        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1/include)
+    elseif ("${dtk_API}" STREQUAL "GL_4_1_Debug")
+        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1_Debug/include)
+    elseif ("${dtk_API}" STREQUAL "GLES_2")
+        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GLES_2/include)
     endif()
-endif()
-
-if(dtk_PYTHON)
-    include_directories(python/lib)
-    if(dtk_TESTS)
-        include_directories(python/tests)
+    if ("${dtk_API}" STREQUAL "GL_4_1" OR
+        "${dtk_API}" STREQUAL "GL_4_1_Debug" OR
+        "${dtk_API}" STREQUAL "GLES_2")
+        find_package(OpenGL REQUIRED)
+        find_package(glfw3 REQUIRED)
+        add_subdirectory(deps/glad_${dtk_API})
     endif()
-    add_definitions(-Ddtk_PYTHON)
-    find_package(Python3 REQUIRED Interpreter Development)
-    find_package(pybind11 REQUIRED)
+    add_definitions(-Ddtk_API_${dtk_API})
+    if("${dtk_API}" STREQUAL "GL_4_1_Debug")
+        add_definitions(-Ddtk_API_GL_4_1)
+    endif()
+
+    if(dtk_NFD)
+        find_package(NFD REQUIRED)
+        if(NFD_FOUND)
+            add_definitions(-Ddtk_NFD)
+        endif()
+    endif()
+
+    if(dtk_PYTHON)
+        include_directories(python/lib)
+        if(dtk_TESTS)
+            include_directories(python/tests)
+        endif()
+        add_definitions(-Ddtk_PYTHON)
+        find_package(Python3 REQUIRED Interpreter Development)
+        find_package(pybind11 REQUIRED)
+    endif()
 endif()
 
 #-------------------------------------------------------------------------------
 # Subdirectories
 
-add_subdirectory(lib)
+add_subdirectory(lib/dtk)
 add_subdirectory(bin)
-if(dtk_PYTHON)
+if(dtk_UI_LIB AND dtk_PYTHON)
     add_subdirectory(python)
 endif()
 if(dtk_TESTS)
     add_subdirectory(tests)
 endif()
-if(dtk_EXAMPLES)
+if(dtk_UI_LIB AND dtk_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
@@ -155,9 +162,11 @@ install(
 install(
     FILES cmake/Modules/FindPNG.cmake
     DESTINATION lib/cmake/dtk)
-install(
-    FILES cmake/Modules/FindNFD.cmake
-    DESTINATION lib/cmake/dtk)
+if(dtk_UI_LIB)
+    install(
+        FILES cmake/Modules/FindNFD.cmake
+        DESTINATION lib/cmake/dtk)
+endif()
 include(CMakePackageConfigHelpers)
 set(INCLUDE_INSTALL_DIR include/dtk)
 configure_package_config_file(
