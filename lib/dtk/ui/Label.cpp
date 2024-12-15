@@ -174,9 +174,7 @@ namespace dtk
         }
     }
 
-    void Label::drawEvent(
-        const Box2I& drawRect,
-        const DrawEvent& event)
+    void Label::drawEvent(const Box2I& drawRect, const DrawEvent& event)
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();

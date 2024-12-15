@@ -18,6 +18,7 @@ namespace dtk
     struct GridLayout::Private
     {
         std::map<std::shared_ptr<IWidget>, GridPos> gridPos;
+        ColorRole rowBackgroundRole = ColorRole::None;
         SizeRole marginRole = SizeRole::None;
         SizeRole spacingRole = SizeRole::Spacing;
 
@@ -29,6 +30,20 @@ namespace dtk
             int spacing = 0;
         };
         SizeData size;
+
+        struct GeomData
+        {
+            std::vector<int> rowSizeHints;
+            int rowsVisibleCount = 0;
+            std::vector<bool> rowsVisible;
+            std::vector<int> rowSizes;
+
+            std::vector<int> columnSizeHints;
+            int columnsVisibleCount = 0;
+            std::vector<bool> columnsVisible;
+            std::vector<int> columnSizes;
+        };
+        GeomData geom;
 
         GridPos getSize() const;
 
@@ -84,6 +99,20 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    ColorRole GridLayout::getRowBackgroundRole(ColorRole) const
+    {
+        return _p->rowBackgroundRole;
+    }
+
+    void GridLayout::setRowBackgroundRole(ColorRole value)
+    {
+        DTK_P();
+        if (value == p.rowBackgroundRole)
+            return;
+        p.rowBackgroundRole = value;
+        _setDrawUpdate();
+    }
+
     SizeRole GridLayout::getMarginRole() const
     {
         return _p->marginRole;
@@ -119,29 +148,17 @@ namespace dtk
         IWidget::setGeometry(value);
         DTK_P();
 
-        const Box2I g = margin(getGeometry(), -p.size.margin);
-
-        // Get the child size hints.
-        std::vector<int> rowSizeHints;
-        std::vector<int> columnSizeHints;
-        p.getSizeHints(rowSizeHints, columnSizeHints);
-
         // Get the total size.
         V2I totalSize;
-        for (const auto& i : rowSizeHints)
+        for (const auto& i : p.geom.rowSizeHints)
         {
             totalSize.y += i;
         }
-        for (const auto& i : columnSizeHints)
+        for (const auto& i : p.geom.columnSizeHints)
         {
             totalSize.x += i;
         }
-        std::vector<bool> rowsVisible;
-        std::vector<bool> columnsVisible;
-        p.getVisible(rowsVisible, columnsVisible);
-        int rowsVisibleCount = 0;
-        int columnsVisibleCount = 0;
-        p.getVisible(rowsVisibleCount, columnsVisibleCount);
+        p.getVisible(p.geom.rowsVisible, p.geom.columnsVisible);
 
         // Get the layout stretch.
         std::vector<bool> rowStretch;
@@ -149,6 +166,7 @@ namespace dtk
         p.getStretch(rowStretch, columnStretch);
 
         // Get the layout stretch size.
+        const Box2I g = margin(getGeometry(), -p.size.margin);
         size_t rowStretchCount = 0;
         size_t columnStretchCount = 0;
         for (bool i : rowStretch)
@@ -169,36 +187,36 @@ namespace dtk
         if (rowStretchCount > 0)
         {
             stretchSize.y = (g.h() -
-                (rowsVisibleCount - 1) * p.size.spacing -
+                (p.geom.rowsVisibleCount - 1) * p.size.spacing -
                 totalSize.y) / rowStretchCount;
         }
         if (columnStretchCount > 0)
         {
             stretchSize.x = (g.w() -
-                (columnsVisibleCount - 1) * p.size.spacing -
+                (p.geom.columnsVisibleCount - 1) * p.size.spacing -
                 totalSize.x) / columnStretchCount;
         }
 
         // Get the sizes.
-        std::vector<int> rowSizes;
-        std::vector<int> columnSizes;
-        for (int i = 0; i < rowSizeHints.size(); ++i)
+        p.geom.rowSizes.clear();
+        p.geom.columnSizes.clear();
+        for (int i = 0; i < p.geom.rowSizeHints.size(); ++i)
         {
-            int size = rowSizeHints[i];
+            int size = p.geom.rowSizeHints[i];
             if (rowStretch[i])
             {
                 size += stretchSize.y;
             }
-            rowSizes.push_back(size);
+            p.geom.rowSizes.push_back(size);
         }
-        for (int i = 0; i < columnSizeHints.size(); ++i)
+        for (int i = 0; i < p.geom.columnSizeHints.size(); ++i)
         {
-            int size = columnSizeHints[i];
+            int size = p.geom.columnSizeHints[i];
             if (columnStretch[i])
             {
                 size += stretchSize.x;
             }
-            columnSizes.push_back(size);
+            p.geom.columnSizes.push_back(size);
         }
 
         // Layout the children.
@@ -208,21 +226,21 @@ namespace dtk
             V2I pos = g.min;
             for (int j = 0; j < i.second.row; ++j)
             {
-                if (rowsVisible[j])
+                if (p.geom.rowsVisible[j])
                 {
-                    pos.y += rowSizes[j] + (visible ? p.size.spacing : 0);
+                    pos.y += p.geom.rowSizes[j] + (visible ? p.size.spacing : 0);
                 }
             }
             for (int j = 0; j < i.second.column; ++j)
             {
-                if (columnsVisible[j])
+                if (p.geom.columnsVisible[j])
                 {
-                    pos.x += columnSizes[j] + (visible ? p.size.spacing : 0);
+                    pos.x += p.geom.columnSizes[j] + (visible ? p.size.spacing : 0);
                 }
             }
             const V2I size(
-                columnSizes[i.second.column],
-                rowSizes[i.second.row]);
+                p.geom.columnSizes[i.second.column],
+                p.geom.rowSizes[i.second.row]);
             i.first->setGeometry(Box2I(pos.x, pos.y, size.x, size.y));
         }
     }
@@ -241,30 +259,30 @@ namespace dtk
         }
 
         // Get size hints.
-        std::vector<int> rowSizeHints;
-        std::vector<int> columnSizeHints;
-        p.getSizeHints(rowSizeHints, columnSizeHints);
+        p.geom.rowSizeHints.clear();
+        p.geom.columnSizeHints.clear();
+        p.getSizeHints(p.geom.rowSizeHints, p.geom.columnSizeHints);
         Size2I sizeHint;
-        for (int i : rowSizeHints)
+        for (int i : p.geom.rowSizeHints)
         {
             sizeHint.h += i;
         }
-        for (int i : columnSizeHints)
+        for (int i : p.geom.columnSizeHints)
         {
             sizeHint.w += i;
         }
 
         // Add spacing.
-        int rowsVisible = 0;
-        int columnsVisible = 0;
-        p.getVisible(rowsVisible, columnsVisible);
-        if (rowsVisible > 0)
+        p.geom.rowsVisibleCount = 0;
+        p.geom.columnsVisibleCount = 0;
+        p.getVisible(p.geom.rowsVisibleCount, p.geom.columnsVisibleCount);
+        if (p.geom.rowsVisibleCount > 0)
         {
-            sizeHint.h += (rowsVisible - 1) * p.size.spacing;
+            sizeHint.h += (p.geom.rowsVisibleCount - 1) * p.size.spacing;
         }
-        if (columnsVisible > 0)
+        if (p.geom.columnsVisibleCount > 0)
         {
-            sizeHint.w += (columnsVisible - 1) * p.size.spacing;
+            sizeHint.w += (p.geom.columnsVisibleCount - 1) * p.size.spacing;
         }
 
         // Add the margin.
@@ -272,6 +290,34 @@ namespace dtk
         sizeHint.h += p.size.margin * 2;
 
         _setSizeHint(sizeHint);
+    }
+
+    void GridLayout::drawEvent(const Box2I& drawRect, const DrawEvent& event)
+    {
+        IWidget::drawEvent(drawRect, event);
+        DTK_P();
+        if (p.rowBackgroundRole != ColorRole::None)
+        {
+            const Box2I g = margin(getGeometry(), -p.size.margin);
+            int y = g.min.y;
+            int row = 0;
+            for (size_t i = 0;
+                i < p.geom.rowSizes.size() && i < p.geom.rowsVisible.size();
+                ++i)
+            {
+                if (p.geom.rowsVisible[i])
+                {
+                    if (row % 2 == 0)
+                    {
+                        event.render->drawRect(
+                            Box2I(g.min.x, y, g.w(), p.geom.rowSizes[i]),
+                            event.style->getColorRole(p.rowBackgroundRole));
+                    }
+                    y += p.geom.rowSizes[i] + p.size.spacing;
+                    ++row;
+                }
+            }
+        }
     }
 
     void GridLayout::childRemoveEvent(const ChildRemoveEvent& event)

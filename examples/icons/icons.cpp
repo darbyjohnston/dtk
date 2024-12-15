@@ -33,22 +33,23 @@ DTK_MAIN()
 
         // Create the layout.
         auto layout = GridLayout::create(context);
-        layout->setMarginRole(SizeRole::MarginSmall);
-        layout->setSpacingRole(SizeRole::SpacingSmall);
+        layout->setRowBackgroundRole(ColorRole::Base);
+        layout->setSpacingRole(SizeRole::None);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
         scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
 
         // Create the icons.
         auto iconSystem = context->getSystem<IconSystem>();
-        int index = 0;
+        int row = 0;
         for (const auto& name : iconSystem->getNames())
         {
             auto icon = Icon::create(context, name, layout);
-            layout->setGridPos(icon, index, 0);
+            layout->setGridPos(icon, row, 0);
             auto label = Label::create(context, name, layout);
-            layout->setGridPos(label, index, 1);
-            ++index;
+            label->setMarginRole(SizeRole::MarginSmall);
+            layout->setGridPos(label, row, 1);
+            ++row;
         }
 
         window->show();

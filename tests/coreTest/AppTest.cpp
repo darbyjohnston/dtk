@@ -127,6 +127,7 @@ namespace dtk
             {
                 std::vector<std::string> argv = { "app", "-h" };
                 auto app = App::create(context, argv);
+                _print(app->getExeName());
                 app->run();
             }
             if (auto context = _context.lock())

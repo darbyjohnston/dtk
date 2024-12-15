@@ -35,6 +35,12 @@ namespace dtk
             int row,
             int column);
 
+        //! Get the odd rows background role.
+        ColorRole getRowBackgroundRole(ColorRole) const;
+
+        //! Get the odd rows background role.
+        void setRowBackgroundRole(ColorRole);
+
         //! Get the margin role.
         SizeRole getMarginRole() const;
 
@@ -50,6 +56,7 @@ namespace dtk
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void childRemoveEvent(const ChildRemoveEvent&) override;
+        void drawEvent(const Box2I&, const DrawEvent&) override;
 
     private:
         DTK_PRIVATE();

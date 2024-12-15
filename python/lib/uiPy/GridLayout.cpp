@@ -26,6 +26,7 @@ namespace dtk
                 py::arg("child"),
                 py::arg("row"),
                 py::arg("column"))
+            .def_property("rowBackgroundRole", &GridLayout::getRowBackgroundRole, &GridLayout::setRowBackgroundRole)
             .def_property("marginRole", &GridLayout::getMarginRole, &GridLayout::setMarginRole)
             .def_property("spacingRole", &GridLayout::getSpacingRole, &GridLayout::setSpacingRole);
     }

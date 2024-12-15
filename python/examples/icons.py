@@ -17,19 +17,20 @@ app.addWindow(window)
 
 # Create the layout.
 layout = dtk.GridLayout(context)
-layout.marginRole = dtk.SizeRole.MarginSmall
-layout.spacingRole = dtk.SizeRole.SpacingSmall
+layout.rowBackgroundRole = dtk.ColorRole.Base
+layout.spacingRole = dtk.SizeRole.SizeRole_None
 scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
 scrollWidget.widget = layout
         
 # Create the icons.
-index = 0
+row = 0
 for name in context.getSystemByName("dtk::IconSystem").names:
     icon = dtk.Icon(context, name, layout)
-    layout.setGridPos(icon, index, 0)
+    layout.setGridPos(icon, row, 0)
     label = dtk.Label(context, name, layout)
-    layout.setGridPos(label, index, 1)
-    index = index + 1
+    label.marginRole = dtk.SizeRole.MarginSmall
+    layout.setGridPos(label, row, 1)
+    row = row + 1
 
 window.show()
 app.run()
