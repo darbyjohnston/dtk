@@ -26,7 +26,7 @@ namespace dtk
         FileBrowserOptions options;
         std::shared_ptr<FileBrowser> fileBrowser;
         std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
-        std::weak_ptr<Settings> settings;
+        std::shared_ptr<Settings> settings;
     };
 
     FileBrowserSystem::FileBrowserSystem(const std::shared_ptr<Context>& context) :
@@ -43,9 +43,8 @@ namespace dtk
 
         try
         {
-            auto settings = context->getSystem<Settings>();
-            p.settings = settings;
-            const auto json = std::any_cast<nlohmann::json>(settings->get("FileBrowser"));
+            p.settings = context->getSystem<Settings>();
+            const auto json = std::any_cast<nlohmann::json>(p.settings->get("FileBrowser"));
             auto i = json.find("LeftPanel");
             if (i != json.end() && i->is_boolean())
             {
@@ -85,18 +84,15 @@ namespace dtk
         NFD::Quit();
 #endif // dtk_NFD
 
-        if (auto settings = p.settings.lock())
-        {
-            nlohmann::json json;
-            json["LeftPanel"] = p.options.leftPanel;
-            json["PathEdit"] = p.options.pathEdit;
-            json["Extension"] = p.options.extension;
-            std::stringstream ss;
-            ss << p.options.sort;
-            json["Sort"] = ss.str();
-            json["ReverseSort"] = p.options.reverseSort;
-            settings->set("FileBrowser", json);
-        }
+        nlohmann::json json;
+        json["LeftPanel"] = p.options.leftPanel;
+        json["PathEdit"] = p.options.pathEdit;
+        json["Extension"] = p.options.extension;
+        std::stringstream ss;
+        ss << p.options.sort;
+        json["Sort"] = ss.str();
+        json["ReverseSort"] = p.options.reverseSort;
+        p.settings->set("FileBrowser", json);
     }
 
     std::shared_ptr<FileBrowserSystem> FileBrowserSystem::create(
