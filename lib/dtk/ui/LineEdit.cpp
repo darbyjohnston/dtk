@@ -701,7 +701,12 @@ namespace dtk
                 event.accept = true;
                 releaseKeyFocus();
                 break;
-            default: break;
+            default:
+                if (0 == event.modifiers || event.modifiers == static_cast<int>(KeyModifier::Shift))
+                {
+                    event.accept = true;
+                }
+                break;
             }
         }
         if (!event.accept)
