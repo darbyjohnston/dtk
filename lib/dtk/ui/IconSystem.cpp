@@ -14,6 +14,10 @@
 
 namespace
 {
+#include <Icons/ArrowDown.h>
+#include <Icons/ArrowLeft.h>
+#include <Icons/ArrowRight.h>
+#include <Icons/ArrowUp.h>
 #include <Icons/Audio.h>
 #include <Icons/BellowsClosed.h>
 #include <Icons/BellowsOpen.h>
@@ -33,6 +37,7 @@ namespace
 #include <Icons/FileCloseAll.h>
 #include <Icons/FileOpen.h>
 #include <Icons/FrameEnd.h>
+#include <Icons/FrameInOut.h>
 #include <Icons/FrameNext.h>
 #include <Icons/FramePrev.h>
 #include <Icons/FrameStart.h>
@@ -123,6 +128,10 @@ namespace dtk
         p.context = context;
 
         p.iconData["Audio"] = Audio_svg;
+        p.iconData["ArrowDown"] = ArrowDown_svg;
+        p.iconData["ArrowLeft"] = ArrowLeft_svg;
+        p.iconData["ArrowRight"] = ArrowRight_svg;
+        p.iconData["ArrowUp"] = ArrowUp_svg;
         p.iconData["BellowsClosed"] = BellowsClosed_svg;
         p.iconData["BellowsOpen"] = BellowsOpen_svg;
         p.iconData["Clear"] = Clear_svg;
@@ -141,6 +150,7 @@ namespace dtk
         p.iconData["FileCloseAll"] = FileCloseAll_svg;
         p.iconData["FileOpen"] = FileOpen_svg;
         p.iconData["FrameEnd"] = FrameEnd_svg;
+        p.iconData["FrameInOut"] = FrameInOut_svg;
         p.iconData["FrameNext"] = FrameNext_svg;
         p.iconData["FramePrev"] = FramePrev_svg;
         p.iconData["FrameStart"] = FrameStart_svg;
