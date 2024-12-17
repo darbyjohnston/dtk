@@ -33,6 +33,7 @@ namespace dtk
                 py::arg("parent") = nullptr)
             .def_property("text", &Bellows::getText, &Bellows::setText)
             .def_property("widget", &Bellows::getWidget, &Bellows::setWidget)
-            .def_property("open", &Bellows::isOpen, &Bellows::setOpen);
+            .def_property("open", &Bellows::isOpen, &Bellows::setOpen)
+            .def_property("toolWidget", &Bellows::getToolWidget, &Bellows::setToolWidget);
     }
 }

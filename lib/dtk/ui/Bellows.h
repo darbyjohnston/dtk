@@ -53,6 +53,12 @@ namespace dtk
         //! Set whether the bellows is open.
         void setOpen(bool);
 
+        //! Get the tool widget.
+        const std::shared_ptr<IWidget>& getToolWidget() const;
+
+        //! Set the tool widget.
+        void setToolWidget(const std::shared_ptr<IWidget>&);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
 

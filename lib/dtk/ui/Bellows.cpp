@@ -13,6 +13,8 @@ namespace dtk
     {
         std::shared_ptr<BellowsButton> button;
         std::shared_ptr<IWidget> widget;
+        std::shared_ptr<IWidget> toolWidget;
+        std::shared_ptr<HorizontalLayout> buttonLayout;
         std::shared_ptr<VerticalLayout> layout;
     };
 
@@ -29,10 +31,16 @@ namespace dtk
         p.button->setCheckedIcon("BellowsOpen");
         p.button->setButtonRole(ColorRole::Button);
         p.button->setCheckedRole(ColorRole::Button);
+        p.button->setHStretch(Stretch::Expanding);
+
+        p.buttonLayout = HorizontalLayout::create(context);
+        p.buttonLayout->setSpacingRole(SizeRole::None);
+        p.buttonLayout->setBackgroundRole(ColorRole::Button);
+        p.button->setParent(p.buttonLayout);
 
         p.layout = VerticalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::None);
-        p.button->setParent(p.layout);
+        p.buttonLayout->setParent(p.layout);
         Divider::create(context, Orientation::Horizontal, p.layout);
 
         p.button->setCheckedCallback(
@@ -114,6 +122,25 @@ namespace dtk
         if (p.widget)
         {
             p.widget->setVisible(value);
+        }
+    }
+
+    const std::shared_ptr<IWidget>& Bellows::getToolWidget() const
+    {
+        return _p->toolWidget;
+    }
+
+    void Bellows::setToolWidget(const std::shared_ptr<IWidget>& value)
+    {
+        DTK_P();
+        if (p.toolWidget)
+        {
+            p.toolWidget->setParent(nullptr);
+        }
+        p.toolWidget = value;
+        if (p.toolWidget)
+        {
+            p.toolWidget->setParent(p.buttonLayout);
         }
     }
 
