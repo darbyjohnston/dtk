@@ -75,7 +75,7 @@ void MainWindow::_init(
                         _progressTimer->stop();
                         _progressDialog.reset();
                     });
-                _progressDialog->show();
+                _progressDialog->open(std::dynamic_pointer_cast<IWindow>(shared_from_this()));
                 _progressTimer->start(
                     std::chrono::microseconds(500),
                     [this]

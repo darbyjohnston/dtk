@@ -217,6 +217,10 @@ namespace dtk
     {
         IWidget::tickEvent(parentsVisible, parentsEnabled, event);
         DTK_P();
+
+        MouseMoveEvent mouseMoveEvent(p.cursorPos, p.cursorPos);
+        _hoverUpdate(mouseMoveEvent);
+
         if (p.tooltipsEnabled)
         {
             const auto tooltipTime = std::chrono::steady_clock::now();

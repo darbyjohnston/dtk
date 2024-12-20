@@ -28,6 +28,9 @@ namespace dtk
         virtual ~IDialog() = 0;
 
         //! Open the dialog.
+        //!
+        //! \todo Should setVisible() be used instead of open() and
+        //! close()?
         void open(const std::shared_ptr<IWindow>&);
 
         //! Get whether the dialog is open.

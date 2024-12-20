@@ -28,6 +28,9 @@ namespace dtk
         virtual ~IWidgetPopup() = 0;
 
         //! Open the popup.
+        //!
+        //! \todo Should setVisible() be used instead of open() and
+        //! close()?
         void open(
             const std::shared_ptr<IWindow>&,
             const Box2I& buttonGeometry);

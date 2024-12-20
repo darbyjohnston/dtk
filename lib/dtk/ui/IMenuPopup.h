@@ -36,6 +36,9 @@ namespace dtk
         virtual ~IMenuPopup() = 0;
 
         //! Open the popup.
+        //!
+        //! \todo Should setVisible() be used instead of open() and
+        //! close()?
         virtual void open(
             const std::shared_ptr<IWindow>&,
             const Box2I& buttonGeometry);
@@ -55,7 +58,7 @@ namespace dtk
         //! Set the popup color role.
         void setPopupRole(ColorRole);
 
-        //! Set the widget.
+        //! Set the popup widget.
         void setWidget(const std::shared_ptr<IWidget>&);
 
         void setGeometry(const Box2I&) override;

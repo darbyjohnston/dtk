@@ -132,6 +132,10 @@ namespace dtk
         {
             widget->takeKeyFocus();
         }
+        else
+        {
+            window->setKeyFocus(nullptr);
+        }
     }
 
     bool IWidgetPopup::isOpen() const

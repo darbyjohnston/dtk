@@ -62,6 +62,10 @@ namespace dtk
         {
             widget->takeKeyFocus();
         }
+        else
+        {
+            window->setKeyFocus(nullptr);
+        }
     }
 
     bool IDialog::isOpen() const
