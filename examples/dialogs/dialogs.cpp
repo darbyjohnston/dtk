@@ -67,8 +67,7 @@ void MainWindow::_init(
                 _progressDialog = ProgressDialog::create(
                     context,
                     "Progress",
-                    "In progress:",
-                    std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+                    "In progress:");
                 _progressDialog->setCloseCallback(
                     [this]
                     {
