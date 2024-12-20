@@ -184,7 +184,7 @@ namespace dtk
             p.tests.push_back(core_test::TimerTest::create(context));
             p.tests.push_back(core_test::VectorTest::create(context));
 
-#if defined(DTK_UI_TEST)
+#if defined(DTK_UI_LIB)
 #if defined(dtk_API_GL_4_1) || defined(dtk_API_GLES_2)
             p.tests.push_back(gl_test::MeshTest::create(context));
             p.tests.push_back(gl_test::OffscreenBufferTest::create(context));

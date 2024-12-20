@@ -166,19 +166,6 @@ namespace dtk
         }
     }
 
-    void IDialog::mousePressEvent(MouseClickEvent& event)
-    {
-        IPopup::mousePressEvent(event);
-        event.accept = true;
-        close();
-    }
-
-    void IDialog::mouseReleaseEvent(MouseClickEvent& event)
-    {
-        IPopup::mouseReleaseEvent(event);
-        event.accept = true;
-    }
-
     void IDialog::keyPressEvent(KeyEvent& event)
     {
         if (0 == event.modifiers)

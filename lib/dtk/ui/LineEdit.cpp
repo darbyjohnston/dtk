@@ -701,6 +701,12 @@ namespace dtk
                 event.accept = true;
                 releaseKeyFocus();
                 break;
+            case Key::Up:
+            case Key::Down:
+            case Key::PageUp:
+            case Key::PageDown:
+            case Key::Tab:
+                break;
             default:
                 if (0 == event.modifiers || event.modifiers == static_cast<int>(KeyModifier::Shift))
                 {

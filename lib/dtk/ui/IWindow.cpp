@@ -4,8 +4,9 @@
 
 #include <dtk/ui/IWindow.h>
 
-#include <dtk/ui/Tooltip.h>
+#include <dtk/ui/IDialog.h>
 #include <dtk/ui/IClipboard.h>
+#include <dtk/ui/Tooltip.h>
 
 namespace dtk
 {
@@ -363,10 +364,15 @@ namespace dtk
             // Send event to the focused widget or parent.
             if (auto widget = p.keyFocus.lock())
             {
-                widget->keyPressEvent(p.keyEvent);
-                if (p.keyEvent.accept)
+                while (widget)
                 {
-                    p.keyPress = widget;
+                    widget->keyPressEvent(p.keyEvent);
+                    if (p.keyEvent.accept)
+                    {
+                        p.keyPress = widget;
+                        break;
+                    }
+                    widget = widget->getParent().lock();
                 }
             }
 
@@ -635,6 +641,16 @@ namespace dtk
         DTK_P();
         std::list<std::shared_ptr<IWidget> > out;
         _getUnderCursor(type, shared_from_this(), pos, out);
+        if (UnderCursor::Tooltip == type)
+        {
+            auto i = out.begin();
+            for (; i != out.end() && !std::dynamic_pointer_cast<IDialog>(*i); ++i)
+                ;
+            if (i != out.end())
+            {
+                out.erase(i, out.end());
+            }
+        }
         return out;
     }
 

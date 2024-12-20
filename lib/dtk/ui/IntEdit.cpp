@@ -194,7 +194,10 @@ namespace dtk
     void IntEdit::keyPressEvent(KeyEvent& event)
     {
         DTK_P();
-        if (isEnabled() && p.model)
+        if (isEnabled() &&
+            p.lineEdit->hasKeyFocus() &&
+            p.model &&
+            0 == event.modifiers)
         {
             switch (event.key)
             {

@@ -209,7 +209,10 @@ namespace dtk
     void FloatEdit::keyPressEvent(KeyEvent& event)
     {
         DTK_P();
-        if (isEnabled() && p.model && 0 == event.modifiers)
+        if (isEnabled() &&
+            p.lineEdit->hasKeyFocus() &&
+            p.model &&
+            0 == event.modifiers)
         {
             switch (event.key)
             {
