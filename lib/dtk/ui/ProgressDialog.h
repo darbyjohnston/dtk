@@ -41,6 +41,12 @@ namespace dtk
         //! Set the text.
         void setText(const std::string&);
 
+        //! Get the progress message.
+        const std::string& getMessage() const;
+
+        //! Set the progress message.
+        void setMessage(const std::string&);
+
         //! Get the range.
         const RangeD& getRange() const;
 

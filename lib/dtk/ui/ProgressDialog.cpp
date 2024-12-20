@@ -175,6 +175,9 @@ namespace dtk
         const std::string& getText() const;
         void setText(const std::string&);
 
+        const std::string& getMessage() const;
+        void setMessage(const std::string&);
+
         const RangeD& getRange() const;
         void setRange(const RangeD&);
 
@@ -190,6 +193,7 @@ namespace dtk
         std::shared_ptr<Label> _titleLabel;
         std::shared_ptr<Label> _label;
         std::shared_ptr<ProgressWidget> _progressWidget;
+        std::shared_ptr<Label> _messageLabel;
         std::shared_ptr<PushButton> _cancelButton;
         std::shared_ptr<VerticalLayout> _layout;
         std::function<void(void)> _cancelCallback;
@@ -216,17 +220,25 @@ namespace dtk
 
         _progressWidget = ProgressWidget::create(context);
 
+        _messageLabel = Label::create(context, text);
+        _messageLabel->setMarginRole(SizeRole::MarginInside);
+        _messageLabel->setHAlign(HAlign::Center);
+        _messageLabel->hide();
+
         _cancelButton = PushButton::create(context, "Cancel");
 
         _layout = VerticalLayout::create(context, shared_from_this());
         _layout->setSpacingRole(SizeRole::None);
         _titleLabel->setParent(_layout);
         Divider::create(context, Orientation::Vertical, _layout);
-        auto hLayout = HorizontalLayout::create(context, _layout);
-        hLayout->setMarginRole(SizeRole::Margin);
+        auto vLayout = VerticalLayout::create(context, _layout);
+        vLayout->setMarginRole(SizeRole::Margin);
+        vLayout->setSpacingRole(SizeRole::SpacingSmall);
+        auto hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::SpacingSmall);
         _label->setParent(hLayout);
         _progressWidget->setParent(hLayout);
+        _messageLabel->setParent(vLayout);
         Divider::create(context, Orientation::Vertical, _layout);
         hLayout = HorizontalLayout::create(context, _layout);
         hLayout->setMarginRole(SizeRole::MarginSmall);
@@ -270,6 +282,17 @@ namespace dtk
     void ProgressDialogWidget::setText(const std::string& value)
     {
         _label->setText(value);
+    }
+
+    const std::string& ProgressDialogWidget::getMessage() const
+    {
+        return _messageLabel->getText();
+    }
+
+    void ProgressDialogWidget::setMessage(const std::string& value)
+    {
+        _messageLabel->setText(value);
+        _messageLabel->setVisible(!value.empty());
     }
 
     const RangeD& ProgressDialogWidget::getRange() const
@@ -358,6 +381,16 @@ namespace dtk
     void ProgressDialog::setText(const std::string& value)
     {
         _p->widget->setText(value);
+    }
+
+    const std::string& ProgressDialog::getMessage() const
+    {
+        return _p->widget->getMessage();
+    }
+
+    void ProgressDialog::setMessage(const std::string& value)
+    {
+        _p->widget->setMessage(value);
     }
 
     const RangeD& ProgressDialog::getRange() const

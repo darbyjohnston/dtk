@@ -12,6 +12,8 @@
 #include <dtk/ui/RecentFilesModel.h>
 #include <dtk/ui/Settings.h>
 
+#include <dtk/core/Format.h>
+
 void MainWindow::_init(
     const std::shared_ptr<Context>& context,
     const std::string& name,
@@ -64,10 +66,13 @@ void MainWindow::_init(
         {
             if (auto context = getContext())
             {
+                const double inc = 0.005;
+                const double max = 1.0;
                 _progressDialog = ProgressDialog::create(
                     context,
                     "Progress",
                     "In progress:");
+                _progressDialog->setMessage(Format("{0} / {1}").arg(0).arg(int(max / inc)));
                 _progressDialog->setCloseCallback(
                     [this]
                     {
@@ -77,13 +82,15 @@ void MainWindow::_init(
                 _progressDialog->open(std::dynamic_pointer_cast<IWindow>(shared_from_this()));
                 _progressTimer->start(
                     std::chrono::microseconds(500),
-                    [this]
+                    [this, max, inc]
                     {
                         double v = _progressDialog->getValue();
                         v += 0.005;
                         if (v < 1.0)
                         {
                             _progressDialog->setValue(v);
+                            _progressDialog->setMessage(
+                                Format("{0} / {1}").arg(v * (max / inc)).arg(int(max / inc)));
                         }
                         else
                         {

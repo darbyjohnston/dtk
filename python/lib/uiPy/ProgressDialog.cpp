@@ -25,6 +25,7 @@ namespace dtk
                 py::arg("text"),
                 py::arg("parent") = nullptr)
             .def_property("text", &ProgressDialog::getText, &ProgressDialog::setText)
+            .def_property("message", &ProgressDialog::getMessage, &ProgressDialog::setMessage)
             .def_property("range", &ProgressDialog::getRange, &ProgressDialog::setRange)
             .def_property("value", &ProgressDialog::getValue, &ProgressDialog::setValue);
     }
