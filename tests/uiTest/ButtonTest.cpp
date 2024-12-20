@@ -84,6 +84,8 @@ namespace dtk
             const std::shared_ptr<VerticalLayout>& layout,
             const std::shared_ptr<IButton>& button)
         {
+            window->setCursorPos(V2I(0, 0));
+
             DTK_ASSERT(button->getParent().lock());
             DTK_ASSERT(button->getParentT<Window>());
             DTK_ASSERT(button->getWindow());
