@@ -35,7 +35,7 @@ namespace dtk
 
         p.browseButton = ToolButton::create(context);
         p.browseButton->setIcon("FileBrowser");
-        p.browseButton->setTooltip("Show the file browser");
+        p.browseButton->setTooltip("Open the file browser");
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::SpacingTool);

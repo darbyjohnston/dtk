@@ -172,6 +172,9 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
+        const std::string& getText() const;
+        void setText(const std::string&);
+
         const RangeD& getRange() const;
         void setRange(const RangeD&);
 
@@ -259,6 +262,16 @@ namespace dtk
         return out;
     }
 
+    const std::string& ProgressDialogWidget::getText() const
+    {
+        return _label->getText();
+    }
+
+    void ProgressDialogWidget::setText(const std::string& value)
+    {
+        _label->setText(value);
+    }
+
     const RangeD& ProgressDialogWidget::getRange() const
     {
         return _progressWidget->getRange();
@@ -335,6 +348,16 @@ namespace dtk
         auto out = std::shared_ptr<ProgressDialog>(new ProgressDialog);
         out->_init(context, title, text, parent);
         return out;
+    }
+
+    const std::string& ProgressDialog::getText() const
+    {
+        return _p->widget->getText();
+    }
+
+    void ProgressDialog::setText(const std::string& value)
+    {
+        _p->widget->setText(value);
     }
 
     const RangeD& ProgressDialog::getRange() const
