@@ -16,7 +16,6 @@ namespace dtk
         std::filesystem::path path;
         std::shared_ptr<LineEdit> lineEdit;
         std::shared_ptr<ToolButton> browseButton;
-        std::shared_ptr<ToolButton> clearButton;
         std::shared_ptr<HorizontalLayout> layout;
         std::function<void(const std::filesystem::path&)> callback;
         std::shared_ptr<RecentFilesModel> recentFilesModel;
@@ -38,15 +37,10 @@ namespace dtk
         p.browseButton->setIcon("FileBrowser");
         p.browseButton->setTooltip("Show the file browser");
 
-        p.clearButton = ToolButton::create(context);
-        p.clearButton->setIcon("Reset");
-        p.clearButton->setTooltip("Clear the file name");
-
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::SpacingTool);
         p.lineEdit->setParent(p.layout);
         p.browseButton->setParent(p.layout);
-        p.clearButton->setParent(p.layout);
 
         _widgetUpdate();
 
@@ -69,18 +63,6 @@ namespace dtk
             [this]
             {
                 _openDialog();
-            });
-
-        p.clearButton->setClickedCallback(
-            [this]
-            {
-                _p->lineEdit->clearText();
-                _p->path = std::string();
-                _widgetUpdate();
-                if (_p->callback)
-                {
-                    _p->callback(_p->path);
-                }
             });
     }
 
@@ -166,6 +148,5 @@ namespace dtk
         DTK_P();
         const std::string& text = p.lineEdit->getText();
         p.lineEdit->setTooltip(text);
-        p.clearButton->setEnabled(!text.empty());
     }
 }
