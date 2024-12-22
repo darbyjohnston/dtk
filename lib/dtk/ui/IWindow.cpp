@@ -218,8 +218,11 @@ namespace dtk
         IWidget::tickEvent(parentsVisible, parentsEnabled, event);
         DTK_P();
 
-        MouseMoveEvent mouseMoveEvent(p.cursorPos, p.cursorPos);
-        _hoverUpdate(mouseMoveEvent);
+        if (!p.mousePress.lock())
+        {
+            MouseMoveEvent mouseMoveEvent(p.cursorPos, p.cursorPos);
+            _hoverUpdate(mouseMoveEvent);
+        }
 
         if (p.tooltipsEnabled)
         {
