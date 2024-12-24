@@ -88,6 +88,11 @@ namespace dtk
                 const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) override;
             void drawImage(
                 const std::shared_ptr<Image>&,
+                const TriMesh2F&,
+                const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
+                const ImageOptions & = ImageOptions()) override;
+            void drawImage(
+                const std::shared_ptr<Image>&,
                 const Box2F&,
                 const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                 const ImageOptions& = ImageOptions()) override;

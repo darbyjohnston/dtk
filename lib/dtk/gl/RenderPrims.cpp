@@ -333,7 +333,7 @@ namespace dtk
 
         void Render::drawImage(
             const std::shared_ptr<Image>& image,
-            const Box2F& box,
+            const TriMesh2F& mesh,
             const Color4F& color,
             const ImageOptions& imageOptions)
         {
@@ -418,17 +418,36 @@ namespace dtk
             default: break;
             }
 
+            const size_t size = mesh.triangles.size();
+            if (!p.vbos["image"] || (p.vbos["image"] && p.vbos["image"]->getSize() < size * 3))
+            {
+                p.vbos["image"] = VBO::create(size * 3, VBOType::Pos2_F32_UV_U16);
+                p.vaos["image"].reset();
+            }
             if (p.vbos["image"])
             {
-                const auto mesh = dtk::mesh(box);
-                p.vbos["image"]->copy(convert(mesh, p.vbos["image"]->getType()));
+                p.vbos["image"]->copy(convert(mesh, VBOType::Pos2_F32_UV_U16));
                 p.stats.triCount += mesh.triangles.size();
             }
-            if (p.vaos["image"])
+
+            if (!p.vaos["image"] && p.vbos["image"])
+            {
+                p.vaos["image"] = VAO::create(p.vbos["image"]->getType(), p.vbos["image"]->getID());
+            }
+            if (p.vaos["image"] && p.vbos["image"])
             {
                 p.vaos["image"]->bind();
-                p.vaos["image"]->draw(GL_TRIANGLES, 0, p.vbos["image"]->getSize());
+                p.vaos["image"]->draw(GL_TRIANGLES, 0, size * 3);
             }
+        }
+
+        void Render::drawImage(
+            const std::shared_ptr<Image>& image,
+            const Box2F& box,
+            const Color4F& color,
+            const ImageOptions& imageOptions)
+        {
+            drawImage(image, dtk::mesh(box), color, imageOptions);
         }
 
         void Render::_drawTextMesh(const TriMesh2F& mesh)

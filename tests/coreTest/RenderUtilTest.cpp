@@ -39,7 +39,7 @@ namespace dtk
 
                 void begin(
                     const Size2I&,
-                    const RenderOptions & = RenderOptions()) override;
+                    const RenderOptions& = RenderOptions()) override;
                 void end() override {}
                 Size2I getRenderSize() const override;
                 void setRenderSize(const Size2I&) override;
@@ -62,29 +62,34 @@ namespace dtk
                     const V2F&,
                     const V2F&,
                     const Color4F&,
-                    const LineOptions & = LineOptions()) override {}
+                    const LineOptions& = LineOptions()) override {}
                 void drawLines(
                     const std::vector<std::pair<V2F, V2F> >&,
                     const Color4F&,
-                    const LineOptions & = LineOptions()) override {}
+                    const LineOptions& = LineOptions()) override {}
                 void drawMesh(
                     const TriMesh2F&,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                     const V2F& pos = V2F()) override {}
                 void drawColorMesh(
                     const TriMesh2F&,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                     const V2F& pos = V2F()) override {}
                 void drawText(
                     const std::vector<std::shared_ptr<Glyph> >&,
                     const FontMetrics&,
                     const V2F& position,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F)) override {}
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F)) override {}
+                void drawImage(
+                    const std::shared_ptr<Image>&,
+                    const TriMesh2F&,
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const ImageOptions& = ImageOptions()) override {}
                 void drawImage(
                     const std::shared_ptr<Image>&,
                     const Box2F&,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
-                    const ImageOptions & = ImageOptions()) override {}
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const ImageOptions& = ImageOptions()) override {}
 
             private:
                 Size2I _renderSize;

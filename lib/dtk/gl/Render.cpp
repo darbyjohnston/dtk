@@ -123,8 +123,6 @@ namespace dtk
             p.vaos["rect"] = VAO::create(p.vbos["rect"]->getType(), p.vbos["rect"]->getID());
             p.vbos["line"] = VBO::create(2 * 3, VBOType::Pos2_F32);
             p.vaos["line"] = VAO::create(p.vbos["line"]->getType(), p.vbos["line"]->getID());
-            p.vbos["image"] = VBO::create(2 * 3, VBOType::Pos2_F32_UV_U16);
-            p.vaos["image"] = VAO::create(p.vbos["image"]->getType(), p.vbos["image"]->getID());
 
             setViewport(Box2I(0, 0, size.w, size.h));
             if (options.clear)

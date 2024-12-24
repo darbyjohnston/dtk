@@ -118,14 +118,14 @@ namespace dtk
                     const LineOptions& = LineOptions()) override {}
                 void drawMesh(
                     const TriMesh2F&,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                     const V2F& pos = V2F()) override
                 {
                     ++_meshCount;
                 }
                 void drawColorMesh(
                     const TriMesh2F&,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                     const V2F& pos = V2F()) override
                 {
                     ++_meshCount;
@@ -140,8 +140,16 @@ namespace dtk
                 }
                 void drawImage(
                     const std::shared_ptr<Image>&,
+                    const TriMesh2F&,
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const ImageOptions& = ImageOptions()) override
+                {
+                    ++_imageCount;
+                }
+                void drawImage(
+                    const std::shared_ptr<Image>&,
                     const Box2F&,
-                    const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
+                    const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                     const ImageOptions& = ImageOptions()) override
                 {
                     ++_imageCount;
