@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 set(NFD_GIT_REPOSITORY "https://github.com/btzy/nativefiledialog-extended.git")
-set(NFD_GIT_TAG "v1.0.3")
+set(NFD_GIT_TAG "v1.2.1")
 
 set(NFD_ARGS
     ${dtk_DEPS_ARGS}
