@@ -361,6 +361,8 @@ namespace dtk
             p.shaders["image"]->bind();
             p.shaders["image"]->setUniform("color", color);
             p.shaders["image"]->setUniform("imageType", static_cast<int>(info.type));
+            p.shaders["image"]->setUniform("channelCount", getChannelCount(info.type));
+            p.shaders["image"]->setUniform("channelDisplay", static_cast<int>(imageOptions.channelDisplay));
             VideoLevels videoLevels = info.videoLevels;
             switch (imageOptions.videoLevels)
             {
@@ -374,7 +376,6 @@ namespace dtk
             }
             p.shaders["image"]->setUniform("videoLevels", static_cast<int>(videoLevels));
             p.shaders["image"]->setUniform("yuvCoefficients", getYUVCoefficients(info.yuvCoefficients));
-            p.shaders["image"]->setUniform("imageChannels", getChannelCount(info.type));
             p.shaders["image"]->setUniform("mirrorX", info.layout.mirror.x);
             p.shaders["image"]->setUniform("mirrorY", info.layout.mirror.y);
             switch (info.type)

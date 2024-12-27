@@ -13,6 +13,14 @@
 namespace dtk
 {
     DTK_ENUM_IMPL(
+        ChannelDisplay,
+        "Color",
+        "Red",
+        "Green",
+        "Blue",
+        "Alpha");
+
+    DTK_ENUM_IMPL(
         InputVideoLevels,
         "FromFile",
         "FullRange",

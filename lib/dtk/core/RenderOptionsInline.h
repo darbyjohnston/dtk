@@ -43,6 +43,7 @@ namespace dtk
     inline bool ImageOptions::operator == (const ImageOptions& other) const
     {
         return
+            channelDisplay == other.channelDisplay &&
             videoLevels == other.videoLevels &&
             alphaBlend == other.alphaBlend &&
             imageFilters == other.imageFilters &&

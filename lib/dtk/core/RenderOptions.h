@@ -45,6 +45,20 @@ namespace dtk
         bool operator != (const LineOptions&) const;
     };
 
+    //! Channel display.
+    enum class ChannelDisplay
+    {
+        Color,
+        Red,
+        Green,
+        Blue,
+        Alpha,
+
+        Count,
+        First = Color
+    };
+    DTK_ENUM(ChannelDisplay);
+
     //! Input video levels.
     enum class InputVideoLevels
     {
@@ -96,10 +110,11 @@ namespace dtk
     //! Image options.
     struct ImageOptions
     {
-        InputVideoLevels videoLevels  = InputVideoLevels::FromFile;
-        AlphaBlend       alphaBlend   = AlphaBlend::Straight;
+        ChannelDisplay   channelDisplay = ChannelDisplay::Color;
+        InputVideoLevels videoLevels    = InputVideoLevels::FromFile;
+        AlphaBlend       alphaBlend     = AlphaBlend::Straight;
         ImageFilters     imageFilters;
-        bool             cache        = true;
+        bool             cache          = true;
 
         bool operator == (const ImageOptions&) const;
         bool operator != (const ImageOptions&) const;
