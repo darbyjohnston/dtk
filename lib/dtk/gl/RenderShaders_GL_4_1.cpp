@@ -288,7 +288,7 @@ namespace dtk
                 "    }\n"
                 "    else if (ChannelDisplay_Blue == channelDisplay)\n"
                 "    {\n"
-                "        outColor.r = outColor.g = outColor.r;\n"
+                "        outColor.r = outColor.g = outColor.b;\n"
                 "    }\n"
                 "    else if (ChannelDisplay_Alpha == channelDisplay)\n"
                 "    {\n"
