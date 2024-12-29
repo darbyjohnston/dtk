@@ -70,11 +70,19 @@ namespace dtk
         p.layout->setGridPos(p.scrollArea, 0, 0);
         if (p.horizontalScrollBar)
         {
+            if (p.scrollBarsAutoHide)
+            {
+                p.horizontalScrollBar->hide();
+            }
             p.horizontalScrollBar->setParent(p.layout);
             p.layout->setGridPos(p.horizontalScrollBar, 1, 0);
         }
         if (p.verticalScrollBar)
         {
+            if (p.scrollBarsAutoHide)
+            {
+                p.verticalScrollBar->hide();
+            }
             p.verticalScrollBar->setParent(p.layout);
             p.layout->setGridPos(p.verticalScrollBar, 0, 1);
         }
