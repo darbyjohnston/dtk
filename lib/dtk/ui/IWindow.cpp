@@ -4,7 +4,7 @@
 
 #include <dtk/ui/IWindow.h>
 
-#include <dtk/ui/IDialog.h>
+#include <dtk/ui/IPopup.h>
 #include <dtk/ui/IClipboard.h>
 #include <dtk/ui/Tooltip.h>
 
@@ -651,7 +651,7 @@ namespace dtk
         if (UnderCursor::Tooltip == type)
         {
             auto i = out.begin();
-            for (; i != out.end() && !std::dynamic_pointer_cast<IDialog>(*i); ++i)
+            for (; i != out.end() && !std::dynamic_pointer_cast<IPopup>(*i); ++i)
                 ;
             if (i != out.end())
             {
