@@ -430,10 +430,10 @@ namespace dtk
     void Menu::_accept()
     {
         DTK_P();
-        close();
         if (auto parentMenu = p.parentMenu.lock())
         {
             parentMenu->_accept();
         }
+        close();
     }
 }
