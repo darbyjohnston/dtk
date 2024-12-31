@@ -65,8 +65,11 @@ namespace dtk
         //! Set the callback.
         void setCallback(const std::function<void(int, bool)>&);
 
-        //! Observer the current item.
+        //! Observe the current item.
         std::shared_ptr<IObservableValue<int> > observeCurrent() const;
+
+        //! Observe the item to scroll to.
+        std::shared_ptr<IObservableValue<int> > observeScrollTo() const;
 
         //! Get the search.
         const std::string& getSearch() const;

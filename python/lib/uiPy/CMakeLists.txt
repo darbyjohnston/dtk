@@ -24,6 +24,7 @@ set(HEADERS
     GroupBox.h
     IButton.h
     IDialog.h
+    IMenuPopup.h
     IPopup.h
     IWidget.h
     IWidgetPopup.h
@@ -37,6 +38,9 @@ set(HEADERS
     Label.h
     MDICanvas.h
     MDIWidget.h
+    MainWindow.h
+    Menu.h
+    MenuBar.h
     MessageDialog.h
     ProgressDialog.h
     PushButton.h
@@ -79,6 +83,7 @@ set(SOURCE
     GroupBox.cpp
     IButton.cpp
     IDialog.cpp
+    IMenuPopup.cpp
     IPopup.cpp
     IWidget.cpp
     IWidgetPopup.cpp
@@ -92,6 +97,9 @@ set(SOURCE
     Label.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    MainWindow.cpp
+    Menu.cpp
+    MenuBar.cpp
     MessageDialog.cpp
     ProgressDialog.cpp
     PushButton.cpp

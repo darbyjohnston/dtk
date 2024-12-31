@@ -49,6 +49,7 @@ set(HEADERS
     LineEdit.h
     ListItemsWidget.h
     ListWidget.h
+    MainWindow.h
     MDICanvas.h
     MDIWidget.h
     Menu.h
@@ -145,6 +146,7 @@ set(SOURCE
     ListWidget.cpp
     MDICanvas.cpp
     MDIWidget.cpp
+    MainWindow.cpp
     Menu.cpp
     MenuBar.cpp
     MenuBarButton.cpp

@@ -152,23 +152,6 @@ namespace dtk
         return _p->open;
     }
 
-    void IMenuPopup::close()
-    {
-        DTK_P();
-        p.open = false;
-        setParent(nullptr);
-        auto widget = p.restoreFocus.lock();
-        p.restoreFocus.reset();
-        if (p.closeCallback)
-        {
-            p.closeCallback();
-        }
-        if (widget)
-        {
-            widget->takeKeyFocus();
-        }
-    }
-
     void IMenuPopup::setCloseCallback(const std::function<void(void)>& value)
     {
         _p->closeCallback = value;
@@ -194,6 +177,23 @@ namespace dtk
         DTK_P();
         p.widget = value;
         p.scrollWidget->setWidget(p.widget);
+    }
+
+    void IMenuPopup::close()
+    {
+        DTK_P();
+        p.open = false;
+        setParent(nullptr);
+        auto widget = p.restoreFocus.lock();
+        p.restoreFocus.reset();
+        if (p.closeCallback)
+        {
+            p.closeCallback();
+        }
+        if (widget)
+        {
+            widget->takeKeyFocus();
+        }
     }
 
     void IMenuPopup::setGeometry(const Box2I& value)

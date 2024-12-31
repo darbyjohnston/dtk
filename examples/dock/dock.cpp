@@ -6,10 +6,10 @@
 
 #include <dtk/ui/App.h>
 #include <dtk/ui/Label.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/Splitter.h>
 #include <dtk/ui/ToolButton.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 
@@ -49,14 +49,18 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "dock",
             Size2I(1280, 960));
         app->addWindow(window);
 
-        auto layout = VerticalLayout::create(context, window);
+        auto layout = VerticalLayout::create(context);
         layout->setSpacingRole(SizeRole::None);
+        layout->setVStretch(Stretch::Expanding);
+        window->setWidget(layout);
+
         auto splitter = Splitter::create(context, Orientation::Horizontal, layout);
         createWidget(context, splitter);
         createWidget(context, splitter);

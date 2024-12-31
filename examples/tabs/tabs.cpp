@@ -4,9 +4,9 @@
 
 #include <dtk/ui/App.h>
 #include <dtk/ui/Label.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/ScrollWidget.h>
 #include <dtk/ui/TabWidget.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 #include <dtk/core/String.h>
@@ -24,15 +24,18 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "tabs",
             Size2I(1280, 960));
         app->addWindow(window);
 
         // Create the tab widget.
-        auto tabWidget = TabWidget::create(context, window);
+        auto tabWidget = TabWidget::create(context);
         //tabWidget->setTabsClosable(true);
+        tabWidget->setVStretch(Stretch::Expanding);
+        window->setWidget(tabWidget);
 
         // Add tabs.
         for (size_t i = 0; i < 10; ++i)

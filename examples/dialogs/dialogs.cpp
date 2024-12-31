@@ -4,29 +4,63 @@
 
 #include "dialogs.h"
 
-#include <dtk/ui/App.h>
 #include <dtk/ui/DialogSystem.h>
+#include <dtk/ui/Divider.h>
 #include <dtk/ui/FileBrowser.h>
 #include <dtk/ui/FileEdit.h>
+#include <dtk/ui/MenuBar.h>
 #include <dtk/ui/PushButton.h>
 #include <dtk/ui/RecentFilesModel.h>
+#include <dtk/ui/RowLayout.h>
 #include <dtk/ui/Settings.h>
 
 #include <dtk/core/Format.h>
 
-void MainWindow::_init(
+void DialogsWindow::_init(
     const std::shared_ptr<Context>& context,
+    const std::shared_ptr<App>& app,
     const std::string& name,
     const Size2I& size)
 {
-    Window::_init(context, name, size);
+    MainWindow::_init(context, app, name, size);
+
+    // Create the menus.
+    getMenuBar()->clear();
+    auto menu = Menu::create(context);
+    menu->addItem(std::make_shared<Action>(
+        "Open",
+        Key::O,
+        static_cast<int>(commandKeyModifier),
+        []
+        {
+        }));
+    auto action = std::make_shared<Action>(
+        "Close",
+        Key::E,
+        static_cast<int>(commandKeyModifier),
+        []
+        {
+        });
+    menu->addItem(action);
+    menu->setItemEnabled(action, false);
+    menu->addDivider();
+    menu->addItem(std::make_shared<Action>(
+        "Exit",
+        Key::Q,
+        static_cast<int>(commandKeyModifier),
+        [this]
+        {
+            _getApp()->exit();
+        }));
+    getMenuBar()->addMenu("File", menu);
 
     // Create the layout.
-    _layout = VerticalLayout::create(context, shared_from_this());
-    _layout->setMarginRole(SizeRole::Margin);
+    auto layout = VerticalLayout::create(context);
+    layout->setMarginRole(SizeRole::Margin);
+    setWidget(layout);
 
     // Message dialog.
-    auto button = PushButton::create(context, "Message Dialog", _layout);
+    auto button = PushButton::create(context, "Message Dialog", layout);
     button->setClickedCallback(
         [this]
         {
@@ -35,12 +69,12 @@ void MainWindow::_init(
                 context->getSystem<DialogSystem>()->message(
                     "Message",
                     "Hello world!",
-                    std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+                    std::dynamic_pointer_cast<DialogsWindow>(shared_from_this()));
             }
         });
 
     // Confirmation dialog.
-    button = PushButton::create(context, "Confirmation Dialog", _layout);
+    button = PushButton::create(context, "Confirmation Dialog", layout);
     button->setClickedCallback(
         [this]
         {
@@ -49,7 +83,7 @@ void MainWindow::_init(
                 context->getSystem<DialogSystem>()->confirm(
                     "Confirm",
                     "Hello world?",
-                    std::dynamic_pointer_cast<MainWindow>(shared_from_this()),
+                    std::dynamic_pointer_cast<DialogsWindow>(shared_from_this()),
                     [](bool value)
                     {
                         std::cout << "Hello world: " << value << std::endl;
@@ -60,7 +94,7 @@ void MainWindow::_init(
     // Progress dialog.
     _progressTimer = Timer::create(context);
     _progressTimer->setRepeating(true);
-    button = PushButton::create(context, "Progress Dialog", _layout);
+    button = PushButton::create(context, "Progress Dialog", layout);
     button->setClickedCallback(
         [this]
         {
@@ -102,24 +136,25 @@ void MainWindow::_init(
 
     // File browser.
     auto recentFilesModel = RecentFilesModel::create(context);
-    auto fileEdit = FileEdit::create(context, _layout);
+    auto fileEdit = FileEdit::create(context, layout);
     fileEdit->setRecentFilesModel(recentFilesModel);
     fileEdit->setPath("File Browser");
 }
 
-MainWindow::MainWindow()
+DialogsWindow::DialogsWindow()
 {}
 
-MainWindow::~MainWindow()
+DialogsWindow::~DialogsWindow()
 {}
 
-std::shared_ptr<Window> MainWindow::create(
+std::shared_ptr<Window> DialogsWindow::create(
     const std::shared_ptr<Context>& context,
+    const std::shared_ptr<App>& app,
     const std::string& name,
     const Size2I& size)
 {
-    auto out = std::shared_ptr<MainWindow>(new MainWindow);
-    out->_init(context, name, size);
+    auto out = std::shared_ptr<DialogsWindow>(new DialogsWindow);
+    out->_init(context, app, name, size);
     return out;
 }
 
@@ -144,8 +179,9 @@ DTK_MAIN()
         context->getSystem<dtk::FileBrowserSystem>()->setNativeFileDialog(false);
 
         // Create the window.
-        auto window = MainWindow::create(
+        auto window = DialogsWindow::create(
             context,
+            app,
             "dialogs",
             Size2I(1280, 960));
         app->addWindow(window);

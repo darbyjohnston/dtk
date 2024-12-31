@@ -7,8 +7,8 @@
 #include <dtk/ui/App.h>
 #include <dtk/ui/DrawUtil.h>
 #include <dtk/ui/GridLayout.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/Window.h>
 
 #include <iomanip>
 #include <sstream>
@@ -218,8 +218,9 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "dnd",
             Size2I(1280, 960));
         app->addWindow(window);
@@ -228,9 +229,11 @@ DTK_MAIN()
         auto layout = GridLayout::create(context);
         layout->setMarginRole(SizeRole::MarginSmall);
         layout->setSpacingRole(SizeRole::SpacingSmall);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
+        scrollWidget->setVStretch(Stretch::Expanding);
+        window->setWidget(scrollWidget);
 
         // Create the drag and drop widgets.
         const size_t count = 20;

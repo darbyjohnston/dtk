@@ -46,9 +46,6 @@ namespace dtk
         //! Get whether the popup is open.
         bool isOpen() const;
 
-        //! Close the popup.
-        void close() override;
-
         //! Set the close callback.
         void setCloseCallback(const std::function<void(void)>&);
 
@@ -60,6 +57,8 @@ namespace dtk
 
         //! Set the popup widget.
         void setWidget(const std::shared_ptr<IWidget>&);
+
+        void close() override;
 
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;

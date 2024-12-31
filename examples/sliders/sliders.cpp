@@ -7,9 +7,9 @@
 #include <dtk/ui/DoubleEditSlider.h>
 #include <dtk/ui/FloatEditSlider.h>
 #include <dtk/ui/IntEditSlider.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 
@@ -26,8 +26,9 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "sliders",
             Size2I(1280, 960));
         app->addWindow(window);
@@ -35,9 +36,11 @@ DTK_MAIN()
         // Create the layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
+        scrollWidget->setVStretch(Stretch::Expanding);
         scrollWidget->setWidget(layout);
+        window->setWidget(scrollWidget);
 
         // Create integer sliders.
         auto groupBox = GroupBox::create(context, "Integer Sliders", layout);

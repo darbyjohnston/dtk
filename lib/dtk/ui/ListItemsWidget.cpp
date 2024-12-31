@@ -37,6 +37,7 @@ namespace dtk
         std::shared_ptr<VerticalLayout> layout;
         std::function<void(int, bool)> callback;
         std::shared_ptr<ObservableValue<int> > current;
+        std::shared_ptr<ObservableValue<int> > scrollTo;
         std::string search;
     };
 
@@ -86,6 +87,7 @@ namespace dtk
         }
 
         p.current = ObservableValue<int>::create(-1);
+        p.scrollTo = ObservableValue<int>::create(-1);
     }
 
     ListItemsWidget::ListItemsWidget() :
@@ -117,7 +119,10 @@ namespace dtk
             return;
         p.items = value;
         _itemsUpdate();
-        p.current->setIfChanged(clamp(p.current->get(), 0, static_cast<int>(p.items.size()) - 1));
+        if (p.current->setIfChanged(clamp(p.current->get(), 0, static_cast<int>(p.items.size()) - 1)))
+        {
+            p.scrollTo->setIfChanged(p.current->get());
+        }
     }
 
     void ListItemsWidget::setItems(const std::vector<std::string>& value)
@@ -154,6 +159,11 @@ namespace dtk
     std::shared_ptr<IObservableValue<int> > ListItemsWidget::observeCurrent() const
     {
         return _p->current;
+    }
+
+    std::shared_ptr<IObservableValue<int> > ListItemsWidget::observeScrollTo() const
+    {
+        return _p->scrollTo;
     }
 
     const std::string& ListItemsWidget::getSearch() const
@@ -207,7 +217,9 @@ namespace dtk
     void ListItemsWidget::keyFocusEvent(bool value)
     {
         IWidget::keyFocusEvent(value);
+        DTK_P();
         _currentUpdate();
+        p.scrollTo->setAlways(p.current->get());
     }
 
     void ListItemsWidget::keyPressEvent(KeyEvent& event)
@@ -297,6 +309,7 @@ namespace dtk
         if (p.current->setIfChanged(tmp))
         {
             _currentUpdate();
+            p.scrollTo->setIfChanged(p.current->get());
         }
     }
 

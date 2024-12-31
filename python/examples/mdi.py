@@ -13,12 +13,15 @@ if app.getExit() != 0:
 
 # Create the window.
 size = dtk.Size2I(1280, 960)
-window = dtk.Window(context, "buttons", size)
+window = dtk.MainWindow(context, app, "buttons", size)
 app.addWindow(window)
 
 # Create the scroll widget.
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
-        
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+scrollWidget.border = False
+scrollWidget.vStretch = dtk.Stretch.Expanding
+window.setWidget(scrollWidget)
+
 # Create the MDI canvas.
 canvas = dtk.MDICanvas(context)
 scrollWidget.widget = canvas

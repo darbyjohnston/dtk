@@ -12,6 +12,7 @@ namespace dtk
 {
     struct IWindow::Private
     {
+        bool inside = false;
         V2I cursorPos;
         V2I cursorPosPrev;
         std::weak_ptr<IWidget> hover;
@@ -217,39 +218,41 @@ namespace dtk
     {
         IWidget::tickEvent(parentsVisible, parentsEnabled, event);
         DTK_P();
-
-        if (!p.mousePress.lock())
+        if (p.inside)
         {
-            MouseMoveEvent mouseMoveEvent(p.cursorPos, p.cursorPos);
-            _hoverUpdate(mouseMoveEvent);
-        }
-
-        if (p.tooltipsEnabled)
-        {
-            const auto tooltipTime = std::chrono::steady_clock::now();
-            const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
-            if (tooltipDiff > tooltipTimeout && !p.tooltip)
+            if (!p.mousePress.lock())
             {
-                if (auto context = getContext())
+                MouseMoveEvent mouseMoveEvent(p.cursorPos, p.cursorPos);
+                _hoverUpdate(mouseMoveEvent);
+            }
+
+            if (p.tooltipsEnabled)
+            {
+                const auto tooltipTime = std::chrono::steady_clock::now();
+                const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
+                if (tooltipDiff > tooltipTimeout && !p.tooltip)
                 {
-                    std::string text;
-                    const auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
-                    for (const auto& widget : widgets)
+                    if (auto context = getContext())
                     {
-                        text = widget->getTooltip();
+                        std::string text;
+                        const auto widgets = _getUnderCursor(UnderCursor::Tooltip, p.cursorPos);
+                        for (const auto& widget : widgets)
+                        {
+                            text = widget->getTooltip();
+                            if (!text.empty())
+                            {
+                                break;
+                            }
+                        }
                         if (!text.empty())
                         {
-                            break;
+                            p.tooltip = Tooltip::create(
+                                context,
+                                text,
+                                p.cursorPos,
+                                shared_from_this());
+                            p.tooltipPos = p.cursorPos;
                         }
-                    }
-                    if (!text.empty())
-                    {
-                        p.tooltip = Tooltip::create(
-                            context,
-                            text,
-                            p.cursorPos,
-                            shared_from_this());
-                        p.tooltipPos = p.cursorPos;
                     }
                 }
             }
@@ -442,7 +445,8 @@ namespace dtk
     void IWindow::_cursorEnter(bool enter)
     {
         DTK_P();
-        if (!enter)
+        p.inside = enter;
+        if (!p.inside)
         {
             if (auto hover = p.hover.lock())
             {

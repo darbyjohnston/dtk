@@ -36,6 +36,9 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<Menu>&);
 
+        //! Clear the menus.
+        void clear();
+
         //! Handle keyboard shortcuts.
         bool shortcut(Key, int);
 

@@ -12,14 +12,17 @@ if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = dtk.Window(context, "bellows", dtk.Size2I(1280, 960))
+window = dtk.MainWindow(context, app, "bellows", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
 layout = dtk.VerticalLayout(context)
 layout.spacingRole = dtk.SizeRole.SizeRole_None
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+scrollWidget.border = False
+scrollWidget.vStretch = dtk.Stretch.Expanding
 scrollWidget.widget = layout;
+window.setWidget(scrollWidget)
 
 # Add a bellows.
 vLayout = dtk.VerticalLayout(context)

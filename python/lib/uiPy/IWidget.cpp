@@ -44,7 +44,7 @@ namespace dtk
 
             .def_property_readonly("sizeHint", &IWidget::getSizeHint)
             .def_property("hStretch", &IWidget::getHStretch, &IWidget::setHStretch)
-            .def_property("vStretch", &IWidget::getVStretch, &IWidget::setHStretch)
+            .def_property("vStretch", &IWidget::getVStretch, &IWidget::setVStretch)
             .def(
                 "setStretch",
                 py::overload_cast<Stretch, Stretch>(&IWidget::setStretch),

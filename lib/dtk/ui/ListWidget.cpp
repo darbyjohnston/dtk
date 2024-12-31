@@ -14,7 +14,7 @@ namespace dtk
     {
         std::shared_ptr<ListItemsWidget> widget;
         std::shared_ptr<ScrollWidget> scrollWidget;
-        std::shared_ptr<ValueObserver<int> > currentObserver;
+        std::shared_ptr<ValueObserver<int> > scrollToObserver;
     };
 
     void ListWidget::_init(
@@ -30,8 +30,8 @@ namespace dtk
         p.scrollWidget = ScrollWidget::create(context, ScrollType::Both, shared_from_this());
         p.scrollWidget->setWidget(p.widget);
 
-        p.currentObserver = ValueObserver<int>::create(
-            p.widget->observeCurrent(),
+        p.scrollToObserver = ValueObserver<int>::create(
+            p.widget->observeScrollTo(),
             [this](int value)
             {
                 if (value >= 0)

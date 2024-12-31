@@ -28,6 +28,7 @@
 #include <uiPy/GroupBox.h>
 #include <uiPy/IButton.h>
 #include <uiPy/IDialog.h>
+#include <uiPy/IMenuPopup.h>
 #include <uiPy/IPopup.h>
 #include <uiPy/IWidget.h>
 #include <uiPy/IWidgetPopup.h>
@@ -41,6 +42,9 @@
 #include <uiPy/Label.h>
 #include <uiPy/MDICanvas.h>
 #include <uiPy/MDIWidget.h>
+#include <uiPy/MainWindow.h>
+#include <uiPy/Menu.h>
+#include <uiPy/MenuBar.h>
 #include <uiPy/MessageDialog.h>
 #include <uiPy/ProgressDialog.h>
 #include <uiPy/PushButton.h>
@@ -84,9 +88,11 @@ namespace dtk
         iWindow(m);
         iPopup(m);
         iDialog(m);
+        iMenuPopup(m);
         iWidgetPopup(m);
         iButton(m);
         settings(m);
+        window(m);
 
         app(m);
         bellows(m);
@@ -116,8 +122,11 @@ namespace dtk
         intModel(m);
         intSlider(m);
         label(m);
+        mainWindow(m);
         mdiCanvas(m);
         mdiWidget(m);
+        menu(m);
+        menuBar(m);
         messageDialog(m);
         progressDialog(m);
         pushButton(m);
@@ -129,6 +138,5 @@ namespace dtk
         tabBar(m);
         tabWidget(m);
         toolButton(m);
-        window(m);
     }
 }

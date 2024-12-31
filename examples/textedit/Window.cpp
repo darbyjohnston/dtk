@@ -8,7 +8,7 @@
 
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/FileBrowser.h>
-#include <dtk/ui/Menu.h>
+#include <dtk/ui/MenuBar.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
 
@@ -26,7 +26,7 @@ namespace dtk
                 const std::string& name,
                 const Size2I& size)
             {
-                dtk::Window::_init(context, name, size);
+                MainWindow::_init(context, app, name, size);
 
                 _menus["File"] = Menu::create(context);
                 auto appWeak = std::weak_ptr<App>(app);
@@ -101,22 +101,19 @@ namespace dtk
                     });
                 _menus["Edit/Font"]->addItem(_actions["Edit/Font/Regular"]);
 
-                auto layout = VerticalLayout::create(context, shared_from_this());
-                layout->setSpacingRole(SizeRole::None);
-
-                _menuBar = MenuBar::create(context, layout);
-                _menuBar->addMenu("File", _menus["File"]);
-                _menuBar->addMenu("Edit", _menus["Edit"]);
-
-                Divider::create(context, Orientation::Vertical, layout);
+                auto menuBar = getMenuBar();
+                menuBar->clear();
+                menuBar->addMenu("File", _menus["File"]);
+                menuBar->addMenu("Edit", _menus["Edit"]);
 
                 _textWidget = Label::create(context);
                 _textWidget->setMarginRole(SizeRole::MarginInside);
                 _textWidget->setVAlign(VAlign::Top);
-                auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, layout);
+                auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
                 scrollWidget->setBorder(false);
-                scrollWidget->setStretch(Stretch::Expanding);
+                scrollWidget->setVStretch(Stretch::Expanding);
                 scrollWidget->setWidget(_textWidget);
+                setWidget(scrollWidget);
 
                 _fontObserver = ValueObserver<FontRole>::create(
                     app->observeFont(),
@@ -151,16 +148,6 @@ namespace dtk
                 auto out = std::shared_ptr<Window>(new Window);
                 out->_init(context, app, name, size);
                 return out;
-            }
-
-            void Window::keyPressEvent(KeyEvent& event)
-            {
-                event.accept = _menuBar->shortcut(event.key, event.modifiers);
-            }
-
-            void Window::keyReleaseEvent(KeyEvent& event)
-            {
-                event.accept = true;
             }
         }
     }

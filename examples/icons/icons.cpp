@@ -7,8 +7,8 @@
 #include <dtk/ui/Icon.h>
 #include <dtk/ui/IconSystem.h>
 #include <dtk/ui/Label.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 
@@ -25,8 +25,9 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "icons",
             Size2I(1280, 960));
         app->addWindow(window);
@@ -35,9 +36,11 @@ DTK_MAIN()
         auto layout = GridLayout::create(context);
         layout->setRowBackgroundRole(ColorRole::Base);
         layout->setSpacingRole(SizeRole::None);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
+        scrollWidget->setVStretch(Stretch::Expanding);
+        window->setWidget(scrollWidget);
 
         // Create the icons.
         auto iconSystem = context->getSystem<IconSystem>();

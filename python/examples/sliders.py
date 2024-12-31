@@ -12,15 +12,18 @@ if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = dtk.Window(context, "buttons", dtk.Size2I(1280, 960))
+window = dtk.MainWindow(context, app, "buttons", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
 layout = dtk.VerticalLayout(context)
 layout.marginRole = dtk.SizeRole.Margin
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+scrollWidget.border = False
+scrollWidget.vStretch = dtk.Stretch.Expanding
 scrollWidget.widget = layout
-        
+window.setWidget(scrollWidget)
+
 # Create integer sliders.
 groupBox = dtk.GroupBox(context, "Integer sliders", layout)
 vLayout = dtk.VerticalLayout(context, groupBox)

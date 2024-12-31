@@ -12,12 +12,14 @@ if app.getExit() != 0:
     sys.exit(1)
 
 # Create the window.
-window = dtk.Window(context, "tabs", dtk.Size2I(1280, 960))
+window = dtk.MainWindow(context, app, "tabs", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the tab widget.
-tabWidget = dtk.TabWidget(context, window)
-        
+tabWidget = dtk.TabWidget(context)
+tabWidget.vStretch = dtk.Stretch.Expanding
+window.setWidget(tabWidget)
+
 # Add tabs.
 for i in range(0, 10):
     label = dtk.Label(context, dtk.getLoremIpsum(100))

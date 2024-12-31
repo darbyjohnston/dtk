@@ -84,6 +84,22 @@ namespace dtk
         }
     }
 
+    void MenuBar::clear()
+    {
+        DTK_P();
+        for (const auto& menu : p.menus)
+        {
+            menu->setParent(nullptr);
+        }
+        p.menus.clear();
+        for (const auto& button : p.buttons)
+        {
+            button->setParent(nullptr);
+        }
+        p.buttons.clear();
+        p.current = -1;
+    }
+
     bool MenuBar::shortcut(Key shortcut, int modifiers)
     {
         DTK_P();

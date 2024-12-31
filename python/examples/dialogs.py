@@ -6,15 +6,14 @@ import dtk
 
 import sys
 
-class Window(dtk.Window):
-    def __init__(self, context, name, size):
-        dtk.Window.__init__(self, context, name, size)
+class DialogsWindow(dtk.MainWindow):
+    def __init__(self, context, app, name, size):
+        dtk.MainWindow.__init__(self, context, app, name, size)
         
         # Create the layout.
         layout = dtk.VerticalLayout(context)
         layout.marginRole = dtk.SizeRole.Margin
-        scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, self)
-        scrollWidget.widget = layout
+        self.setWidget(layout)
 
         # Message dialog.
         button = dtk.PushButton(context, "Message Dialog", layout)
@@ -24,7 +23,7 @@ class Window(dtk.Window):
         # Confirmation dialog.
         button = dtk.PushButton(context, "Confirmation Dialog", layout)
         button.setClickedCallback(lambda: context.getSystemByName("dtk::DialogSystem").
-                confirm("Confirm", "Hello world?", window, lambda ok: print("Hellow world:", ok)))
+            confirm("Confirm", "Hello world?", window, lambda ok: print("Hellow world:", ok)))
 
         # Progress dialog.
         self.progressTimer = dtk.Timer(context)
@@ -63,7 +62,7 @@ if app.getExit() != 0:
 context.getSystemByName("dtk::FileBrowserSystem").nativeFileDialog = False
 
 # Create the window.
-window = Window(context, "dialogs", dtk.Size2I(1280, 960))
+window = DialogsWindow(context, app, "dialogs", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 window.show()

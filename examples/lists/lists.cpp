@@ -4,9 +4,9 @@
 
 #include <dtk/ui/App.h>
 #include <dtk/ui/ListWidget.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 
@@ -23,8 +23,9 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "lists",
             Size2I(1280, 960));
         app->addWindow(window);
@@ -32,9 +33,11 @@ DTK_MAIN()
         // Create the layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
+        scrollWidget->setVStretch(Stretch::Expanding);
+        window->setWidget(scrollWidget);
 
         // Create a clickable list widget.
         auto listWidget = ListWidget::create(context, ButtonGroupType::Click, layout);

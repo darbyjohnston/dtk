@@ -5,8 +5,8 @@
 #pragma once
 
 #include <dtk/ui/Label.h>
-#include <dtk/ui/MenuBar.h>
-#include <dtk/ui/Window.h>
+#include <dtk/ui/MainWindow.h>
+#include <dtk/ui/Menu.h>
 
 namespace dtk
 {
@@ -16,7 +16,7 @@ namespace dtk
         {
             class App;
 
-            class Window : public dtk::Window
+            class Window : public dtk::MainWindow
             {
             protected:
                 void _init(
@@ -36,13 +36,9 @@ namespace dtk
                     const std::string& name,
                     const Size2I&);
 
-                void keyPressEvent(KeyEvent&) override;
-                void keyReleaseEvent(KeyEvent&) override;
-
             private:
                 std::map<std::string, std::shared_ptr<Action> > _actions;
                 std::map<std::string, std::shared_ptr<Menu> > _menus;
-                std::shared_ptr<MenuBar> _menuBar;
                 std::shared_ptr<Label> _textWidget;
                 std::shared_ptr<ValueObserver<FontRole> > _fontObserver;
                 std::shared_ptr<ValueObserver<std::string> > _textObserver;

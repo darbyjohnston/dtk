@@ -6,12 +6,12 @@
 #include <dtk/ui/ButtonGroup.h>
 #include <dtk/ui/CheckBox.h>
 #include <dtk/ui/GroupBox.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/PushButton.h>
 #include <dtk/ui/RadioButton.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ScrollWidget.h>
 #include <dtk/ui/ToolButton.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 
@@ -28,8 +28,9 @@ DTK_MAIN()
             return app->getExit();
 
         // Create the window.
-        auto window = Window::create(
+        auto window = MainWindow::create(
             context,
+            app,
             "buttons",
             Size2I(1280, 960));
         app->addWindow(window);
@@ -37,9 +38,11 @@ DTK_MAIN()
         // Create the layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
         scrollWidget->setWidget(layout);
+        scrollWidget->setVStretch(Stretch::Expanding);
+        window->setWidget(scrollWidget);
 
         // Create push buttons.
         auto groupBox = GroupBox::create(context, "Push Buttons", layout);

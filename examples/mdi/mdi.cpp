@@ -6,8 +6,8 @@
 #include <dtk/ui/ColorWidget.h>
 #include <dtk/ui/MDICanvas.h>
 #include <dtk/ui/MDIWidget.h>
+#include <dtk/ui/MainWindow.h>
 #include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/Window.h>
 
 #include <dtk/core/Format.h>
 #include <dtk/core/Random.h>
@@ -26,12 +26,14 @@ DTK_MAIN()
 
         // Create the window.
         const Size2I size(1280, 720);
-        auto window = Window::create(context, "mdi", size);
+        auto window = MainWindow::create(context, app, "mdi", size);
         app->addWindow(window);
 
         // Create the scroll widget.
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both, window);
+        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
+        scrollWidget->setVStretch(Stretch::Expanding);
+        window->setWidget(scrollWidget);
 
         // Create the MDI canvas.
         auto canvas = MDICanvas::create(context);
