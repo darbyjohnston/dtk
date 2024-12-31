@@ -19,8 +19,10 @@ namespace dtk
         std::vector<std::string> tooltips;
         int currentTab = -1;
         bool closable = false;
-        std::shared_ptr<ButtonGroup> buttonGroup;
         std::vector<std::shared_ptr<TabBarButton> > buttons;
+        std::shared_ptr<ButtonGroup> buttonGroup;
+        std::vector<std::shared_ptr<ToolButton> > closeButtons;
+        std::shared_ptr<ButtonGroup> closeButtonGroup;
         std::shared_ptr<HorizontalLayout> buttonLayout;
         std::shared_ptr<ScrollWidget> scrollWidget;
         std::shared_ptr<ToolButton> menuButton;
@@ -41,6 +43,8 @@ namespace dtk
         setAcceptsKeyFocus(true);
 
         p.buttonGroup = ButtonGroup::create(context, ButtonGroupType::Radio);
+
+        p.closeButtonGroup = ButtonGroup::create(context, ButtonGroupType::Click);
 
         p.buttonLayout = HorizontalLayout::create(context);
         p.buttonLayout->setSpacingRole(SizeRole::None);
@@ -71,6 +75,15 @@ namespace dtk
                     _p->callback(index);
                 }
                 _currentUpdate();
+            });
+
+        p.closeButtonGroup->setClickedCallback(
+            [this](int index)
+            {
+                if (_p->closeCallback)
+                {
+                    _p->closeCallback(index);
+                }
             });
 
         p.menuButton->setClickedCallback(
@@ -335,8 +348,10 @@ namespace dtk
     void TabBar::_widgetUpdate()
     {
         DTK_P();
-        p.buttonGroup->clearButtons();
         p.buttons.clear();
+        p.buttonGroup->clearButtons();
+        p.closeButtons.clear();
+        p.closeButtonGroup->clearButtons();
         auto children = p.buttonLayout->getChildren();
         for (const auto& child : children)
         {
@@ -346,30 +361,19 @@ namespace dtk
         {
             for (size_t i = 0; i < p.text.size(); ++i)
             {
-                std::shared_ptr<TabBarButton> button;
+                auto button = TabBarButton::create(context, p.text[i], p.buttonLayout);
+                button->setTooltip(p.tooltips[i]);
+                p.buttons.push_back(button);
+                p.buttonGroup->addButton(button);
+
                 if (p.closable)
                 {
-                    button = TabBarButton::create(
-                        context,
-                        p.text[i],
-                        p.closable,
-                        [this, i]
-                        {
-                            if (_p->closeCallback)
-                            {
-                                _p->closeCallback(i);
-                            }
-                        },
-                        p.buttonLayout);
+                    auto closeButton = ToolButton::create(context, p.buttonLayout);
+                    closeButton->setAcceptsKeyFocus(false);
+                    closeButton->setIcon("Close");
+                    p.closeButtons.push_back(closeButton);
+                    p.closeButtonGroup->addButton(closeButton);
                 }
-                else
-                {
-                    button = TabBarButton::create(context, p.text[i], p.buttonLayout);
-                }
-                button->setTooltip(p.tooltips[i]);
-
-                p.buttonGroup->addButton(button);
-                p.buttons.push_back(button);
 
                 Divider::create(context, Orientation::Horizontal, p.buttonLayout);
             }
