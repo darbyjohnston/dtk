@@ -4,8 +4,9 @@
 
 #include <dtk/ui/IWindow.h>
 
-#include <dtk/ui/IPopup.h>
 #include <dtk/ui/IClipboard.h>
+#include <dtk/ui/IDialog.h>
+#include <dtk/ui/IPopup.h>
 #include <dtk/ui/Tooltip.h>
 
 namespace dtk
@@ -380,6 +381,10 @@ namespace dtk
                     if (p.keyEvent.accept)
                     {
                         p.keyPress = widget;
+                        break;
+                    }
+                    if (auto dialog = std::dynamic_pointer_cast<IDialog>(widget))
+                    {
                         break;
                     }
                     widget = widget->getParent().lock();
