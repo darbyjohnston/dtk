@@ -31,16 +31,26 @@ void DialogsWindow::_init(
         "Open",
         Key::O,
         static_cast<int>(commandKeyModifier),
-        []
+        [this]
         {
+            if (auto context = getContext())
+            {
+                if (auto fileBrowserSystem = context->getSystem<FileBrowserSystem>())
+                {
+                    fileBrowserSystem->open(
+                        getWindow(),
+                        [this](const std::filesystem::path& value)
+                        {
+                            std::cout << value.string() << std::endl;
+                        });
+                }
+            }
         }));
     auto action = std::make_shared<Action>(
         "Close",
         Key::E,
         static_cast<int>(commandKeyModifier),
-        []
-        {
-        });
+        [] {});
     menu->addItem(action);
     menu->setItemEnabled(action, false);
     menu->addDivider();
