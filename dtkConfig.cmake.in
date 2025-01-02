@@ -9,6 +9,7 @@ find_dependency(ZLIB)
 find_dependency(nlohmann_json)
 find_dependency(PNG)
 find_dependency(Freetype)
+find_dependency(lunasvg)
 if(@dtk_UI_LIB@)
     if(@dtk_API@ STREQUAL "GL_4_1" OR
         @dtk_API@ STREQUAL "GL_4_1_Debug" OR
