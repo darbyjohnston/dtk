@@ -78,6 +78,7 @@ namespace dtk
         FT_Library ftLibrary = nullptr;
         std::map<std::string, FT_Face> ftFaces;
         std::wstring_convert<std::codecvt_utf8<dtk_char_t>, dtk_char_t> utf32Convert;
+        ImageType imageType = ImageType::L_U8;
         LRUCache<GlyphInfo, std::shared_ptr<Glyph> > glyphCache;
     };
 
@@ -86,6 +87,10 @@ namespace dtk
         _p(new Private)
     {
         DTK_P();
+#if defined(dtk_API_GLES_2)
+        //! \bug Some GLES 2 implementations (Pi Zero W) only support RGBA?
+        p.imageType = ImageType::RGBA_U8;
+#endif // dtk_API_GLES_2
         try
         {
             FT_Error ftError = FT_Init_FreeType(&p.ftLibrary);
@@ -287,15 +292,43 @@ namespace dtk
                     }
 
                     auto ftBitmap = ftFaceIt->second->glyph->bitmap;
-                    const ImageInfo imageInfo(ftBitmap.width, ftBitmap.rows, ImageType::L_U8);
+                    const ImageInfo imageInfo(ftBitmap.width, ftBitmap.rows, imageType);
                     out->image = Image::create(imageInfo);
                     for (size_t y = 0; y < ftBitmap.rows; ++y)
                     {
-                        uint8_t* dataP = out->image->getData() + ftBitmap.width * y;
+                        const int channelCount = getChannelCount(imageInfo.type);
+                        uint8_t* dataP = out->image->getData() + y * imageInfo.size.w * channelCount;
                         const unsigned char* bitmapP = ftBitmap.buffer + y * ftBitmap.pitch;
-                        for (size_t x = 0; x < ftBitmap.width; ++x)
+                        switch (channelCount)
                         {
-                            dataP[x] = bitmapP[x];
+                        case 1:
+                            memcpy(dataP, bitmapP, imageInfo.size.w);
+                            break;
+                        case 2:
+                            for (size_t x = 0; x < imageInfo.size.w; ++x)
+                            {
+                                dataP[x * 2 + 0] = bitmapP[x];
+                                dataP[x * 2 + 1] = bitmapP[x];
+                            }
+                            break;
+                        case 3:
+                            for (size_t x = 0; x < imageInfo.size.w; ++x)
+                            {
+                                dataP[x * 3 + 0] = bitmapP[x];
+                                dataP[x * 3 + 1] = bitmapP[x];
+                                dataP[x * 3 + 2] = bitmapP[x];
+                            }
+                            break;
+                        case 4:
+                            for (size_t x = 0; x < imageInfo.size.w; ++x)
+                            {
+                                dataP[x * 4 + 0] = bitmapP[x];
+                                dataP[x * 4 + 1] = bitmapP[x];
+                                dataP[x * 4 + 2] = bitmapP[x];
+                                dataP[x * 4 + 3] = bitmapP[x];
+                            }
+                            break;
+                        default: break;
                         }
                     }
                     out->offset = V2I(ftFaceIt->second->glyph->bitmap_left, ftFaceIt->second->glyph->bitmap_top);

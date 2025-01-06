@@ -17,33 +17,29 @@ namespace dtk
     {
         struct TextureAtlas::Private
         {
-            int textureSize = 0;
-            ImageType textureType = ImageType::None;
+            int size = 0;
+            ImageType type = ImageType::None;
             int border = 0;
             std::shared_ptr<Texture> texture;
             std::shared_ptr<BoxPack> boxPack;
         };
 
         void TextureAtlas::_init(
-            int textureSize,
-            ImageType textureType,
+            int size,
+            ImageType type,
             TextureFilter filter,
             int border)
         {
             DTK_P();
 
-            p.textureSize = textureSize;
-            p.textureType = textureType;
+            p.size = size;
+            p.type = type;
             p.border = border;
             TextureOptions textureOptions;
             textureOptions.filters.minify = filter;
             textureOptions.filters.magnify = filter;
-            p.texture = Texture::create(
-                ImageInfo(textureSize, textureSize, textureType),
-                textureOptions);
-            p.boxPack = BoxPack::create(
-                Size2I(textureSize, textureSize),
-                border);
+            p.texture = Texture::create(ImageInfo(size, size, type), textureOptions);
+            p.boxPack = BoxPack::create(Size2I(size, size), border);
         }
 
         TextureAtlas::TextureAtlas() :
@@ -64,14 +60,14 @@ namespace dtk
             return out;
         }
 
-        int TextureAtlas::getTextureSize() const
+        int TextureAtlas::getSize() const
         {
-            return _p->textureSize;
+            return _p->size;
         }
 
-        ImageType TextureAtlas::getTextureType() const
+        ImageType TextureAtlas::getType() const
         {
-            return _p->textureType;
+            return _p->type;
         }
 
         unsigned int TextureAtlas::getTexture() const
@@ -85,7 +81,7 @@ namespace dtk
             bool out = false;
             if (auto node = p.boxPack->getNode(id))
             {
-                _toTextureAtlasItem(node, item);
+                _toItem(node, item);
                 out = true;
             }
             return out;
@@ -101,7 +97,9 @@ namespace dtk
             {
                 out = true;
 
-                auto zero = Image::create(node->box.size(), ImageType::L_U8);
+                auto zero = Image::create(
+                    node->box.size() + p.border * 2,
+                    ImageType::L_U8);
                 zero->zero();
                 p.texture->copy(
                     zero,
@@ -113,7 +111,7 @@ namespace dtk
                     node->box.min.x + p.border,
                     node->box.min.y + p.border);
 
-                _toTextureAtlasItem(node, item);
+                _toItem(node, item);
             }
             return out;
         }
@@ -129,22 +127,22 @@ namespace dtk
                     area += dtk::area(node->box.size());
                 }
             }
-            return area / static_cast<float>(p.textureSize * p.textureSize);
+            return area / static_cast<float>(p.size * p.size);
         }
 
-        void TextureAtlas::_toTextureAtlasItem(
+        void TextureAtlas::_toItem(
             const std::shared_ptr<BoxPackNode>& node,
             TextureAtlasItem& out)
         {
             DTK_P();
             out.id = node->id;
             const Size2I size = node->box.size() - p.border * 2;
-            out.textureU = RangeF(
-                (node->box.min.x + p.border) / static_cast<float>(p.textureSize),
-                (node->box.min.x + p.border + size.w + 0) / static_cast<float>(p.textureSize));
-            out.textureV = RangeF(
-                (node->box.min.y + p.border) / static_cast<float>(p.textureSize),
-                (node->box.min.y + p.border + size.h + 0) / static_cast<float>(p.textureSize));
+            out.u = RangeF(
+                (node->box.min.x + p.border) / static_cast<float>(p.size),
+                (node->box.min.x + p.border + size.w + 0) / static_cast<float>(p.size));
+            out.v = RangeF(
+                (node->box.min.y + p.border) / static_cast<float>(p.size),
+                (node->box.min.y + p.border + size.h + 0) / static_cast<float>(p.size));
         }
     }
 }

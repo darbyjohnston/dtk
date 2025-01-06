@@ -10,6 +10,7 @@ namespace dtk
             clear == other.clear &&
             clearColor == other.clearColor &&
             textureCacheByteCount == other.textureCacheByteCount &&
+            glyphAtlasSize == other.glyphAtlasSize &&
             log == other.log;
     }
 

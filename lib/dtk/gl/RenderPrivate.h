@@ -37,7 +37,7 @@ namespace dtk
             
             std::map<std::string, std::shared_ptr<gl::Shader> > shaders;
             std::shared_ptr<TextureCache> textureCache;
-            std::shared_ptr<gl::TextureAtlas> glyphTextureAtlas;
+            std::shared_ptr<gl::TextureAtlas> glyphAtlas;
             std::map<GlyphInfo, BoxPackID> glyphIDs;
             std::map<std::string, std::shared_ptr<gl::VBO> > vbos;
             std::map<std::string, std::shared_ptr<gl::VAO> > vaos;

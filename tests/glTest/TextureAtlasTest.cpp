@@ -44,12 +44,12 @@ namespace dtk
             std::string format(const TextureAtlasItem& item)
             {
                 return Format(
-                    "Item: size={0}, textureU={1}-{2}, textureV={3}-{4}").
+                    "Item: size={0}, u={1}-{2}, v={3}-{4}").
                     arg(item.size).
-                    arg(item.textureU.min()).
-                    arg(item.textureU.max()).
-                    arg(item.textureV.min()).
-                    arg(item.textureV.max());
+                    arg(item.u.min()).
+                    arg(item.u.max()).
+                    arg(item.v.min()).
+                    arg(item.v.max());
             }
         }
         
@@ -64,8 +64,8 @@ namespace dtk
                     ImageType::L_U8,
                     TextureFilter::Linear,
                     0);
-                DTK_ASSERT(1024 == atlas->getTextureSize());
-                DTK_ASSERT(ImageType::L_U8 == atlas->getTextureType());
+                DTK_ASSERT(1024 == atlas->getSize());
+                DTK_ASSERT(ImageType::L_U8 == atlas->getType());
                 DTK_ASSERT(atlas->getTexture());
                 
                 for (size_t i = 0; i < 10; ++i)

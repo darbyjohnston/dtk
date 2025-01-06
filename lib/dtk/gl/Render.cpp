@@ -30,11 +30,6 @@ namespace dtk
             {
                 p.textureCache = std::make_shared<TextureCache>();
             }
-
-            p.glyphTextureAtlas = TextureAtlas::create(
-                4096,
-                ImageType::L_U8,
-                TextureFilter::Linear);
             
             p.logTimer = Timer::create(context);
             p.logTimer->setRepeating(true);
@@ -78,6 +73,20 @@ namespace dtk
             p.size = size;
             p.options = options;
             p.textureCache->setMax(options.textureCacheByteCount);
+
+            if (!p.glyphAtlas ||
+                (p.glyphAtlas && options.glyphAtlasSize != p.glyphAtlas->getSize()))
+            {
+                ImageType imageType = ImageType::L_U8;
+#if defined(dtk_API_GLES_2)
+                //! \bug Some GLES 2 implementations (Pi Zero W) only support RGBA?
+                imageType = ImageType::RGBA_U8;
+#endif // dtk_API_GLES_2
+                p.glyphAtlas = TextureAtlas::create(
+                    options.glyphAtlasSize,
+                    imageType,
+                    TextureFilter::Linear);
+            }
 
             glEnable(GL_BLEND);
             glBlendEquation(GL_FUNC_ADD);

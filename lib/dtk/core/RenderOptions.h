@@ -28,7 +28,10 @@ namespace dtk
 
         //! Texture cache byte count.
         size_t textureCacheByteCount = gigabyte / 4;
-            
+
+        //! Glyph texture atlas size.
+        int glyphAtlasSize = 4096;
+
         //! Enable logging.
         bool log = true;
 

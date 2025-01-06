@@ -218,7 +218,7 @@ namespace dtk
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
-            glBindTexture(GL_TEXTURE_2D, p.glyphTextureAtlas->getTexture());
+            glBindTexture(GL_TEXTURE_2D, p.glyphAtlas->getTexture());
 
             size_t glyphCount = 0;
             for (const auto& glyph : glyphs)
@@ -279,9 +279,9 @@ namespace dtk
                             }
                             TextureAtlasItem item;
                             if (boxPackInvalidID == id ||
-                                !p.glyphTextureAtlas->getItem(id, item))
+                                !p.glyphAtlas->getItem(id, item))
                             {
-                                p.glyphTextureAtlas->addItem((*glyphIt)->image, item);
+                                p.glyphAtlas->addItem((*glyphIt)->image, item);
                                 p.glyphIDs[(*glyphIt)->info] = item.id;
                             }
 
@@ -304,14 +304,14 @@ namespace dtk
                             mesh.v[v + 2].y = max.y + 1;
                             mesh.v[v + 3].x = min.x;
                             mesh.v[v + 3].y = max.y + 1;
-                            mesh.t[v + 0].x = item.textureU.min();
-                            mesh.t[v + 0].y = item.textureV.min();
-                            mesh.t[v + 1].x = item.textureU.max();
-                            mesh.t[v + 1].y = item.textureV.min();
-                            mesh.t[v + 2].x = item.textureU.max();
-                            mesh.t[v + 2].y = item.textureV.max();
-                            mesh.t[v + 3].x = item.textureU.min();
-                            mesh.t[v + 3].y = item.textureV.max();
+                            mesh.t[v + 0].x = item.u.min();
+                            mesh.t[v + 0].y = item.v.min();
+                            mesh.t[v + 1].x = item.u.max();
+                            mesh.t[v + 1].y = item.v.min();
+                            mesh.t[v + 2].x = item.u.max();
+                            mesh.t[v + 2].y = item.v.max();
+                            mesh.t[v + 3].x = item.u.min();
+                            mesh.t[v + 3].y = item.v.max();
 
                             mesh.triangles[t + 0].v[0] = { v + 1, v + 1 };
                             mesh.triangles[t + 0].v[1] = { v + 2, v + 2 };

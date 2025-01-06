@@ -5,6 +5,7 @@
 #include <dtk/gl/Texture.h>
 
 #include <dtk/gl/GL.h>
+#include <dtk/gl/Util.h>
 
 #include <dtk/core/Assert.h>
 #include <dtk/core/Error.h>
