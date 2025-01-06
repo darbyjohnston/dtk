@@ -1,4 +1,4 @@
-std::vector<uint8_t> NotoSansMono_Regular_ttf = {
+extern const std::vector<uint8_t> NotoSansMono_Regular_ttf = {
     0, 1, 0, 0, 0, 16, 1, 0, 0, 4, 0, 0, 71, 68, 69, 
     70, 154, 83, 157, 240, 0, 0, 9, 0, 0, 0, 6, 216, 71, 80, 
     79, 83, 206, 177, 42, 156, 0, 0, 230, 108, 0, 0, 129, 148, 71, 

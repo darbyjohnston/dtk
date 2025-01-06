@@ -20,9 +20,9 @@
 
 namespace dtk
 {
-    extern std::vector<uint8_t> NotoSans_Bold_ttf;
-    extern std::vector<uint8_t> NotoSans_Regular_ttf;
-    extern std::vector<uint8_t> NotoSansMono_Regular_ttf;
+    extern const std::vector<uint8_t> NotoSans_Bold_ttf;
+    extern const std::vector<uint8_t> NotoSans_Regular_ttf;
+    extern const std::vector<uint8_t> NotoSansMono_Regular_ttf;
 
     namespace
     {
