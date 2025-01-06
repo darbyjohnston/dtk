@@ -20,12 +20,12 @@
 
 namespace dtk
 {
+    extern std::vector<uint8_t> NotoSans_Bold_ttf;
+    extern std::vector<uint8_t> NotoSans_Regular_ttf;
+    extern std::vector<uint8_t> NotoSansMono_Regular_ttf;
+
     namespace
     {
-#include <Fonts/NotoSansMono-Regular.h>
-#include <Fonts/NotoSans-Regular.h>
-#include <Fonts/NotoSans-Bold.h>
-
 #if defined(_WINDOWS)
         //! \bug https://social.msdn.microsoft.com/Forums/vstudio/en-US/8f40dcd8-c67f-4eba-9134-a19b9178e481/vs-2015-rc-linker-stdcodecvt-error?forum=vcgeneral
         typedef unsigned int dtk_char_t;

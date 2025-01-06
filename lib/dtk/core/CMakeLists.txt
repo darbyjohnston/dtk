@@ -86,6 +86,9 @@ set(SOURCE
     Memory.cpp
     Mesh.cpp
     Noise.cpp
+    NotoSans-Bold.cpp
+    NotoSans-Regular.cpp
+    NotoSansMono-Regular.cpp
     PNG.cpp
     PNGRead.cpp
     PNGWrite.cpp
