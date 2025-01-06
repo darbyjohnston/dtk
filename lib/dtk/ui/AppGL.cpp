@@ -38,6 +38,7 @@ namespace dtk
         std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
         bool running = true;
+        float displayScale = 0.F;
         std::list<std::shared_ptr<Window> > windows;
         std::list<int> tickTimes;
         std::shared_ptr<Timer> logTimer;
@@ -57,6 +58,10 @@ namespace dtk
             _p->exit,
             { "-exit" },
             "Start the user interface and then exit."));
+        cmdLineOptionsTmp.push_back(CmdLineValueOption<float>::create(
+            _p->displayScale,
+            { "-displayScale", "-ds" },
+            "Set the display scale. A value of 0.0 sets the scale automatically."));
         cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
         IApp::_init(
             context,
@@ -111,6 +116,7 @@ namespace dtk
     void App::addWindow(const std::shared_ptr<Window>& window)
     {
         DTK_P();
+        window->setDisplayScale(p.displayScale);
         p.windows.push_back(window);
     }
 
