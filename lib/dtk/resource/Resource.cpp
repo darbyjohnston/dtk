@@ -63,6 +63,7 @@
 #include <Icons/Volume.h>
 #include <Icons/WindowFullScreen.h>
 
+#include <cstring>
 #include <map>
 
 namespace dtk
