@@ -409,6 +409,8 @@ namespace dtk
             }
             if (cursorPos != p.selection.get().second)
             {
+                std::cout << "cursorPos: " << cursorPos << std::endl;
+                std::cout << "selection: " << p.selection.get().second << std::endl;
                 p.selection.setSecond(cursorPos);
                 _setDrawUpdate();
             }
@@ -757,18 +759,9 @@ namespace dtk
     {
         DTK_P();
         int out = 0;
-        const V2I pos(
-            clamp(value.x, p.geom.g3.min.x, p.geom.g3.max.x),
-            clamp(value.y, p.geom.g3.min.y, p.geom.g3.max.y));
-        Box2I box(
-            p.geom.g3.x(),
-            p.geom.g3.y(),
-            0,
-            p.geom.g3.h());
         for (const auto& glyphBox : p.draw.glyphsBox)
         {
-            box.max.x = p.geom.g3.x() + glyphBox.x() + glyphBox.w() - 1;
-            if (contains(box, pos))
+            if (value.x < p.geom.g3.x() + glyphBox.x() + glyphBox.w())
             {
                 break;
             }
