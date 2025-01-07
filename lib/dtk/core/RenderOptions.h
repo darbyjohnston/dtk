@@ -30,7 +30,12 @@ namespace dtk
         size_t textureCacheByteCount = gigabyte / 4;
 
         //! Glyph texture atlas size.
-        int glyphAtlasSize = 4096;
+        int glyphAtlasSize =
+#if defined(dtk_API_GL_4_1)
+            4096;
+#elif defined(dtk_API_GLES_2)
+            2048;
+#endif // dtk_API_GL_4_1
 
         //! Enable logging.
         bool log = true;
