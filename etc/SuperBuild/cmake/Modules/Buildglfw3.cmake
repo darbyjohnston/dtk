@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 set(glfw3_GIT_REPOSITORY "https://github.com/glfw/glfw.git")
-set(glfw3_GIT_TAG "3eaf1255b29fdf5c2895856c7be7d7185ef2b241")
+set(glfw3_GIT_TAG "3.4")
 
 set(glfw3_ARGS
     ${dtk_DEPS_ARGS}
