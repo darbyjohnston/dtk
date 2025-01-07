@@ -99,7 +99,7 @@ namespace dtk
 
                 auto zero = Image::create(
                     node->box.size() + p.border * 2,
-                    ImageType::L_U8);
+                    p.type);
                 zero->zero();
                 p.texture->copy(
                     zero,
