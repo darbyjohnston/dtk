@@ -48,8 +48,6 @@ namespace dtk
             .def_readwrite("lsbDelta", &Glyph::lsbDelta)
             .def_readwrite("rsbDelta", &Glyph::rsbDelta);
 
-        m.def("getFontData", &getFontData);
-
         py::class_<FontSystem, ISystem, std::shared_ptr<FontSystem> >(m, "FontSystem")
             .def(
                 py::init(&FontSystem::create),

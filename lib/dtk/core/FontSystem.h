@@ -62,9 +62,6 @@ namespace dtk
         int32_t                rsbDelta = 0;
     };
 
-    //! Get font data.
-    std::vector<uint8_t> getFontData(const std::string&);
-
     //! Font system.
     //!
     //! \todo Add text elide functionality.

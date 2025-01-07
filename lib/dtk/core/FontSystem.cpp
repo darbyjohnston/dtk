@@ -8,6 +8,8 @@
 #include <dtk/core/LRUCache.h>
 #include <dtk/core/LogSystem.h>
 
+#include <dtk/resource/Resource.h>
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
@@ -20,10 +22,6 @@
 
 namespace dtk
 {
-    extern const std::vector<uint8_t> NotoSans_Bold_ttf;
-    extern const std::vector<uint8_t> NotoSans_Regular_ttf;
-    extern const std::vector<uint8_t> NotoSansMono_Regular_ttf;
-
     namespace
     {
 #if defined(_WINDOWS)
@@ -32,36 +30,6 @@ namespace dtk
 #else // _WINDOWS
         typedef char32_t dtk_char_t;
 #endif // _WINDOWS
-    }
-
-    std::vector<uint8_t> getFontData(const std::string& name)
-    {
-        std::vector<uint8_t> out;
-        if ("NotoSansMono-Regular" == name)
-        {
-            out.resize(NotoSansMono_Regular_ttf.size());
-            memcpy(
-                out.data(),
-                NotoSansMono_Regular_ttf.data(),
-                NotoSansMono_Regular_ttf.size());
-        }
-        else if ("NotoSans-Regular" == name)
-        {
-            out.resize(NotoSans_Regular_ttf.size());
-            memcpy(
-                out.data(),
-                NotoSans_Regular_ttf.data(),
-                NotoSans_Regular_ttf.size());
-        }
-        else if ("NotoSans-Bold" == name)
-        {
-            out.resize(NotoSans_Bold_ttf.size());
-            memcpy(
-                out.data(),
-                NotoSans_Bold_ttf.data(),
-                NotoSans_Bold_ttf.size());
-        }
-        return out;
     }
 
     struct FontSystem::Private
@@ -99,35 +67,19 @@ namespace dtk
                 throw std::runtime_error("FreeType cannot be initialized");
             }
 
-            ftError = FT_New_Memory_Face(
-                p.ftLibrary,
-                NotoSans_Regular_ttf.data(),
-                NotoSans_Regular_ttf.size(),
-                0,
-                &p.ftFaces["NotoSans-Regular"]);
-            if (ftError)
+            for (const auto& font : getFontResources())
             {
-                throw std::runtime_error("Cannot create font");
-            }
-            ftError = FT_New_Memory_Face(
-                p.ftLibrary,
-                NotoSans_Bold_ttf.data(),
-                NotoSans_Bold_ttf.size(),
-                0,
-                &p.ftFaces["NotoSans-Bold"]);
-            if (ftError)
-            {
-                throw std::runtime_error("Cannot create font");
-            }
-            ftError = FT_New_Memory_Face(
-                p.ftLibrary,
-                NotoSansMono_Regular_ttf.data(),
-                NotoSansMono_Regular_ttf.size(),
-                0,
-                &p.ftFaces["NotoSansMono-Regular"]);
-            if (ftError)
-            {
-                throw std::runtime_error("Cannot create font");
+                p.fontData[font] = getFontResource(font);
+                ftError = FT_New_Memory_Face(
+                    p.ftLibrary,
+                    p.fontData[font].data(),
+                    p.fontData[font].size(),
+                    0,
+                    &p.ftFaces[font]);
+                if (ftError)
+                {
+                    throw std::runtime_error("Cannot create font");
+                }
             }
         }
         catch (const std::exception& e)

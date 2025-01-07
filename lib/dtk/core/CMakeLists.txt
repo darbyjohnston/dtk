@@ -86,9 +86,6 @@ set(SOURCE
     Memory.cpp
     Mesh.cpp
     Noise.cpp
-    NotoSans-Bold.cpp
-    NotoSans-Regular.cpp
-    NotoSansMono-Regular.cpp
     PNG.cpp
     PNGRead.cpp
     PNGWrite.cpp
@@ -114,7 +111,7 @@ else()
         TimeUnix.cpp)
 endif()
 
-set(LIBS_PUBLIC nlohmann_json::nlohmann_json)
+set(LIBS_PUBLIC dtkResource nlohmann_json::nlohmann_json)
 if(CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
     list(APPEND LIBS_PUBLIC stdc++fs)
 endif()

@@ -1,4 +1,5 @@
 add_subdirectory(core)
+add_subdirectory(resource)
 if(dtk_UI_LIB)
     if ("${dtk_API}" STREQUAL "GL_4_1" OR
         "${dtk_API}" STREQUAL "GL_4_1_Debug" OR

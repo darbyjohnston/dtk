@@ -31,7 +31,7 @@ namespace dtk
                     CmdLineValueArg<std::string>::create(
                         _output,
                         "output",
-                        "The output source code file."),
+                        "The output base name."),
                     CmdLineValueArg<std::string>::create(
                         _varName,
                         "variable name",
@@ -68,22 +68,44 @@ namespace dtk
                 io->readU8(data.data(), size);
             }
 
+            std::filesystem::path headerOutput = _output;
+            headerOutput.replace_extension(".h");
             {
-                _print(Format("Output: {0}").arg(_output));
+                _print(Format("Header output: {0}").arg(headerOutput.string()));
                 std::string tmp;
-                tmp.append(Format("const std::vector<uint8_t> {0} = {\n").arg(_varName));
-                const size_t columns = 15;
+                tmp.append("#include <cstdint>\n");
+                tmp.append("#include <vector>\n");
+                tmp.append("namespace dtk\n");
+                tmp.append("{\n");
+                tmp.append(Format("    extern const std::vector<uint8_t> {0};\n").arg(_varName));
+                tmp.append("}\n");
+                auto io = FileIO::create(headerOutput, FileMode::Write);
+                io->write(tmp);
+            }
+
+            {
+                std::filesystem::path sourceOutput = _output;
+                sourceOutput.replace_extension(".cpp");
+                _print(Format("Source output: {0}").arg(sourceOutput.string()));
+                std::string tmp;
+                tmp.append("#include <cstdint>\n");
+                tmp.append("#include <vector>\n");
+                tmp.append("namespace dtk\n");
+                tmp.append("{\n");
+                tmp.append(Format("    extern const std::vector<uint8_t> {0} = {\n").arg(_varName));
+                const size_t columns = 30;
                 for (size_t i = 0; i < size; i += columns)
                 {
-                    tmp.append("    ");
+                    tmp.append("        ");
                     for (size_t j = i; j < i + columns && j < size; ++j)
                     {
                         tmp.append(Format("{0}, ").arg(static_cast<int>(data[j])));
                     }
                     tmp.append("\n");
                 }
-                tmp.append("};\n");
-                auto io = FileIO::create(_output, FileMode::Write);
+                tmp.append("    };\n");
+                tmp.append("}\n");
+                auto io = FileIO::create(sourceOutput, FileMode::Write);
                 io->write(tmp);
             }
 

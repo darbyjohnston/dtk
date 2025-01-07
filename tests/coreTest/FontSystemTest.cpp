@@ -28,12 +28,6 @@ namespace dtk
         
         void FontSystemTest::run()
         {
-            _members();
-            _functions();
-        }
-        
-        void FontSystemTest::_members()
-        {
             {
                 const FontInfo a;
                 const FontInfo b("NotoSans-Bold", 16);
@@ -84,13 +78,6 @@ namespace dtk
                 catch (const std::exception&)
                 {}
             }
-        }
-        
-        void FontSystemTest::_functions()
-        {
-            DTK_ASSERT(!getFontData("NotoSansMono-Regular").empty());
-            DTK_ASSERT(!getFontData("NotoSans-Regular").empty());
-            DTK_ASSERT(!getFontData("NotoSans-Bold").empty());
         }
     }
 }

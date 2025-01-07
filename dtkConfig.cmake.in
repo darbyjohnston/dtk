@@ -27,6 +27,7 @@ if(@dtk_UI_LIB@)
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/dtkCoreTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkResourceTargets.cmake")
 if(@dtk_UI_LIB@)
     include("${CMAKE_CURRENT_LIST_DIR}/gladTargets.cmake")
     if(@dtk_API@ STREQUAL "GL_4_1" OR

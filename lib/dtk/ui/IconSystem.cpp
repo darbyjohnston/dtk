@@ -10,65 +10,9 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/LRUCache.h>
 
-#include <lunasvg/lunasvg.h>
+#include <dtk/resource/Resource.h>
 
-namespace
-{
-#include <Icons/ArrowDown.h>
-#include <Icons/ArrowLeft.h>
-#include <Icons/ArrowRight.h>
-#include <Icons/ArrowUp.h>
-#include <Icons/Audio.h>
-#include <Icons/BellowsClosed.h>
-#include <Icons/BellowsOpen.h>
-#include <Icons/Clear.h>
-#include <Icons/Close.h>
-#include <Icons/Copy.h>
-#include <Icons/Decrement.h>
-#include <Icons/Directory.h>
-#include <Icons/DirectoryBack.h>
-#include <Icons/DirectoryForward.h>
-#include <Icons/DirectoryUp.h>
-#include <Icons/Edit.h>
-#include <Icons/Empty.h>
-#include <Icons/File.h>
-#include <Icons/FileBrowser.h>
-#include <Icons/FileClose.h>
-#include <Icons/FileCloseAll.h>
-#include <Icons/FileOpen.h>
-#include <Icons/FrameEnd.h>
-#include <Icons/FrameInOut.h>
-#include <Icons/FrameNext.h>
-#include <Icons/FramePrev.h>
-#include <Icons/FrameStart.h>
-#include <Icons/Increment.h>
-#include <Icons/MenuArrow.h>
-#include <Icons/MenuChecked.h>
-#include <Icons/Mute.h>
-#include <Icons/Next.h>
-#include <Icons/PanelBottom.h>
-#include <Icons/PanelLeft.h>
-#include <Icons/PanelRight.h>
-#include <Icons/PanelTop.h>
-#include <Icons/PlaybackForward.h>
-#include <Icons/PlaybackReverse.h>
-#include <Icons/PlaybackStop.h>
-#include <Icons/Prev.h>
-#include <Icons/Reload.h>
-#include <Icons/Reset.h>
-#include <Icons/ReverseSort.h>
-#include <Icons/Search.h>
-#include <Icons/Settings.h>
-#include <Icons/SubMenuArrow.h>
-#include <Icons/TimeEnd.h>
-#include <Icons/TimeStart.h>
-#include <Icons/ViewZoomIn.h>
-#include <Icons/ViewZoomOut.h>
-#include <Icons/ViewZoomReset.h>
-#include <Icons/ViewFrame.h>
-#include <Icons/Volume.h>
-#include <Icons/WindowFullScreen.h>
-}
+#include <lunasvg/lunasvg.h>
 
 #include <atomic>
 #include <condition_variable>
@@ -127,61 +71,6 @@ namespace dtk
         DTK_P();
         p.context = context;
 
-        p.iconData["Audio"] = Audio_svg;
-        p.iconData["ArrowDown"] = ArrowDown_svg;
-        p.iconData["ArrowLeft"] = ArrowLeft_svg;
-        p.iconData["ArrowRight"] = ArrowRight_svg;
-        p.iconData["ArrowUp"] = ArrowUp_svg;
-        p.iconData["BellowsClosed"] = BellowsClosed_svg;
-        p.iconData["BellowsOpen"] = BellowsOpen_svg;
-        p.iconData["Clear"] = Clear_svg;
-        p.iconData["Close"] = Close_svg;
-        p.iconData["Copy"] = Copy_svg;
-        p.iconData["Decrement"] = Decrement_svg;
-        p.iconData["Directory"] = Directory_svg;
-        p.iconData["DirectoryBack"] = DirectoryBack_svg;
-        p.iconData["DirectoryForward"] = DirectoryForward_svg;
-        p.iconData["DirectoryUp"] = DirectoryUp_svg;
-        p.iconData["Edit"] = Edit_svg;
-        p.iconData["Empty"] = Empty_svg;
-        p.iconData["File"] = File_svg;
-        p.iconData["FileBrowser"] = FileBrowser_svg;
-        p.iconData["FileClose"] = FileClose_svg;
-        p.iconData["FileCloseAll"] = FileCloseAll_svg;
-        p.iconData["FileOpen"] = FileOpen_svg;
-        p.iconData["FrameEnd"] = FrameEnd_svg;
-        p.iconData["FrameInOut"] = FrameInOut_svg;
-        p.iconData["FrameNext"] = FrameNext_svg;
-        p.iconData["FramePrev"] = FramePrev_svg;
-        p.iconData["FrameStart"] = FrameStart_svg;
-        p.iconData["Increment"] = Increment_svg;
-        p.iconData["MenuArrow"] = MenuArrow_svg;
-        p.iconData["MenuChecked"] = MenuChecked_svg;
-        p.iconData["Mute"] = Mute_svg;
-        p.iconData["Next"] = Next_svg;
-        p.iconData["PanelBottom"] = PanelBottom_svg;
-        p.iconData["PanelLeft"] = PanelLeft_svg;
-        p.iconData["PanelRight"] = PanelRight_svg;
-        p.iconData["PanelTop"] = PanelTop_svg;
-        p.iconData["PlaybackForward"] = PlaybackForward_svg;
-        p.iconData["PlaybackReverse"] = PlaybackReverse_svg;
-        p.iconData["PlaybackStop"] = PlaybackStop_svg;
-        p.iconData["Prev"] = Prev_svg;
-        p.iconData["Reset"] = Reset_svg;
-        p.iconData["ReverseSort"] = ReverseSort_svg;
-        p.iconData["Reload"] = Reload_svg;
-        p.iconData["Search"] = Search_svg;
-        p.iconData["Settings"] = Settings_svg;
-        p.iconData["SubMenuArrow"] = SubMenuArrow_svg;
-        p.iconData["TimeEnd"] = TimeEnd_svg;
-        p.iconData["TimeStart"] = TimeStart_svg;
-        p.iconData["ViewZoomIn"] = ViewZoomIn_svg;
-        p.iconData["ViewZoomOut"] = ViewZoomOut_svg;
-        p.iconData["ViewZoomReset"] = ViewZoomReset_svg;
-        p.iconData["ViewFrame"] = ViewFrame_svg;
-        p.iconData["Volume"] = Volume_svg;
-        p.iconData["WindowFullScreen"] = WindowFullScreen_svg;
-
         p.mutex.cache.setMax(1000);
         p.thread.running = true;
         p.thread.thread = std::thread(
@@ -225,12 +114,20 @@ namespace dtk
                         }
                         if (!cached)
                         {
-                            const auto j = p.iconData.find(request->name);
-                            if (j != p.iconData.end())
+                            std::vector<uint8_t> resource = getIconResource(request->name);
+                            if (resource.empty())
+                            {
+                                const auto i = p.iconData.find(request->name);
+                                if (i != p.iconData.end())
+                                {
+                                    resource = i->second;
+                                }
+                            }
+                            if (!resource.empty())
                             {
                                 if (auto context = p.context.lock())
                                 {
-                                    const std::string s(j->second.begin(), j->second.end());
+                                    const std::string s(resource.begin(), resource.end());
                                     if (auto doc = lunasvg::Document::loadFromData(s))
                                     {
                                         const int w = doc->width() * request->displayScale;
@@ -299,7 +196,7 @@ namespace dtk
     std::vector<std::string> IconSystem::getNames() const
     {
         DTK_P();
-        std::vector<std::string> out;
+        std::vector<std::string> out = getIconResources();
         for (const auto& i : p.iconData)
         {
             out.push_back(i.first);
