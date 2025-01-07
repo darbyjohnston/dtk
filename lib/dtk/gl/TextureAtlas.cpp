@@ -93,12 +93,12 @@ namespace dtk
         {
             DTK_P();
             bool out = false;
-            if (auto node = p.boxPack->insert(image->getSize()))
+            if (auto node = p.boxPack->insert(image->getSize() + p.border * 2))
             {
                 out = true;
 
                 auto zero = Image::create(
-                    node->box.size() + p.border * 2,
+                    node->box.size(),
                     p.type);
                 zero->zero();
                 p.texture->copy(
@@ -139,10 +139,10 @@ namespace dtk
             const Size2I size = node->box.size() - p.border * 2;
             out.u = RangeF(
                 (node->box.min.x + p.border) / static_cast<float>(p.size),
-                (node->box.min.x + p.border + size.w + 0) / static_cast<float>(p.size));
+                (node->box.min.x + p.border + size.w - 1) / static_cast<float>(p.size));
             out.v = RangeF(
                 (node->box.min.y + p.border) / static_cast<float>(p.size),
-                (node->box.min.y + p.border + size.h + 0) / static_cast<float>(p.size));
+                (node->box.min.y + p.border + size.h - 1) / static_cast<float>(p.size));
         }
     }
 }
