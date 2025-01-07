@@ -32,6 +32,7 @@ namespace dtk
             Box2I g2;
             Box2I g3;
             Box2I g4;
+            Box2I g5;
         };
         DrawData draw;
     };
@@ -165,6 +166,7 @@ namespace dtk
             p.draw.g3.y(),
             p.size.handle,
             p.draw.g3.h());
+        p.draw.g5 = margin(p.draw.g4, -p.size.border);
     }
 
     void IntSlider::sizeHintEvent(const SizeHintEvent& event)
@@ -205,19 +207,22 @@ namespace dtk
             event.style->getColorRole(ColorRole::Base));
 
         // Draw the handle.
+        event.render->drawMesh(
+            border(p.draw.g4, p.size.border),
+            event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            p.draw.g4,
+            p.draw.g5,
             event.style->getColorRole(ColorRole::Button));
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g4,
+                p.draw.g5,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g4,
+                p.draw.g5,
                 event.style->getColorRole(ColorRole::Hover));
         }
     }

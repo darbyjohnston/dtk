@@ -5,6 +5,7 @@
 #pragma once
 
 #include <dtk/core/IApp.h>
+#include <dtk/core/ObservableValue.h>
 
 #include <list>
 
@@ -16,6 +17,17 @@ namespace dtk
     class Style;
     class TickEvent;
     class Window;
+
+    //! Color style.
+    enum ColorStyle
+    {
+        Dark,
+        Light,
+
+        Count,
+        First = Dark
+    };
+    DTK_ENUM(ColorStyle);
 
     //! Base class for user interface applications.
     class App : public IApp
@@ -63,6 +75,15 @@ namespace dtk
         //! Get the style.
         const std::shared_ptr<Style>& getStyle() const;
 
+        //! Get the color style.
+        ColorStyle getColorStyle() const;
+
+        //! Observe the color style.
+        std::shared_ptr<IObservableValue<ColorStyle> > observeColorStyle() const;
+
+        //! Set the color style.
+        void setColorStyle(ColorStyle);
+
         //! Exit the application.
         void exit();
 
@@ -74,7 +95,9 @@ namespace dtk
             bool visible,
             bool enabled,
             const TickEvent&);
-            
+
+        void _styleUpdate();
+
         void _log();
 
         DTK_PRIVATE();

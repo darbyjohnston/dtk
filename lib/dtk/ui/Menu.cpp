@@ -183,7 +183,10 @@ namespace dtk
                             if (auto button = buttonWeak.lock())
                             {
                                 _setCurrent(button);
-                                out->open(getWindow(), button->getGeometry());
+                                if (!out->getItems().empty())
+                                {
+                                    out->open(getWindow(), button->getGeometry());
+                                }
                             }
                         }
                     }
@@ -201,7 +204,10 @@ namespace dtk
                         if (auto button = buttonWeak.lock())
                         {
                             _setCurrent(button);
-                            out->open(getWindow(), button->getGeometry());
+                            if (!out->getItems().empty())
+                            {
+                                out->open(getWindow(), button->getGeometry());
+                            }
                         }
                     }
                 });
@@ -320,7 +326,10 @@ namespace dtk
                     if (i != p.buttonToSubMenu.end())
                     {
                         _setCurrent(button);
-                        i->second->open(getWindow(), button->getGeometry());
+                        if (!i->second->getItems().empty())
+                        {
+                            i->second->open(getWindow(), button->getGeometry());
+                        }
                     }
                     else
                     {

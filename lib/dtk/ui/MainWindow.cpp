@@ -9,6 +9,7 @@
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/MenuBar.h>
 #include <dtk/ui/RowLayout.h>
+#include <dtk/core/Format.h>
 
 namespace dtk
 {
@@ -16,10 +17,17 @@ namespace dtk
     {
         std::weak_ptr<App> app;
         std::shared_ptr<MenuBar> menuBar;
+        std::map<std::string, std::shared_ptr<Menu> > menus;
+        std::vector<float> displayScales = { 1.F, 1.5F, 2.F, 2.5F, 3.F, 3.5F, 4.F };
+        std::map<float, std::shared_ptr<Action> > displayScaleActions;
+        std::map<ColorStyle, std::shared_ptr<Action> > colorStyleActions;
         std::shared_ptr<Divider> menuBarDivider;
         std::shared_ptr<IWidget> centralWidget;
         std::shared_ptr<VerticalLayout> layout;
         std::shared_ptr<VerticalLayout> centralLayout;
+
+        std::shared_ptr<ValueObserver<float> > displayScaleObserver;
+        std::shared_ptr<ValueObserver<ColorStyle> > colorStyleObserver;
     };
 
     void MainWindow::_init(
@@ -48,6 +56,59 @@ namespace dtk
             }));
         p.menuBar->addMenu("File", fileMenu);
 
+        auto windowMenu = Menu::create(context);
+        windowMenu->addItem(std::make_shared<Action>(
+            "Full Screen",
+            Key::U,
+            static_cast<int>(commandKeyModifier),
+            [this](bool value)
+            {
+                setFullScreen(value);
+            }));
+
+        p.menus["DisplayScale"] = windowMenu->addSubMenu("Display Scale");
+        p.displayScaleActions[0.F] = std::make_shared<Action>(
+            "Automatic",
+            [this](bool)
+            {
+                setDisplayScale(0.F);
+            });
+        p.menus["DisplayScale"]->addItem(p.displayScaleActions[0.F]);
+        for (auto displayScale : p.displayScales)
+        {
+            p.displayScaleActions[displayScale] = std::make_shared<Action>(
+                Format("{0}").arg(displayScale),
+                [this, displayScale](bool)
+                {
+                    setDisplayScale(displayScale);
+                });
+            p.menus["DisplayScale"]->addItem(p.displayScaleActions[displayScale]);
+        }
+
+        p.menus["ColorStyle"] = windowMenu->addSubMenu("Color Style");
+        p.colorStyleActions[ColorStyle::Dark] = std::make_shared<Action>(
+            "Dark",
+            [this]
+            {
+                if (auto app = _p->app.lock())
+                {
+                    app->setColorStyle(ColorStyle::Dark);
+                }
+            });
+        p.menus["ColorStyle"]->addItem(p.colorStyleActions[ColorStyle::Dark]);
+        p.colorStyleActions[ColorStyle::Light] = std::make_shared<Action>(
+            "Light",
+            [this]
+            {
+                if (auto app = _p->app.lock())
+                {
+                    app->setColorStyle(ColorStyle::Light);
+                }
+            });
+        p.menus["ColorStyle"]->addItem(p.colorStyleActions[ColorStyle::Light]);
+
+        p.menuBar->addMenu("Window", windowMenu);
+
         p.menuBarDivider = Divider::create(context, Orientation::Vertical);
 
         p.layout = VerticalLayout::create(context, shared_from_this());
@@ -57,6 +118,26 @@ namespace dtk
         p.centralLayout = VerticalLayout::create(context, p.layout);
         p.centralLayout->setSpacingRole(SizeRole::None);
         p.centralLayout->setVStretch(Stretch::Expanding);
+
+        p.displayScaleObserver = ValueObserver<float>::create(
+            observeDisplayScale(),
+            [this](float value)
+            {
+                for (auto displayScale : _p->displayScales)
+                {
+                    _p->menus["DisplayScale"]->setItemChecked(
+                        _p->displayScaleActions[displayScale],
+                        displayScale == value);
+                }
+            });
+
+        p.colorStyleObserver = ValueObserver<ColorStyle>::create(
+            app->observeColorStyle(),
+            [this](ColorStyle value)
+            {
+                _p->menus["ColorStyle"]->setItemChecked(_p->colorStyleActions[ColorStyle::Dark], ColorStyle::Dark == value);
+                _p->menus["ColorStyle"]->setItemChecked(_p->colorStyleActions[ColorStyle::Light], ColorStyle::Light == value);
+            });
     }
 
     MainWindow::MainWindow() :

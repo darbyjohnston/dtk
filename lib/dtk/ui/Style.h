@@ -82,6 +82,9 @@ namespace dtk
     //! Get default color roles.
     std::map<ColorRole, Color4F> defaultColorRoles();
 
+    //! Get light color roles.
+    std::map<ColorRole, Color4F> lightColorRoles();
+
     //! Font roles.
     enum class FontRole
     {

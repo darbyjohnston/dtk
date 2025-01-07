@@ -117,6 +117,25 @@ namespace dtk
         return out;
     }
 
+    std::map<ColorRole, Color4F> lightColorRoles()
+    {
+        std::map<ColorRole, Color4F> out = defaultColorRoles();
+
+        out[ColorRole::Window] = Color4F(.8F, .8F, .8F);
+        out[ColorRole::Base] = Color4F(.9F, .9F, .9F);
+        out[ColorRole::Button] = Color4F(.85F, .85F, .85F);
+        out[ColorRole::Text] = Color4F(0.F, 0.F, 0.F);
+        out[ColorRole::TextDisabled] = Color4F(.5F, .5F, .5F);
+        out[ColorRole::Trough] = Color4F(.6F, .6F, .6F);
+        out[ColorRole::Border] = Color4F(.7F, .7F, .7F);
+        out[ColorRole::Hover] = Color4F(0.F, 0.F, 0.F, .1F);
+        out[ColorRole::Pressed] = Color4F(0.F, 0.F, 0.F, .2F);
+        out[ColorRole::Checked] = Color4F(.5F, .6F, .9F);
+        out[ColorRole::KeyFocus] = Color4F(.3F, .4F, .8F);
+
+        return out;
+    }
+
     DTK_ENUM_IMPL(
         FontRole,
         "None",

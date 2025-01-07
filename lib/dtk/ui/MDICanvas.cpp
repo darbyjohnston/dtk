@@ -34,7 +34,6 @@ namespace dtk
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "dtk::MDICanvas", parent);
-        setBackgroundRole(ColorRole::Base);
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
     }

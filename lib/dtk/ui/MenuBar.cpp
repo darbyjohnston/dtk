@@ -84,6 +84,21 @@ namespace dtk
         }
     }
 
+    std::shared_ptr<Menu> MenuBar::getMenu(const std::string& text) const
+    {
+        DTK_P();
+        std::shared_ptr<Menu> out;
+        for (int index = 0; index < p.menus.size() && index < p.buttons.size(); ++index)
+        {
+            if (text == p.buttons[index]->getText())
+            {
+                out = p.menus[index];
+                break;
+            }
+        }
+        return out;
+    }
+
     void MenuBar::clear()
     {
         DTK_P();

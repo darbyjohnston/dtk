@@ -153,6 +153,8 @@ namespace dtk
     bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, bool&);
     bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, int&);
     bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, float&);
+    template<typename T>
+    bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, T&);
 }
 
 #include <dtk/core/CmdLineInline.h>

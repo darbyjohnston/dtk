@@ -25,8 +25,8 @@ void DialogsWindow::_init(
     MainWindow::_init(context, app, name, size);
 
     // Create the menus.
-    getMenuBar()->clear();
-    auto menu = Menu::create(context);
+    auto menu = getMenuBar()->getMenu("File");
+    menu->clear();
     menu->addItem(std::make_shared<Action>(
         "Open",
         Key::O,
@@ -62,7 +62,6 @@ void DialogsWindow::_init(
         {
             _getApp()->exit();
         }));
-    getMenuBar()->addMenu("File", menu);
 
     // Create the layout.
     auto layout = VerticalLayout::create(context);

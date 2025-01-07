@@ -34,7 +34,6 @@ DTK_MAIN()
         app->addWindow(window);
 
         // Create the menus.
-        window->getMenuBar()->clear();
         auto menu = Menu::create(context);
         menu->addItem(std::make_shared<Action>(
             "Action 1",

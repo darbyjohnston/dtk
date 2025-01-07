@@ -113,9 +113,7 @@ namespace dtk
         IPopup::_init(context, objectName, parent);
         DTK_P();
 
-        p.scrollWidget = ScrollWidget::create(
-            context,
-            ScrollType::Menu);
+        p.scrollWidget = ScrollWidget::create(context, ScrollType::Menu);
 
         p.menuPopupWidget = MenuPopupWidget::create(context, shared_from_this());
         p.scrollWidget->setParent(p.menuPopupWidget);

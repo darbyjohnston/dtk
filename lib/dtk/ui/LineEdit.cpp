@@ -409,8 +409,6 @@ namespace dtk
             }
             if (cursorPos != p.selection.get().second)
             {
-                std::cout << "cursorPos: " << cursorPos << std::endl;
-                std::cout << "selection: " << p.selection.get().second << std::endl;
                 p.selection.setSecond(cursorPos);
                 _setDrawUpdate();
             }

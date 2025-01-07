@@ -13,8 +13,10 @@
 
 #include <dtk/core/CmdLine.h>
 #include <dtk/core/Context.h>
+#include <dtk/core/Error.h>
 #include <dtk/core/Format.h>
 #include <dtk/core/LogSystem.h>
+#include <dtk/core/String.h>
 #include <dtk/core/Time.h>
 #include <dtk/core/Timer.h>
 
@@ -31,12 +33,18 @@ namespace dtk
         const std::chrono::milliseconds timeout(5);
     }
 
+    DTK_ENUM_IMPL(
+        ColorStyle,
+        "Dark",
+        "Light");
+
     struct App::Private
     {
         bool exit = false;
         std::shared_ptr<FontSystem> fontSystem;
         std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
+        std::shared_ptr<ObservableValue<ColorStyle> > colorStyle;
         bool running = true;
         float displayScale = 0.F;
         std::list<std::shared_ptr<Window> > windows;
@@ -62,6 +70,13 @@ namespace dtk
             _p->displayScale,
             { "-displayScale", "-ds" },
             "Set the display scale. A value of 0.0 sets the scale automatically."));
+        ColorStyle colorStyle = ColorStyle::Dark;
+        cmdLineOptionsTmp.push_back(CmdLineValueOption<ColorStyle>::create(
+            colorStyle,
+            { "-colorStyle", "-cs" },
+            "Set the color style.",
+            getLabel(colorStyle),
+            join(getColorStyleLabels(), ", ")));
         cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
         IApp::_init(
             context,
@@ -77,6 +92,9 @@ namespace dtk
         p.fontSystem = context->getSystem<FontSystem>();
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
+        p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
+
+        _styleUpdate();
 
         p.logTimer = Timer::create(context);
         p.logTimer->setRepeating(true);
@@ -148,6 +166,25 @@ namespace dtk
     const std::shared_ptr<Style>& App::getStyle() const
     {
         return _p->style;
+    }
+
+    ColorStyle App::getColorStyle() const
+    {
+        return _p->colorStyle->get();
+    }
+
+    std::shared_ptr<IObservableValue<ColorStyle> > App::observeColorStyle() const
+    {
+        return _p->colorStyle;
+    }
+
+    void App::setColorStyle(ColorStyle value)
+    {
+        DTK_P();
+        if (p.colorStyle->setIfChanged(value))
+        {
+            _styleUpdate();
+        }
     }
 
     void App::exit()
@@ -223,6 +260,19 @@ namespace dtk
                 event);
         }
         widget->tickEvent(visible, enabled, event);
+    }
+
+    void App::_styleUpdate()
+    {
+        DTK_P();
+        std::map<ColorRole, Color4F> colorRoles;
+        switch (p.colorStyle->get())
+        {
+        case ColorStyle::Dark: colorRoles = defaultColorRoles(); break;
+        case ColorStyle::Light: colorRoles = lightColorRoles(); break;
+        default: break;
+        }
+        p.style->setColorRoles(colorRoles);
     }
 
     void App::_log()

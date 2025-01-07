@@ -36,6 +36,9 @@ namespace dtk
             const std::string& text,
             const std::shared_ptr<Menu>&);
 
+        //! Get a menu.
+        std::shared_ptr<Menu> getMenu(const std::string&) const;
+
         //! Clear the menus.
         void clear();
 

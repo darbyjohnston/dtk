@@ -25,6 +25,10 @@ namespace dtk
                 &MenuBar::addMenu,
                 py::arg("text"),
                 py::arg("menu"))
+            .def(
+                "getMenu",
+                &MenuBar::getMenu,
+                py::arg("text"))
             .def("clear", &MenuBar::clear)
             .def(
                 "shortcut",

@@ -172,4 +172,18 @@ namespace dtk
             throw ParseError();
         }
     }
+
+    template<typename T>
+    inline bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, T& value)
+    {
+        bool out = false;
+        if (it != args.end())
+        {
+            std::stringstream ss(*it);
+            ss >> value;
+            it = args.erase(it);
+            out = true;
+        }
+        return out;
+    }
 }
