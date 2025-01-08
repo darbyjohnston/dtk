@@ -30,6 +30,7 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
+            TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
         DrawData draw;
@@ -121,6 +122,7 @@ namespace dtk
                 p.draw.g.min.x,
                 p.draw.g.min.y + p.size.fontMetrics.lineHeight + p.size.spacing),
             p.draw.g.max);
+        p.draw.border = border(p.draw.g2, p.size.border, p.size.margin);
     }
 
     void GroupBox::sizeHintEvent(const SizeHintEvent& event)
@@ -183,7 +185,7 @@ namespace dtk
             event.style->getColorRole(ColorRole::Text));
 
         event.render->drawMesh(
-            border(p.draw.g2, p.size.border, p.size.margin),
+            p.draw.border,
             event.style->getColorRole(ColorRole::Border));
     }
 }

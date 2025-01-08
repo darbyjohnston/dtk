@@ -28,7 +28,7 @@ namespace dtk
 
         struct DrawData
         {
-            Box2I g;
+            TriMesh2F border;
             Box2I g2;
         };
         DrawData draw;
@@ -111,8 +111,8 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
+        p.draw.border = border(value, p.size.border);
+        p.draw.g2 = margin(value, -p.size.border);
     }
 
     void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
@@ -136,7 +136,7 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
         event.render->drawMesh(
-            border(p.draw.g, p.size.border),
+            p.draw.border,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(p.draw.g2, p.color);
     }

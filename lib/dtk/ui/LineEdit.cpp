@@ -114,16 +114,11 @@ namespace dtk
         };
         SizeData size;
 
-        struct GeomData
-        {
-            Box2I g;
-            Box2I g2;
-            Box2I g3;
-        };
-        GeomData geom;
-
         struct DrawData
         {
+            TriMesh2F border;
+            Box2I g2;
+            Box2I g3;
             std::vector<std::shared_ptr<Glyph> > glyphs;
             std::vector<Box2I> glyphsBox;
         };
@@ -227,9 +222,10 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        p.geom.g = align(value, getSizeHint(), getHAlign(), getVAlign());
-        p.geom.g2 = margin(p.geom.g, -p.size.border);
-        p.geom.g3 = margin(p.geom.g2, -p.size.margin);
+        const Box2I g = align(value, getSizeHint(), getHAlign(), getVAlign());
+        p.draw.border = border(g, p.size.border);
+        p.draw.g2 = margin(g, -p.size.border);
+        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
     }
 
     void LineEdit::setVisible(bool value)
@@ -334,19 +330,19 @@ namespace dtk
 
         // Draw the focus and border.
         event.render->drawMesh(
-            border(p.geom.g, p.size.border),
+            p.draw.border,
             event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the background.
         event.render->drawRect(
-            p.geom.g2,
+            p.draw.g2,
             event.style->getColorRole(ColorRole::Base));
 
         // Enable clipping.
         const ClipRectEnabledState clipRectEnabledState(event.render);
         const ClipRectState clipRectState(event.render);
         event.render->setClipRectEnabled(true);
-        event.render->setClipRect(intersect(p.geom.g2, drawRect));
+        event.render->setClipRect(intersect(p.draw.g2, drawRect));
 
         // Draw the selection.
         if (p.selection.isValid())
@@ -357,14 +353,14 @@ namespace dtk
             const std::string text1 = p.text.substr(0, selection.second);
             const int x1 = event.fontSystem->getSize(text1, p.size.fontInfo).w;
             event.render->drawRect(
-                Box2I(p.geom.g3.x() + x0, p.geom.g3.y(), x1 - x0 + 1, p.geom.g3.h()),
+                Box2I(p.draw.g3.x() + x0, p.draw.g3.y(), x1 - x0 + 1, p.draw.g3.h()),
                 event.style->getColorRole(ColorRole::Checked));
         }
 
         // Draw the text.
         const V2I pos(
-            p.geom.g3.x(),
-            p.geom.g3.y() + p.geom.g3.h() / 2 - p.size.fontMetrics.lineHeight / 2);
+            p.draw.g3.x(),
+            p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.fontMetrics.lineHeight / 2);
         if (!p.text.empty() && p.draw.glyphs.empty())
         {
             p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
@@ -385,10 +381,10 @@ namespace dtk
             const int x = event.fontSystem->getSize(text, p.size.fontInfo).w;
             event.render->drawRect(
                 Box2I(
-                    p.geom.g3.x() + x,
-                    p.geom.g3.y(),
+                    p.draw.g3.x() + x,
+                    p.draw.g3.y(),
                     p.size.border,
-                    p.geom.g3.h()),
+                    p.draw.g3.h()),
                 event.style->getColorRole(ColorRole::Text));
         }
     }
@@ -759,7 +755,7 @@ namespace dtk
         int out = 0;
         for (const auto& glyphBox : p.draw.glyphsBox)
         {
-            if (value.x < p.geom.g3.x() + glyphBox.x() + glyphBox.w())
+            if (value.x < p.draw.g3.x() + glyphBox.x() + glyphBox.w())
             {
                 break;
             }

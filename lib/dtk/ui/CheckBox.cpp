@@ -28,8 +28,10 @@ namespace dtk
         struct DrawData
         {
             Box2I g;
+            TriMesh2F focus;
             Box2I g2;
-            Box2I checkBox;
+            Box2I g3;
+            TriMesh2F checkBox;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
         DrawData draw;
@@ -102,12 +104,14 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
+        p.draw.focus = border(p.draw.g, p.size.border);
         p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
-        p.draw.checkBox = Box2I(
+        p.draw.g3 = Box2I(
             p.draw.g2.x(),
             p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.checkBox / 2,
             p.size.checkBox,
             p.size.checkBox);
+        p.draw.checkBox = border(p.draw.g3, p.size.border);
     }
 
     void CheckBox::sizeHintEvent(const SizeHintEvent& event)
@@ -175,16 +179,16 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.border),
+                p.draw.focus,
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the check box.
         event.render->drawMesh(
-            border(p.draw.checkBox, p.size.border),
+            p.draw.checkBox,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            margin(p.draw.checkBox, -p.size.border),
+            margin(p.draw.g3, -p.size.border),
             event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base));
 
         // Draw the text.

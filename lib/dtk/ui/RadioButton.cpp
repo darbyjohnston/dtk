@@ -28,8 +28,11 @@ namespace dtk
         struct DrawData
         {
             Box2I g;
+            TriMesh2F focus;
             Box2I g2;
             Box2I g3;
+            TriMesh2F button;
+            TriMesh2F button2;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
         DrawData draw;
@@ -102,12 +105,15 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
+        p.draw.focus = border(p.draw.g, p.size.border);
         p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
         p.draw.g3 = Box2I(
             p.draw.g2.x(),
             p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.diameter / 2,
             p.size.diameter,
             p.size.diameter);
+        p.draw.button = circle(center(p.draw.g3), p.size.diameter / 2);
+        p.draw.button2 = circle(center(p.draw.g3), p.size.diameter / 2 - p.size.border);
     }
 
     void RadioButton::sizeHintEvent(const SizeHintEvent& event)
@@ -175,16 +181,16 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.border),
+                p.draw.focus,
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the button.
         event.render->drawMesh(
-            circle(center(p.draw.g3), p.size.diameter / 2),
+            p.draw.button,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawMesh(
-            circle(center(p.draw.g3), p.size.diameter / 2 - p.size.border),
+            p.draw.button2,
             event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base));
 
         // Draw the text.

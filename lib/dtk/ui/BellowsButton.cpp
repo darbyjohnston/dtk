@@ -26,6 +26,7 @@ namespace dtk
         struct DrawData
         {
             Box2I g;
+            TriMesh2F border;
             Box2I g2;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
@@ -66,6 +67,7 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
+        p.draw.border = border(p.draw.g, p.size.border);
         p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
     }
 
@@ -147,7 +149,7 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.border),
+                p.draw.border,
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
