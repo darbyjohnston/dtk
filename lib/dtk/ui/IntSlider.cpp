@@ -28,11 +28,10 @@ namespace dtk
 
         struct DrawData
         {
-            Box2I g;
-            Box2I g2;
-            Box2I g3;
-            Box2I g4;
-            Box2I g5;
+            TriMesh2F border;
+            Box2I background;
+            TriMesh2F handleBorder;
+            Box2I handle;
         };
         DrawData draw;
     };
@@ -153,20 +152,21 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
-        p.draw.g3 = _getSliderGeometry();
+        p.draw.border = border(value, p.size.border);
+        p.draw.background = margin(value, -p.size.border);
+        const Box2I g = _getSliderGeometry();
         int pos = 0;
         if (p.model)
         {
             pos = _valueToPos(p.model->getValue());
         }
-        p.draw.g4 = Box2I(
+        const Box2I g2 = Box2I(
             pos - p.size.handle / 2,
-            p.draw.g3.y(),
+            g.y(),
             p.size.handle,
-            p.draw.g3.h());
-        p.draw.g5 = margin(p.draw.g4, -p.size.border);
+            g.h());
+        p.draw.handleBorder = border(g2, p.size.border);
+        p.draw.handle = margin(g2, -p.size.border);
     }
 
     void IntSlider::sizeHintEvent(const SizeHintEvent& event)
@@ -195,36 +195,36 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
-        // Draw the focus and border.
-        const Box2I& g = getGeometry();
-        event.render->drawMesh(
-            border(g, p.size.border),
-            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
-
         // Draw the background.
         event.render->drawRect(
-            p.draw.g2,
+            p.draw.background,
             event.style->getColorRole(ColorRole::Base));
 
         // Draw the handle.
         event.render->drawMesh(
-            border(p.draw.g4, p.size.border),
+            p.draw.handleBorder,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            p.draw.g5,
+            p.draw.handle,
             event.style->getColorRole(ColorRole::Button));
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g5,
+                p.draw.handle,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g5,
+                p.draw.handle,
                 event.style->getColorRole(ColorRole::Hover));
         }
+
+        // Draw the focus and border.
+        const Box2I& g = getGeometry();
+        event.render->drawMesh(
+            p.draw.border,
+            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
     }
 
     void IntSlider::mouseEnterEvent(MouseEnterEvent& event)
@@ -327,10 +327,10 @@ namespace dtk
         DTK_P();
         return margin(
             getGeometry(),
-            -(p.size.border * 2 + p.size.handle / 2),
-            -(p.size.border * 2),
-            -(p.size.border * 2 + p.size.handle / 2),
-            -(p.size.border * 2));
+            -(p.size.handle / 2),
+            0,
+            -(p.size.handle / 2),
+            0);
     }
 
     int IntSlider::_posToValue(int pos) const
