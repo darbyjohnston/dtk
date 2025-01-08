@@ -305,7 +305,7 @@ namespace dtk
                 break;
             default: break;
             }
-            p.split[p.mouse.pressedHandle] += s;
+            p.split[p.mouse.pressedHandle] = clamp(p.split[p.mouse.pressedHandle] + s, 0.F, 1.F);
 
             const int last = static_cast<int>(p.split.size()) - 1;
             if (p.mouse.pressedHandle < last)
