@@ -31,11 +31,11 @@ namespace dtk
 
         //! Glyph texture atlas size.
         int glyphAtlasSize =
-#if defined(dtk_API_GL_4_1)
-            4096;
-#elif defined(dtk_API_GLES_2)
+#if defined(dtk_API_GLES_2)
             2048;
-#endif // dtk_API_GL_4_1
+#else // dtk_API_GLES_2
+            4096;
+#endif // dtk_API_GLES_2
 
         //! Enable logging.
         bool log = true;
