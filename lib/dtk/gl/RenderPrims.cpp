@@ -233,10 +233,9 @@ namespace dtk
             int x = 0;
             int y = 0;
             int32_t rsbDeltaPrev = 0;
-            TriMesh2F mesh;
-            mesh.v.resize(glyphCount * 4);
-            mesh.t.resize(glyphCount * 4);
-            mesh.triangles.resize(glyphCount * 2);
+            p.textMesh.v.resize(glyphCount * 4);
+            p.textMesh.t.resize(glyphCount * 4);
+            p.textMesh.triangles.resize(glyphCount * 2);
             size_t v = 0;
             size_t t = 0;
             Box2I lineRect(p.clipRect.min.x, pos.y, p.clipRect.w(), fontMetrics.lineHeight);
@@ -296,29 +295,29 @@ namespace dtk
                             const V2I& min = box.min;
                             const V2I& max = box.max;
 
-                            mesh.v[v + 0].x = min.x;
-                            mesh.v[v + 0].y = min.y;
-                            mesh.v[v + 1].x = max.x + 1;
-                            mesh.v[v + 1].y = min.y;
-                            mesh.v[v + 2].x = max.x + 1;
-                            mesh.v[v + 2].y = max.y + 1;
-                            mesh.v[v + 3].x = min.x;
-                            mesh.v[v + 3].y = max.y + 1;
-                            mesh.t[v + 0].x = item.u.min();
-                            mesh.t[v + 0].y = item.v.min();
-                            mesh.t[v + 1].x = item.u.max();
-                            mesh.t[v + 1].y = item.v.min();
-                            mesh.t[v + 2].x = item.u.max();
-                            mesh.t[v + 2].y = item.v.max();
-                            mesh.t[v + 3].x = item.u.min();
-                            mesh.t[v + 3].y = item.v.max();
+                            p.textMesh.v[v + 0].x = min.x;
+                            p.textMesh.v[v + 0].y = min.y;
+                            p.textMesh.v[v + 1].x = max.x + 1;
+                            p.textMesh.v[v + 1].y = min.y;
+                            p.textMesh.v[v + 2].x = max.x + 1;
+                            p.textMesh.v[v + 2].y = max.y + 1;
+                            p.textMesh.v[v + 3].x = min.x;
+                            p.textMesh.v[v + 3].y = max.y + 1;
+                            p.textMesh.t[v + 0].x = item.u.min();
+                            p.textMesh.t[v + 0].y = item.v.min();
+                            p.textMesh.t[v + 1].x = item.u.max();
+                            p.textMesh.t[v + 1].y = item.v.min();
+                            p.textMesh.t[v + 2].x = item.u.max();
+                            p.textMesh.t[v + 2].y = item.v.max();
+                            p.textMesh.t[v + 3].x = item.u.min();
+                            p.textMesh.t[v + 3].y = item.v.max();
 
-                            mesh.triangles[t + 0].v[0] = { v + 1, v + 1 };
-                            mesh.triangles[t + 0].v[1] = { v + 2, v + 2 };
-                            mesh.triangles[t + 0].v[2] = { v + 3, v + 3 };
-                            mesh.triangles[t + 1].v[0] = { v + 3, v + 3 };
-                            mesh.triangles[t + 1].v[1] = { v + 4, v + 4 };
-                            mesh.triangles[t + 1].v[2] = { v + 1, v + 1 };
+                            p.textMesh.triangles[t + 0].v[0] = { v + 1, v + 1 };
+                            p.textMesh.triangles[t + 0].v[1] = { v + 2, v + 2 };
+                            p.textMesh.triangles[t + 0].v[2] = { v + 3, v + 3 };
+                            p.textMesh.triangles[t + 1].v[0] = { v + 3, v + 3 };
+                            p.textMesh.triangles[t + 1].v[1] = { v + 4, v + 4 };
+                            p.textMesh.triangles[t + 1].v[2] = { v + 1, v + 1 };
 
                             v += 4;
                             t += 2;
@@ -328,7 +327,7 @@ namespace dtk
                     }
                 }
             }
-            _drawTextMesh(mesh);
+            _drawTextMesh(p.textMesh);
         }
 
         void Render::drawImage(
