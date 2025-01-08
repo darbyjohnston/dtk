@@ -64,8 +64,8 @@ namespace dtk
             p.buttonGroup->setClickedCallback(
                 [this](int index)
                 {
-                    takeKeyFocus();
                     _setCurrent(index);
+                    takeKeyFocus();
                     if (_p->callback)
                     {
                         _p->callback(index, true);
@@ -76,8 +76,8 @@ namespace dtk
             p.buttonGroup->setCheckedCallback(
                 [this](int index, bool value)
                 {
-                    takeKeyFocus();
                     _setCurrent(index);
+                    takeKeyFocus();
                     if (_p->callback)
                     {
                         _p->callback(index, value);
@@ -219,7 +219,10 @@ namespace dtk
         IWidget::keyFocusEvent(value);
         DTK_P();
         _currentUpdate();
-        p.scrollTo->setAlways(p.current->get());
+        if (value && p.current)
+        {
+            p.scrollTo->setAlways(p.current->get());
+        }
     }
 
     void ListItemsWidget::keyPressEvent(KeyEvent& event)

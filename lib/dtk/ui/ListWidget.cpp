@@ -36,8 +36,13 @@ namespace dtk
             {
                 if (value >= 0)
                 {
+                    const V2I& pos = _p->scrollWidget->getScrollPos();
+                    const Box2I vp = _p->scrollWidget->getViewport();
                     const Box2I r = _p->widget->getRect(value);
-                    _p->scrollWidget->scrollTo(r);
+                    if (r.min.y < pos.y || r.max.y > pos.y + vp.h())
+                    {
+                        _p->scrollWidget->scrollTo(r);
+                    }
                 }
             });
     }
