@@ -5,6 +5,7 @@
 #pragma once
 
 #include <dtk/ui/Label.h>
+#include <dtk/ui/RowLayout.h>
 
 namespace dtk
 {
@@ -12,35 +13,37 @@ namespace dtk
     {
         namespace dnd
         {
+            class DragWidget;
+
             class DragAndDropData : public dtk::DragAndDropData
             {
             public:
-                DragAndDropData(int);
+                DragAndDropData(const std::shared_ptr<DragWidget>&);
 
                 virtual ~DragAndDropData();
 
-                int getNumber() const;
+                const std::shared_ptr<DragWidget>& getWidget() const;
 
             private:
-                int _number = 0;
+                std::shared_ptr<DragWidget> _widget;
             };
 
-            class DragAndDropWidget : public IWidget
+            class DragWidget : public IWidget
             {
             protected:
                 void _init(
                     const std::shared_ptr<Context>&,
-                    int number,
+                    int,
                     const std::shared_ptr<IWidget>& parent);
 
-                DragAndDropWidget() = default;
+                DragWidget() = default;
 
             public:
-                virtual ~DragAndDropWidget();
+                virtual ~DragWidget();
 
-                static std::shared_ptr<DragAndDropWidget> create(
+                static std::shared_ptr<DragWidget> create(
                     const std::shared_ptr<Context>&,
-                    int number,
+                    int,
                     const std::shared_ptr<IWidget>& parent = nullptr);
 
                 void setGeometry(const Box2I&) override;
@@ -49,20 +52,46 @@ namespace dtk
                 void mouseEnterEvent(MouseEnterEvent&) override;
                 void mouseLeaveEvent() override;
                 void mouseMoveEvent(MouseMoveEvent&) override;
-                void mousePressEvent(MouseClickEvent&) override;
-                void mouseReleaseEvent(MouseClickEvent&) override;
+
+            private:
+                std::shared_ptr<Label> _label;
+                int _number = 0;
+                int _dragLength = 0;
+            };
+
+            class ContainerWidget : public IWidget
+            {
+            protected:
+                void _init(
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>& parent);
+
+                ContainerWidget() = default;
+
+            public:
+                virtual ~ContainerWidget();
+
+                static std::shared_ptr<ContainerWidget> create(
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>& parent = nullptr);
+
+                void addWidget(const std::shared_ptr<DragWidget>&);
+
+                void setGeometry(const Box2I&) override;
+                void sizeHintEvent(const SizeHintEvent&) override;
+                void drawOverlayEvent(const Box2I&, const DrawEvent&) override;
                 void dragEnterEvent(DragAndDropEvent&) override;
                 void dragLeaveEvent(DragAndDropEvent&) override;
+                void dragMoveEvent(DragAndDropEvent&) override;
                 void dropEvent(DragAndDropEvent&) override;
 
             private:
-                void _textUpdate();
+                int _getDropIndex(const V2I&) const;
+                Box2I _getDropGeom(int) const;
 
-                int _number = 0;
-                std::shared_ptr<Label> _label;
-                int _border = 0;
-                int _dragLength = 0;
-                bool _dropTarget = false;;
+                std::shared_ptr<VerticalLayout> _layout;
+                int _handle = 0;
+                int _dropTarget = -1;
             };
         }
     }

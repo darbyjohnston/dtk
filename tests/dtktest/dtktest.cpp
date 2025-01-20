@@ -28,6 +28,7 @@
 #include <uiTest/FloatModelTest.h>
 #include <uiTest/GridLayoutTest.h>
 #include <uiTest/GroupBoxTest.h>
+#include <uiTest/IWidgetTest.h>
 #include <uiTest/IconTest.h>
 #include <uiTest/IntEditTest.h>
 #include <uiTest/IntEditSliderTest.h>
@@ -217,6 +218,7 @@ namespace dtk
             p.tests.push_back(ui_test::FloatModelTest::create(context));
             p.tests.push_back(ui_test::GridLayoutTest::create(context));
             p.tests.push_back(ui_test::GroupBoxTest::create(context));
+            p.tests.push_back(ui_test::IWidgetTest::create(context));
             p.tests.push_back(ui_test::IconTest::create(context));
             p.tests.push_back(ui_test::IntEditTest::create(context));
             p.tests.push_back(ui_test::IntEditSliderTest::create(context));

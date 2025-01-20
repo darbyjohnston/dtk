@@ -66,11 +66,17 @@ namespace dtk
         template<typename T>
         std::shared_ptr<T> getParentT() const;
 
+        //! Get the child widget drawing order index.
+        int getChildIndex(const std::shared_ptr<IWidget>&) const;
+
         //! Move the child widget to the front of the drawing order.
         void moveToFront(const std::shared_ptr<IWidget>&);
 
         //! Move the child widget to the back of the drawing order.
         void moveToBack(const std::shared_ptr<IWidget>&);
+
+        //! Move the child widget to the given index in the drawing order.
+        void moveToIndex(const std::shared_ptr<IWidget>&, size_t);
 
         //! Get the window.
         std::shared_ptr<IWindow> getWindow();

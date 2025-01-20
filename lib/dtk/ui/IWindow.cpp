@@ -590,8 +590,8 @@ namespace dtk
                         p.cursorPos,
                         p.cursorPosPrev,
                         p.dndData);
-                    hover->dragLeaveEvent(event);
                     hover->dropEvent(event);
+                    hover->dragLeaveEvent(event);
                 }
                 else
                 {

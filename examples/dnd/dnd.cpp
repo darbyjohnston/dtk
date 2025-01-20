@@ -6,12 +6,10 @@
 
 #include <dtk/ui/App.h>
 #include <dtk/ui/DrawUtil.h>
-#include <dtk/ui/GridLayout.h>
 #include <dtk/ui/MainWindow.h>
 #include <dtk/ui/ScrollWidget.h>
 
-#include <iomanip>
-#include <sstream>
+#include <dtk/core/Format.h>
 
 using namespace dtk;
 
@@ -21,115 +19,91 @@ namespace dtk
     {
         namespace dnd
         {
-            DragAndDropData::DragAndDropData(int value) :
-                _number(value)
-            {}
-
-            DragAndDropData::~DragAndDropData()
-            {}
-
-            int DragAndDropData::getNumber() const
+            DragAndDropData::DragAndDropData(const std::shared_ptr<DragWidget>& widget) :
+                _widget(widget)
             {
-                return _number;
             }
 
-            void DragAndDropWidget::_init(
+            DragAndDropData::~DragAndDropData()
+            {
+            }
+
+            const std::shared_ptr<DragWidget>& DragAndDropData::getWidget() const
+            {
+                return _widget;
+            }
+
+            void DragWidget::_init(
                 const std::shared_ptr<Context>& context,
                 int number,
                 const std::shared_ptr<IWidget>& parent)
             {
-                IWidget::_init(context, "dtk::examples::dnd::DragAndDropWidget", parent);
+                IWidget::_init(context, "dtk::examples::dnd::DragWidget", parent);
 
                 _setMouseHoverEnabled(true);
                 _setMousePressEnabled(true);
 
                 _number = number;
 
-                _label = Label::create(context, shared_from_this());
+                _label = Label::create(context, Format("{0}").arg(number, 4, '0'), shared_from_this());
+                _label->setMarginRole(SizeRole::MarginSmall);
                 _label->setHAlign(HAlign::Center);
-                _label->setVAlign(VAlign::Center);
-                _label->setMarginRole(SizeRole::Margin);
-
-                _textUpdate();
             }
 
-            DragAndDropWidget::~DragAndDropWidget()
-            {}
+            DragWidget::~DragWidget()
+            {
+            }
 
-            std::shared_ptr<DragAndDropWidget> DragAndDropWidget::create(
+            std::shared_ptr<DragWidget> DragWidget::create(
                 const std::shared_ptr<Context>& context,
                 int number,
                 const std::shared_ptr<IWidget>& parent)
             {
-                auto out = std::shared_ptr<DragAndDropWidget>(new DragAndDropWidget);
+                auto out = std::shared_ptr<DragWidget>(new DragWidget);
                 out->_init(context, number, parent);
                 return out;
             }
 
-            void DragAndDropWidget::setGeometry(const Box2I& value)
+            void DragWidget::setGeometry(const Box2I& value)
             {
                 IWidget::setGeometry(value);
                 _label->setGeometry(getGeometry());
             }
 
-            void DragAndDropWidget::sizeHintEvent(const SizeHintEvent& event)
+            void DragWidget::sizeHintEvent(const SizeHintEvent& event)
             {
                 IWidget::sizeHintEvent(event);
-                _border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
                 _dragLength = event.style->getSizeRole(SizeRole::DragLength, event.displayScale);
                 _setSizeHint(_label->getSizeHint());
             }
 
-            void DragAndDropWidget::drawEvent(
+            void DragWidget::drawEvent(
                 const Box2I& drawRect,
                 const DrawEvent& event)
             {
                 IWidget::drawEvent(drawRect, event);
-
-                const Box2I& g = getGeometry();
-                event.render->drawMesh(
-                    border(g, _border),
-                    event.style->getColorRole(ColorRole::Border));
-
-                const Box2I g2 = margin(g, -_border);
-                event.render->drawRect(
-                    g2,
-                    event.style->getColorRole(ColorRole::Button));
-
-                if (_isMousePressed())
+                if (_isMouseInside())
                 {
+                    const Box2I& g = getGeometry();
                     event.render->drawRect(
-                        g2,
-                        event.style->getColorRole(ColorRole::Pressed));
-                }
-                else if (_isMouseInside())
-                {
-                    event.render->drawRect(
-                        g2,
+                        g,
                         event.style->getColorRole(ColorRole::Hover));
-                }
-
-                if (_dropTarget)
-                {
-                    auto color = event.style->getColorRole(ColorRole::Checked);
-                    color.a = .5F;
-                    event.render->drawRect(g2, color);
                 }
             }
 
-            void DragAndDropWidget::mouseEnterEvent(MouseEnterEvent& event)
+            void DragWidget::mouseEnterEvent(MouseEnterEvent& event)
             {
                 IWidget::mouseEnterEvent(event);
                 _setDrawUpdate();
             }
 
-            void DragAndDropWidget::mouseLeaveEvent()
+            void DragWidget::mouseLeaveEvent()
             {
                 IWidget::mouseLeaveEvent();
                 _setDrawUpdate();
             }
 
-            void DragAndDropWidget::mouseMoveEvent(MouseMoveEvent& event)
+            void DragWidget::mouseMoveEvent(MouseMoveEvent& event)
             {
                 IWidget::mouseMoveEvent(event);
                 if (_isMousePressed())
@@ -137,7 +111,8 @@ namespace dtk
                     const float length = dtk::length(event.pos - _getMousePressPos());
                     if (length > _dragLength)
                     {
-                        event.dndData = std::make_shared<DragAndDropData>(_number);
+                        event.dndData = std::make_shared<DragAndDropData>(
+                            std::dynamic_pointer_cast<DragWidget>(shared_from_this()));
                         const Box2I& g = getGeometry();
                         const int w = g.w();
                         const int h = g.h();
@@ -159,49 +134,145 @@ namespace dtk
                 }
             }
 
-            void DragAndDropWidget::mousePressEvent(MouseClickEvent& event)
+            void ContainerWidget::_init(
+                const std::shared_ptr<Context>& context,
+                const std::shared_ptr<IWidget>& parent)
             {
-                IWidget::mousePressEvent(event);
-                _setDrawUpdate();
+                IWidget::_init(context, "dtk::examples::dnd::ContainerWidget", parent);
+
+                _layout = VerticalLayout::create(context, shared_from_this());
+                _layout->setSpacingRole(SizeRole::None);
             }
 
-            void DragAndDropWidget::mouseReleaseEvent(MouseClickEvent& event)
+            ContainerWidget::~ContainerWidget()
             {
-                IWidget::mouseReleaseEvent(event);
-                _setDrawUpdate();
             }
 
-            void DragAndDropWidget::dragEnterEvent(DragAndDropEvent& event)
+            std::shared_ptr<ContainerWidget> ContainerWidget::create(
+                const std::shared_ptr<Context>& context,
+                const std::shared_ptr<IWidget>& parent)
             {
-                event.accept = true;
-                _dropTarget = true;
-                _setDrawUpdate();
+                auto out = std::shared_ptr<ContainerWidget>(new ContainerWidget);
+                out->_init(context, parent);
+                return out;
             }
 
-            void DragAndDropWidget::dragLeaveEvent(DragAndDropEvent& event)
+            void ContainerWidget::addWidget(const std::shared_ptr<DragWidget>& value)
             {
-                event.accept = true;
-                _dropTarget = false;
-                _setDrawUpdate();
+                value->setParent(_layout);
             }
 
-            void DragAndDropWidget::dropEvent(DragAndDropEvent& event)
+            void ContainerWidget::setGeometry(const Box2I& value)
             {
-                if (auto data = std::dynamic_pointer_cast<DragAndDropData>(event.data))
+                IWidget::setGeometry(value);
+                _layout->setGeometry(getGeometry());
+            }
+
+            void ContainerWidget::sizeHintEvent(const SizeHintEvent& event)
+            {
+                IWidget::sizeHintEvent(event);
+                _handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
+                _setSizeHint(_layout->getSizeHint());
+            }
+
+            void ContainerWidget::drawOverlayEvent(
+                const Box2I& drawRect,
+                const DrawEvent& event)
+            {
+                IWidget::drawOverlayEvent(drawRect, event);
+                if (_dropTarget != -1)
                 {
-                    event.accept = true;
-                    _number = data->getNumber();
-                    _textUpdate();
-                    _setSizeUpdate();
+                    const Box2I g = _getDropGeom(_dropTarget);
+                    event.render->drawRect(
+                        g,
+                        event.style->getColorRole(ColorRole::Checked));
+                }
+            }
+
+            void ContainerWidget::dragEnterEvent(DragAndDropEvent& event)
+            {
+                event.accept = true;
+                _dropTarget = _getDropIndex(event.pos);
+                _setDrawUpdate();
+            }
+
+            void ContainerWidget::dragLeaveEvent(DragAndDropEvent& event)
+            {
+                event.accept = true;
+                _dropTarget = -1;
+                _setDrawUpdate();
+            }
+
+            void ContainerWidget::dragMoveEvent(DragAndDropEvent& event)
+            {
+                event.accept = true;
+                const int dropTarget = _getDropIndex(event.pos);
+                if (dropTarget != _dropTarget)
+                {
+                    _dropTarget = dropTarget;
                     _setDrawUpdate();
                 }
             }
 
-            void DragAndDropWidget::_textUpdate()
+            void ContainerWidget::dropEvent(DragAndDropEvent& event)
             {
-                std::stringstream ss;
-                ss << std::setfill('0') << std::setw(3) << _number;
-                _label->setText(ss.str());
+                if (auto data = std::dynamic_pointer_cast<DragAndDropData>(event.data))
+                {
+                    event.accept = true;
+                    auto widget = data->getWidget();
+                    if (widget->getParent().lock() != _layout)
+                    {
+                        widget->setParent(_layout);
+                    }
+                    else
+                    {
+                        const int index = _layout->getChildIndex(widget);
+                        if (index < _dropTarget)
+                        {
+                            --_dropTarget;
+                        }
+                    }
+                    _layout->moveToIndex(widget, _dropTarget);
+                    _dropTarget = -1;
+                    _setDrawUpdate();
+                }
+            }
+
+            int ContainerWidget::_getDropIndex(const V2I& pos) const
+            {
+                int out = 0;
+                for (const auto& child : _layout->getChildren())
+                {
+                    if (pos.y < center(child->getGeometry()).y)
+                    {
+                        break;
+                    }
+                    ++out;
+                }
+                return out;
+            }
+
+            Box2I ContainerWidget::_getDropGeom(int index) const
+            {
+                Box2I out;
+                const auto& children = _layout->getChildren();
+                int i = 0;
+                for (const auto& child : children)
+                {
+                    if (i == index)
+                    {
+                        const Box2I& g = child->getGeometry();
+                        out = Box2I(g.min.x, g.min.y - _handle / 2, g.w(), _handle);
+                        break;
+                    }
+                    ++i;
+                }
+                if (i == children.size())
+                {
+                    const Box2I& g = children.back()->getGeometry();
+                    out = Box2I(g.min.x, g.min.y + g.h() - _handle / 2, g.w(), _handle);
+                }
+                return out;
             }
         }
     }
@@ -226,27 +297,26 @@ DTK_MAIN()
         app->addWindow(window);
 
         // Create the layout.
-        auto layout = GridLayout::create(context);
-        layout->setMarginRole(SizeRole::MarginSmall);
-        layout->setSpacingRole(SizeRole::SpacingSmall);
-        auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
-        scrollWidget->setBorder(false);
-        scrollWidget->setWidget(layout);
-        scrollWidget->setVStretch(Stretch::Expanding);
-        window->setWidget(scrollWidget);
+        auto layout = HorizontalLayout::create(context);
+        layout->setSpacingRole(SizeRole::None);
+        layout->setStretch(Stretch::Expanding);
+        window->setWidget(layout);
+        auto scrollWidget0 = ScrollWidget::create(context, ScrollType::Vertical, layout);
+        scrollWidget0->setBorder(false);
+        scrollWidget0->setStretch(Stretch::Expanding);
+        auto scrollWidget1 = ScrollWidget::create(context, ScrollType::Vertical, layout);
+        scrollWidget1->setBorder(false);
+        scrollWidget1->setStretch(Stretch::Expanding);
 
         // Create the drag and drop widgets.
-        const size_t count = 20;
-        for (size_t i = 0; i < count; ++i)
+        auto dndContainer0 = examples::dnd::ContainerWidget::create(context);
+        scrollWidget0->setWidget(dndContainer0);
+        auto dndContainer1 = examples::dnd::ContainerWidget::create(context);
+        scrollWidget1->setWidget(dndContainer1);
+        for (int i = 0; i < 100; ++i)
         {
-            for (size_t j = 0; j < count; ++j)
-            {
-                auto widget = dtk::examples::dnd::DragAndDropWidget::create(
-                    context,
-                    i * count + j,
-                    layout);
-                layout->setGridPos(widget, i, j);
-            }
+            dndContainer0->addWidget(examples::dnd::DragWidget::create(context, i));
+            dndContainer1->addWidget(examples::dnd::DragWidget::create(context, i));
         }
 
         window->show();

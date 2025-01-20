@@ -100,6 +100,20 @@ namespace dtk
         }
     }
 
+    int IWidget::getChildIndex(const std::shared_ptr<IWidget>& value) const
+    {
+        int out = -1;
+        int i = 0;
+        auto j = _children.begin();
+        for (; *j != value && j != _children.end(); ++i, ++j)
+            ;
+        if (j != _children.end())
+        {
+            out = i;
+        }
+        return out;
+    }
+
     void IWidget::moveToFront(const std::shared_ptr<IWidget>& value)
     {
         auto i = std::find(_children.begin(), _children.end(), value);
@@ -108,8 +122,8 @@ namespace dtk
             auto child = *i;
             _children.erase(i);
             _children.push_back(child);
-            value->_setSizeUpdate();
-            value->_setDrawUpdate();
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
     }
 
@@ -121,8 +135,33 @@ namespace dtk
             auto child = *i;
             _children.erase(i);
             _children.push_front(child);
-            value->_setSizeUpdate();
-            value->_setDrawUpdate();
+            _setSizeUpdate();
+            _setDrawUpdate();
+        }
+    }
+
+    void IWidget::moveToIndex(const std::shared_ptr<IWidget>& value, size_t index)
+    {
+        auto i = _children.begin();
+        for (; i != _children.end() && *i != value; ++i)
+            ;
+        if (i != _children.end())
+        {
+            _children.erase(i);
+            i = _children.begin();
+            int j = 0;
+            for (; i != _children.end() && j < index; ++i, ++j)
+                ;
+            if (i != _children.end())
+            {
+                _children.insert(i, value);
+            }
+            else
+            {
+                _children.push_back(value);
+            }
+            _setSizeUpdate();
+            _setDrawUpdate();
         }
     }
 

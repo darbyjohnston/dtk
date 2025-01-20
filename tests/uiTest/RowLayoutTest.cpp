@@ -79,23 +79,7 @@ namespace dtk
             spacer->setSpacingRole(SizeRole::SpacingLarge);
             DTK_ASSERT(SizeRole::SpacingLarge == spacer->getSpacingRole());
             auto label1 = Label::create(context, "Label 1", layout);
-            auto children = layout->getChildren();
-            DTK_ASSERT(3 == children.size());
-            DTK_ASSERT(label0 == children.front());
-            DTK_ASSERT(label1 == children.back());
             app->tick();
-
-            layout->moveToFront(label0);
-            app->tick();
-            children = layout->getChildren();
-            DTK_ASSERT(spacer == children.front());
-            DTK_ASSERT(label0 == children.back());
-
-            layout->moveToBack(label0);
-            app->tick();
-            children = layout->getChildren();
-            DTK_ASSERT(label0 == children.front());
-            DTK_ASSERT(label1 == children.back());
 
             switch (orientation)
             {
@@ -148,7 +132,7 @@ namespace dtk
 
             label0->setParent(nullptr);
             app->tick();
-            children = layout->getChildren();
+            auto children = layout->getChildren();
             DTK_ASSERT(2 == children.size());
             DTK_ASSERT(spacer == children.front());
             label0->setParent(layout);
