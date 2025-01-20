@@ -1,6 +1,6 @@
 #!/bin/sh
 
-lcov -c -b . -d . -o coverage.info
+lcov -c -b . -d . --ignore-errors mismatch -o coverage.info
 lcov -r coverage.info '*/usr/*' -o coverage_filtered.info
 lcov -r coverage_filtered.info '*/Python/*' -o coverage_filtered.info
 lcov -r coverage_filtered.info '*/examples/*' -o coverage_filtered.info
