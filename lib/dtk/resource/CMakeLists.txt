@@ -70,7 +70,7 @@ install(
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
-    PUBLIC_HEADER DESTINATION include/dtk/ui)
+    PUBLIC_HEADER DESTINATION include/dtk/resource)
 install(
     EXPORT dtkResourceTargets
     FILE dtkResourceTargets.cmake
