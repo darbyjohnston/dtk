@@ -37,8 +37,6 @@ namespace dtk
 {
     void coreBind(py::module_& m)
     {
-        m.def("init", &coreInit, "Initialize the library.");
-
         iSystem(m);
 
         box(m);

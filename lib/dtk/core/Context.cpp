@@ -4,16 +4,43 @@
 
 #include <dtk/core/Context.h>
 
-#include <dtk/core/ISystem.h>
+#include <dtk/core/FontSystem.h>
+#include <dtk/core/Format.h>
+#include <dtk/core/ImageIO.h>
+#include <dtk/core/OS.h>
+#include <dtk/core/Timer.h>
 
 namespace dtk
 {
+    void Context::_init()
+    {
+        _logSystem = LogSystem::create(shared_from_this());
+        addSystem(_logSystem);
+        const auto systemInfo = getSystemInfo();
+        _logSystem->print(
+            "dtk::Context",
+            Format(
+                "System information:\n"
+                "    Name:  {0}\n"
+                "    Cores: {1}\n"
+                "    RAM:   {2}GB").
+            arg(systemInfo.name).
+            arg(systemInfo.cores).
+            arg(systemInfo.ramGB));
+
+        addSystem(FontSystem::create(shared_from_this()));
+        addSystem(ImageIO::create(shared_from_this()));
+        addSystem(TimerSystem::create(shared_from_this()));
+    }
+
     Context::~Context()
     {}
 
     std::shared_ptr<Context> Context::create()
     {
-        return std::shared_ptr<Context>(new Context);
+        auto out = std::shared_ptr<Context>(new Context);
+        out->_init();
+        return out;
     }
 
     void Context::addSystem(const std::shared_ptr<ISystem>& system)
@@ -39,6 +66,11 @@ namespace dtk
             }
         }
         return out;
+    }
+
+    void Context::log(const std::string& prefix, const std::string& value, LogType type)
+    {
+        _logSystem->print(prefix, value, type);
     }
 
     void Context::tick()

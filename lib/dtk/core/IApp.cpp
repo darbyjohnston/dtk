@@ -56,7 +56,6 @@ namespace dtk
         const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
     {
         DTK_P();
-        coreInit(context);
 
         _context = context;
 

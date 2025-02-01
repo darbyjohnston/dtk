@@ -16,4 +16,9 @@ namespace dtk
         }
         return nullptr;
     }
+
+    inline const std::shared_ptr<LogSystem>& Context::getLogSystem() const
+    {
+        return _logSystem;
+    }
 }

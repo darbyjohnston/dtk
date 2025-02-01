@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/core/Util.h>
+#include <dtk/core/LogSystem.h>
 
 #include <chrono>
 #include <list>
@@ -22,6 +22,8 @@ namespace dtk
         DTK_NON_COPYABLE(Context);
 
     protected:
+        void _init();
+
         Context() = default;
 
     public:
@@ -43,10 +45,20 @@ namespace dtk
         //! Get a system by name.
         std::shared_ptr<ISystem> getSystemByName(const std::string&) const;
 
+        //! Get the log system.
+        const std::shared_ptr<LogSystem>& getLogSystem() const;
+
+        //! Print to the log.
+        void log(
+            const std::string& prefix,
+            const std::string&,
+            LogType = LogType::Message);
+
         //! Tick the context.
         void tick();
 
     private:
+        std::shared_ptr<LogSystem> _logSystem;
         std::list<std::shared_ptr<ISystem> > _systems;
         std::map<std::shared_ptr<ISystem>, std::chrono::steady_clock::time_point> _systemTimes;
     };

@@ -25,7 +25,6 @@ set(HEADERS
     ImageIO.h
     Image.h
     ImageInline.h
-    Init.h
     LogSystem.h
     LRUCache.h
     LRUCacheInline.h
@@ -81,7 +80,6 @@ set(SOURCE
     ISystem.cpp
     ImageIO.cpp
     Image.cpp
-    Init.cpp
     LogSystem.cpp
     Math.cpp
     Memory.cpp
