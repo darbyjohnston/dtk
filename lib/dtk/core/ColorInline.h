@@ -267,26 +267,44 @@ namespace dtk
         return *this;
     }
 
-    template<int C>
-    inline Color<C, float> lighter(const Color<C, float>& color, float value)
+    inline Color1F lighter(const Color1F& color, float value)
     {
-        Color<C, float> out;
-        for (int c = 0; c < C; ++c)
-        {
-            out[c] = color[c] + value;
-        }
-        return out;
+        return Color1F(color.l + value);
     }
 
-    template<int C>
-    inline Color<C, float> darker(const Color<C, float>& color, float value)
+    inline Color2F lighter(const Color2F& color, float value)
     {
-        Color<C, float> out;
-        for (int c = 0; c < C; ++c)
-        {
-            out[c] = color[c] - value;
-        }
-        return out;
+        return Color2F(color.l + value, color.a);
+    }
+
+    inline Color3F lighter(const Color3F& color, float value)
+    {
+        return Color3F(color.r + value, color.g + value, color.b + value);
+    }
+
+    inline Color4F lighter(const Color4F& color, float value)
+    {
+        return Color4F(color.r + value, color.g + value, color.b + value, color.a);
+    }
+
+    inline Color1F darker(const Color1F& color, float value)
+    {
+        return Color1F(color.l - value);
+    }
+
+    inline Color2F darker(const Color2F& color, float value)
+    {
+        return Color2F(color.l - value, color.a);
+    }
+
+    inline Color3F darker(const Color3F& color, float value)
+    {
+        return Color3F(color.r - value, color.g - value, color.b - value);
+    }
+
+    inline Color4F darker(const Color4F& color, float value)
+    {
+        return Color4F(color.r - value, color.g - value, color.b - value, color.a);
     }
 
     inline Color3F greyscale(const Color3F& value)

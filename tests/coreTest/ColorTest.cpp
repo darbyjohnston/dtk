@@ -6,6 +6,7 @@
 
 #include <dtk/core/Assert.h>
 #include <dtk/core/Color.h>
+#include <dtk/core/Format.h>
 
 #include <sstream>
 
@@ -30,6 +31,7 @@ namespace dtk
         {
             _members();
             _operators();
+            _functions();
             _serialize();
         }
         
@@ -116,6 +118,38 @@ namespace dtk
                 const Color1F c(.5F);
                 DTK_ASSERT(c == Color1F(.5F));
                 DTK_ASSERT(c != Color1F(1.F));
+            }
+        }
+
+        void ColorTest::_functions()
+        {
+            {
+                Color1F c(.5F);
+                _print(Format("{0} lighter: {1}").arg(c).arg(lighter(c, .1F)));
+                _print(Format("{0} darker: {1}").arg(c).arg(darker(c, .1F)));
+            }
+            {
+                Color2F c(.5F);
+                _print(Format("{0} lighter: {1}").arg(c).arg(lighter(c, .1F)));
+                _print(Format("{0} darker: {1}").arg(c).arg(darker(c, .1F)));
+            }
+            {
+                Color3F c(.5F, .5F, .5F);
+                _print(Format("{0} lighter: {1}").arg(c).arg(lighter(c, .1F)));
+                _print(Format("{0} darker: {1}").arg(c).arg(darker(c, .1F)));
+            }
+            {
+                Color4F c(.5F, .5F, .5F);
+                _print(Format("{0} lighter: {1}").arg(c).arg(lighter(c, .1F)));
+                _print(Format("{0} darker: {1}").arg(c).arg(darker(c, .1F)));
+            }
+            {
+                Color3F c(.4F, .5F, .6F);
+                _print(Format("{0} greyscale: {1}").arg(c).arg(greyscale(c)));
+            }
+            {
+                Color4F c(.4F, .5F, .6F);
+                _print(Format("{0} greyscale: {1}").arg(c).arg(greyscale(c)));
             }
         }
 
