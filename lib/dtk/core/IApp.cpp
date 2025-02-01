@@ -6,7 +6,6 @@
 
 #include <dtk/core/CmdLine.h>
 #include <dtk/core/Context.h>
-#include <dtk/core/Init.h>
 #include <dtk/core/Format.h>
 #include <dtk/core/String.h>
 

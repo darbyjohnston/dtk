@@ -27,7 +27,6 @@
 #include <corePy/Vector.h>
 
 #include <dtk/core/Context.h>
-#include <dtk/core/Init.h>
 
 #include <pybind11/pybind11.h>
 
