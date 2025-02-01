@@ -7,9 +7,9 @@ namespace dtk
     template<int C, typename T>
     constexpr Color<C, T>::Color()
     {
-        for (int i = 0; i < C; ++i)
+        for (int c = 0; c < C; ++c)
         {
-            e[i] = T(0);
+            e[c] = T(0);
         }
     }
 
@@ -267,13 +267,47 @@ namespace dtk
         return *this;
     }
 
+    template<int C>
+    inline Color<C, float> lighter(const Color<C, float>& color, float value)
+    {
+        Color<C, float> out;
+        for (int c = 0; c < C; ++c)
+        {
+            out[c] = color[c] + value;
+        }
+        return out;
+    }
+
+    template<int C>
+    inline Color<C, float> darker(const Color<C, float>& color, float value)
+    {
+        Color<C, float> out;
+        for (int c = 0; c < C; ++c)
+        {
+            out[c] = color[c] - value;
+        }
+        return out;
+    }
+
+    inline Color3F greyscale(const Color3F& value)
+    {
+        const float l = (value.r + value.g + value.b) / 3.F;
+        return Color3F(l, l, l);
+    }
+
+    inline Color4F greyscale(const Color4F& value)
+    {
+        const float l = (value.r + value.g + value.b) / 3.F;
+        return Color4F(l, l, l, value.a);
+    }
+
     template<int C, typename T>
     constexpr bool operator == (const Color<C, T>& a, const Color<C, T>& b)
     {
         bool out = true;
-        for (int i = 0; i < C; ++i)
+        for (int c = 0; c < C; ++c)
         {
-            out &= a[i] == b[i];
+            out &= a[c] == b[c];
         }
         return out;
     }
@@ -299,9 +333,9 @@ namespace dtk
     template<int C, typename T>
     inline std::istream& operator >> (std::istream& is, Color<C, T>& v)
     {
-        for (int i = 0; i < C; ++i)
+        for (int c = 0; c < C; ++c)
         {
-            is >> v[i];
+            is >> v[c];
         }
         return is;
     }

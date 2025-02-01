@@ -124,6 +124,20 @@ namespace dtk
     typedef Color<2, float> Color2F;
     typedef Color<3, float> Color3F;
     typedef Color<4, float> Color4F;
+
+    //! Get a lighter color.
+    template<int C>
+    Color<C, float> lighter(const Color<C, float>&, float);
+
+    //! Get a darker color.
+    template<int C>
+    Color<C, float> darker(const Color<C, float>&, float);
+
+    //! Convert to greyscale.
+    Color3F greyscale(const Color3F&);
+
+    //! Convert to greyscale.
+    Color4F greyscale(const Color4F&);
         
     template<int C, typename T>
     constexpr bool operator == (const Color<C, T>&, const Color<C, T>&);
