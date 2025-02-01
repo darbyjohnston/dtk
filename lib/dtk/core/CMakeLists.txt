@@ -69,6 +69,7 @@ set(SOURCE
     BoxPack.cpp
     CmdLine.cpp
     Command.cpp
+    Color.cpp
     Context.cpp
     Error.cpp
     File.cpp
