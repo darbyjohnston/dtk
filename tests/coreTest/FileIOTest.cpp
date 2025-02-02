@@ -237,6 +237,24 @@ namespace dtk
                 DTK_ASSERT(contents == "Hello world");
             }
             {
+                const std::filesystem::path path = "FileIOTest9";
+                writeLines(
+                    path,
+                    {
+                        "# This is a comment",
+                        "Hello world"
+                    });
+                for (auto readType : getFileReadEnums())
+                {
+                    auto io = FileIO::create(path, FileMode::Read, readType);
+                    char buf[dtk::cStringSize];
+                    readWord(io, buf);
+                    DTK_ASSERT(std::string("Hello") == std::string(buf));
+                    readWord(io, buf);
+                    DTK_ASSERT(std::string("world") == std::string(buf));
+                }
+            }
+            {
                 const std::filesystem::path path = "FileIOTest10";
                 auto fileIO = FileIO::create(path, FileMode::Write);
                 fileIO->write("Hello world");

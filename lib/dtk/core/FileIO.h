@@ -180,6 +180,9 @@ namespace dtk
     //! Read the contents from a file.
     std::string read(const std::shared_ptr<FileIO>&);
 
+    //! Read a word from a file.
+    void readWord(const std::shared_ptr<FileIO>&, char*, size_t maxLen = dtk::cStringSize);
+
     //! Read a line from a file.
     std::string readLine(const std::shared_ptr<FileIO>&);
 
