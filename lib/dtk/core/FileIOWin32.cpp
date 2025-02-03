@@ -102,7 +102,8 @@ namespace dtk
 
     FileIO::FileIO() :
         _p(new Private)
-    {}
+    {
+    }
 
     FileIO::~FileIO()
     {

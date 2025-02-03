@@ -69,9 +69,20 @@ namespace dtk
             FileMode,
             FileRead = FileRead::MemoryMapped);
 
+        //! Create a new file I/O object.
+        static std::shared_ptr<FileIO> create(
+            const std::string&,
+            FileMode,
+            FileRead = FileRead::MemoryMapped);
+
         //! Create a read-only file I/O object from memory.
         static std::shared_ptr<FileIO> create(
             const std::filesystem::path&,
+            const InMemoryFile&);
+
+        //! Create a read-only file I/O object from memory.
+        static std::shared_ptr<FileIO> create(
+            const std::string&,
             const InMemoryFile&);
 
         //! Get whether the file is open.
@@ -189,12 +200,21 @@ namespace dtk
     //! Read all the lines from a file.
     std::vector<std::string> readLines(const std::filesystem::path&);
 
+    //! Read all the lines from a file.
+    std::vector<std::string> readLines(const std::string&);
+
     //! Write lines to a file.
     void writeLines(const std::filesystem::path&, const std::vector<std::string>&);
 
+    //! Write lines to a file.
+    void writeLines(const std::string&, const std::vector<std::string>&);
+
     //! Truncate a file.
     void truncateFile(const std::filesystem::path&, size_t);
-        
+
+    //! Truncate a file.
+    void truncateFile(const std::string&, size_t);
+
     ///@}
 }
 

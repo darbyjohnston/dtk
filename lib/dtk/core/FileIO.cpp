@@ -35,6 +35,21 @@ namespace dtk
         return out;
     }
 
+    std::shared_ptr<FileIO> FileIO::create(
+        const std::string& path,
+        FileMode mode,
+        FileRead readType)
+    {
+        return create(std::filesystem::u8path(path), mode, readType);
+    }
+
+    std::shared_ptr<FileIO> FileIO::create(
+        const std::string& path,
+        const InMemoryFile& memory)
+    {
+        return create(std::filesystem::u8path(path), memory);
+    }
+
     void FileIO::read8(int8_t* value, size_t size)
     {
         return read(value, size, 1);
@@ -243,6 +258,11 @@ namespace dtk
         return out;
     }
 
+    std::vector<std::string> readLines(const std::string& path)
+    {
+        return readLines(std::filesystem::u8path(path));
+    }
+
     void writeLines(const std::filesystem::path& path, const std::vector<std::string>& lines)
     {
         auto io = FileIO::create(path, FileMode::Write);
@@ -251,5 +271,15 @@ namespace dtk
             io->write(line);
             io->write8('\n');
         }
+    }
+
+    void writeLines(const std::string& path, const std::vector<std::string>& lines)
+    {
+        writeLines(std::filesystem::u8path(path), lines);
+    }
+
+    void truncateFile(const std::string& path, size_t size)
+    {
+        truncateFile(std::filesystem::u8path(path), size);
     }
 }
