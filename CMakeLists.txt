@@ -119,7 +119,7 @@ if(dtk_UI_LIB)
         add_subdirectory(deps/glad_${dtk_API})
     endif()
     add_definitions(-Ddtk_API_${dtk_API})
-    if("${dtk_API}" STREQUAL "GL_4_1_Debug")
+    if(${dtk_API} STREQUAL "GL_4_1_Debug")
         add_definitions(-Ddtk_API_GL_4_1)
     endif()
 
