@@ -23,8 +23,8 @@ install(
 install(
     DIRECTORY
     "${CMAKE_CURRENT_SOURCE_DIR}/include/glad"
-    DESTINATION "include/tinygfx")
+    DESTINATION "include/dtk")
 install(
     DIRECTORY
     "${CMAKE_CURRENT_SOURCE_DIR}/include/KHR"
-    DESTINATION "include/tinygfx")
+    DESTINATION "include/dtk")
