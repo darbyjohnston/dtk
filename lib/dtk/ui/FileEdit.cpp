@@ -93,7 +93,7 @@ namespace dtk
         if (value == p.path)
             return;
         p.path = value;
-        p.lineEdit->setText(value.string());
+        p.lineEdit->setText(value.u8string());
         _widgetUpdate();
     }
 
@@ -131,7 +131,7 @@ namespace dtk
                     [this](const std::filesystem::path& value)
                     {
                         _p->path = value;
-                        _p->lineEdit->setText(_p->path.string());
+                        _p->lineEdit->setText(_p->path.u8string());
                         _widgetUpdate();
                         if (_p->callback)
                         {

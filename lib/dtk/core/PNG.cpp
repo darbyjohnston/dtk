@@ -22,7 +22,7 @@ namespace dtk
             const ImageIOOptions&)
         {
             return compare(
-                path.extension().string(),
+                path.extension().u8string(),
                 ".png",
                 CaseCompare::Insensitive);
         }
@@ -50,7 +50,7 @@ namespace dtk
             const ImageIOOptions&)
         {
             return compare(
-                path.extension().string(),
+                path.extension().u8string(),
                 ".png",
                 CaseCompare::Insensitive) &&
                 (

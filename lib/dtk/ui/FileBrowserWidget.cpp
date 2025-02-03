@@ -194,7 +194,7 @@ namespace dtk
                     const std::filesystem::path parentPath(path.parent_path());
                     if (parentPath != path)
                     {
-                        _setPath(parentPath.string());
+                        _setPath(parentPath.u8string());
                     }
                 }
             });

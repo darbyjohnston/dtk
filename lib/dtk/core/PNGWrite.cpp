@@ -115,7 +115,7 @@ namespace dtk
                 pngWarningFunc);
             if (!p.png)
             {
-                throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
+                throw std::runtime_error(Format("{0}: Cannot open").arg(path.u8string()));
             }
 
 #if defined(_WINDOWS)
@@ -124,11 +124,11 @@ namespace dtk
                 p.f = nullptr;
             }
 #else // _WINDOWS
-            p.f = fopen(path.string().c_str(), "wb");
+            p.f = fopen(path.u8string().c_str(), "wb");
 #endif // _WINDOWS
             if (!p.f)
             {
-                throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
+                throw std::runtime_error(Format("{0}: Cannot open").arg(path.u8string()));
             }
         }
 
@@ -138,7 +138,7 @@ namespace dtk
             const ImageInfo& info = image->getInfo();
             if (!open(p.f, p.png, &p.pngInfo, info))
             {
-                throw std::runtime_error(Format("{0}: Cannot open").arg(_path.string()));
+                throw std::runtime_error(Format("{0}: Cannot open").arg(_path.u8string()));
             }
 
             size_t scanlineByteCount = 0;
@@ -160,12 +160,12 @@ namespace dtk
             {
                 if (!scanline(p.png, data))
                 {
-                    throw std::runtime_error(Format("{0}: Cannot write scanline: {1}").arg(_path.string()).arg(y));
+                    throw std::runtime_error(Format("{0}: Cannot write scanline: {1}").arg(_path.u8string()).arg(y));
                 }
             }
             if (!end(p.png, p.pngInfo))
             {
-                throw std::runtime_error(Format("{0}: Cannot close").arg(_path.string()));
+                throw std::runtime_error(Format("{0}: Cannot close").arg(_path.u8string()));
             }
         }
 

@@ -41,7 +41,7 @@ void DialogsWindow::_init(
                         getWindow(),
                         [this](const std::filesystem::path& value)
                         {
-                            std::cout << value.string() << std::endl;
+                            std::cout << value.u8string() << std::endl;
                         });
                 }
             }
@@ -180,7 +180,7 @@ DTK_MAIN()
             "Dialogs example",
             {},
             {},
-            getSettingsPath("dtk", "dialogs.settings").string());
+            getSettingsPath("dtk", "dialogs.settings").u8string());
         if (app->getExit() != 0)
             return app->getExit();
 

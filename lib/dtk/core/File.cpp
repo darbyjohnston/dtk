@@ -28,13 +28,13 @@ namespace dtk
         {
             if (!path.filename().empty())
             {
-                out.push_front(path.filename().string());
+                out.push_front(path.filename().u8string());
             }
             path = path.parent_path();
         }
         if (!path.empty())
         {
-            out.push_front(path.string());
+            out.push_front(path.u8string());
         }
         return std::vector<std::string>(out.begin(), out.end());
     }

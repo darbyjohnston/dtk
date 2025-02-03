@@ -71,7 +71,7 @@ namespace dtk
             std::filesystem::path headerOutput = _output;
             headerOutput.replace_extension(".h");
             {
-                _print(Format("Header output: {0}").arg(headerOutput.string()));
+                _print(Format("Header output: {0}").arg(headerOutput.u8string()));
                 std::string tmp;
                 tmp.append("#include <cstdint>\n");
                 tmp.append("#include <vector>\n");
@@ -86,7 +86,7 @@ namespace dtk
             {
                 std::filesystem::path sourceOutput = _output;
                 sourceOutput.replace_extension(".cpp");
-                _print(Format("Source output: {0}").arg(sourceOutput.string()));
+                _print(Format("Source output: {0}").arg(sourceOutput.u8string()));
                 std::string tmp;
                 tmp.append("#include <cstdint>\n");
                 tmp.append("#include <vector>\n");

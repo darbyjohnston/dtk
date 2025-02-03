@@ -33,7 +33,7 @@ namespace dtk
             .def_property("path",
                 [](const std::shared_ptr<FileBrowserSystem>& fbs)
                 {
-                    return fbs->getPath().string();
+                    return fbs->getPath().u8string();
                 },
                 [](const std::shared_ptr<FileBrowserSystem>& fbs, const std::string& s)
                 {

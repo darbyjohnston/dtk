@@ -189,11 +189,11 @@ namespace dtk
                     p.f = nullptr;
                 }
 #else // _WINDOWS
-                p.f = fopen(path.string().c_str(), "rb");
+                p.f = fopen(path.u8string().c_str(), "rb");
 #endif // _WINDOWS
                 if (!p.f)
                 {
-                    throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
+                    throw std::runtime_error(Format("{0}: Cannot open").arg(path.u8string()));
                 }
             }
 
@@ -212,7 +212,7 @@ namespace dtk
                 channels,
                 bitDepth))
             {
-                throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
+                throw std::runtime_error(Format("{0}: Cannot open").arg(path.u8string()));
             }
             p.scanlineSize = width * channels * bitDepth / 8;
 
@@ -255,7 +255,7 @@ namespace dtk
             }
             if (ImageType::None == type)
             {
-                throw std::runtime_error(Format("{0}: Cannot open").arg(path.string()));
+                throw std::runtime_error(Format("{0}: Cannot open").arg(path.u8string()));
             }
 
             p.info = ImageInfo(width, height, type);

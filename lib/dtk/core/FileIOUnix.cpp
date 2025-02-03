@@ -208,7 +208,7 @@ namespace dtk
         if (!p.memoryStart && -1 == p.f)
         {
             throw std::runtime_error(
-                getErrorMessage(ErrorType::Read, p.path.string()));
+                getErrorMessage(ErrorType::Read, p.path.u8string()));
         }
             
         switch (p.mode)
@@ -221,7 +221,7 @@ namespace dtk
                 if (memoryP > p.memoryEnd)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::ReadMemoryMap, p.path.string()));
+                        getErrorMessage(ErrorType::ReadMemoryMap, p.path.u8string()));
                 }
                 if (p.endianConversion && wordSize > 1)
                 {
@@ -239,12 +239,12 @@ namespace dtk
                 if (-1 == r)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::Read, p.path.string(), getErrorString()));
+                        getErrorMessage(ErrorType::Read, p.path.u8string(), getErrorString()));
                 }
                 else if (r != size * wordSize)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::Read, p.path.string()));
+                        getErrorMessage(ErrorType::Read, p.path.u8string()));
                 }
                 if (p.endianConversion && wordSize > 1)
                 {
@@ -259,12 +259,12 @@ namespace dtk
             if (-1 == r)
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Read, p.path.string(), getErrorString()));
+                    getErrorMessage(ErrorType::Read, p.path.u8string(), getErrorString()));
             }
             else if (r != size * wordSize)
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Read, p.path.string()));
+                    getErrorMessage(ErrorType::Read, p.path.u8string()));
             }
             if (p.endianConversion && wordSize > 1)
             {
@@ -284,7 +284,7 @@ namespace dtk
         if (-1 == p.f)
         {
             throw std::runtime_error(
-                getErrorMessage(ErrorType::Write, p.path.string()));
+                getErrorMessage(ErrorType::Write, p.path.u8string()));
         }
 
         const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
@@ -298,7 +298,7 @@ namespace dtk
         if (::write(p.f, inP, size * wordSize) == -1)
         {
             throw std::runtime_error(
-                getErrorMessage(ErrorType::Write, p.path.string(), getErrorString()));
+                getErrorMessage(ErrorType::Write, p.path.u8string(), getErrorString()));
         }
         p.pos += size * wordSize;
         p.size = std::max(p.pos, p.size);
@@ -335,11 +335,11 @@ namespace dtk
             break;
         default: break;
         }
-        p.f = ::open(path.string().c_str(), openFlags, openMode);
+        p.f = ::open(path.u8string().c_str(), openFlags, openMode);
         if (-1 == p.f)
         {
             throw std::runtime_error(
-                getErrorMessage(ErrorType::Open, path.string(), getErrorString()));
+                getErrorMessage(ErrorType::Open, path.u8string(), getErrorString()));
         }
 
         // File information.
@@ -359,7 +359,7 @@ namespace dtk
             if (p.mMap == (void*)-1)
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::MemoryMap, path.string(), getErrorString()));
+                    getErrorMessage(ErrorType::MemoryMap, path.u8string(), getErrorString()));
             }
             p.memoryStart = reinterpret_cast<const uint8_t*>(p.mMap);
             p.memoryEnd   = p.memoryStart + p.size;
@@ -381,7 +381,7 @@ namespace dtk
                 out = false;
                 if (error)
                 {
-                    *error = getErrorMessage(ErrorType::CloseMemoryMap, p.path.string(), getErrorString());
+                    *error = getErrorMessage(ErrorType::CloseMemoryMap, p.path.u8string(), getErrorString());
                 }
             }
             p.mMap = (void*)-1;
@@ -397,7 +397,7 @@ namespace dtk
                 out = false;
                 if (error)
                 {
-                    *error = getErrorMessage(ErrorType::Close, p.path.string(), getErrorString());
+                    *error = getErrorMessage(ErrorType::Close, p.path.u8string(), getErrorString());
                 }
             }
             p.f = -1;
@@ -430,7 +430,7 @@ namespace dtk
                 if (memoryP > memoryEnd)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::SeekMemoryMap, path.string()));
+                        getErrorMessage(ErrorType::SeekMemoryMap, path.u8string()));
                 }
             }
             else
@@ -438,7 +438,7 @@ namespace dtk
                 if (::lseek(f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t)-1)
                 {
                     throw std::runtime_error(
-                        getErrorMessage(ErrorType::Seek, path.string(), getErrorString()));
+                        getErrorMessage(ErrorType::Seek, path.u8string(), getErrorString()));
                 }
             }
             break;
@@ -450,7 +450,7 @@ namespace dtk
             if (::lseek(f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t)-1)
             {
                 throw std::runtime_error(
-                    getErrorMessage(ErrorType::Seek, path.string(), getErrorString()));
+                    getErrorMessage(ErrorType::Seek, path.u8string(), getErrorString()));
             }
             break;
         }
@@ -468,10 +468,10 @@ namespace dtk
 
     void truncateFile(const std::filesystem::path& path, size_t size)
     {
-        if (::truncate(path.string().c_str(), size) != 0)
+        if (::truncate(path.u8string().c_str(), size) != 0)
         {
             throw std::runtime_error(
-                getErrorMessage(ErrorType::Write, path.string(), getErrorString()));
+                getErrorMessage(ErrorType::Write, path.u8string(), getErrorString()));
         }                
     }
 }

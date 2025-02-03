@@ -195,6 +195,6 @@ namespace dtk
             }
         }
 
-        p.lineEdit->setText(p.path.string());
+        p.lineEdit->setText(p.path.u8string());
     }
 }

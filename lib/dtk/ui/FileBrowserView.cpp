@@ -464,7 +464,7 @@ namespace dtk
                 for (const auto& i : std::filesystem::directory_iterator(path))
                 {
                     const auto& path = i.path();
-                    const std::string fileName = path.filename().string();
+                    const std::string fileName = path.filename().u8string();
                     bool keep = true;
                     if (!options.search.empty())
                     {
@@ -477,7 +477,7 @@ namespace dtk
                     std::string extension;
                     if (!isDir)
                     {
-                        extension = path.extension().string();
+                        extension = path.extension().u8string();
                     }
                     if (!isDir && !options.extension.empty())
                     {
@@ -563,12 +563,12 @@ namespace dtk
                 FileBrowserItem item;
 
                 // File name.
-                std::string text = info.path.filename().string();
+                std::string text = info.path.filename().u8string();
                 item.text.push_back(text);
 
                 // File extension.
                 text = !info.isDir ?
-                    info.path.extension().string() :
+                    info.path.extension().u8string() :
                     std::string();
                 item.text.push_back(text);
 

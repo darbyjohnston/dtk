@@ -172,7 +172,7 @@ namespace dtk
         std::vector<ListItem> items;
         for (const auto& drive : p.drives)
         {
-            items.push_back(ListItem(drive.string(), drive.string()));
+            items.push_back(ListItem(drive.u8string(), drive.u8string()));
         }
         p.listWidgets["Drives"]->setItems(items);
 
@@ -180,19 +180,19 @@ namespace dtk
         items.clear();
         std::filesystem::path path = std::filesystem::current_path();
         p.shortcuts.push_back(path);
-        items.push_back(ListItem("Current", path.string()));
+        items.push_back(ListItem("Current", path.u8string()));
         for (auto userPath : getUserPathEnums())
         {
             path = getUserPath(userPath);
             p.shortcuts.push_back(path);
-            items.push_back(ListItem(path.filename().string(), path.string()));
+            items.push_back(ListItem(path.filename().u8string(), path.u8string()));
         }
         p.listWidgets["Shortcuts"]->setItems(items);
 
         items.clear();
         for (const auto& recent : p.recent)
         {
-            items.push_back(ListItem(recent.filename().string(), recent.string()));
+            items.push_back(ListItem(recent.filename().u8string(), recent.u8string()));
         }
         p.listWidgets["Recent"]->setItems(items);
     }

@@ -25,7 +25,7 @@ namespace dtk
             .def_property("path",
                 [](const std::shared_ptr<FileEdit>& w)
                 {
-                    return w->getPath().string();
+                    return w->getPath().u8string();
                 },
                 [](const std::shared_ptr<FileEdit>& w, const std::string& s)
                 {

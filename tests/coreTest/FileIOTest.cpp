@@ -221,6 +221,17 @@ namespace dtk
                 }
                 catch (const std::exception&)
                 {}
+                {
+                    const std::filesystem::path path = std::filesystem::u8path("大平原");
+                    auto fileIO = FileIO::create(path, FileMode::Write);
+                    fileIO->writeU8(1);
+                    fileIO.reset();
+
+                    fileIO = FileIO::create(path, FileMode::Read, fileRead);
+                    uint8_t c = 0;
+                    fileIO->readU8(&c);
+                    DTK_ASSERT(1 == c);
+                }
             }
         }
         
