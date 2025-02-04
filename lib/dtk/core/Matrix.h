@@ -115,6 +115,12 @@ namespace dtk
     template<typename T>
     constexpr Matrix<4, 4, T> perspective(T fov, T aspect, T nearClip, T farClip);
 
+    void to_json(nlohmann::json&, const M33F&);
+    void to_json(nlohmann::json&, const M44F&);
+
+    void from_json(const nlohmann::json&, M33F&);
+    void from_json(const nlohmann::json&, M44F&);
+
     template<typename T>
     Matrix<3, 3, T> operator * (const Matrix<3, 3, T>&, const Matrix<3, 3, T>&);
     template<typename T>

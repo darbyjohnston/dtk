@@ -222,6 +222,38 @@ namespace dtk
                 ss >> v1;
                 DTK_ASSERT(v == v1);
             }
+            {
+                const V2I v(1, 2);
+                nlohmann::json json;
+                to_json(json, v);
+                V2I v2;
+                from_json(json, v2);
+                DTK_ASSERT(v == v2);
+            }
+            {
+                const V2F v(1.F, 2.F);
+                nlohmann::json json;
+                to_json(json, v);
+                V2F v2;
+                from_json(json, v2);
+                DTK_ASSERT(v == v2);
+            }
+            {
+                const V3F v(3.F, 4.F, 5.F);
+                nlohmann::json json;
+                to_json(json, v);
+                V3F v2;
+                from_json(json, v2);
+                DTK_ASSERT(v == v2);
+            }
+            {
+                const V4F v(6.F, 7.F, 8.F, 9.F);
+                nlohmann::json json;
+                to_json(json, v);
+                V4F v2;
+                from_json(json, v2);
+                DTK_ASSERT(v == v2);
+            }
         }
     }
 }

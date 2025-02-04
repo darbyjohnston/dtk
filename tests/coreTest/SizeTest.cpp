@@ -144,6 +144,30 @@ namespace dtk
                 ss >> s1;
                 DTK_ASSERT(s == s1);
             }
+            {
+                const Size2I s(1, 2);
+                nlohmann::json json;
+                to_json(json, s);
+                Size2I s2;
+                from_json(json, s2);
+                DTK_ASSERT(s == s2);
+            }
+            {
+                const Size2F s(1.F, 2.F);
+                nlohmann::json json;
+                to_json(json, s);
+                Size2F s2;
+                from_json(json, s2);
+                DTK_ASSERT(s == s2);
+            }
+            {
+                const Size3F s(3.F, 4.F, 5.F);
+                nlohmann::json json;
+                to_json(json, s);
+                Size3F s2;
+                from_json(json, s2);
+                DTK_ASSERT(s == s2);
+            }
         }
     }
 }

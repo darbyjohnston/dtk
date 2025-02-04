@@ -163,6 +163,22 @@ namespace dtk
                 ss >> m1;
                 DTK_ASSERT(m == m1);
             }
+            {
+                const M33F m;
+                nlohmann::json json;
+                to_json(json, m);
+                M33F m1;
+                from_json(json, m1);
+                DTK_ASSERT(m == m1);
+            }
+            {
+                const M44F m;
+                nlohmann::json json;
+                to_json(json, m);
+                M44F m1;
+                from_json(json, m1);
+                DTK_ASSERT(m == m1);
+            }
         }
     }
 }

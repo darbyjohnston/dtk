@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include <array>
 #include <iostream>
 
@@ -102,6 +104,14 @@ namespace dtk
     //! Add a margin to a size.
     template<typename T>
     constexpr Size<2, T> margin(const Size<2, T>&, T x, T y);
+
+    void to_json(nlohmann::json&, const Size2I&);
+    void to_json(nlohmann::json&, const Size2F&);
+    void to_json(nlohmann::json&, const Size3F&);
+
+    void from_json(const nlohmann::json&, Size2I&);
+    void from_json(const nlohmann::json&, Size2F&);
+    void from_json(const nlohmann::json&, Size3F&);
 
     template<int C, typename T>
     constexpr Size<C, T> operator + (const Size<C, T>&, T);

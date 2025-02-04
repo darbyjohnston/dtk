@@ -65,6 +65,7 @@ set(HEADERS_PRIVATE
     PNGPrivate.h)
 set(SOURCE
     Assert.cpp
+    Box.cpp
     BoxPack.cpp
     CmdLine.cpp
     Command.cpp
@@ -82,6 +83,7 @@ set(SOURCE
     Image.cpp
     LogSystem.cpp
     Math.cpp
+    Matrix.cpp
     Memory.cpp
     Mesh.cpp
     Noise.cpp
@@ -92,9 +94,11 @@ set(SOURCE
     Random.cpp
     RenderOptions.cpp
     RenderUtil.cpp
+    Size.cpp
     String.cpp
     Time.cpp
-    Timer.cpp)
+    Timer.cpp
+    Vector.cpp)
 if(WIN32)
     list(APPEND SOURCE
         ErrorWin32.cpp
