@@ -5,6 +5,7 @@
 #pragma once
 
 #include <dtk/core/Box.h>
+#include <dtk/core/Color.h>
 
 #include <array>
 #include <cstddef>
@@ -82,6 +83,19 @@ namespace dtk
 
     //! Create a mesh from a box.
     TriMesh2F mesh(const Box2F&, bool flipV = false);
+
+    //! Create a mesh for drawing checkers.
+    TriMesh2F checkers(
+        const Box2I&,
+        const Color4F& color0,
+        const Color4F& color1,
+        const Size2I& checkerSize);
+
+    //! Create a sphere triangle mesh.
+    TriMesh3F sphere(
+        float radius,
+        size_t xResolution,
+        size_t yResolution);
         
     ///@}
 }

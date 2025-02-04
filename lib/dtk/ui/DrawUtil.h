@@ -38,13 +38,6 @@ namespace dtk
         int cornerRadius,
         const float alpha = .2F,
         size_t resolution = 8);
-
-    //! Create a mesh for drawing checkers.
-    TriMesh2F checkers(
-        const Box2I&,
-        const Color4F& color0,
-        const Color4F& color1,
-        const Size2I& checkerSize);
         
     ///@}
 }
