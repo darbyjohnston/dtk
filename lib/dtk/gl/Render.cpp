@@ -61,6 +61,11 @@ namespace dtk
             return out;
         }
 
+        const std::shared_ptr<TextureCache>& Render::getTextureCache() const
+        {
+            return _p->textureCache;
+        }
+
         void Render::begin(
             const Size2I& size,
             const RenderOptions& options)
