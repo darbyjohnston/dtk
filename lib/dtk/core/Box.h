@@ -25,6 +25,8 @@ namespace dtk
         Vector<C, T> max;
             
         constexpr Size<C, T> size() const;
+
+        bool isValid() const;
     };
 
     //! Two-dimensional box.
@@ -46,6 +48,8 @@ namespace dtk
         constexpr Size<2, T> size() const;
         constexpr T w() const;
         constexpr T h() const;
+
+        bool isValid() const;
     };
 
     //! Three-dimensional box.
@@ -69,6 +73,8 @@ namespace dtk
         constexpr T w() const;
         constexpr T h() const;
         constexpr T d() const;
+
+        bool isValid() const;
     };
 
     typedef Box<2, int> Box2I;

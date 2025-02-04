@@ -27,6 +27,12 @@ namespace dtk
         return out;
     }
 
+    template<int C, typename T>
+    inline bool Box<C, T>::isValid() const
+    {
+        return size().isValid();
+    }
+
     template<typename T>
     constexpr Box<2, T>::Box(const Vector<2, T>& min, const Vector<2, T>& max) :
         min(min),
@@ -98,6 +104,12 @@ namespace dtk
     }
 
     template<typename T>
+    inline bool Box<2, T>::isValid() const
+    {
+        return size().isValid();
+    }
+
+    template<typename T>
     constexpr Box<3, T>::Box(const Vector<3, T>& min, const Vector<3, T>& max) :
         min(min),
         max(max)
@@ -158,6 +170,12 @@ namespace dtk
     constexpr T Box<3, T>::d() const
     {
         return size().d;
+    }
+
+    template<typename T>
+    inline bool Box<3, T>::isValid() const
+    {
+        return size().isValid();
     }
 
     template<int C, typename T>
