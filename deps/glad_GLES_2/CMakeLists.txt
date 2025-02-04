@@ -1,6 +1,6 @@
 set(HEADERS
-    include/glad/glad.h
-    include/KHR/khrplatform.h)
+    dtk/glad/glad.h
+    dtk/KHR/khrplatform.h)
 
 set(SOURCE
     src/glad.c)
@@ -22,9 +22,9 @@ install(
     NAMESPACE dtk::)
 install(
     DIRECTORY
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/glad"
+    "${CMAKE_CURRENT_SOURCE_DIR}/dtk/glad"
     DESTINATION "include/dtk")
 install(
     DIRECTORY
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/KHR"
+    "${CMAKE_CURRENT_SOURCE_DIR}/dtk/KHR"
     DESTINATION "include/dtk")

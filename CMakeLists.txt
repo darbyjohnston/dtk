@@ -105,11 +105,11 @@ find_package(lunasvg REQUIRED)
 
 if(dtk_UI_LIB)
     if ("${dtk_API}" STREQUAL "GL_4_1")
-        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1/include)
+        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1)
     elseif ("${dtk_API}" STREQUAL "GL_4_1_Debug")
-        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1_Debug/include)
+        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GL_4_1_Debug)
     elseif ("${dtk_API}" STREQUAL "GLES_2")
-        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GLES_2/include)
+        include_directories(${PROJECT_SOURCE_DIR}/deps/glad_GLES_2)
     endif()
     if ("${dtk_API}" STREQUAL "GL_4_1" OR
         "${dtk_API}" STREQUAL "GL_4_1_Debug" OR

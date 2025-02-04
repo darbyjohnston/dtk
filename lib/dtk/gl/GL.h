@@ -5,8 +5,8 @@
 #pragma once
 
 #if defined(dtk_API_GL_4_1)
-#include <glad/gl.h>
+#include <dtk/glad/gl.h>
 #elif defined(dtk_API_GLES_2)
-#include <glad/glad.h>
+#include <dtk/glad/glad.h>
 #endif // dtk_API_GL_4_1
 
