@@ -86,6 +86,7 @@ namespace dtk
                 void end() override {}
                 Size2I getRenderSize() const override;
                 void setRenderSize(const Size2I&) override;
+                RenderOptions getRenderOptions() const override;
                 Box2I getViewport() const override;
                 void setViewport(const Box2I&) override;
                 void clearViewport(const Color4F&) override {}
@@ -157,6 +158,7 @@ namespace dtk
 
             private:
                 Size2I _renderSize;
+                RenderOptions _options;
                 Box2I _viewport;
                 bool _clipRectEnabled = false;
                 Box2I _clipRect;
@@ -177,9 +179,10 @@ namespace dtk
 
             void Render::begin(
                 const Size2I& size,
-                const RenderOptions&)
+                const RenderOptions& options)
             {
                 _renderSize = size;
+                _options = options;
                 ++_renderCount;
             }
 
@@ -191,6 +194,11 @@ namespace dtk
             void Render::setRenderSize(const Size2I& value)
             {
                 _renderSize = value;
+            }
+
+            RenderOptions Render::getRenderOptions() const
+            {
+                return _options;
             }
 
             Box2I Render::getViewport() const

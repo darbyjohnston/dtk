@@ -170,6 +170,11 @@ namespace dtk
             _p->size = value;
         }
 
+        RenderOptions Render::getRenderOptions() const
+        {
+            return _p->options;
+        }
+
         Box2I Render::getViewport() const
         {
             return _p->viewport;

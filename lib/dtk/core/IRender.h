@@ -47,6 +47,9 @@ namespace dtk
         //! Set the render size.
         virtual void setRenderSize(const Size2I&) = 0;
 
+        //! Get the render options.
+        virtual RenderOptions getRenderOptions() const = 0;
+
         //! Get the viewport.
         virtual Box2I getViewport() const = 0;
 

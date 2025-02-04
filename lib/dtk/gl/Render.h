@@ -49,6 +49,7 @@ namespace dtk
             void end() override;
             Size2I getRenderSize() const override;
             void setRenderSize(const Size2I&) override;
+            RenderOptions getRenderOptions() const override;
             Box2I getViewport() const override;
             void setViewport(const Box2I&) override;
             void clearViewport(const Color4F&) override;
