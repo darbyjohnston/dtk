@@ -85,7 +85,7 @@ namespace dtk
                 p.glyphAtlas = TextureAtlas::create(
                     options.glyphAtlasSize,
                     imageType,
-                    TextureFilter::Linear);
+                    ImageFilter::Linear);
             }
 
             glEnable(GL_BLEND);
@@ -259,26 +259,7 @@ namespace dtk
         {
             std::vector<std::shared_ptr<Texture> > out;
             TextureOptions options;
-            switch (imageFilters.minify)
-            {
-            case ImageFilter::Nearest:
-                options.filters.minify = TextureFilter::Nearest;
-                break;
-            case ImageFilter::Linear:
-                options.filters.minify = TextureFilter::Linear;
-                break;
-            default: break;
-            }
-            switch (imageFilters.magnify)
-            {
-            case ImageFilter::Nearest:
-                options.filters.magnify = TextureFilter::Nearest;
-                break;
-            case ImageFilter::Linear:
-                options.filters.magnify = TextureFilter::Linear;
-                break;
-            default: break;
-            }
+            options.filters = imageFilters;
             options.pbo = info.size.w >= pboSizeMin || info.size.h >= pboSizeMin;
             switch (info.type)
             {

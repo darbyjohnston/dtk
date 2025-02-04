@@ -44,15 +44,9 @@ namespace dtk
         
         void TextureTest::run()
         {
-            _enums();
             _members();
             _functions();
             _operators();
-        }
-        
-        void TextureTest::_enums()
-        {
-            DTK_TEST_ENUM(TextureFilter);
         }
         
         void TextureTest::_members()
@@ -75,8 +69,8 @@ namespace dtk
                 }
                 {
                     TextureOptions options;
-                    options.filters.minify = TextureFilter::Nearest;
-                    options.filters.magnify = TextureFilter::Nearest;
+                    options.filters.minify = ImageFilter::Nearest;
+                    options.filters.magnify = ImageFilter::Nearest;
                     dataList.push_back({
                         ImageInfo(1920, 1080, ImageType::RGBA_U8),
                         options });
@@ -132,13 +126,6 @@ namespace dtk
         
         void TextureTest::_operators()
         {
-            {
-                const TextureFilters a;
-                TextureFilters b;
-                DTK_ASSERT(a == b);
-                b.minify = TextureFilter::Nearest;
-                DTK_ASSERT(a != b);
-            }
             {
                 const TextureOptions a;
                 TextureOptions b;

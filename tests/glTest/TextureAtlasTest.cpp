@@ -62,7 +62,7 @@ namespace dtk
                 auto atlas = TextureAtlas::create(
                     1024,
                     ImageType::L_U8,
-                    TextureFilter::Linear,
+                    ImageFilter::Linear,
                     0);
                 DTK_ASSERT(1024 == atlas->getSize());
                 DTK_ASSERT(ImageType::L_U8 == atlas->getType());

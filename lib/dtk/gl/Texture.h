@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <dtk/core/Image.h>
 #include <dtk/core/RenderOptions.h>
 
 namespace dtk
@@ -23,40 +22,13 @@ namespace dtk
         //! Get the OpenGL texture type.
         unsigned int getTextureType(ImageType);
 
-        //! Texture filtering.
-        enum class TextureFilter
-        {
-            Nearest,
-            Linear,
-
-            Count,
-            First = Nearest
-        };
-        DTK_ENUM(TextureFilter);
-
-        //! Texture filters.
-        struct TextureFilters
-        {
-            TextureFilter minify  = TextureFilter::Linear;
-            TextureFilter magnify = TextureFilter::Linear;
-
-            bool operator == (const TextureFilters&) const;
-            bool operator != (const TextureFilters&) const;
-        };
-
         //! Get the texture filter.
-        unsigned int getTextureFilter(TextureFilter);
-
-        //! Convert an image filter to a texture filter.
-        TextureFilter toTextureFilter(ImageFilter);
-
-        //! Convert image filters to texture filters.
-        TextureFilters toTextureFilters(const ImageFilters&);
+        unsigned int getTextureFilter(ImageFilter);
 
         //! Texture options.
         struct TextureOptions
         {
-            TextureFilters filters;
+            ImageFilters filters;
             bool pbo = false;
 
             bool operator == (const TextureOptions&) const;

@@ -27,7 +27,7 @@ namespace dtk
         void TextureAtlas::_init(
             int size,
             ImageType type,
-            TextureFilter filter,
+            ImageFilter filter,
             int border)
         {
             DTK_P();
@@ -52,7 +52,7 @@ namespace dtk
         std::shared_ptr<TextureAtlas> TextureAtlas::create(
             int textureSize,
             ImageType textureType,
-            TextureFilter filter,
+            ImageFilter filter,
             int border)
         {
             auto out = std::shared_ptr<TextureAtlas>(new TextureAtlas);

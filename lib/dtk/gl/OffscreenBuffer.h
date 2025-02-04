@@ -71,7 +71,7 @@ namespace dtk
         struct OffscreenBufferOptions
         {
             ImageType color = ImageType::None;
-            TextureFilters colorFilters;
+            ImageFilters colorFilters;
             OffscreenDepth depth = OffscreenDepth::None;
             OffscreenStencil stencil = OffscreenStencil::None;
             OffscreenSampling sampling = OffscreenSampling::None;

@@ -24,7 +24,6 @@ namespace dtk
             void run() override;
 
         private:
-            void _enums();
             void _members();
             void _functions();
             void _operators();

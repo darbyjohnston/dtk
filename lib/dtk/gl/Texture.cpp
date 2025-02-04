@@ -19,11 +19,6 @@ namespace dtk
 {
     namespace gl
     {
-        DTK_ENUM_IMPL(
-            TextureFilter,
-            "Nearest",
-            "Linear");
-
         unsigned int getTextureFormat(ImageType value)
         {
             const std::array<GLenum, static_cast<size_t>(ImageType::Count)> data =
@@ -261,18 +256,6 @@ namespace dtk
             return data[static_cast<size_t>(value)];
         }
         
-        bool TextureFilters::operator == (const TextureFilters& other) const
-        {
-            return
-                minify == other.minify &&
-                magnify == other.magnify;
-        }
-
-        bool TextureFilters::operator != (const TextureFilters& other) const
-        {
-            return !(*this == other);
-        }
-
         bool TextureOptions::operator == (const TextureOptions& other) const
         {
             return
@@ -285,30 +268,14 @@ namespace dtk
             return !(*this == other);
         }
 
-        unsigned int getTextureFilter(TextureFilter value)
+        unsigned int getTextureFilter(ImageFilter value)
         {
-            const std::array<GLenum, static_cast<size_t>(TextureFilter::Count)> data =
+            const std::array<GLenum, static_cast<size_t>(ImageFilter::Count)> data =
             {
                 GL_NEAREST,
                 GL_LINEAR
             };
             return data[static_cast<size_t>(value)];
-        }
-
-        TextureFilter toTextureFilter(ImageFilter value)
-        {
-            TextureFilter out = TextureFilter::Nearest;
-            switch (value)
-            {
-            case ImageFilter::Nearest: out = TextureFilter::Nearest; break;
-            case ImageFilter::Linear: out = TextureFilter::Linear; break;
-            }
-            return out;
-        }
-
-        TextureFilters toTextureFilters(const ImageFilters& value)
-        {
-            return { toTextureFilter(value.minify), toTextureFilter(value.magnify) };
         }
 
         struct Texture::Private

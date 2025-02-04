@@ -34,8 +34,8 @@ namespace dtk
         protected:
             void _init(
                 int size,
-                ImageType type,
-                TextureFilter filter,
+                ImageType,
+                ImageFilter,
                 int border);
 
             TextureAtlas();
@@ -46,8 +46,8 @@ namespace dtk
             //! Create a new texture atlas.
             static std::shared_ptr<TextureAtlas> create(
                 int size,
-                ImageType type,
-                TextureFilter filter = TextureFilter::Linear,
+                ImageType,
+                ImageFilter = ImageFilter::Linear,
                 int border = 1);
 
             //! Get the texture atlas size.
