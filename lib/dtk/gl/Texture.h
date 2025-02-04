@@ -5,6 +5,7 @@
 #pragma once
 
 #include <dtk/core/Image.h>
+#include <dtk/core/RenderOptions.h>
 
 namespace dtk
 {
@@ -45,6 +46,12 @@ namespace dtk
 
         //! Get the texture filter.
         unsigned int getTextureFilter(TextureFilter);
+
+        //! Convert an image filter to a texture filter.
+        TextureFilter toTextureFilter(ImageFilter);
+
+        //! Convert image filters to texture filters.
+        TextureFilters toTextureFilters(const ImageFilters&);
 
         //! Texture options.
         struct TextureOptions

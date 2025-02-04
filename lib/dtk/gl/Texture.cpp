@@ -295,6 +295,22 @@ namespace dtk
             return data[static_cast<size_t>(value)];
         }
 
+        TextureFilter toTextureFilter(ImageFilter value)
+        {
+            TextureFilter out = TextureFilter::Nearest;
+            switch (value)
+            {
+            case ImageFilter::Nearest: out = TextureFilter::Nearest; break;
+            case ImageFilter::Linear: out = TextureFilter::Linear; break;
+            }
+            return out;
+        }
+
+        TextureFilters toTextureFilters(const ImageFilters& value)
+        {
+            return { toTextureFilter(value.minify), toTextureFilter(value.magnify) };
+        }
+
         struct Texture::Private
         {
             ImageInfo info;
