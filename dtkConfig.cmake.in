@@ -44,6 +44,5 @@ endif()
 
 # \todo Is this the correct way to add the include directory?
 include_directories("@PACKAGE_INCLUDE_INSTALL_DIR@")
-include_directories("@PACKAGE_INCLUDE_INSTALL_DIR@"/dtk)
 
 check_required_components(dtk)
