@@ -92,6 +92,7 @@ set(SOURCE
     PNGWrite.cpp
     OS.cpp
     Random.cpp
+    Range.cpp
     RenderOptions.cpp
     RenderUtil.cpp
     Size.cpp

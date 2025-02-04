@@ -7,6 +7,8 @@
 #include <dtk/core/Assert.h>
 #include <dtk/core/Range.h>
 
+#include <sstream>
+
 namespace dtk
 {
     namespace core_test
@@ -28,6 +30,7 @@ namespace dtk
         {
             _members();
             _functions();
+            _serialize();
         }
         
         void RangeTest::_members()
@@ -65,6 +68,74 @@ namespace dtk
             {
                 DTK_ASSERT(expand(RangeI(), 2) == RangeI(0, 2));
                 DTK_ASSERT(expand(RangeI(0, 2), RangeI(1, 3)) == RangeI(0, 3));
+            }
+        }
+
+        void RangeTest::_serialize()
+        {
+            {
+                const RangeI r(1, 2);
+                std::stringstream ss;
+                ss << r;
+                RangeI r1;
+                ss >> r1;
+                DTK_ASSERT(r == r1);
+            }
+            {
+                const RangeSizeT r(1, 2);
+                std::stringstream ss;
+                ss << r;
+                RangeSizeT r1;
+                ss >> r1;
+                DTK_ASSERT(r == r1);
+            }
+            {
+                const RangeF r(1.F, 2.F);
+                std::stringstream ss;
+                ss << r;
+                RangeF r1;
+                ss >> r1;
+                DTK_ASSERT(r == r1);
+            }
+            {
+                const RangeD r(1.0, 2.0);
+                std::stringstream ss;
+                ss << r;
+                RangeD r1;
+                ss >> r1;
+                DTK_ASSERT(r == r1);
+            }
+            {
+                const RangeI r(1, 2);
+                nlohmann::json json;
+                to_json(json, r);
+                RangeI r2;
+                from_json(json, r2);
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeSizeT r(1, 2);
+                nlohmann::json json;
+                to_json(json, r);
+                RangeSizeT r2;
+                from_json(json, r2);
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeF r(1.F, 2.F);
+                nlohmann::json json;
+                to_json(json, r);
+                RangeF r2;
+                from_json(json, r2);
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeD r(1.0, 2.0);
+                nlohmann::json json;
+                to_json(json, r);
+                RangeD r2;
+                from_json(json, r2);
+                DTK_ASSERT(r == r2);
             }
         }
     }

@@ -26,6 +26,7 @@ namespace dtk
         private:
             void _members();
             void _functions();
+            void _serialize();
         };
     }
 }
