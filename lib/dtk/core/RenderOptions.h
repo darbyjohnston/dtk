@@ -20,6 +20,9 @@ namespace dtk
     //! Render options.
     struct RenderOptions
     {
+        //! Colot buffer type.
+        ImageType colorBuffer = ImageType::RGBA_U8;
+
         //! Clear the canvas before rendering.
         bool clear = true;
 
