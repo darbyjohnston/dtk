@@ -227,7 +227,7 @@ namespace dtk
     }
         
     template<int C, typename T>
-    constexpr Size<C, T> operator * (const Size<C, T>& a, T b)
+    constexpr Size<C, T> operator * (const Size<C, T>& a, float b)
     {
         Size<C, T> out;
         for (int c = 0; c < C; ++c)
@@ -238,7 +238,7 @@ namespace dtk
     }
         
     template<int C, typename T>
-    constexpr Size<C, T> operator / (const Size<C, T>& a, T b)
+    constexpr Size<C, T> operator / (const Size<C, T>& a, float b)
     {
         Size<C, T> out;
         for (int c = 0; c < C; ++c)

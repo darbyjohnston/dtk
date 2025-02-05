@@ -118,9 +118,9 @@ namespace dtk
     template<int C, typename T>
     constexpr Size<C, T> operator - (const Size<C, T>&, T);
     template<int C, typename T>
-    constexpr Size<C, T> operator * (const Size<C, T>&, T);
+    constexpr Size<C, T> operator * (const Size<C, T>&, float);
     template<int C, typename T>
-    constexpr Size<C, T> operator / (const Size<C, T>&, T);
+    constexpr Size<C, T> operator / (const Size<C, T>&, float);
         
     template<int C, typename T>
     constexpr bool operator == (const Size<C, T>&, const Size<C, T>&);
