@@ -10,6 +10,127 @@ namespace dtk
 {
     namespace gl
     {
+        unsigned int getReadPixelsFormat(dtk::ImageType value)
+        {
+            const std::array<GLenum, static_cast<std::size_t>(dtk::ImageType::Count)> data =
+            {
+                GL_NONE,
+
+#if defined(dtk_API_GL_4_1)
+                GL_RED,
+                GL_RED,
+                GL_RED,
+                GL_RED,
+                GL_RED,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGB,
+                GL_RGBA,
+                GL_RGB,
+                GL_RGB,
+                GL_RGB,
+                GL_RGB,
+
+                GL_RGBA,
+                GL_RGBA,
+                GL_RGBA,
+                GL_RGBA,
+                GL_RGBA,
+#elif defined(dtk_API_GLES_2)
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGB,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_RGBA,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+#endif // dtk_API_GL_4_1
+
+                GL_NONE
+            };
+            return data[static_cast<std::size_t>(value)];
+        }
+
+        unsigned int getReadPixelsType(dtk::ImageType value)
+        {
+            const std::array<GLenum, static_cast<std::size_t>(dtk::ImageType::Count)> data =
+            {
+                GL_NONE,
+
+                GL_UNSIGNED_BYTE,
+#if defined(dtk_API_GL_4_1)
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT,
+#elif defined(dtk_API_GLES_2)
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+#endif // dtk_API_GL_4_1
+
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+
+                GL_UNSIGNED_BYTE,
+#if defined(dtk_API_GL_4_1)
+                GL_UNSIGNED_INT_10_10_10_2,
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT,
+#elif defined(dtk_API_GLES_2)
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+#endif // dtk_API_GL_4_1
+
+                GL_UNSIGNED_BYTE,
+#if defined(dtk_API_GL_4_1)
+                GL_UNSIGNED_SHORT,
+                GL_UNSIGNED_INT,
+                GL_HALF_FLOAT,
+                GL_FLOAT,
+#elif defined(dtk_API_GLES_2)
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+                GL_NONE,
+#endif // dtk_API_GL_4_1
+
+                GL_NONE
+            };
+            return data[static_cast<std::size_t>(value)];
+        }
+
         struct SetAndRestore::Private
         {
             unsigned int id = 0;

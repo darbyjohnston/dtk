@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/core/Util.h>
+#include <dtk/core/Image.h>
 
 #include <memory>
 #include <string>
@@ -15,7 +15,13 @@ namespace dtk
     {
         //! \name Utility
         ///@{
-        
+
+        //! Get the glReadPixels format.
+        unsigned int getReadPixelsFormat(dtk::ImageType);
+
+        //! Get the glReadPixels type.
+        unsigned int getReadPixelsType(dtk::ImageType);
+
         //! Set whether an OpenGL capability is enabled and restore it to the
         //! previous value when finished.
         class SetAndRestore
