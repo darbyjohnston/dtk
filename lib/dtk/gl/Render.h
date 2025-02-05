@@ -41,6 +41,9 @@ namespace dtk
                 const std::shared_ptr<Context>&,
                 const std::shared_ptr<TextureCache>& = nullptr);
 
+            //! Get a shader.
+            std::shared_ptr<Shader> getShader(const std::string&);
+
             //! Get the texture cache.
             const std::shared_ptr<TextureCache>& getTextureCache() const;
 
@@ -98,9 +101,6 @@ namespace dtk
                 const Box2F&,
                 const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                 const ImageOptions& = ImageOptions()) override;
-
-        protected:
-            std::shared_ptr<Shader> _getShader(const std::string&);
 
         private:
             std::vector<std::shared_ptr<Texture> > _getTextures(

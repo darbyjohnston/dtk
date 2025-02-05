@@ -61,6 +61,11 @@ namespace dtk
             return out;
         }
 
+        std::shared_ptr<Shader> Render::getShader(const std::string& value)
+        {
+            return _p->shaders[value];
+        }
+
         const std::shared_ptr<TextureCache>& Render::getTextureCache() const
         {
             return _p->textureCache;
@@ -255,11 +260,6 @@ namespace dtk
                 i.second->bind();
                 i.second->setUniform("transform.mvp", value);
             }
-        }
-
-        std::shared_ptr<Shader> Render::_getShader(const std::string& value)
-        {
-            return _p->shaders[value];
         }
 
         std::vector<std::shared_ptr<Texture> > Render::_getTextures(
