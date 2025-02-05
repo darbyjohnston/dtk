@@ -257,6 +257,11 @@ namespace dtk
             }
         }
 
+        std::shared_ptr<Shader> Render::_getShader(const std::string& value)
+        {
+            return _p->shaders[value];
+        }
+
         std::vector<std::shared_ptr<Texture> > Render::_getTextures(
             const ImageInfo& info,
             const ImageFilters& imageFilters,

@@ -12,6 +12,7 @@ namespace dtk
 {
     namespace gl
     {
+        class Shader;
         class Texture;
 
         //! \name Renderer
@@ -97,6 +98,9 @@ namespace dtk
                 const Box2F&,
                 const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                 const ImageOptions& = ImageOptions()) override;
+
+        protected:
+            std::shared_ptr<Shader> _getShader(const std::string&);
 
         private:
             std::vector<std::shared_ptr<Texture> > _getTextures(
