@@ -63,6 +63,7 @@ set(SOURCE
 add_library(dtkResource ${HEADERS} ${SOURCE})
 target_link_libraries(dtkResource)
 set_target_properties(dtkResource PROPERTIES FOLDER lib)
+set_target_properties(dtkResource PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
 install(
     TARGETS dtkResource

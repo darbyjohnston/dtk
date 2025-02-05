@@ -10,9 +10,15 @@
 
 namespace dtk
 {
+    //! Get the list of font resources.
     std::vector<std::string> getFontResources();
+
+    //! Get a font resource.
     std::vector<uint8_t> getFontResource(const std::string&);
 
+    //! Get the list of icon resources.
     std::vector<std::string> getIconResources();
+
+    //! Get an icon resource.
     std::vector<uint8_t> getIconResource(const std::string&);
 }
