@@ -152,9 +152,9 @@ namespace dtk
     constexpr Vector<C, T> operator - (const Vector<C, T>&, T);
 
     template<int C, typename T>
-    constexpr Vector<C, T> operator * (const Vector<C, T>&, T);
+    constexpr Vector<C, T> operator * (const Vector<C, T>&, float);
     template<int C, typename T>
-    constexpr Vector<C, T> operator / (const Vector<C, T>&, T);
+    constexpr Vector<C, T> operator / (const Vector<C, T>&, float);
         
     template<int C, typename T>
     constexpr bool operator == (const Vector<C, T>&, const Vector<C, T>&);

@@ -64,6 +64,7 @@ namespace dtk
     inline bool ImageInfo::operator == (const ImageInfo& other) const
     {
         return
+            name == other.name &&
             size == other.size &&
             type == other.type &&
             pixelAspectRatio == other.pixelAspectRatio &&

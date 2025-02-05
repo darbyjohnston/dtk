@@ -335,7 +335,7 @@ namespace dtk
     }
 
     template<int C, typename T>
-    constexpr Vector<C, T> operator * (const Vector<C, T>& v, T s)
+    constexpr Vector<C, T> operator * (const Vector<C, T>& v, float s)
     {
         Vector<C, T> out;
         for (int c = 0; c < C; ++c)
@@ -346,7 +346,7 @@ namespace dtk
     }
 
     template<int C, typename T>
-    constexpr Vector<C, T> operator / (const Vector<C, T>& v, T s)
+    constexpr Vector<C, T> operator / (const Vector<C, T>& v, float s)
     {
         Vector<C, T> out;
         for (int c = 0; c < C; ++c)

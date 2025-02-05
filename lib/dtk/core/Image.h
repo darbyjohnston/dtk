@@ -136,6 +136,7 @@ namespace dtk
         ImageInfo(const Size2I&, ImageType);
         ImageInfo(int w, int h, ImageType);
 
+        std::string     name             = "Default";
         Size2I          size;
         ImageType       type             = ImageType::None;
         float           pixelAspectRatio = 1.F;
