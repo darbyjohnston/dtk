@@ -23,6 +23,7 @@ namespace dtk
         std::string meshFragmentSource();
         std::string colorMeshVertexSource();
         std::string colorMeshFragmentSource();
+        std::string textureFragmentSource();
         std::string textFragmentSource();
         std::string imageFragmentSource();
 

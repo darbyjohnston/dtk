@@ -76,6 +76,10 @@ namespace dtk
                     const TriMesh2F&,
                     const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
                     const V2F& pos = V2F()) override {}
+                void drawTexture(
+                    unsigned int,
+                    const Box2I&,
+                    const Color4F& = Color4F(1.F, 1.F, 1.F)) override {}
                 void drawText(
                     const std::vector<std::shared_ptr<Glyph> >&,
                     const FontMetrics&,

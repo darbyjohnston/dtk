@@ -135,6 +135,12 @@ namespace dtk
             const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
             const V2F& pos = V2F()) = 0;
 
+        //! Draw a texture.
+        virtual void drawTexture(
+            unsigned int,
+            const Box2I&,
+            const Color4F& = Color4F(1.F, 1.F, 1.F)) = 0;
+
         //! Draw text.
         virtual void drawText(
             const std::vector<std::shared_ptr<Glyph> >&,

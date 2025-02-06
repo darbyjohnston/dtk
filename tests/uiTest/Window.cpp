@@ -66,11 +66,13 @@ namespace dtk
                                     "    Render count: {0}\n"
                                     "    Rectangle count: {1}\n"
                                     "    Mesh count: {2}\n"
-                                    "    Text count: {3}\n"
-                                    "    Image count: {4}").
+                                    "    Texture count: {3}\n"
+                                    "    Text count: {4}\n"
+                                    "    Image count: {5}").
                                 arg(_renderCount).
                                 arg(_rectCount).
                                 arg(_meshCount).
+                                arg(_textureCount).
                                 arg(_textCount).
                                 arg(_imageCount));
                         }
@@ -131,6 +133,13 @@ namespace dtk
                 {
                     ++_meshCount;
                 }
+                void drawTexture(
+                    unsigned int,
+                    const Box2I&,
+                    const Color4F& = Color4F(1.F, 1.F, 1.F)) override
+                {
+                    ++_textureCount;
+                }
                 void drawText(
                     const std::vector<std::shared_ptr<Glyph> >&,
                     const FontMetrics&,
@@ -166,6 +175,7 @@ namespace dtk
                 size_t _renderCount = 0;
                 size_t _rectCount = 0;
                 size_t _meshCount = 0;
+                size_t _textureCount = 0;
                 size_t _textCount = 0;
                 size_t _imageCount = 0;
             };

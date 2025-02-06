@@ -372,6 +372,34 @@ namespace dtk
                     }
                 }
                 break;
+            case VBOType::Pos3_F32_Color_U8:
+                for (size_t i = range.min(); i <= range.max(); ++i)
+                {
+                    const Vertex3* vertices[] =
+                    {
+                        &mesh.triangles[i].v[0],
+                        &mesh.triangles[i].v[1],
+                        &mesh.triangles[i].v[2]
+                    };
+                    for (size_t k = 0; k < 3; ++k)
+                    {
+                        const size_t v = vertices[k]->v;
+                        float* pf = reinterpret_cast<float*>(p);
+                        pf[0] = v ? mesh.v[v - 1].x : 0.F;
+                        pf[1] = v ? mesh.v[v - 1].y : 0.F;
+                        pf[2] = v ? mesh.v[v - 1].z : 0.F;
+                        p += 3 * sizeof(float);
+
+                        const size_t c = vertices[k]->c;
+                        auto packedColor = reinterpret_cast<PackedColor*>(p);
+                        packedColor->r = c ? clamp(static_cast<int>(mesh.c[c - 1].x * 255.F), 0, 255) : 255;
+                        packedColor->g = c ? clamp(static_cast<int>(mesh.c[c - 1].y * 255.F), 0, 255) : 255;
+                        packedColor->b = c ? clamp(static_cast<int>(mesh.c[c - 1].z * 255.F), 0, 255) : 255;
+                        packedColor->a = c ? clamp(static_cast<int>(mesh.c[c - 1].w * 255.F), 0, 255) : 255;
+                        p += sizeof(PackedColor);
+                    }
+                }
+                break;
             default: break;
             }
             return out;

@@ -21,7 +21,7 @@ protected:
         const std::string& name,
         const Size2I&);
 
-    DialogsWindow();
+    DialogsWindow() = default;
 
 public:
     virtual ~DialogsWindow();

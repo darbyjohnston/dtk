@@ -150,9 +150,6 @@ void DialogsWindow::_init(
     fileEdit->setPath("File Browser");
 }
 
-DialogsWindow::DialogsWindow()
-{}
-
 DialogsWindow::~DialogsWindow()
 {}
 

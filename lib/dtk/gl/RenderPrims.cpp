@@ -203,6 +203,32 @@ namespace dtk
             }
         }
 
+        void Render::drawTexture(
+            unsigned int id,
+            const Box2I& rect,
+            const Color4F& color)
+        {
+            DTK_P();
+            p.shaders["texture"]->bind();
+            p.shaders["texture"]->setUniform("color", color);
+            p.shaders["texture"]->setUniform("textureSampler", 0);
+
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+            glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
+            glBindTexture(GL_TEXTURE_2D, id);
+
+            if (p.vbos["texture"])
+            {
+                p.vbos["texture"]->copy(convert(mesh(rect), p.vbos["texture"]->getType()));
+            }
+            if (p.vaos["texture"])
+            {
+                p.vaos["texture"]->bind();
+                p.vaos["texture"]->draw(GL_TRIANGLES, 0, p.vbos["texture"]->getSize());
+            }
+        }
+
         void Render::drawText(
             const std::vector<std::shared_ptr<Glyph> >& glyphs,
             const FontMetrics& fontMetrics,
@@ -447,7 +473,7 @@ namespace dtk
             const Color4F& color,
             const ImageOptions& imageOptions)
         {
-            drawImage(image, dtk::mesh(box), color, imageOptions);
+            drawImage(image, mesh(box), color, imageOptions);
         }
 
         void Render::_drawTextMesh(const TriMesh2F& mesh)
