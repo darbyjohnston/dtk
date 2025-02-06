@@ -86,6 +86,23 @@ namespace dtk
                 "}\n";
         }
 
+        std::string textureFragmentSource()
+        {
+            return
+                "precision mediump float;\n"
+                "\n"
+                "varying vec2 fTexture;\n"
+                "\n"
+                "uniform vec4 color;\n"
+                "uniform sampler2D textureSampler;\n"
+                "\n"
+                "void main()\n"
+                "{\n"
+                "\n"
+                "    gl_FragColor = texture2D(textureSampler, fTexture) * color;\n"
+                "}\n";
+        }
+
         std::string textFragmentSource()
         {
             return
