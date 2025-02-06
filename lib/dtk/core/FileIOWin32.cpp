@@ -94,16 +94,15 @@ namespace dtk
         size_t                size = 0;
         bool                  endianConversion = false;
         HANDLE                f = INVALID_HANDLE_VALUE;
-        void* mMap = nullptr;
-        const uint8_t* memoryStart = nullptr;
-        const uint8_t* memoryEnd = nullptr;
-        const uint8_t* memoryP = nullptr;
+        void*                 mMap = nullptr;
+        const uint8_t*        memoryStart = nullptr;
+        const uint8_t*        memoryEnd = nullptr;
+        const uint8_t*        memoryP = nullptr;
     };
 
     FileIO::FileIO() :
         _p(new Private)
-    {
-    }
+    {}
 
     FileIO::~FileIO()
     {
