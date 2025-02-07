@@ -89,6 +89,9 @@ namespace dtk
 
         void run() override;
 
+    protected:
+        virtual void _tick();
+
     private:
         void _tickRecursive(
             const std::shared_ptr<IWidget>&,

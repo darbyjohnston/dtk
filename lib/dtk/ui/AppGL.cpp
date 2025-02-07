@@ -202,6 +202,8 @@ namespace dtk
 
             _context->tick();
 
+            _tick();
+
             auto i = p.windows.begin();
             while (i != p.windows.end())
             {
@@ -241,6 +243,9 @@ namespace dtk
             }
         }
     }
+
+    void App::_tick()
+    {}
 
     void App::_tickRecursive(
         const std::shared_ptr<IWidget>& widget,
