@@ -83,10 +83,31 @@ namespace dtk
 
     V4F getYUVCoefficients(YUVCoefficients value)
     {
+        //! References:
+        //! * https://www.itu.int/rec/R-REC-BT.709
+        //! * https://www.itu.int/rec/R-REC-BT.2020
+        //! * https://gist.github.com/yohhoy/dafa5a47dade85d8b40625261af3776a
+        //!
+        //!     Y  = a * R + b * G + c * B
+        //!     Cb = (B - Y) / d
+        //!     Cr = (R - Y) / e
+        //!
+        //!     R = Y + e * Cr
+        //!     G = Y - (a * e / b) * Cr - (c * d / b) * Cb
+        //!     B = Y + d * Cb
+        //!
+        //!        BT.601   BT.709   BT.2020
+        //!     ----------------------------
+        //!     a  0.299    0.2126   0.2627
+        //!     b  0.587    0.7152   0.6780
+        //!     c  0.114    0.0722   0.0593
+        //!     d  1.772    1.8556   1.8814
+        //!     e  1.402    1.5748   1.4746
+        //!
         const std::array<V4F, static_cast<size_t>(YUVCoefficients::Count)> data =
         {
-            V4F(1.79274F, 2.1124F, .213242F, .532913F),
-            V4F(1.67867F, 2.14177F, .187332F, .650421F)
+            V4F(1.5748, 0.468124273, 0.187324273, 1.8556),
+            V4F(1.4746, 0.571353127, 0.164553127, 1.8814)
         };
         return data[static_cast<size_t>(value)];
     }
