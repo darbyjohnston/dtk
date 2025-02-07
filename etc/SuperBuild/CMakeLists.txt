@@ -39,7 +39,7 @@ set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 #-------------------------------------------------------------------------------
 # Configuration
 
-list(APPEND CMAKE_MODULE_PATH
+list(PREPEND CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/../../cmake/Modules
     ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
