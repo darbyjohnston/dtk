@@ -3,6 +3,11 @@ include(ExternalProject)
 set(PNG_GIT_REPOSITORY "https://github.com/glennrp/libpng.git")
 set(PNG_GIT_TAG "v1.6.43")
 
+set(PNG_DEPS)
+if(dtk_ZLIB)
+    list(APPEND PNG_DEPS ZLIB)
+endif()
+
 set(PNG_SHARED_LIBS ON)
 set(PNG_STATIC_LIBS OFF)
 if(NOT BUILD_SHARED_LIBS)
@@ -24,7 +29,7 @@ set(PNG_ARGS
 ExternalProject_Add(
     PNG
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PNG
-    DEPENDS ZLIB
+    DEPENDS ${PNG_DEPS}
     GIT_REPOSITORY ${PNG_GIT_REPOSITORY}
     GIT_TAG ${PNG_GIT_TAG}
     LIST_SEPARATOR |
