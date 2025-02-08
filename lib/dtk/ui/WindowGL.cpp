@@ -205,7 +205,7 @@ namespace dtk
         std::shared_ptr<gl::Window> window;
 
         std::shared_ptr<gl::OffscreenBuffer> buffer;
-        std::shared_ptr<gl::Render> render;
+        std::shared_ptr<IRender> render;
 #if defined(dtk_API_GLES_2)
         std::shared_ptr<gl::Shader> shader;
 #endif // dtk_API_GLES_2
@@ -324,12 +324,17 @@ namespace dtk
 
         p.bufferSize = p.window->getFrameBufferSize();
         p.contentScale = p.window->getContentScale();
-        p.render = gl::Render::create(context);
+        p.render = _createRender(context);
 
         setClipboard(Clipboard::create(context, p.window->getGLFW()));
 
         _setSizeUpdate();
         _setDrawUpdate();
+    }
+
+    std::shared_ptr<IRender> Window::_createRender(const std::shared_ptr<Context>& context)
+    {
+        return gl::Render::create(context);
     }
 
     Window::Window() :

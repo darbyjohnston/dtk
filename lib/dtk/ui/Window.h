@@ -69,6 +69,9 @@ namespace dtk
         void setVisible(bool) override;
         void sizeHintEvent(const SizeHintEvent&) override;
 
+    protected:
+        virtual std::shared_ptr<IRender> _createRender(const std::shared_ptr<Context>&);
+
     private:
         DTK_PRIVATE();
     };
