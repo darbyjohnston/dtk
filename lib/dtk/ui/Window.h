@@ -93,6 +93,8 @@ namespace dtk
     protected:
         virtual std::shared_ptr<IRender> _createRender(const std::shared_ptr<Context>&);
 
+        void _makeCurrent();
+
     private:
         DTK_PRIVATE();
     };

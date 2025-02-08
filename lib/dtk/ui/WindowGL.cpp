@@ -336,11 +336,6 @@ namespace dtk
         _setDrawUpdate();
     }
 
-    std::shared_ptr<IRender> Window::_createRender(const std::shared_ptr<Context>& context)
-    {
-        return gl::Render::create(context);
-    }
-
     Window::Window() :
         _p(new Private)
     {}
@@ -667,5 +662,14 @@ namespace dtk
         }
         _setSizeHint(sizeHint);
     }
-}
 
+    std::shared_ptr<IRender> Window::_createRender(const std::shared_ptr<Context>& context)
+    {
+        return gl::Render::create(context);
+    }
+
+    void Window::_makeCurrent()
+    {
+        _p->window->makeCurrent();
+    }
+}
