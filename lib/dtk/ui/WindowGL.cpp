@@ -388,6 +388,11 @@ namespace dtk
         }
     }
 
+    int Window::getScreen() const
+    {
+        return _p->window->getScreen();
+    }
+
     const Size2I& Window::getFrameBufferSize() const
     {
         return _p->bufferSize;

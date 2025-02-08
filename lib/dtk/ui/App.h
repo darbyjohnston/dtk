@@ -66,6 +66,9 @@ namespace dtk
         //! Get the windows.
         const std::list<std::shared_ptr<Window> >& getWindows() const;
 
+        //! Get the number of screens.
+        int getScreenCount() const;
+
         //! Get the font system.
         const std::shared_ptr<FontSystem>& getFontSystem() const;
 

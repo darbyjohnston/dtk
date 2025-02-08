@@ -153,6 +153,13 @@ namespace dtk
         return _p->windows;
     }
 
+    int App::getScreenCount() const
+    {
+        int glfwMonitorsCount = 0;
+        glfwGetMonitors(&glfwMonitorsCount);
+        return glfwMonitorsCount;
+    }
+
     const std::shared_ptr<FontSystem>& App::getFontSystem() const
     {
         return _p->fontSystem;

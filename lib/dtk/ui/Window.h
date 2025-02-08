@@ -43,6 +43,9 @@ namespace dtk
         //! Set whether the window is full screen.
         void setFullScreen(bool);
 
+        //! Get which screen the window is on.
+        int getScreen() const;
+
         //! Get the window frame buffer size.
         const Size2I& getFrameBufferSize() const;
 
