@@ -41,7 +41,7 @@ namespace dtk
         std::shared_ptr<IObservableValue<bool> > observeFullScreen() const;
 
         //! Set whether the window is full screen.
-        void setFullScreen(bool);
+        void setFullScreen(bool, int screen = -1);
 
         //! Get which screen the window is on.
         int getScreen() const;

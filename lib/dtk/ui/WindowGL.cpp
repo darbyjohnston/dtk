@@ -380,11 +380,11 @@ namespace dtk
         return _p->fullScreen;
     }
 
-    void Window::setFullScreen(bool value)
+    void Window::setFullScreen(bool value, int screen)
     {
         if (_p->fullScreen->setIfChanged(value))
         {
-            _p->window->setFullScreen(value);
+            _p->window->setFullScreen(value, screen);
         }
     }
 
