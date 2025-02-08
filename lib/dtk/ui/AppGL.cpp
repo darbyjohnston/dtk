@@ -155,6 +155,11 @@ namespace dtk
         return _p->windows;
     }
 
+    std::shared_ptr<IObservableValue<std::shared_ptr<Window>> > App::observeWindowClose() const
+    {
+        return _p->windowClose;
+    }
+
     int App::getScreenCount() const
     {
         int glfwMonitorsCount = 0;
