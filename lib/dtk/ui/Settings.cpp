@@ -74,8 +74,7 @@ namespace dtk
                 FileIO::create(p.path, FileMode::Write)->write(json.dump(4));
             }
             catch (const std::exception&)
-            {
-            }
+            {}
         }
     }
 
@@ -83,8 +82,7 @@ namespace dtk
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path)
     {
-        auto out = std::shared_ptr<Settings>(new Settings(context, path));
-        return out;
+        return std::shared_ptr<Settings>(new Settings(context, path));
     }
 
     std::any Settings::get(const std::string& key)
