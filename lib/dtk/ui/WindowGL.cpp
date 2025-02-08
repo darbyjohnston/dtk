@@ -197,7 +197,9 @@ namespace dtk
         std::weak_ptr<Context> context;
 
         std::shared_ptr<ObservableValue<bool> > fullScreen;
+        std::shared_ptr<ObservableValue<bool> > floatOnTop;
         Size2I bufferSize = Size2I(0, 0);
+        std::shared_ptr<dtk::ObservableValue<dtk::ImageType> > bufferType;
         V2F contentScale = V2F(1.F, 1.F);
         std::shared_ptr<ObservableValue<float> > displayScale;
         bool refresh = true;
@@ -222,6 +224,8 @@ namespace dtk
         p.context = context;
 
         p.fullScreen = ObservableValue<bool>::create(false);
+        p.floatOnTop = ObservableValue<bool>::create(false);
+        p.bufferType = ObservableValue<ImageType>::create(gl::offscreenColorDefault);
         p.displayScale = ObservableValue<float>::create(0.F);
 
         p.window = gl::Window::create(context, name, size);
@@ -393,9 +397,51 @@ namespace dtk
         return _p->window->getScreen();
     }
 
+    bool Window::isFloatOnTop() const
+    {
+        return _p->floatOnTop->get();
+    }
+
+    std::shared_ptr<dtk::IObservableValue<bool> > Window::observeFloatOnTop() const
+    {
+        return _p->floatOnTop;
+    }
+
+    void Window::setFloatOnTop(bool value)
+    {
+        DTK_P();
+        if (p.floatOnTop->setIfChanged(value))
+        {
+            p.window->setFloatOnTop(value);
+        }
+    }
+
+    bool Window::shouldClose() const
+    {
+        return _p->window->shouldClose();
+    }
+
     const Size2I& Window::getFrameBufferSize() const
     {
         return _p->bufferSize;
+    }
+
+    dtk::ImageType Window::getFrameBufferType() const
+    {
+        return _p->bufferType->get();
+    }
+
+    std::shared_ptr<dtk::IObservableValue<dtk::ImageType> > Window::observeFrameBufferType() const
+    {
+        return _p->bufferType;
+    }
+
+    void Window::setFrameBufferType(dtk::ImageType value)
+    {
+        if (_p->bufferType->setIfChanged(value))
+        {
+            _setDrawUpdate();
+        }
     }
 
     float Window::getDisplayScale() const
@@ -418,11 +464,6 @@ namespace dtk
             _setSizeUpdate();
             _setDrawUpdate();
         }
-    }
-
-    bool Window::shouldClose() const
-    {
-        return _p->window->shouldClose();
     }
 
     void Window::setGeometry(const Box2I& value)
@@ -478,7 +519,7 @@ namespace dtk
             p.window->makeCurrent();
 
             gl::OffscreenBufferOptions bufferOptions;
-            bufferOptions.color = gl::offscreenColorDefault;
+            bufferOptions.color = p.bufferType->get();
             if (gl::doCreate(p.buffer, p.bufferSize, bufferOptions))
             {
                 p.buffer = gl::OffscreenBuffer::create(p.bufferSize, bufferOptions);

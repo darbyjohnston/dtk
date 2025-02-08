@@ -46,8 +46,29 @@ namespace dtk
         //! Get which screen the window is on.
         int getScreen() const;
 
+        //! Get whether the window is floating on top.
+        bool isFloatOnTop() const;
+
+        //! Observe whether the window is floating on top.
+        std::shared_ptr<dtk::IObservableValue<bool> > observeFloatOnTop() const;
+
+        //! Set whether the window is floating on top.
+        void setFloatOnTop(bool);
+
+        //! Get whether the window should close.
+        bool shouldClose() const;
+
         //! Get the window frame buffer size.
         const Size2I& getFrameBufferSize() const;
+
+        //! Get the frame buffer type.
+        dtk::ImageType getFrameBufferType() const;
+
+        //! Observe the frame buffer type.
+        std::shared_ptr<dtk::IObservableValue<dtk::ImageType> > observeFrameBufferType() const;
+
+        //! Set the frame buffer type.
+        void setFrameBufferType(dtk::ImageType);
 
         //! Get the display scale.
         float getDisplayScale() const;
@@ -58,9 +79,6 @@ namespace dtk
         //! Set the display scale. A value of zero will set the display scale
         //! automatically.
         void setDisplayScale(float);
-
-        //! Get whether the window should close.
-        bool shouldClose() const;
 
         //! Update the window.
         void update(

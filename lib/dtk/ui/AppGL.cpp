@@ -48,6 +48,7 @@ namespace dtk
         bool running = true;
         float displayScale = 0.F;
         std::list<std::shared_ptr<Window> > windows;
+        std::shared_ptr<ObservableValue<std::shared_ptr<Window> > > windowClose;
         std::list<int> tickTimes;
         std::shared_ptr<Timer> logTimer;
     };
@@ -93,6 +94,7 @@ namespace dtk
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
+        p.windowClose = ObservableValue<std::shared_ptr<Window> >::create();
 
         _styleUpdate();
 
@@ -225,6 +227,7 @@ namespace dtk
 
                 if ((*i)->shouldClose())
                 {
+                    p.windowClose->setAlways(*i);
                     i = p.windows.erase(i);
                 }
                 else
