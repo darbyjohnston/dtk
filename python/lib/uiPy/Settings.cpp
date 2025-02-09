@@ -24,12 +24,18 @@ namespace dtk
             py::arg("name"),
             "Get a settings path.");
 
-        py::class_<Settings, ISystem, std::shared_ptr<Settings> >(m, "Settings")
+        py::class_<Settings, std::shared_ptr<Settings> >(m, "Settings")
             .def(
                 py::init(&Settings::create),
                 py::arg("context"),
-                py::arg("path"))
-            .def("get", &Settings::get, py::arg("key"))
-            .def("set", &Settings::set, py::arg("key"), py::arg("value"));
+                py::arg("path"),
+                py::arg("reset") = false)
+            .def("contains", &Settings::contains, py::arg("key"))
+            .def("get", py::overload_cast<const std::string&, int64_t&>(&Settings::get), py::arg("key"), py::arg("value"))
+            .def("get", py::overload_cast<const std::string&, double&>(&Settings::get), py::arg("key"), py::arg("value"))
+            .def("get", py::overload_cast<const std::string&, std::string&>(&Settings::get), py::arg("key"), py::arg("value"))
+            .def("set", py::overload_cast<const std::string&, int64_t>(&Settings::set), py::arg("key"), py::arg("value"))
+            .def("set", py::overload_cast<const std::string&, double>(&Settings::set), py::arg("key"), py::arg("value"))
+            .def("set", py::overload_cast<const std::string&, const std::string&>(&Settings::set), py::arg("key"), py::arg("value"));
     }
 }

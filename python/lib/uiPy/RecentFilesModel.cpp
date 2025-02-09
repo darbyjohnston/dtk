@@ -21,8 +21,7 @@ namespace dtk
         py::class_<RecentFilesModel, std::shared_ptr<RecentFilesModel> >(m, "RecentFilesModel")
             .def(
                 py::init(&RecentFilesModel::create),
-                py::arg("context"),
-                py::arg("settingsName") = "RecentFiles")
+                py::arg("context"))
             .def_property(
                 "recentMax",
                 &RecentFilesModel::getRecentMax,

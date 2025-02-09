@@ -54,7 +54,7 @@ namespace dtk
         bool get(const std::string& key, std::string&);
 
         template<typename T>
-        void get(const std::string& key, T&) const;
+        bool getT(const std::string& key, T&) const;
 
         ///@}
 
@@ -71,7 +71,7 @@ namespace dtk
         void set(const std::string& key, const std::string&);
 
         template<typename T>
-        void set(const std::string& key, const T&);
+        void setT(const std::string& key, const T&);
 
         ///@}
 
