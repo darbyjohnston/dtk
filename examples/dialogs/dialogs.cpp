@@ -162,7 +162,7 @@ void DialogsWindow::_init(
             {
                 if (i->is_string())
                 {
-                    recentFiles.push_back(*i);
+                    recentFiles.push_back(std::filesystem::u8path(i->get<std::string>()));
                 }
             }
         }
