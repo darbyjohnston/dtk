@@ -66,6 +66,7 @@ set(HEADERS
     ScrollWidget.h
     SearchBox.h
     Settings.h
+    SettingsInline.h
     Spacer.h
     Splitter.h
     StackLayout.h

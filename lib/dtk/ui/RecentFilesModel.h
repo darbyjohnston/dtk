@@ -22,9 +22,7 @@ namespace dtk
         DTK_NON_COPYABLE(RecentFilesModel);
 
     protected:
-        void _init(
-            const std::shared_ptr<Context>&,
-            const std::string& settingsName);
+        void _init(const std::shared_ptr<Context>&);
 
         RecentFilesModel();
 
@@ -33,8 +31,7 @@ namespace dtk
 
         //! Create a new model.
         static std::shared_ptr<RecentFilesModel> create(
-            const std::shared_ptr<Context>&,
-            const std::string& settingsName = "RecentFiles");
+            const std::shared_ptr<Context>&);
 
         //! Get the maximum number of recent files.
         size_t getRecentMax() const;

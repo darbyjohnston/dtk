@@ -70,18 +70,133 @@ namespace dtk
         return std::shared_ptr<Settings>(new Settings(context, path, reset));
     }
 
-    nlohmann::json Settings::get(const std::string& key)
+    bool Settings::contains(const std::string& key) const
+    {
+        DTK_P();
+        return p.settings.find(key) != p.settings.end();
+    }
+
+    bool Settings::get(const std::string& key, nlohmann::json& value) const
     {
         DTK_P();
         const auto i = p.settings.find(key);
-        if (i == p.settings.end())
+        if (i != p.settings.end())
         {
-            p.settings[key] = nlohmann::json();
+            value = *i;
+            return true;
         }
-        return p.settings[key];
+        return false;
+    }
+
+    bool Settings::get(const std::string& key, int& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_number_integer())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
+    }
+
+    bool Settings::get(const std::string& key, int64_t& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_number_integer())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
+    }
+
+    bool Settings::get(const std::string& key, float& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_number_float())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
+    }
+
+    bool Settings::get(const std::string& key, double& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_number_float())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
+    }
+
+    bool Settings::get(const std::string& key, size_t& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_number_unsigned())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
+    }
+
+    bool Settings::get(const std::string& key, std::string& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_string())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
     }
 
     void Settings::set(const std::string& key, const nlohmann::json& value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, int value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, int64_t value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, float value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, double value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, size_t value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, const std::string& value)
     {
         DTK_P();
         p.settings[key] = value;

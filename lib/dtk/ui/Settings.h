@@ -38,13 +38,46 @@ namespace dtk
             const std::filesystem::path&,
             bool reset = false);
 
-        //! Get a value.
-        nlohmann::json get(const std::string& key);
+        //! Do the settings contain the given value?
+        bool contains(const std::string& key) const;
 
-        //! Set a value.
-        void set(const std::string& key, const nlohmann::json& value);
+        //! \name Get Values
+        ///@{
+
+        bool get(const std::string& key, nlohmann::json&) const;
+
+        bool get(const std::string& key, int&);
+        bool get(const std::string& key, int64_t&);
+        bool get(const std::string& key, float&);
+        bool get(const std::string& key, double&);
+        bool get(const std::string& key, size_t&);
+        bool get(const std::string& key, std::string&);
+
+        template<typename T>
+        void get(const std::string& key, T&) const;
+
+        ///@}
+
+        //! \name Set Values
+        ///@{
+
+        void set(const std::string& key, const nlohmann::json&);
+
+        void set(const std::string& key, int);
+        void set(const std::string& key, int64_t);
+        void set(const std::string& key, float);
+        void set(const std::string& key, double);
+        void set(const std::string& key, size_t);
+        void set(const std::string& key, const std::string&);
+
+        template<typename T>
+        void set(const std::string& key, const T&);
+
+        ///@}
 
     private:
         DTK_PRIVATE();
     };
 }
+
+#include <dtk/ui/SettingsInline.h>

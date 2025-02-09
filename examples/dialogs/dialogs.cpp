@@ -10,9 +10,7 @@
 #include <dtk/ui/FileEdit.h>
 #include <dtk/ui/MenuBar.h>
 #include <dtk/ui/PushButton.h>
-#include <dtk/ui/RecentFilesModel.h>
 #include <dtk/ui/RowLayout.h>
-#include <dtk/ui/Settings.h>
 
 #include <dtk/core/Format.h>
 
@@ -23,6 +21,9 @@ void DialogsWindow::_init(
     const Size2I& size)
 {
     MainWindow::_init(context, app, name, size);
+
+    // Load the settings.
+    _settings = Settings::create(context, getSettingsPath("dtk", "dialogs.json"));
 
     // Create the menus.
     auto menu = getMenuBar()->getMenu("File");
@@ -144,14 +145,45 @@ void DialogsWindow::_init(
         });
 
     // File browser.
-    auto recentFilesModel = RecentFilesModel::create(context);
+    _recentFilesModel = RecentFilesModel::create(context);
+    size_t recentFilesMax = 10;
+    if (_settings->contains("RecentFilesMax"))
+    {
+        _settings->get("RecentFilesMax", recentFilesMax);
+    }
+    std::vector<std::filesystem::path> recentFiles;
+    if (_settings->contains("RecentFiles"))
+    {
+        nlohmann::json json;
+        _settings->get("RecentFiles", json);
+        if (json.is_array())
+        {
+            for (auto i = json.begin(); i != json.end(); ++i)
+            {
+                if (i->is_string())
+                {
+                    recentFiles.push_back(*i);
+                }
+            }
+        }
+    }
+    _recentFilesModel->setRecentMax(recentFilesMax);
+    _recentFilesModel->setRecent(recentFiles);
     auto fileEdit = FileEdit::create(context, layout);
-    fileEdit->setRecentFilesModel(recentFilesModel);
+    fileEdit->setRecentFilesModel(_recentFilesModel);
     fileEdit->setPath("File Browser");
 }
 
 DialogsWindow::~DialogsWindow()
-{}
+{
+    nlohmann::json json;
+    _settings->set("RecentFilesMax", static_cast<int>(_recentFilesModel->getRecentMax()));
+    for (const auto& path : _recentFilesModel->getRecent())
+    {
+        json.push_back(path.u8string());
+    }
+    _settings->set("RecentFiles", json);
+}
 
 std::shared_ptr<Window> DialogsWindow::create(
     const std::shared_ptr<Context>& context,

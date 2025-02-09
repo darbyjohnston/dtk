@@ -5,7 +5,6 @@
 #include <dtk/ui/FileBrowser.h>
 
 #include <dtk/ui/RecentFilesModel.h>
-#include <dtk/ui/Settings.h>
 
 #include <dtk/core/File.h>
 
@@ -26,7 +25,6 @@ namespace dtk
         FileBrowserOptions options;
         std::shared_ptr<FileBrowser> fileBrowser;
         std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
-        std::shared_ptr<Settings> settings;
     };
 
     FileBrowserSystem::FileBrowserSystem(const std::shared_ptr<Context>& context) :
@@ -40,59 +38,14 @@ namespace dtk
 #if defined(dtk_NFD)
         NFD::Init();
 #endif // dtk_NFD
-
-        try
-        {
-            p.settings = context->getSystem<Settings>();
-            const auto json = std::any_cast<nlohmann::json>(p.settings->get("FileBrowser"));
-            auto i = json.find("LeftPanel");
-            if (i != json.end() && i->is_boolean())
-            {
-                p.options.leftPanel = i->get<bool>();
-            }
-            i = json.find("PathEdit");
-            if (i != json.end() && i->is_boolean())
-            {
-                p.options.pathEdit = i->get<bool>();
-            }
-            i = json.find("Extension");
-            if (i != json.end() && i->is_string())
-            {
-                p.options.extension = i->get<std::string>();
-            }
-            i = json.find("Sort");
-            if (i != json.end() && i->is_string())
-            {
-                std::stringstream ss(i->get<std::string>());
-                ss >> p.options.sort;
-            }
-            i = json.find("ReverseSort");
-            if (i != json.end() && i->is_boolean())
-            {
-                p.options.reverseSort = i->get<bool>();
-            }
-        }
-        catch (const std::exception&)
-        {}
     }
 
     FileBrowserSystem::~FileBrowserSystem()
     {
         DTK_P();
-
 #if defined(dtk_NFD)
         NFD::Quit();
 #endif // dtk_NFD
-
-        nlohmann::json json;
-        json["LeftPanel"] = p.options.leftPanel;
-        json["PathEdit"] = p.options.pathEdit;
-        json["Extension"] = p.options.extension;
-        std::stringstream ss;
-        ss << p.options.sort;
-        json["Sort"] = ss.str();
-        json["ReverseSort"] = p.options.reverseSort;
-        p.settings->set("FileBrowser", json);
     }
 
     std::shared_ptr<FileBrowserSystem> FileBrowserSystem::create(
