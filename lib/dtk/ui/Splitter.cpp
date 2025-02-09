@@ -11,7 +11,7 @@ namespace dtk
     struct Splitter::Private
     {
         Orientation orientation = Orientation::Horizontal;
-        std::vector<float> split;
+        float split = .5F;
         SizeRole spacingRole = SizeRole::SpacingSmall;
 
         struct SizeData
@@ -20,15 +20,14 @@ namespace dtk
             float displayScale = 0.F;
             int handle = 0;
 
-            std::vector<Box2I> handleGeometry;
+            Box2I handleGeometry;
         };
         SizeData size;
 
         struct MouseData
         {
-            int hoverHandle = -1;
-            int pressedHandle = -1;
-            float pressedSplit = 0.F;
+            bool hoverHandle = false;
+            bool pressedHandle = false;
         };
         MouseData mouse;
     };
@@ -63,12 +62,12 @@ namespace dtk
         return out;
     }
 
-    std::vector<float> Splitter::getSplit() const
+    float Splitter::getSplit() const
     {
         return _p->split;
     }
 
-    void Splitter::setSplit(const std::vector<float>& value)
+    void Splitter::setSplit(float value)
     {
         DTK_P();
         if (value == p.split)
@@ -95,61 +94,59 @@ namespace dtk
                 children.push_back(child);
             }
         }
+
         std::vector<Box2I> childGeometry;
-        p.size.handleGeometry.clear();
-        switch (p.orientation)
+        p.size.handleGeometry = Box2I();
+        if (1 == children.size())
         {
-        case Orientation::Horizontal:
+            childGeometry.push_back(g);
+        }
+        else if (children.size() > 1)
         {
-            int x = 0;
-            for (size_t i = 0; i < p.split.size() && i < children.size(); ++i)
+            switch (p.orientation)
             {
-                const int w2 = w * p.split[i];
-                childGeometry.push_back(Box2I(g.min.x + x, g.min.y, w2, h));
-                x += w2;
-            }
-            for (size_t i = 1; i < childGeometry.size(); ++i)
+            case Orientation::Horizontal:
             {
-                childGeometry[i - 1].max.x -= p.size.handle / 2;
-                childGeometry[i].min.x += p.size.handle / 2;
-                p.size.handleGeometry.push_back(Box2I(
-                    childGeometry[i - 1].max.x,
-                    childGeometry[i - 1].min.y,
+                const int s = g.w() * p.split;
+                childGeometry.push_back(Box2I(
+                    g.min.x,
+                    g.min.y,
+                    s - p.size.handle / 2,
+                    g.h()));
+                childGeometry.push_back(Box2I(
+                    g.min.x + s + p.size.handle / 2,
+                    g.min.y,
+                    g.w() - (s + p.size.handle / 2),
+                    g.h()));
+                p.size.handleGeometry = Box2I(
+                    g.min.x + s - p.size.handle / 2,
+                    g.min.y,
                     p.size.handle,
-                    childGeometry[i - 1].h()));
+                    g.h());
+                break;
             }
-            if (!childGeometry.empty())
+            case Orientation::Vertical:
             {
-                childGeometry[childGeometry.size() - 1].max.x = g.max.x;
+                const int s = g.h() * p.split;
+                childGeometry.push_back(Box2I(
+                    g.min.x,
+                    g.min.y,
+                    g.w(),
+                    s - p.size.handle / 2));
+                childGeometry.push_back(Box2I(
+                    g.min.x,
+                    g.min.y + s + p.size.handle / 2,
+                    g.w(),
+                    g.h() - (s + p.size.handle / 2)));
+                p.size.handleGeometry = Box2I(
+                    g.min.x,
+                    g.min.y + s - p.size.handle / 2,
+                    g.w(),
+                    p.size.handle);
+                break;
             }
-            break;
-        }
-        case Orientation::Vertical:
-        {
-            int y = 0;
-            for (size_t i = 0; i < p.split.size() && i < children.size(); ++i)
-            {
-                const int h2 = h * p.split[i];
-                childGeometry.push_back(Box2I(g.min.x, g.min.y + y, w, h2));
-                y += h2;
+            default: break;
             }
-            for (size_t i = 1; i < childGeometry.size(); ++i)
-            {
-                childGeometry[i - 1].max.y -= p.size.handle / 2;
-                childGeometry[i].min.y += p.size.handle / 2;
-                p.size.handleGeometry.push_back(Box2I(
-                    childGeometry[i - 1].min.x,
-                    childGeometry[i - 1].max.y,
-                    childGeometry[i - 1].w(),
-                    p.size.handle));
-            }
-            if (!childGeometry.empty())
-            {
-                childGeometry[childGeometry.size() - 1].max.y = g.max.y;
-            }
-            break;
-        }
-        default: break;
         }
 
         for (size_t i = 0; i < children.size() && i < childGeometry.size(); ++i)
@@ -173,73 +170,29 @@ namespace dtk
 
         Size2I sizeHint;
         const auto& children = getChildren();
-        for (const auto& child : children)
+        auto i = children.begin();
+        if (children.size() > 0)
         {
-            const auto& childSizeHint = child->getSizeHint();
+            sizeHint = (*i)->getSizeHint();
+            ++i;
+        }
+        if (children.size() > 1)
+        {
+            const auto& childSizeHint = (*i)->getSizeHint();
+            sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
+            sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                sizeHint.w += childSizeHint.w;
-                sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
+                sizeHint.w += p.size.handle;
                 break;
             case Orientation::Vertical:
-                sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
-                sizeHint.h += childSizeHint.h;
+                sizeHint.h += p.size.handle;
                 break;
             default: break;
             }
         }
-        switch (p.orientation)
-        {
-        case Orientation::Horizontal:
-            sizeHint.w += p.size.handle * children.size();
-            break;
-        case Orientation::Vertical:
-            sizeHint.h += p.size.handle * children.size();
-            break;
-        default: break;
-        }
         _setSizeHint(sizeHint);
-    }
-
-    void Splitter::childAddEvent(const ChildAddEvent& event)
-    {
-        IWidget::childAddEvent(event);
-        DTK_P();
-        const auto& children = getChildren();
-        if (p.split.size() < children.size())
-        {
-            float split = 1.F;
-            if (!p.split.empty())
-            {
-                split = p.split.back() / 2.F;
-                p.split.back() = split;
-            }
-            p.split.push_back(split);
-        }
-        _setSizeUpdate();
-        _setDrawUpdate();
-    }
-
-    void Splitter::childRemoveEvent(const ChildRemoveEvent& event)
-    {
-        IWidget::childRemoveEvent(event);
-        DTK_P();
-        if (event.index < p.split.size())
-        {
-            const float split = p.split[event.index];
-            p.split.erase(p.split.begin() + event.index);
-            if (event.index > 0)
-            {
-                p.split[event.index - 1] += split;
-            }
-            else if (!p.split.empty())
-            {
-                p.split[0] += split;
-            }
-        }
-        _setSizeUpdate();
-        _setDrawUpdate();
     }
 
     void Splitter::drawEvent(
@@ -248,27 +201,23 @@ namespace dtk
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
-        for (const auto& handle : p.size.handleGeometry)
+        if (p.size.handleGeometry.isValid())
         {
             event.render->drawRect(
-                handle,
+                p.size.handleGeometry,
                 event.style->getColorRole(ColorRole::Button));
-        }
-        if (p.mouse.pressedHandle >= 0 &&
-            p.mouse.pressedHandle < p.size.handleGeometry.size())
-        {
-            const Box2I g = p.size.handleGeometry[p.mouse.pressedHandle];
-            event.render->drawRect(
-                g,
-                event.style->getColorRole(ColorRole::Pressed));
-        }
-        else if (p.mouse.hoverHandle >= 0 &&
-            p.mouse.hoverHandle < p.size.handleGeometry.size())
-        {
-            const Box2I g = p.size.handleGeometry[p.mouse.hoverHandle];
-            event.render->drawRect(
-                g,
-                event.style->getColorRole(ColorRole::Hover));
+            if (p.mouse.pressedHandle)
+            {
+                event.render->drawRect(
+                    p.size.handleGeometry,
+                    event.style->getColorRole(ColorRole::Pressed));
+            }
+            else if (p.mouse.hoverHandle)
+            {
+                event.render->drawRect(
+                    p.size.handleGeometry,
+                    event.style->getColorRole(ColorRole::Hover));
+            }
         }
     }
 
@@ -280,9 +229,9 @@ namespace dtk
     void Splitter::mouseLeaveEvent()
     {
         DTK_P();
-        if (p.mouse.hoverHandle != -1)
+        if (p.mouse.hoverHandle != false)
         {
-            p.mouse.hoverHandle = -1;
+            p.mouse.hoverHandle = false;
             _setDrawUpdate();
         }
     }
@@ -291,69 +240,39 @@ namespace dtk
     {
         DTK_P();
         event.accept = true;
-        if (p.mouse.pressedHandle != -1)
+        if (p.mouse.pressedHandle)
         {
             const Box2I& g = getGeometry();
-            float s = 0.F;
+            const int w = g.w();
+            const int h = g.h();
             switch (p.orientation)
             {
             case Orientation::Horizontal:
-                s = (event.pos.x - event.prev.x) / static_cast<float>(g.w());
+                p.split = clamp(event.pos.x - g.min.x, 0, w - 1) / static_cast<float>(w);
                 break;
             case Orientation::Vertical:
-                s = (event.pos.y - event.prev.y) / static_cast<float>(g.h());
+                p.split = clamp(event.pos.y - g.min.y, 0, h - 1) / static_cast<float>(h);
                 break;
             default: break;
             }
-            p.split[p.mouse.pressedHandle] = clamp(p.split[p.mouse.pressedHandle] + s, 0.F, 1.F);
-
-            const int last = static_cast<int>(p.split.size()) - 1;
-            if (p.mouse.pressedHandle < last)
-            {
-                float size = 0.F;
-                for (int i = 0; i < last; ++i)
-                {
-                    size += p.split[i];
-                }
-                p.split[last] = 1.F - size;
-            }
-
             _setSizeUpdate();
             _setDrawUpdate();
         }
-        else
+        else if (contains(p.size.handleGeometry, event.pos))
         {
-            int hoverHandle = -1;
-            for (size_t i = 0; i < p.size.handleGeometry.size(); ++i)
-            {
-                if (contains(p.size.handleGeometry[i], event.pos))
-                {
-                    hoverHandle = i;
-                    break;
-                }
-            }
-            if (hoverHandle != p.mouse.hoverHandle)
-            {
-                p.mouse.hoverHandle = hoverHandle;
-                _setDrawUpdate();
-            }
+            p.mouse.hoverHandle = true;
+            _setDrawUpdate();
         }
     }
 
     void Splitter::mousePressEvent(MouseClickEvent& event)
     {
         DTK_P();
-        p.mouse.pressedHandle = -1;
-        for (size_t i = 0; i < p.size.handleGeometry.size(); ++i)
+        if (contains(p.size.handleGeometry, event.pos))
         {
-            if (contains(p.size.handleGeometry[i], event.pos))
-            {
-                event.accept = true;
-                p.mouse.pressedHandle = i;
-                p.mouse.pressedSplit = p.split[i];
-                _setDrawUpdate();
-                break;
-            }
+            event.accept = true;
+            p.mouse.pressedHandle = true;
+            _setDrawUpdate();
         }
     }
 
@@ -361,7 +280,7 @@ namespace dtk
     {
         DTK_P();
         event.accept = true;
-        p.mouse.pressedHandle = -1;
+        p.mouse.pressedHandle = false;
         _setDrawUpdate();
     }
 
@@ -371,8 +290,8 @@ namespace dtk
         DTK_P();
         if (p.mouse.hoverHandle || p.mouse.pressedHandle)
         {
-            p.mouse.hoverHandle = -1;
-            p.mouse.pressedHandle = -1;
+            p.mouse.hoverHandle = false;
+            p.mouse.pressedHandle = false;
             _setDrawUpdate();
         }
     }

@@ -31,16 +31,14 @@ namespace dtk
             Orientation,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! Get the split values.
-        std::vector<float> getSplit() const;
+        //! Get the split value.
+        float getSplit() const;
 
-        //! Set the split values.
-        void setSplit(const std::vector<float>&);
+        //! Set the split value.
+        void setSplit(float);
 
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
-        void childAddEvent(const ChildAddEvent&) override;
-        void childRemoveEvent(const ChildRemoveEvent&) override;
         void drawEvent(const Box2I&, const DrawEvent&) override;
         void mouseEnterEvent(MouseEnterEvent&) override;
         void mouseLeaveEvent() override;

@@ -153,7 +153,7 @@ namespace dtk
         p.reloadButton->setParent(hLayout);
         p.pathWidget->setParent(hLayout);
         p.splitter = Splitter::create(context, Orientation::Horizontal, vLayout);
-        p.splitter->setSplit({ 0.2 });
+        p.splitter->setSplit(.2F);
         p.shortcutsScrollWidget->setParent(p.splitter);
         p.viewScrollWidget->setParent(p.splitter);
         hLayout = HorizontalLayout::create(context, vLayout);

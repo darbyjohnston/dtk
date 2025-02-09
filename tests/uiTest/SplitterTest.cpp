@@ -58,7 +58,7 @@ namespace dtk
             Orientation orientation)
         {
             auto splitter = Splitter::create(context, orientation, window);
-            std::vector<float> split = { .9F };
+            float split = .9F;
             splitter->setSplit(split);
             splitter->setSplit(split);
             DTK_ASSERT(split == splitter->getSplit());
@@ -67,9 +67,9 @@ namespace dtk
             auto label0 = Label::create(context, "Label 0", splitter);
             auto label1 = Label::create(context, "Label 1", splitter);
             app->tick();
-            splitter->setSplit({ .1F, .9F });
+            splitter->setSplit(.1F);
             app->tick();
-            splitter->setSplit({ .5F, .5F });
+            splitter->setSplit(.5F);
             app->tick();
 
             window->setCursorEnter(true);
