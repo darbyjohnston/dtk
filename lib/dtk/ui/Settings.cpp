@@ -88,6 +88,18 @@ namespace dtk
         return false;
     }
 
+    bool Settings::get(const std::string& key, bool& value)
+    {
+        DTK_P();
+        const auto i = p.settings.find(key);
+        if (i != p.settings.end() && i->is_boolean())
+        {
+            value = *i;
+            return true;
+        }
+        return false;
+    }
+
     bool Settings::get(const std::string& key, int& value)
     {
         DTK_P();
@@ -161,6 +173,12 @@ namespace dtk
     }
 
     void Settings::set(const std::string& key, const nlohmann::json& value)
+    {
+        DTK_P();
+        p.settings[key] = value;
+    }
+
+    void Settings::set(const std::string& key, bool value)
     {
         DTK_P();
         p.settings[key] = value;

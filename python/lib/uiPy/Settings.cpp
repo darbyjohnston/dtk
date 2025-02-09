@@ -31,9 +31,11 @@ namespace dtk
                 py::arg("path"),
                 py::arg("reset") = false)
             .def("contains", &Settings::contains, py::arg("key"))
+            .def("get", py::overload_cast<const std::string&, bool&>(&Settings::get), py::arg("key"), py::arg("value"))
             .def("get", py::overload_cast<const std::string&, int64_t&>(&Settings::get), py::arg("key"), py::arg("value"))
             .def("get", py::overload_cast<const std::string&, double&>(&Settings::get), py::arg("key"), py::arg("value"))
             .def("get", py::overload_cast<const std::string&, std::string&>(&Settings::get), py::arg("key"), py::arg("value"))
+            .def("set", py::overload_cast<const std::string&, bool>(&Settings::set), py::arg("key"), py::arg("value"))
             .def("set", py::overload_cast<const std::string&, int64_t>(&Settings::set), py::arg("key"), py::arg("value"))
             .def("set", py::overload_cast<const std::string&, double>(&Settings::set), py::arg("key"), py::arg("value"))
             .def("set", py::overload_cast<const std::string&, const std::string&>(&Settings::set), py::arg("key"), py::arg("value"));

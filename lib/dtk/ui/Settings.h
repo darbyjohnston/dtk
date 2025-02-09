@@ -46,6 +46,7 @@ namespace dtk
 
         bool get(const std::string& key, nlohmann::json&) const;
 
+        bool get(const std::string& key, bool&);
         bool get(const std::string& key, int&);
         bool get(const std::string& key, int64_t&);
         bool get(const std::string& key, float&);
@@ -63,6 +64,7 @@ namespace dtk
 
         void set(const std::string& key, const nlohmann::json&);
 
+        void set(const std::string& key, bool);
         void set(const std::string& key, int);
         void set(const std::string& key, int64_t);
         void set(const std::string& key, float);
