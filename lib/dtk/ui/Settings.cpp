@@ -7,8 +7,6 @@
 #include <dtk/core/File.h>
 #include <dtk/core/FileIO.h>
 
-#include <nlohmann/json.hpp>
-
 #include <map>
 
 namespace dtk
@@ -23,13 +21,12 @@ namespace dtk
     struct Settings::Private
     {
         std::filesystem::path path;
-        std::map<std::string, std::any> settings;
+        nlohmann::json settings;
     };
 
     Settings::Settings(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path) :
-        ISystem(context, "dtk::Settings"),
         _p(new Private)
     {
         DTK_P();
@@ -42,18 +39,10 @@ namespace dtk
             {
                 std::filesystem::create_directories(p.path.parent_path());
             }
-            nlohmann::json json;
             if (std::filesystem::exists(p.path))
             {
                 const std::string contents = read(FileIO::create(p.path, FileMode::Read));
-                json = nlohmann::json::parse(contents);
-            }
-            if (json.is_object())
-            {
-                for (auto i = json.begin(); i != json.end(); ++i)
-                {
-                    p.settings[i.key()] = i.value();
-                }
+                p.settings = nlohmann::json::parse(contents);
             }
         }
     }
@@ -65,13 +54,7 @@ namespace dtk
         {
             try
             {
-                nlohmann::json json;
-                for (const auto& i : p.settings)
-                {
-                    json[i.first] = std::any_cast<nlohmann::json>(i.second);
-                }
-
-                FileIO::create(p.path, FileMode::Write)->write(json.dump(4));
+                FileIO::create(p.path, FileMode::Write)->write(p.settings.dump(4));
             }
             catch (const std::exception&)
             {}
@@ -85,7 +68,7 @@ namespace dtk
         return std::shared_ptr<Settings>(new Settings(context, path));
     }
 
-    std::any Settings::get(const std::string& key)
+    nlohmann::json Settings::get(const std::string& key)
     {
         DTK_P();
         const auto i = p.settings.find(key);
@@ -96,7 +79,7 @@ namespace dtk
         return p.settings[key];
     }
 
-    void Settings::set(const std::string& key, const std::any& value)
+    void Settings::set(const std::string& key, const nlohmann::json& value)
     {
         DTK_P();
         p.settings[key] = value;

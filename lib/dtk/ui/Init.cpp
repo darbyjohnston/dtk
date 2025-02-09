@@ -7,20 +7,13 @@
 #include <dtk/ui/DialogSystem.h>
 #include <dtk/ui/FileBrowser.h>
 #include <dtk/ui/IconSystem.h>
-#include <dtk/ui/Settings.h>
 
 #include <dtk/core/Context.h>
 
 namespace dtk
 {
-    void uiInit(
-        const std::shared_ptr<Context>& context,
-        const std::string& settingsPath)
+    void uiInit(const std::shared_ptr<Context>& context)
     {
-        if (!context->getSystem<Settings>())
-        {
-            context->addSystem(Settings::create(context, settingsPath));
-        }
         if (!context->getSystem<DialogSystem>())
         {
             context->addSystem(DialogSystem::create(context));

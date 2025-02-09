@@ -39,8 +39,7 @@ namespace dtk
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
-            const std::vector<std::shared_ptr<ICmdLineOption> >& = {},
-            const std::string& settingsPath = std::string());
+            const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
 
         App();
 
@@ -54,8 +53,7 @@ namespace dtk
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
-            const std::vector<std::shared_ptr<ICmdLineOption> >& = {},
-            const std::string& settingsPath = std::string());
+            const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
 
         //! Add a window.
         void addWindow(const std::shared_ptr<Window>&);

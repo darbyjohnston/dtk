@@ -59,8 +59,7 @@ namespace dtk
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
-        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions,
-        const std::string& settingsPath)
+        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
     {
         std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp;
         cmdLineOptionsTmp.push_back(CmdLineFlagOption::create(
@@ -87,7 +86,7 @@ namespace dtk
             cmdLineArgs,
             cmdLineOptionsTmp);
         DTK_P();
-        uiInit(context, settingsPath);
+        uiInit(context);
         gl::init(context);
 
         p.fontSystem = context->getSystem<FontSystem>();
@@ -125,11 +124,10 @@ namespace dtk
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
-        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions,
-        const std::string& settingsPath)
+        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
     {
         auto out = std::shared_ptr<App>(new App);
-        out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions, settingsPath);
+        out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
         return out;
     }
 

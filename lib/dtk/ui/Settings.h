@@ -4,20 +4,24 @@
 
 #pragma once
 
-#include <dtk/core/ISystem.h>
+#include <dtk/core/Util.h>
 
-#include <any>
+#include <nlohmann/json.hpp>
+
 #include <filesystem>
+#include <memory>
 
 namespace dtk
 {
+    class Context;
+
     //! Get a settings path.
     std::filesystem::path getSettingsPath(
         const std::string& directory,
         const std::string& fileName);
 
     //! Settings.
-    class Settings : public ISystem
+    class Settings : public std::enable_shared_from_this<Settings>
     {
     protected:
         Settings(
@@ -27,16 +31,16 @@ namespace dtk
     public:
         ~Settings();
 
-        //! Create a new system.
+        //! Create new settings.
         static std::shared_ptr<Settings> create(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&);
 
         //! Get a value.
-        std::any get(const std::string& key);
+        nlohmann::json get(const std::string& key);
 
         //! Set a value.
-        void set(const std::string& key, const std::any& value);
+        void set(const std::string& key, const nlohmann::json& value);
 
     private:
         DTK_PRIVATE();

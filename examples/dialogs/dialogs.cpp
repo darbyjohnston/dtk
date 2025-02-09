@@ -174,10 +174,7 @@ DTK_MAIN()
             context,
             args,
             "dialogs",
-            "Dialogs example",
-            {},
-            {},
-            getSettingsPath("dtk", "dialogs.settings").u8string());
+            "Dialogs example");
         if (app->getExit() != 0)
             return app->getExit();
 
