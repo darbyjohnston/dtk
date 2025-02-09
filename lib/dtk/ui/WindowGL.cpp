@@ -672,4 +672,9 @@ namespace dtk
     {
         _p->window->makeCurrent();
     }
+
+    void Window::_doneCurrent()
+    {
+        _p->window->doneCurrent();
+    }
 }
