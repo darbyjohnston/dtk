@@ -26,7 +26,8 @@ namespace dtk
     protected:
         Settings(
             const std::shared_ptr<Context>&,
-            const std::filesystem::path&);
+            const std::filesystem::path&,
+            bool reset);
 
     public:
         ~Settings();
@@ -34,7 +35,8 @@ namespace dtk
         //! Create new settings.
         static std::shared_ptr<Settings> create(
             const std::shared_ptr<Context>&,
-            const std::filesystem::path&);
+            const std::filesystem::path&,
+            bool reset = false);
 
         //! Get a value.
         nlohmann::json get(const std::string& key);

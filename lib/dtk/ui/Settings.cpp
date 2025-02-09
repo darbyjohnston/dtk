@@ -26,7 +26,8 @@ namespace dtk
 
     Settings::Settings(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& path) :
+        const std::filesystem::path& path,
+        bool reset) :
         _p(new Private)
     {
         DTK_P();
@@ -39,7 +40,7 @@ namespace dtk
             {
                 std::filesystem::create_directories(p.path.parent_path());
             }
-            if (std::filesystem::exists(p.path))
+            if (std::filesystem::exists(p.path) && !reset)
             {
                 const std::string contents = read(FileIO::create(p.path, FileMode::Read));
                 p.settings = nlohmann::json::parse(contents);
@@ -63,9 +64,10 @@ namespace dtk
 
     std::shared_ptr<Settings> Settings::create(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& path)
+        const std::filesystem::path& path,
+        bool reset)
     {
-        return std::shared_ptr<Settings>(new Settings(context, path));
+        return std::shared_ptr<Settings>(new Settings(context, path, reset));
     }
 
     nlohmann::json Settings::get(const std::string& key)
