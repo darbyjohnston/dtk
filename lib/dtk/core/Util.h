@@ -71,7 +71,7 @@
         return getLabel(value); \
     } \
     \
-    void from_string(const std::string s, ENUM& value) \
+    void from_string(const std::string& s, ENUM& value) \
     { \
         std::stringstream ss(s); \
         ss >> value; \
