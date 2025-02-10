@@ -6,24 +6,24 @@
 
 namespace dtk
 {
-    nlohmann::json to_json(const RangeI& value)
+    void to_json(nlohmann::json& json, const RangeI& value)
     {
-        return { value.min(), value.max() };
+        json = { value.min(), value.max() };
     }
 
-    nlohmann::json to_json(const RangeSizeT& value)
+    void to_json(nlohmann::json& json, const RangeSizeT& value)
     {
-        return { value.min(), value.max() };
+        json = { value.min(), value.max() };
     }
 
-    nlohmann::json to_json(const RangeF& value)
+    void to_json(nlohmann::json& json, const RangeF& value)
     {
-        return { value.min(), value.max() };
+        json = { value.min(), value.max() };
     }
 
-    nlohmann::json to_json(const RangeD& value)
+    void to_json(nlohmann::json& json, const RangeD& value)
     {
-        return { value.min(), value.max() };
+        json = { value.min(), value.max() };
     }
 
     void from_json(const nlohmann::json& json, RangeI& value)

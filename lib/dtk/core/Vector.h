@@ -129,10 +129,10 @@ namespace dtk
     //! Convert vector types.
     constexpr Vector<2, float> convert(const Vector<2, int>&);
 
-    nlohmann::json to_json(const V2I&);
-    nlohmann::json to_json(const V2F&);
-    nlohmann::json to_json(const V3F&);
-    nlohmann::json to_json(const V4F&);
+    void to_json(nlohmann::json&, const V2I&);
+    void to_json(nlohmann::json&, const V2F&);
+    void to_json(nlohmann::json&, const V3F&);
+    void to_json(nlohmann::json&, const V4F&);
 
     void from_json(const nlohmann::json&, V2I&);
     void from_json(const nlohmann::json&, V2F&);

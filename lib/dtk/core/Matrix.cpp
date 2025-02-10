@@ -6,9 +6,9 @@
 
 namespace dtk
 {
-    nlohmann::json to_json(const M33F& value)
+    void to_json(nlohmann::json& json, const M33F& value)
     {
-        return
+        json =
         {
             value.get(0, 0), value.get(0, 1), value.get(0, 2),
             value.get(1, 0), value.get(1, 1), value.get(1, 2),
@@ -16,9 +16,9 @@ namespace dtk
         };
     }
 
-    nlohmann::json to_json(const M44F& value)
+    void to_json(nlohmann::json& json, const M44F& value)
     {
-        return
+        json =
         {
             value.get(0, 0), value.get(0, 1), value.get(0, 2), value.get(0, 3),
             value.get(1, 0), value.get(1, 1), value.get(1, 2), value.get(1, 3),
@@ -31,10 +31,7 @@ namespace dtk
     {
         for (int i = 0; i < 9; ++i)
         {
-            if (json.at(i).is_number())
-            {
-                value[i] = json.at(i).get<float>();
-            }
+            value[i] = json.at(i).get<float>();
         }
     }
 
@@ -42,10 +39,7 @@ namespace dtk
     {
         for (int i = 0; i < 16; ++i)
         {
-            if (json.at(i).is_number())
-            {
-                value[i] = json.at(i).get<float>();
-            }
+            value[i] = json.at(i).get<float>();
         }
     }
 }

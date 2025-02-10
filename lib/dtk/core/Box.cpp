@@ -6,36 +6,36 @@
 
 namespace dtk
 {
-    nlohmann::json to_json(const Box2I& value)
+    void to_json(nlohmann::json& json, const Box2I& value)
     {
-        return { to_json(value.min), to_json(value.max) };
+        json = { value.min, value.max };
     }
 
-    nlohmann::json to_json(const Box2F& value)
+    void to_json(nlohmann::json& json, const Box2F& value)
     {
-        return { to_json(value.min), to_json(value.max) };
+        json = { value.min, value.max };
     }
 
-    nlohmann::json to_json(const Box3F& value)
+    void to_json(nlohmann::json& json, const Box3F& value)
     {
-        return { to_json(value.min), to_json(value.max) };
+        json = { value.min, value.max };
     }
 
     void from_json(const nlohmann::json& json, Box2I& value)
     {
-        from_json(json.at(0), value.min);
-        from_json(json.at(1), value.max);
+        json.at(0).get_to(value.min);
+        json.at(1).get_to(value.max);
     }
 
     void from_json(const nlohmann::json& json, Box2F& value)
     {
-        from_json(json.at(0), value.min);
-        from_json(json.at(1), value.max);
+        json.at(0).get_to(value.min);
+        json.at(1).get_to(value.max);
     }
 
     void from_json(const nlohmann::json& json, Box3F& value)
     {
-        from_json(json.at(0), value.min);
-        from_json(json.at(1), value.max);
+        json.at(0).get_to(value.min);
+        json.at(1).get_to(value.max);
     }
 }

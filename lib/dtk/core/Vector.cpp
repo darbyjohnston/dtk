@@ -6,24 +6,24 @@
 
 namespace dtk
 {
-    nlohmann::json to_json(const V2I& value)
+    void to_json(nlohmann::json& json, const V2I& value)
     {
-        return { value.x, value.y };
+        json = { value.x, value.y };
     }
 
-    nlohmann::json to_json(const V2F& value)
+    void to_json(nlohmann::json& json, const V2F& value)
     {
-        return { value.x, value.y };
+        json = { value.x, value.y };
     }
 
-    nlohmann::json to_json(const V3F& value)
+    void to_json(nlohmann::json& json, const V3F& value)
     {
-        return { value.x, value.y, value.z };
+        json = { value.x, value.y, value.z };
     }
 
-    nlohmann::json to_json(const V4F& value)
+    void to_json(nlohmann::json& json, const V4F& value)
     {
-        return { value.x, value.y, value.z, value.w };
+        json = { value.x, value.y, value.z, value.w };
     }
 
     void from_json(const nlohmann::json& json, V2I& value)

@@ -140,9 +140,9 @@ namespace dtk
     //! Convert box types.
     constexpr Box<2, float> convert(const Box<2, int>&);
 
-    nlohmann::json to_json(const Box2I&);
-    nlohmann::json to_json(const Box2F&);
-    nlohmann::json to_json(const Box3F&);
+    void to_json(nlohmann::json&, const Box2I&);
+    void to_json(nlohmann::json&, const Box2F&);
+    void to_json(nlohmann::json&, const Box3F&);
 
     void from_json(const nlohmann::json&, Box2I&);
     void from_json(const nlohmann::json&, Box2F&);
