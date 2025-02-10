@@ -28,6 +28,8 @@ namespace dtk
     {
         std::filesystem::path path;
         FileBrowserOptions options;
+        std::string extension;
+        std::string search;
         std::vector<FileBrowserInfo> info;
         std::shared_ptr<ObservableValue<int> > current;
         std::vector<FileBrowserItem> items;
@@ -123,6 +125,24 @@ namespace dtk
         if (value == p.options)
             return;
         p.options = value;
+        _directoryUpdate();
+    }
+
+    void FileBrowserView::setExtension(const std::string& value)
+    {
+        DTK_P();
+        if (value == p.extension)
+            return;
+        p.extension = value;
+        _directoryUpdate();
+    }
+
+    void FileBrowserView::setSearch(const std::string& value)
+    {
+        DTK_P();
+        if (value == p.search)
+            return;
+        p.search = value;
         _directoryUpdate();
     }
 
@@ -457,6 +477,8 @@ namespace dtk
         void list(
             const std::filesystem::path& path,
             const FileBrowserOptions& options,
+            const std::string& extension,
+            const std::string& search,
             std::vector<FileBrowserInfo>& out)
         {
             try
@@ -466,11 +488,11 @@ namespace dtk
                     const auto& path = i.path();
                     const std::string fileName = path.filename().u8string();
                     bool keep = true;
-                    if (!options.search.empty())
+                    if (!search.empty())
                     {
                         keep = contains(
                             fileName,
-                            options.search,
+                            search,
                             CaseCompare::Insensitive);
                     }
                     const bool isDir = std::filesystem::is_directory(path);
@@ -479,11 +501,11 @@ namespace dtk
                     {
                         extension = path.extension().u8string();
                     }
-                    if (!isDir && !options.extension.empty())
+                    if (!isDir && !extension.empty())
                     {
                         keep = compare(
                             extension,
-                            options.extension,
+                            extension,
                             CaseCompare::Insensitive);
                     }
                     if (keep)
@@ -554,7 +576,7 @@ namespace dtk
         DTK_P();
         p.info.clear();
         p.items.clear();
-        list(p.path, p.options, p.info);
+        list(p.path, p.options, p.extension, p.search, p.info);
         if (auto context = getContext())
         {
             for (size_t i = 0; i < p.info.size(); ++i)

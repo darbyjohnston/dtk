@@ -108,6 +108,10 @@ namespace dtk
 
         void setOptions(const FileBrowserOptions&);
 
+        void setExtension(const std::string&);
+
+        void setSearch(const std::string&);
+
         std::shared_ptr<IObservableValue<int> > observeCurrent() const;
 
         Box2I getRect(int) const;

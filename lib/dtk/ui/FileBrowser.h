@@ -35,9 +35,6 @@ namespace dtk
     {
         bool                     leftPanel   = true;
         bool                     pathEdit    = false;
-        std::string              search;
-        std::vector<std::string> extensions;
-        std::string              extension;
         FileBrowserSort          sort        = FileBrowserSort::Name;
         bool                     reverseSort = false;
 
@@ -83,6 +80,11 @@ namespace dtk
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
 
+        //! Set the extensions.
+        void setExtensions(
+            const std::vector<std::string>&,
+            const std::string& current = std::string());
+
         //! Get the recent files model.
         const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
 
@@ -97,6 +99,7 @@ namespace dtk
 
         void _pathUpdate();
         void _optionsUpdate();
+        void _extensionsUpdate();
 
         DTK_PRIVATE();
     };
@@ -135,6 +138,11 @@ namespace dtk
 
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
+
+        //! Set the extensions.
+        void setExtensions(
+            const std::vector<std::string>&,
+            const std::string& current = std::string());
 
         //! Get the recent files model.
         const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
@@ -186,6 +194,10 @@ namespace dtk
     private:
         DTK_PRIVATE();
     };
+
+    void to_json(nlohmann::json&, const FileBrowserOptions&);
+
+    void from_json(const nlohmann::json&, FileBrowserOptions&);
 
     ///@}
 }

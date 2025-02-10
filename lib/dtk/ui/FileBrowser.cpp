@@ -25,9 +25,6 @@ namespace dtk
         return
             leftPanel == other.leftPanel &&
             pathEdit == other.pathEdit &&
-            search == other.search &&
-            extensions == other.extensions &&
-            extension == other.extension &&
             sort == other.sort &&
             reverseSort == other.reverseSort;
     }
@@ -104,6 +101,13 @@ namespace dtk
         _p->widget->setOptions(value);
     }
 
+    void FileBrowser::setExtensions(
+        const std::vector<std::string>& value,
+        const std::string& current)
+    {
+        _p->widget->setExtensions(value, current);
+    }
+
     const std::shared_ptr<RecentFilesModel>& FileBrowser::getRecentFilesModel() const
     {
         return _p->widget->getRecentFilesModel();
@@ -112,5 +116,21 @@ namespace dtk
     void FileBrowser::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
     {
         _p->widget->setRecentFilesModel(value);
+    }
+
+    void to_json(nlohmann::json& json, const FileBrowserOptions& value)
+    {
+        json["leftPanel"] = value.leftPanel;
+        json["pathEdit"] = value.pathEdit;
+        json["sort"] = to_string(value.sort);
+        json["reverseSort"] = value.reverseSort;
+    }
+
+    void from_json(const nlohmann::json& json, FileBrowserOptions& value)
+    {
+        json["leftPanel"].get_to(value.leftPanel);
+        json["pathEdit"].get_to(value.pathEdit);
+        from_string(json["sort"].get<std::string>(), value.sort);
+        json["reverseSort"].get_to(value.reverseSort);
     }
 }

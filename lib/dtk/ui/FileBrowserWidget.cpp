@@ -29,6 +29,7 @@ namespace dtk
         int currentPath = -1;
         std::shared_ptr<ObservableValue<FileBrowserOptions> > options;
         std::vector<std::string> extensions;
+        std::string extension;
         std::shared_ptr<RecentFilesModel> recentFilesModel;
 
         std::shared_ptr<Label> titleLabel;
@@ -170,6 +171,7 @@ namespace dtk
 
         _pathUpdate();
         _optionsUpdate();
+        _extensionsUpdate();
 
         p.leftPanelButton->setCheckedCallback(
             [this](bool value)
@@ -273,29 +275,17 @@ namespace dtk
         p.searchBox->setCallback(
             [this](const std::string& value)
             {
-                DTK_P();
-                FileBrowserOptions options = p.options->get();
-                options.search = value;
-                if (p.options->setIfChanged(options))
-                {
-                    p.view->setOptions(options);
-                    _optionsUpdate();
-                }
+                _p->view->setSearch(value);
             });
 
         p.extensionsComboBox->setIndexCallback(
             [this](int value)
             {
                 DTK_P();
-                if (value >= 0 && value < p.extensions.size())
+                if (value >= 0 && value <= p.extensions.size())
                 {
-                    FileBrowserOptions options = p.options->get();
-                    options.extension = p.extensions[value];
-                    if (p.options->setIfChanged(options))
-                    {
-                        p.view->setOptions(options);
-                        _optionsUpdate();
-                    }
+                    p.extension = value > 0 ? p.extensions[value - 1] : "";
+                    _extensionsUpdate();
                 }
             });
 
@@ -420,6 +410,18 @@ namespace dtk
         }
     }
 
+    void FileBrowserWidget::setExtensions(
+        const std::vector<std::string>& extensions,
+        const std::string& extension)
+    {
+        DTK_P();
+        if (extensions == p.extensions && extension == p.extension)
+            return;
+        p.extensions = extensions;
+        p.extension = extension;
+        _extensionsUpdate();
+    }
+
     const std::shared_ptr<RecentFilesModel>& FileBrowserWidget::getRecentFilesModel() const
     {
         return _p->recentFilesModel;
@@ -482,28 +484,31 @@ namespace dtk
         p.pathWidget->setEdit(options.pathEdit);
 
         p.view->setOptions(options);
-        p.searchBox->setText(options.search);
+
+        p.sortComboBox->setCurrentIndex(static_cast<int>(options.sort));
+        p.reverseSortButton->setChecked(options.reverseSort);
+    }
+
+    void FileBrowserWidget::_extensionsUpdate()
+    {
+        DTK_P();
 
         std::vector<std::string> extensionsLabels;
-        p.extensions.clear();
-        p.extensions.push_back(std::string());
         extensionsLabels.push_back("*.*");
-        for (const auto& extension : options.extensions)
+        for (const auto& extension : p.extensions)
         {
-            p.extensions.push_back(extension);
             extensionsLabels.push_back("*" + extension);
         }
         p.extensionsComboBox->setItems(extensionsLabels);
         const auto i = std::find(
             p.extensions.begin(),
             p.extensions.end(),
-            options.extension);
+            p.extension);
         if (i != p.extensions.end())
         {
-            p.extensionsComboBox->setCurrentIndex(i - p.extensions.begin());
+            p.extensionsComboBox->setCurrentIndex(i - p.extensions.begin() + 1);
         }
 
-        p.sortComboBox->setCurrentIndex(static_cast<int>(options.sort));
-        p.reverseSortButton->setChecked(options.reverseSort);
+        p.view->setExtension(p.extension);
     }
 }
