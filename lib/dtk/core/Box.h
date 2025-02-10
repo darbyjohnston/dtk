@@ -140,13 +140,13 @@ namespace dtk
     //! Convert box types.
     constexpr Box<2, float> convert(const Box<2, int>&);
 
-    void to_json(nlohmann::json&, const Box2I&);
-    void to_json(nlohmann::json&, const Box2F&);
-    void to_json(nlohmann::json&, const Box3F&);
+    nlohmann::json to_json(const Box2I&);
+    nlohmann::json to_json(const Box2F&);
+    nlohmann::json to_json(const Box3F&);
 
-    void from_json(const nlohmann::json&, Box2I&);
-    void from_json(const nlohmann::json&, Box2F&);
-    void from_json(const nlohmann::json&, Box3F&);
+    bool from_json(const nlohmann::json&, Box2I&);
+    bool from_json(const nlohmann::json&, Box2F&);
+    bool from_json(const nlohmann::json&, Box3F&);
 
     template<int C, typename T>
     constexpr Box<C, T> operator + (const Box<C, T>&, const Vector<C, T>&);

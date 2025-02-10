@@ -129,15 +129,15 @@ namespace dtk
     //! Convert vector types.
     constexpr Vector<2, float> convert(const Vector<2, int>&);
 
-    void to_json(nlohmann::json&, const V2I&);
-    void to_json(nlohmann::json&, const V2F&);
-    void to_json(nlohmann::json&, const V3F&);
-    void to_json(nlohmann::json&, const V4F&);
+    nlohmann::json to_json(const V2I&);
+    nlohmann::json to_json(const V2F&);
+    nlohmann::json to_json(const V3F&);
+    nlohmann::json to_json(const V4F&);
 
-    void from_json(const nlohmann::json&, V2I&);
-    void from_json(const nlohmann::json&, V2F&);
-    void from_json(const nlohmann::json&, V3F&);
-    void from_json(const nlohmann::json&, V4F&);
+    bool from_json(const nlohmann::json&, V2I&);
+    bool from_json(const nlohmann::json&, V2F&);
+    bool from_json(const nlohmann::json&, V3F&);
+    bool from_json(const nlohmann::json&, V4F&);
         
     template<int C, typename T>
     constexpr Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);

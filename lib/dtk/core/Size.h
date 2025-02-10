@@ -105,13 +105,13 @@ namespace dtk
     template<typename T>
     constexpr Size<2, T> margin(const Size<2, T>&, T x, T y);
 
-    void to_json(nlohmann::json&, const Size2I&);
-    void to_json(nlohmann::json&, const Size2F&);
-    void to_json(nlohmann::json&, const Size3F&);
+    nlohmann::json to_json(const Size2I&);
+    nlohmann::json to_json(const Size2F&);
+    nlohmann::json to_json(const Size3F&);
 
-    void from_json(const nlohmann::json&, Size2I&);
-    void from_json(const nlohmann::json&, Size2F&);
-    void from_json(const nlohmann::json&, Size3F&);
+    bool from_json(const nlohmann::json&, Size2I&);
+    bool from_json(const nlohmann::json&, Size2F&);
+    bool from_json(const nlohmann::json&, Size3F&);
 
     template<int C, typename T>
     constexpr Size<C, T> operator + (const Size<C, T>&, T);

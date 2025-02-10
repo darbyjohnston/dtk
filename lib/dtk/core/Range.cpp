@@ -6,59 +6,79 @@
 
 namespace dtk
 {
-    void to_json(nlohmann::json& json, const RangeI& value)
+    nlohmann::json to_json(const RangeI& value)
     {
-        json = { value.min(), value.max() };
+        return { value.min(), value.max() };
     }
 
-    void to_json(nlohmann::json& json, const RangeSizeT& value)
+    nlohmann::json to_json(const RangeSizeT& value)
     {
-        json = { value.min(), value.max() };
+        return { value.min(), value.max() };
     }
 
-    void to_json(nlohmann::json& json, const RangeF& value)
+    nlohmann::json to_json(const RangeF& value)
     {
-        json = { value.min(), value.max() };
+        return { value.min(), value.max() };
     }
 
-    void to_json(nlohmann::json& json, const RangeD& value)
+    nlohmann::json to_json(const RangeD& value)
     {
-        json = { value.min(), value.max() };
+        return { value.min(), value.max() };
     }
 
-    void from_json(const nlohmann::json& json, RangeI& value)
+    bool from_json(const nlohmann::json& json, RangeI& value)
     {
-        int min = 0;
-        int max = 0;
-        json.at(0).get_to(min);
-        json.at(1).get_to(max);
-        value = RangeI(min, max);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            value = RangeI(json.at(0).get<int>(), json.at(1).get<int>());
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, RangeSizeT& value)
+    bool from_json(const nlohmann::json& json, RangeSizeT& value)
     {
-        size_t min = 0;
-        size_t max = 0;
-        json.at(0).get_to(min);
-        json.at(1).get_to(max);
-        value = RangeSizeT(min, max);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            value = RangeSizeT(json.at(0).get<int>(), json.at(1).get<int>());
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, RangeF& value)
+    bool from_json(const nlohmann::json& json, RangeF& value)
     {
-        float min = 0.F;
-        float max = 0.F;
-        json.at(0).get_to(min);
-        json.at(1).get_to(max);
-        value = RangeF(min, max);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            value = RangeF(json.at(0).get<float>(), json.at(1).get<float>());
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, RangeD& value)
+    bool from_json(const nlohmann::json& json, RangeD& value)
     {
-        double min = 0.0;
-        double max = 0.0;
-        json.at(0).get_to(min);
-        json.at(1).get_to(max);
-        value = RangeD(min, max);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            value = RangeD(json.at(0).get<double>(), json.at(1).get<double>());
+            out = true;
+        }
+        return out;
     }
 }

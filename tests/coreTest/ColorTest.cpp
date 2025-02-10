@@ -157,34 +157,26 @@ namespace dtk
         {
             {
                 const Color1F c(.5F);
-                nlohmann::json json;
-                to_json(json, c);
                 Color1F c2;
-                from_json(json, c2);
+                DTK_ASSERT(from_json(to_json(c), c2));
                 DTK_ASSERT(c == c2);
             }
             {
                 const Color2F c(.5F);
-                nlohmann::json json;
-                to_json(json, c);
                 Color2F c2;
-                from_json(json, c2);
+                DTK_ASSERT(from_json(to_json(c), c2));
                 DTK_ASSERT(c == c2);
             }
             {
                 const Color3F c(.4F, .5F, .6F);
-                nlohmann::json json;
-                to_json(json, c);
                 Color3F c2;
-                from_json(json, c2);
+                DTK_ASSERT(from_json(to_json(c), c2));
                 DTK_ASSERT(c == c2);
             }
             {
                 const Color4F c(.4F, .5F, .6F);
-                nlohmann::json json;
-                to_json(json, c);
                 Color4F c2;
-                from_json(json, c2);
+                DTK_ASSERT(from_json(to_json(c), c2));
                 DTK_ASSERT(c == c2);
             }
             {

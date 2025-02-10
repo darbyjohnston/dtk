@@ -6,36 +6,51 @@
 
 namespace dtk
 {
-    void to_json(nlohmann::json& json, const Box2I& value)
+    nlohmann::json to_json(const Box2I& value)
     {
-        json = { value.min, value.max };
+        return { to_json(value.min), to_json(value.max) };
     }
 
-    void to_json(nlohmann::json& json, const Box2F& value)
+    nlohmann::json to_json(const Box2F& value)
     {
-        json = { value.min, value.max };
+        return { to_json(value.min), to_json(value.max) };
     }
 
-    void to_json(nlohmann::json& json, const Box3F& value)
+    nlohmann::json to_json(const Box3F& value)
     {
-        json = { value.min, value.max };
+        return { to_json(value.min), to_json(value.max) };
     }
 
-    void from_json(const nlohmann::json& json, Box2I& value)
+    bool from_json(const nlohmann::json& json, Box2I& value)
     {
-        json.at(0).get_to(value.min);
-        json.at(1).get_to(value.max);
+        bool out = false;
+        if (json.is_array() && json.size() == 2)
+        {
+            out = from_json(json.at(0), value.min) &&
+                from_json(json.at(1), value.max);
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Box2F& value)
+    bool from_json(const nlohmann::json& json, Box2F& value)
     {
-        json.at(0).get_to(value.min);
-        json.at(1).get_to(value.max);
+        bool out = false;
+        if (json.is_array() && json.size() == 2)
+        {
+            out = from_json(json.at(0), value.min) &&
+                from_json(json.at(1), value.max);
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Box3F& value)
+    bool from_json(const nlohmann::json& json, Box3F& value)
     {
-        json.at(0).get_to(value.min);
-        json.at(1).get_to(value.max);
+        bool out = false;
+        if (json.is_array() && json.size() == 2)
+        {
+            out = from_json(json.at(0), value.min) &&
+                from_json(json.at(1), value.max);
+        }
+        return out;
     }
 }

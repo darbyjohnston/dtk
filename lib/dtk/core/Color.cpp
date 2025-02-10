@@ -6,49 +6,87 @@
 
 namespace dtk
 {
-    void to_json(nlohmann::json& json, const Color1F& value)
+    nlohmann::json to_json(const Color1F& value)
     {
-        json = { value.l };
+        return { value.l };
     }
 
-    void to_json(nlohmann::json& json, const Color2F& value)
+    nlohmann::json to_json(const Color2F& value)
     {
-        json = { value.l, value.a };
+        return { value.l, value.a };
     }
 
-    void to_json(nlohmann::json& json, const Color3F& value)
+    nlohmann::json to_json(const Color3F& value)
     {
-        json = { value.r, value.g, value.b };
+        return { value.r, value.g, value.b };
     }
 
-    void to_json(nlohmann::json& json, const Color4F& value)
+    nlohmann::json to_json(const Color4F& value)
     {
-        json = { value.r, value.g, value.b, value.a };
+        return { value.r, value.g, value.b, value.a };
     }
 
-    void from_json(const nlohmann::json& json, Color1F& value)
+    bool from_json(const nlohmann::json& json, Color1F& value)
     {
-        json.at(0).get_to(value.l);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 1 &&
+            json.at(0).is_number())
+        {
+            json.at(0).get_to(value.l);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Color2F& value)
+    bool from_json(const nlohmann::json& json, Color2F& value)
     {
-        json.at(0).get_to(value.l);
-        json.at(1).get_to(value.a);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            json.at(0).get_to(value.l);
+            json.at(1).get_to(value.a);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Color3F& value)
+    bool from_json(const nlohmann::json& json, Color3F& value)
     {
-        json.at(0).get_to(value.r);
-        json.at(1).get_to(value.g);
-        json.at(2).get_to(value.b);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 3 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number() &&
+            json.at(2).is_number())
+        {
+            json.at(0).get_to(value.r);
+            json.at(1).get_to(value.g);
+            json.at(2).get_to(value.b);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Color4F& value)
+    bool from_json(const nlohmann::json& json, Color4F& value)
     {
-        json.at(0).get_to(value.r);
-        json.at(1).get_to(value.g);
-        json.at(2).get_to(value.b);
-        json.at(3).get_to(value.a);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 4 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number() &&
+            json.at(2).is_number() &&
+            json.at(3).is_number())
+        {
+            json.at(0).get_to(value.r);
+            json.at(1).get_to(value.g);
+            json.at(2).get_to(value.b);
+            json.at(3).get_to(value.a);
+            out = true;
+        }
+        return out;
     }
 }

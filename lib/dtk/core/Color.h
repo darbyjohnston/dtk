@@ -141,15 +141,15 @@ namespace dtk
     //! Convert to greyscale.
     Color4F greyscale(const Color4F&);
 
-    void to_json(nlohmann::json&, const Color1F&);
-    void to_json(nlohmann::json&, const Color2F&);
-    void to_json(nlohmann::json&, const Color3F&);
-    void to_json(nlohmann::json&, const Color4F&);
+    nlohmann::json to_json(const Color1F&);
+    nlohmann::json to_json(const Color2F&);
+    nlohmann::json to_json(const Color3F&);
+    nlohmann::json to_json(const Color4F&);
 
-    void from_json(const nlohmann::json&, Color1F&);
-    void from_json(const nlohmann::json&, Color2F&);
-    void from_json(const nlohmann::json&, Color3F&);
-    void from_json(const nlohmann::json&, Color4F&);
+    bool from_json(const nlohmann::json&, Color1F&);
+    bool from_json(const nlohmann::json&, Color2F&);
+    bool from_json(const nlohmann::json&, Color3F&);
+    bool from_json(const nlohmann::json&, Color4F&);
         
     template<int C, typename T>
     constexpr bool operator == (const Color<C, T>&, const Color<C, T>&);

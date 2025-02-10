@@ -6,50 +6,89 @@
 
 namespace dtk
 {
-    void to_json(nlohmann::json& json, const V2I& value)
+    nlohmann::json to_json(const V2I& value)
     {
-        json = { value.x, value.y };
+        return { value.x, value.y };
     }
 
-    void to_json(nlohmann::json& json, const V2F& value)
+    nlohmann::json to_json(const V2F& value)
     {
-        json = { value.x, value.y };
+        return { value.x, value.y };
     }
 
-    void to_json(nlohmann::json& json, const V3F& value)
+    nlohmann::json to_json(const V3F& value)
     {
-        json = { value.x, value.y, value.z };
+        return { value.x, value.y, value.z };
     }
 
-    void to_json(nlohmann::json& json, const V4F& value)
+    nlohmann::json to_json(const V4F& value)
     {
-        json = { value.x, value.y, value.z, value.w };
+        return { value.x, value.y, value.z, value.w };
     }
 
-    void from_json(const nlohmann::json& json, V2I& value)
+    bool from_json(const nlohmann::json& json, V2I& value)
     {
-        json.at(0).get_to(value.x);
-        json.at(1).get_to(value.y);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            json.at(0).get_to(value.x);
+            json.at(1).get_to(value.y);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, V2F& value)
+    bool from_json(const nlohmann::json& json, V2F& value)
     {
-        json.at(0).get_to(value.x);
-        json.at(1).get_to(value.y);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            json.at(0).get_to(value.x);
+            json.at(1).get_to(value.y);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, V3F& value)
+    bool from_json(const nlohmann::json& json, V3F& value)
     {
-        json.at(0).get_to(value.x);
-        json.at(1).get_to(value.y);
-        json.at(2).get_to(value.z);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 3 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number() &&
+            json.at(2).is_number())
+        {
+            json.at(0).get_to(value.x);
+            json.at(1).get_to(value.y);
+            json.at(2).get_to(value.z);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, V4F& value)
+    bool from_json(const nlohmann::json& json, V4F& value)
     {
-        json.at(0).get_to(value.x);
-        json.at(1).get_to(value.y);
-        json.at(2).get_to(value.z);
-        json.at(3).get_to(value.w);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 4 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number() &&
+            json.at(2).is_number() &&
+            json.at(3).is_number())
+        {
+            json.at(0).get_to(value.x);
+            json.at(1).get_to(value.y);
+            json.at(2).get_to(value.z);
+            json.at(3).get_to(value.w);
+            out = true;
+        }
+        return out;
     }
 }

@@ -6,37 +6,65 @@
 
 namespace dtk
 {
-    void to_json(nlohmann::json& json, const Size2I& value)
+    nlohmann::json to_json(const Size2I& value)
     {
-        json = { value.w, value.h };
+        return { value.w, value.h };
     }
 
-    void to_json(nlohmann::json& json, const Size2F& value)
+    nlohmann::json to_json(const Size2F& value)
     {
-        json = { value.w, value.h };
+        return { value.w, value.h };
     }
 
-    void to_json(nlohmann::json& json, const Size3F& value)
+    nlohmann::json to_json(const Size3F& value)
     {
-        json = { value.w, value.h , value.d };
+        return { value.w, value.h , value.d };
     }
 
-    void from_json(const nlohmann::json& json, Size2I& value)
+    bool from_json(const nlohmann::json& json, Size2I& value)
     {
-        json.at(0).get_to(value.w);
-        json.at(1).get_to(value.h);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            json.at(0).get_to(value.w);
+            json.at(1).get_to(value.h);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Size2F& value)
+    bool from_json(const nlohmann::json& json, Size2F& value)
     {
-        json.at(0).get_to(value.w);
-        json.at(1).get_to(value.h);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 2 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number())
+        {
+            json.at(0).get_to(value.w);
+            json.at(1).get_to(value.h);
+            out = true;
+        }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, Size3F& value)
+    bool from_json(const nlohmann::json& json, Size3F& value)
     {
-        json.at(0).get_to(value.w);
-        json.at(1).get_to(value.h);
-        json.at(2).get_to(value.d);
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 3 &&
+            json.at(0).is_number() &&
+            json.at(1).is_number() &&
+            json.at(2).is_number())
+        {
+            json.at(0).get_to(value.w);
+            json.at(1).get_to(value.h);
+            json.at(2).get_to(value.d);
+            out = true;
+        }
+        return out;
     }
 }

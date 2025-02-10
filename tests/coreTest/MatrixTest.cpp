@@ -149,34 +149,30 @@ namespace dtk
         {
             {
                 const M33F m;
-                std::stringstream ss;
-                ss << m;
                 M33F m1;
-                ss >> m1;
+                DTK_ASSERT(from_json(to_json(m), m1));
                 DTK_ASSERT(m == m1);
             }
             {
                 const M44F m;
-                std::stringstream ss;
-                ss << m;
                 M44F m1;
-                ss >> m1;
+                DTK_ASSERT(from_json(to_json(m), m1));
                 DTK_ASSERT(m == m1);
             }
             {
                 const M33F m;
-                nlohmann::json json;
-                to_json(json, m);
+                std::stringstream ss;
+                ss << m;
                 M33F m1;
-                from_json(json, m1);
+                ss >> m1;
                 DTK_ASSERT(m == m1);
             }
             {
                 const M44F m;
-                nlohmann::json json;
-                to_json(json, m);
+                std::stringstream ss;
+                ss << m;
                 M44F m1;
-                from_json(json, m1);
+                ss >> m1;
                 DTK_ASSERT(m == m1);
             }
         }

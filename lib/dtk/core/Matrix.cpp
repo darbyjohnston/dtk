@@ -6,50 +6,60 @@
 
 namespace dtk
 {
-    void to_json(nlohmann::json& json, const M33F& value)
+    nlohmann::json to_json(const M33F& value)
     {
-        json =
+        return
         {
-            { value.get(0, 0), value.get(0, 1), value.get(0, 2) },
-            { value.get(1, 0), value.get(1, 1), value.get(1, 2) },
-            { value.get(2, 0), value.get(2, 1), value.get(2, 2) }
+            value.get(0, 0), value.get(0, 1), value.get(0, 2),
+            value.get(1, 0), value.get(1, 1), value.get(1, 2),
+            value.get(2, 0), value.get(2, 1), value.get(2, 2)
         };
     }
 
-    void to_json(nlohmann::json& json, const M44F& value)
+    nlohmann::json to_json(const M44F& value)
     {
-        json =
+        return
         {
-            { value.get(0, 0), value.get(0, 1), value.get(0, 2), value.get(0, 3) },
-            { value.get(1, 0), value.get(1, 1), value.get(1, 2), value.get(1, 3) },
-            { value.get(2, 0), value.get(2, 1), value.get(2, 2), value.get(2, 3) },
-            { value.get(3, 0), value.get(3, 1), value.get(3, 2), value.get(3, 3) }
+            value.get(0, 0), value.get(0, 1), value.get(0, 2), value.get(0, 3),
+            value.get(1, 0), value.get(1, 1), value.get(1, 2), value.get(1, 3),
+            value.get(2, 0), value.get(2, 1), value.get(2, 2), value.get(2, 3),
+            value.get(3, 0), value.get(3, 1), value.get(3, 2), value.get(3, 3)
         };
     }
 
-    void from_json(const nlohmann::json& json, M33F& value)
+    bool from_json(const nlohmann::json& json, M33F& value)
     {
-        for (int r = 0; r < 3; ++r)
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 9)
         {
-            for (int c = 0; c < 3; ++c)
+            for (int i = 0; i < 9; ++i)
             {
-                float v = 0.F;
-                json.at(r).at(c).get_to(v);
-                value.set(r, c, v);
+                if (json.at(i).is_number())
+                {
+                    value[i] = json.at(i).get<float>();
+                }
             }
+            out = true;
         }
+        return out;
     }
 
-    void from_json(const nlohmann::json& json, M44F& value)
+    bool from_json(const nlohmann::json& json, M44F& value)
     {
-        for (int r = 0; r < 4; ++r)
+        bool out = false;
+        if (json.is_array() &&
+            json.size() == 16)
         {
-            for (int c = 0; c < 4; ++c)
+            for (int i = 0; i < 16; ++i)
             {
-                float v = 0.F;
-                json.at(r).at(c).get_to(v);
-                value.set(r, c, v);
+                if (json.at(i).is_number())
+                {
+                    value[i] = json.at(i).get<float>();
+                }
             }
+            out = true;
         }
+        return out;
     }
 }

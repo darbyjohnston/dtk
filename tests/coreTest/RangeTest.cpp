@@ -75,6 +75,30 @@ namespace dtk
         {
             {
                 const RangeI r(1, 2);
+                RangeI r2;
+                DTK_ASSERT(from_json(to_json(r), r2));
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeSizeT r(1, 2);
+                RangeSizeT r2;
+                DTK_ASSERT(from_json(to_json(r), r2));
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeF r(1.F, 2.F);
+                RangeF r2;
+                DTK_ASSERT(from_json(to_json(r), r2));
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeD r(1.0, 2.0);
+                RangeD r2;
+                DTK_ASSERT(from_json(to_json(r), r2));
+                DTK_ASSERT(r == r2);
+            }
+            {
+                const RangeI r(1, 2);
                 std::stringstream ss;
                 ss << r;
                 RangeI r1;
@@ -104,38 +128,6 @@ namespace dtk
                 RangeD r1;
                 ss >> r1;
                 DTK_ASSERT(r == r1);
-            }
-            {
-                const RangeI r(1, 2);
-                nlohmann::json json;
-                to_json(json, r);
-                RangeI r2;
-                from_json(json, r2);
-                DTK_ASSERT(r == r2);
-            }
-            {
-                const RangeSizeT r(1, 2);
-                nlohmann::json json;
-                to_json(json, r);
-                RangeSizeT r2;
-                from_json(json, r2);
-                DTK_ASSERT(r == r2);
-            }
-            {
-                const RangeF r(1.F, 2.F);
-                nlohmann::json json;
-                to_json(json, r);
-                RangeF r2;
-                from_json(json, r2);
-                DTK_ASSERT(r == r2);
-            }
-            {
-                const RangeD r(1.0, 2.0);
-                nlohmann::json json;
-                to_json(json, r);
-                RangeD r2;
-                from_json(json, r2);
-                DTK_ASSERT(r == r2);
             }
         }
     }

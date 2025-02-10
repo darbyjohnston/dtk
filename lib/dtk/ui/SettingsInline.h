@@ -7,17 +7,12 @@ namespace dtk
     template<typename T>
     inline bool Settings::getT(const std::string& key, T& value) const
     {
-        nlohmann::json json;
-        bool out = get(key, json);
-        from_json(json, value);
-        return out;
+        return get(key, json) && from_json(json, value);
     }
 
     template<typename T>
     inline void Settings::setT(const std::string& key, const T& value)
     {
-        nlohmann::json json;
-        to_json(json, value);
-        set(key, json);
+        set(key, to_json(value));
     }
 }
