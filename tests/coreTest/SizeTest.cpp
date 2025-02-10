@@ -123,19 +123,19 @@ namespace dtk
             {
                 const Size2I s(1, 2);
                 Size2I s2;
-                DTK_ASSERT(from_json(to_json(s), s2));
+                from_json(to_json(s), s2);
                 DTK_ASSERT(s == s2);
             }
             {
                 const Size2F s(1.F, 2.F);
                 Size2F s2;
-                DTK_ASSERT(from_json(to_json(s), s2));
+                from_json(to_json(s), s2);
                 DTK_ASSERT(s == s2);
             }
             {
                 const Size3F s(3.F, 4.F, 5.F);
                 Size3F s2;
-                DTK_ASSERT(from_json(to_json(s), s2));
+                from_json(to_json(s), s2);
                 DTK_ASSERT(s == s2);
             }
             {

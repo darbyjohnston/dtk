@@ -109,9 +109,9 @@ namespace dtk
     nlohmann::json to_json(const Size2F&);
     nlohmann::json to_json(const Size3F&);
 
-    bool from_json(const nlohmann::json&, Size2I&);
-    bool from_json(const nlohmann::json&, Size2F&);
-    bool from_json(const nlohmann::json&, Size3F&);
+    void from_json(const nlohmann::json&, Size2I&);
+    void from_json(const nlohmann::json&, Size2F&);
+    void from_json(const nlohmann::json&, Size3F&);
 
     template<int C, typename T>
     constexpr Size<C, T> operator + (const Size<C, T>&, T);

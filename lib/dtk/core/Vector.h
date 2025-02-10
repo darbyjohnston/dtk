@@ -134,10 +134,10 @@ namespace dtk
     nlohmann::json to_json(const V3F&);
     nlohmann::json to_json(const V4F&);
 
-    bool from_json(const nlohmann::json&, V2I&);
-    bool from_json(const nlohmann::json&, V2F&);
-    bool from_json(const nlohmann::json&, V3F&);
-    bool from_json(const nlohmann::json&, V4F&);
+    void from_json(const nlohmann::json&, V2I&);
+    void from_json(const nlohmann::json&, V2F&);
+    void from_json(const nlohmann::json&, V3F&);
+    void from_json(const nlohmann::json&, V4F&);
         
     template<int C, typename T>
     constexpr Vector<C, T> operator + (const Vector<C, T>&, const Vector<C, T>&);

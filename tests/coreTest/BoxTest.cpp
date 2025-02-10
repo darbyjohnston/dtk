@@ -183,19 +183,19 @@ namespace dtk
             {
                 const Box2I b(1, 2, 3, 4);
                 Box2I b2;
-                DTK_ASSERT(from_json(to_json(b), b2));
+                from_json(to_json(b), b2);
                 DTK_ASSERT(b == b2);
             }
             {
                 const Box2F b(1.F, 2.F, 3.F, 4.F);
                 Box2F b2;
-                DTK_ASSERT(from_json(to_json(b), b2));
+                from_json(to_json(b), b2);
                 DTK_ASSERT(b == b2);
             }
             {
                 const Box3F b(1.F, 2.F, 3.F, 4.F, 5.F, 6.F);
                 Box3F b2;
-                DTK_ASSERT(from_json(to_json(b), b2));
+                from_json(to_json(b), b2);
                 DTK_ASSERT(b == b2);
             }
             {

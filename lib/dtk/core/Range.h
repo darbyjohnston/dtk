@@ -60,10 +60,10 @@ namespace dtk
     nlohmann::json to_json(const RangeF&);
     nlohmann::json to_json(const RangeD&);
 
-    bool from_json(const nlohmann::json&, RangeI&);
-    bool from_json(const nlohmann::json&, RangeSizeT&);
-    bool from_json(const nlohmann::json&, RangeF&);
-    bool from_json(const nlohmann::json&, RangeD&);
+    void from_json(const nlohmann::json&, RangeI&);
+    void from_json(const nlohmann::json&, RangeSizeT&);
+    void from_json(const nlohmann::json&, RangeF&);
+    void from_json(const nlohmann::json&, RangeD&);
 
     template<typename T>
     std::ostream& operator << (std::ostream&, const Range<T>&);

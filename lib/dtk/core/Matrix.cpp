@@ -27,39 +27,25 @@ namespace dtk
         };
     }
 
-    bool from_json(const nlohmann::json& json, M33F& value)
+    void from_json(const nlohmann::json& json, M33F& value)
     {
-        bool out = false;
-        if (json.is_array() &&
-            json.size() == 9)
+        for (int i = 0; i < 9; ++i)
         {
-            for (int i = 0; i < 9; ++i)
+            if (json.at(i).is_number())
             {
-                if (json.at(i).is_number())
-                {
-                    value[i] = json.at(i).get<float>();
-                }
+                value[i] = json.at(i).get<float>();
             }
-            out = true;
         }
-        return out;
     }
 
-    bool from_json(const nlohmann::json& json, M44F& value)
+    void from_json(const nlohmann::json& json, M44F& value)
     {
-        bool out = false;
-        if (json.is_array() &&
-            json.size() == 16)
+        for (int i = 0; i < 16; ++i)
         {
-            for (int i = 0; i < 16; ++i)
+            if (json.at(i).is_number())
             {
-                if (json.at(i).is_number())
-                {
-                    value[i] = json.at(i).get<float>();
-                }
+                value[i] = json.at(i).get<float>();
             }
-            out = true;
         }
-        return out;
     }
 }

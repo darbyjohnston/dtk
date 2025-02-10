@@ -76,25 +76,25 @@ namespace dtk
             {
                 const RangeI r(1, 2);
                 RangeI r2;
-                DTK_ASSERT(from_json(to_json(r), r2));
+                from_json(to_json(r), r2);
                 DTK_ASSERT(r == r2);
             }
             {
                 const RangeSizeT r(1, 2);
                 RangeSizeT r2;
-                DTK_ASSERT(from_json(to_json(r), r2));
+                from_json(to_json(r), r2);
                 DTK_ASSERT(r == r2);
             }
             {
                 const RangeF r(1.F, 2.F);
                 RangeF r2;
-                DTK_ASSERT(from_json(to_json(r), r2));
+                from_json(to_json(r), r2);
                 DTK_ASSERT(r == r2);
             }
             {
                 const RangeD r(1.0, 2.0);
                 RangeD r2;
-                DTK_ASSERT(from_json(to_json(r), r2));
+                from_json(to_json(r), r2);
                 DTK_ASSERT(r == r2);
             }
             {

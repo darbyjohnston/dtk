@@ -118,8 +118,8 @@ namespace dtk
     nlohmann::json to_json(const M33F&);
     nlohmann::json to_json(const M44F&);
 
-    bool from_json(const nlohmann::json&, M33F&);
-    bool from_json(const nlohmann::json&, M44F&);
+    void from_json(const nlohmann::json&, M33F&);
+    void from_json(const nlohmann::json&, M44F&);
 
     template<typename T>
     Matrix<3, 3, T> operator * (const Matrix<3, 3, T>&, const Matrix<3, 3, T>&);

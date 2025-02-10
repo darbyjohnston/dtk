@@ -144,9 +144,9 @@ namespace dtk
     nlohmann::json to_json(const Box2F&);
     nlohmann::json to_json(const Box3F&);
 
-    bool from_json(const nlohmann::json&, Box2I&);
-    bool from_json(const nlohmann::json&, Box2F&);
-    bool from_json(const nlohmann::json&, Box3F&);
+    void from_json(const nlohmann::json&, Box2I&);
+    void from_json(const nlohmann::json&, Box2F&);
+    void from_json(const nlohmann::json&, Box3F&);
 
     template<int C, typename T>
     constexpr Box<C, T> operator + (const Box<C, T>&, const Vector<C, T>&);
