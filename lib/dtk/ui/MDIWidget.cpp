@@ -13,6 +13,8 @@
 #include <dtk/core/Error.h>
 #include <dtk/core/String.h>
 
+#include <sstream>
+
 namespace dtk
 {
     DTK_ENUM_IMPL(

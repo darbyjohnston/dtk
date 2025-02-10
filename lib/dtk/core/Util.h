@@ -31,6 +31,8 @@
     std::vector<ENUM> get##ENUM##Enums(); \
     std::vector<std::string> get##ENUM##Labels(); \
     std::string getLabel(ENUM); \
+    std::string to_string(ENUM); \
+    void from_string(const std::string&, ENUM&); \
     std::ostream& operator << (std::ostream&, ENUM); \
     std::istream& operator >> (std::istream&, ENUM&)
 
@@ -41,6 +43,7 @@
 //! * dtk/core/String.h
 //! * algorithm
 //! * array
+//! * sstream
 #define DTK_ENUM_IMPL(ENUM, ...) \
     std::vector<ENUM> get##ENUM##Enums() \
     { \
@@ -62,6 +65,18 @@
         const std::array<std::string, static_cast<std::size_t>(ENUM::Count)> data = { __VA_ARGS__ }; \
         return data[static_cast<std::size_t>(value)]; \
     } \
+    \
+    std::string to_string(ENUM value) \
+    { \
+        return getLabel(value); \
+    } \
+    \
+    void from_string(const std::string s, ENUM& value) \
+    { \
+        std::stringstream ss(s); \
+        ss >> value; \
+    } \
+    \
     std::ostream& operator << (std::ostream& os, ENUM in) \
     { \
         os << get##ENUM##Labels()[static_cast<std::size_t>(in)]; \

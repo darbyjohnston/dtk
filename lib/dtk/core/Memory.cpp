@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <sstream>
 
 namespace dtk
 {
