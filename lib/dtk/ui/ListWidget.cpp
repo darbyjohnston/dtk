@@ -36,13 +36,7 @@ namespace dtk
             {
                 if (value >= 0)
                 {
-                    const V2I& pos = _p->scrollWidget->getScrollPos();
-                    const Box2I vp = _p->scrollWidget->getViewport();
-                    const Box2I r = _p->widget->getRect(value);
-                    if (r.min.y < pos.y || r.max.y > pos.y + vp.h())
-                    {
-                        _p->scrollWidget->scrollTo(r);
-                    }
+                    _scrollUpdate(value);
                 }
             });
     }
@@ -123,11 +117,24 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         _p->scrollWidget->setGeometry(value);
+        _scrollUpdate(_p->widget->getCurrent());
     }
 
     void ListWidget::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
         _setSizeHint(_p->scrollWidget->getSizeHint());
+    }
+
+    void ListWidget::_scrollUpdate(int value)
+    {
+        DTK_P();
+        const V2I& pos = _p->scrollWidget->getScrollPos();
+        const Box2I vp = _p->scrollWidget->getViewport();
+        const Box2I r = _p->widget->getRect(value);
+        if (r.min.y < pos.y || r.max.y > pos.y + vp.h())
+        {
+            _p->scrollWidget->scrollTo(r);
+        }
     }
 }

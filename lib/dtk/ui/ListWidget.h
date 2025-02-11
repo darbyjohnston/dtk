@@ -68,6 +68,8 @@ namespace dtk
         void sizeHintEvent(const SizeHintEvent&) override;
 
     private:
+        void _scrollUpdate(int);
+
         DTK_PRIVATE();
     };
 

@@ -70,6 +70,7 @@ DTK_MAIN()
             {
                 std::cout << "Check: " << index << std::endl;
             });
+        listWidget->setCurrent(static_cast<int>(items.size()) - 1);
 
         // Create a radio button list widget.
         listWidget = ListWidget::create(context, ButtonGroupType::Radio, layout);
