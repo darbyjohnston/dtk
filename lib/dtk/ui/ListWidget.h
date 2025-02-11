@@ -49,6 +49,12 @@ namespace dtk
         //! Set the callback.
         void setCallback(const std::function<void(int, bool)>&);
 
+        //! Get the current item.
+        int getCurrent() const;
+
+        //! Set the current item.
+        void setCurrent(int);
+
         //! Get the search.
         const std::string& getSearch() const;
 

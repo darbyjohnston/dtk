@@ -94,6 +94,16 @@ namespace dtk
         _p->widget->setCallback(value);
     }
 
+    int ListWidget::getCurrent() const
+    {
+        return _p->widget->getCurrent();
+    }
+
+    void ListWidget::setCurrent(int value)
+    {
+        _p->widget->setCurrent(value);
+    }
+
     const std::string& ListWidget::getSearch() const
     {
         return _p->widget->getSearch();

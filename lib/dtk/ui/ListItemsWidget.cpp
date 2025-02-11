@@ -64,7 +64,7 @@ namespace dtk
             p.buttonGroup->setClickedCallback(
                 [this](int index)
                 {
-                    _setCurrent(index);
+                    setCurrent(index);
                     takeKeyFocus();
                     if (_p->callback)
                     {
@@ -76,7 +76,7 @@ namespace dtk
             p.buttonGroup->setCheckedCallback(
                 [this](int index, bool value)
                 {
-                    _setCurrent(index);
+                    setCurrent(index);
                     takeKeyFocus();
                     if (_p->callback)
                     {
@@ -156,9 +156,25 @@ namespace dtk
         _p->callback = value;
     }
 
+    int ListItemsWidget::getCurrent() const
+    {
+        return _p->current->get();
+    }
+
     std::shared_ptr<IObservableValue<int> > ListItemsWidget::observeCurrent() const
     {
         return _p->current;
+    }
+
+    void ListItemsWidget::setCurrent(int value)
+    {
+        DTK_P();
+        const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+        if (p.current->setIfChanged(tmp))
+        {
+            _currentUpdate();
+            p.scrollTo->setIfChanged(p.current->get());
+        }
     }
 
     std::shared_ptr<IObservableValue<int> > ListItemsWidget::observeScrollTo() const
@@ -246,22 +262,22 @@ namespace dtk
             case Key::Up:
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(p.current->get() - 1);
+                setCurrent(p.current->get() - 1);
                 break;
             case Key::Down:
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(p.current->get() + 1);
+                setCurrent(p.current->get() + 1);
                 break;
             case Key::Home:
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(0);
+                setCurrent(0);
                 break;
             case Key::End:
                 event.accept = true;
                 takeKeyFocus();
-                _setCurrent(static_cast<int>(p.items.size()) - 1);
+                setCurrent(static_cast<int>(p.items.size()) - 1);
                 break;
             case Key::Escape:
                 event.accept = true;
@@ -302,17 +318,6 @@ namespace dtk
                 p.buttons.push_back(button);
                 p.buttonGroup->addButton(button);
             }
-        }
-    }
-
-    void ListItemsWidget::_setCurrent(int value)
-    {
-        DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
-        if (p.current->setIfChanged(tmp))
-        {
-            _currentUpdate();
-            p.scrollTo->setIfChanged(p.current->get());
         }
     }
 

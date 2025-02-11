@@ -65,8 +65,14 @@ namespace dtk
         //! Set the callback.
         void setCallback(const std::function<void(int, bool)>&);
 
+        //! Get the current item.
+        int getCurrent() const;
+
         //! Observe the current item.
         std::shared_ptr<IObservableValue<int> > observeCurrent() const;
+
+        //! Set the current item.
+        void setCurrent(int);
 
         //! Observe the item to scroll to.
         std::shared_ptr<IObservableValue<int> > observeScrollTo() const;
@@ -91,7 +97,6 @@ namespace dtk
 
     private:
         void _itemsUpdate();
-        void _setCurrent(int);
         void _currentUpdate();
 
         DTK_PRIVATE();
