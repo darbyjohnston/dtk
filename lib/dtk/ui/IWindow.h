@@ -43,6 +43,9 @@ namespace dtk
         //! Set whether tooltips are enabled.
         void setTooltipsEnabled(bool);
 
+        //! Set the window close callback.
+        virtual void setCloseCallback(const std::function<void(void)>&);
+
         void setVisible(bool) override;
         void tickEvent(
             bool parentsVisible,

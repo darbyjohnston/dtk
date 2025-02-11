@@ -205,6 +205,7 @@ namespace dtk
         bool refresh = true;
         int modifiers = 0;
         std::shared_ptr<gl::Window> window;
+        std::function<void(void)> closeCallback;
 
         std::shared_ptr<gl::OffscreenBuffer> buffer;
         std::shared_ptr<IRender> render;
@@ -228,7 +229,11 @@ namespace dtk
         p.bufferType = ObservableValue<ImageType>::create(gl::offscreenColorDefault);
         p.displayScale = ObservableValue<float>::create(0.F);
 
-        p.window = gl::Window::create(context, name, size);
+        p.window = gl::Window::create(
+            context,
+            name,
+            size,
+            static_cast<int>(gl::WindowOptions::DoubleBuffer));
         p.window->setSizeCallback(
             [this](const Size2I& value)
             {
@@ -325,6 +330,15 @@ namespace dtk
                 }
                 _drop(tmp);
             });
+        p.window->setCloseCallback(
+            [this]
+            {
+                hide();
+                if (_p->closeCallback)
+                {
+                    _p->closeCallback();
+                }
+            });
 
         p.bufferSize = p.window->getFrameBufferSize();
         p.contentScale = p.window->getContentScale();
@@ -411,11 +425,6 @@ namespace dtk
         }
     }
 
-    bool Window::shouldClose() const
-    {
-        return _p->window->shouldClose();
-    }
-
     const Size2I& Window::getFrameBufferSize() const
     {
         return _p->bufferSize;
@@ -490,7 +499,6 @@ namespace dtk
         const std::shared_ptr<Style>& style)
     {
         DTK_P();
-
         if (_hasSizeUpdate(shared_from_this()))
         {
             SizeHintEvent sizeHintEvent(
@@ -648,6 +656,11 @@ namespace dtk
 
             p.refresh = false;
         }
+    }
+
+    void Window::setCloseCallback(const std::function<void(void)>& value)
+    {
+        _p->closeCallback = value;
     }
 
     void Window::sizeHintEvent(const SizeHintEvent& event)

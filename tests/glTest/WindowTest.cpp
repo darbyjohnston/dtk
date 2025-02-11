@@ -38,7 +38,6 @@ namespace dtk
                 DTK_ASSERT(size == window->getSize());                
                 _print(Format("Frame buffer size: {0}").arg(window->getFrameBufferSize()));
                 _print(Format("Content scale: {0}").arg(window->getContentScale()));
-                _print(Format("Should close: {0}").arg(window->shouldClose()));
                 _print(Format("Screen: {0}").arg(window->getScreen()));
                 _print(Format("Full screen: {0}").arg(window->isFullScreen()));
                 _print(Format("Float on top: {0}").arg(window->isFloatOnTop()));

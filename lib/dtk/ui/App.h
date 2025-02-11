@@ -64,9 +64,6 @@ namespace dtk
         //! Get the windows.
         const std::list<std::shared_ptr<Window> >& getWindows() const;
 
-        //! Observe when a window is closed.
-        std::shared_ptr<IObservableValue<std::shared_ptr<Window>> > observeWindowClose() const;
-
         //! Get the number of screens.
         int getScreenCount() const;
 

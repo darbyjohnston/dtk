@@ -48,7 +48,6 @@ namespace dtk
         bool running = true;
         float displayScale = 0.F;
         std::list<std::shared_ptr<Window> > windows;
-        std::shared_ptr<ObservableValue<std::shared_ptr<Window> > > windowClose;
         std::list<int> tickTimes;
         std::shared_ptr<Timer> logTimer;
     };
@@ -93,7 +92,6 @@ namespace dtk
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
-        p.windowClose = ObservableValue<std::shared_ptr<Window> >::create();
 
         _styleUpdate();
 
@@ -151,11 +149,6 @@ namespace dtk
     const std::list<std::shared_ptr<Window> >& App::getWindows() const
     {
         return _p->windows;
-    }
-
-    std::shared_ptr<IObservableValue<std::shared_ptr<Window>> > App::observeWindowClose() const
-    {
-        return _p->windowClose;
     }
 
     int App::getScreenCount() const
@@ -216,26 +209,20 @@ namespace dtk
 
             _tick();
 
-            auto i = p.windows.begin();
-            while (i != p.windows.end())
+            size_t visibleWindows = 0;
+            for (const auto& window : p.windows)
             {
                 TickEvent tickEvent;
                 _tickRecursive(
-                    *i,
-                    (*i)->isVisible(false),
-                    (*i)->isEnabled(false),
+                    window,
+                    window->isVisible(false),
+                    window->isEnabled(false),
                     tickEvent);
 
-                (*i)->update(p.fontSystem, p.iconSystem, p.style);
-
-                if ((*i)->shouldClose())
+                if (window->isVisible(false))
                 {
-                    p.windowClose->setAlways(*i);
-                    i = p.windows.erase(i);
-                }
-                else
-                {
-                    ++i;
+                    ++visibleWindows;
+                    window->update(p.fontSystem, p.iconSystem, p.style);
                 }
             }
 
@@ -250,7 +237,7 @@ namespace dtk
             }
             t0 = t1;
 
-            if (p.exit)
+            if (p.exit || 0 == visibleWindows)
             {
                 break;
             }

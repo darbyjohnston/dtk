@@ -31,12 +31,12 @@ namespace dtk
         V2I dndCursorHotspot;
         std::weak_ptr<IWidget> dndHover;
 
+        std::shared_ptr<IClipboard> clipboard;
+
         bool tooltipsEnabled = true;
         std::shared_ptr<Tooltip> tooltip;
         V2I tooltipPos;
         std::chrono::steady_clock::time_point tooltipTimer;
-
-        std::shared_ptr<IClipboard> clipboard;
 
         struct SizeData
         {
@@ -165,6 +165,9 @@ namespace dtk
             _closeTooltip();
         }
     }
+
+    void IWindow::setCloseCallback(const std::function<void(void)>& value)
+    {}
 
     void IWindow::setVisible(bool value)
     {

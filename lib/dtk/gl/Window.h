@@ -84,9 +84,6 @@ namespace dtk
             //! Release the OpenGL context.
             void doneCurrent();
 
-            //! Get whether the window should close.
-            bool shouldClose() const;
-
             //! Get which screen the window is on.
             int getScreen() const;
 
@@ -141,6 +138,9 @@ namespace dtk
             //! Set the drop callback.
             void setDropCallback(const std::function<void(int, const char**)>&);
 
+            //! Set the window close callback.
+            void setCloseCallback(const std::function<void(void)>&);
+
         private:
             static void _sizeCallback(GLFWwindow*, int, int);
             static void _frameBufferSizeCallback(GLFWwindow*, int, int);
@@ -153,6 +153,7 @@ namespace dtk
             static void _keyCallback(GLFWwindow*, int, int, int, int);
             static void _charCallback(GLFWwindow*, unsigned int);
             static void _dropCallback(GLFWwindow*, int, const char**);
+            static void _closeCallback(GLFWwindow*);
 
             DTK_PRIVATE();
         };

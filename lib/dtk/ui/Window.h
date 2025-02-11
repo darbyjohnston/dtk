@@ -55,9 +55,6 @@ namespace dtk
         //! Set whether the window is floating on top.
         void setFloatOnTop(bool);
 
-        //! Get whether the window should close.
-        bool shouldClose() const;
-
         //! Get the window frame buffer size.
         const Size2I& getFrameBufferSize() const;
 
@@ -85,6 +82,8 @@ namespace dtk
             const std::shared_ptr<FontSystem>&,
             const std::shared_ptr<IconSystem>&,
             const std::shared_ptr<Style>&);
+
+        void setCloseCallback(const std::function<void(void)>&) override;
 
         void setGeometry(const Box2I&) override;
         void setVisible(bool) override;

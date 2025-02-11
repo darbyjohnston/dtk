@@ -79,6 +79,7 @@ namespace dtk
             std::function<void(int, int, int, int)> keyCallback;
             std::function<void(unsigned int)> charCallback;
             std::function<void(int, const char**)> dropCallback;
+            std::function<void(void)> closeCallback;
         };
         
         Window::Window(
@@ -138,6 +139,7 @@ namespace dtk
             glfwSetKeyCallback(p.glfwWindow, _keyCallback);
             glfwSetCharCallback(p.glfwWindow, _charCallback);
             glfwSetDropCallback(p.glfwWindow, _dropCallback);
+            glfwSetWindowCloseCallback(p.glfwWindow, _closeCallback);
 
             if (options & static_cast<int>(WindowOptions::MakeCurrent))
             {
@@ -251,11 +253,6 @@ namespace dtk
         void Window::doneCurrent()
         {
             glfwMakeContextCurrent(nullptr);
-        }
-
-        bool Window::shouldClose() const
-        {
-            return glfwWindowShouldClose(_p->glfwWindow);
         }
 
         int Window::getScreen() const
@@ -438,6 +435,11 @@ namespace dtk
             _p->dropCallback = value;
         }
 
+        void Window::setCloseCallback(const std::function<void(void)>& value)
+        {
+            _p->closeCallback = value;
+        }
+
         void Window::_sizeCallback(GLFWwindow* glfwWindow, int w, int h)
         {
             Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
@@ -540,6 +542,17 @@ namespace dtk
             if (window->_p->dropCallback)
             {
                 window->_p->dropCallback(count, paths);
+            }
+        }
+
+        void Window::_closeCallback(GLFWwindow* glfwWindow)
+        {
+            Window* window = reinterpret_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
+            glfwSetWindowShouldClose(window->getGLFW(), 0);
+            glfwHideWindow(window->getGLFW());
+            if (window->_p->closeCallback)
+            {
+                window->_p->closeCallback();
             }
         }
     }
