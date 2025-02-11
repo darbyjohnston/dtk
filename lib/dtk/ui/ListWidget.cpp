@@ -117,7 +117,6 @@ namespace dtk
     {
         IWidget::setGeometry(value);
         _p->scrollWidget->setGeometry(value);
-        _scrollUpdate(_p->widget->getCurrent());
     }
 
     void ListWidget::sizeHintEvent(const SizeHintEvent& event)
