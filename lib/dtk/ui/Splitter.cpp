@@ -258,9 +258,14 @@ namespace dtk
             _setSizeUpdate();
             _setDrawUpdate();
         }
-        else if (contains(p.size.handleGeometry, event.pos))
+        else if (contains(p.size.handleGeometry, event.pos) && !p.mouse.hoverHandle)
         {
             p.mouse.hoverHandle = true;
+            _setDrawUpdate();
+        }
+        else if (!contains(p.size.handleGeometry, event.pos) && p.mouse.hoverHandle)
+        {
+            p.mouse.hoverHandle = false;
             _setDrawUpdate();
         }
     }
