@@ -98,7 +98,7 @@ namespace dtk
         out[ColorRole::Text] = Color4F(1.F, 1.F, 1.F);
         out[ColorRole::TextDisabled] = Color4F(.5F, .5F, .5F);
         out[ColorRole::Trough] = Color4F(.15F, .15F, .15F);
-        out[ColorRole::Border] = Color4F(.3F, .3F, .3F);
+        out[ColorRole::Border] = Color4F(.35F, .35F, .35F);
         out[ColorRole::Hover] = Color4F(1.F, 1.F, 1.F, .1F);
         out[ColorRole::Pressed] = Color4F(1.F, 1.F, 1.F, .2F);
         out[ColorRole::Checked] = Color4F(.56F, .36F, .15F);

@@ -29,19 +29,18 @@ namespace dtk
         p.button->setCheckable(true);
         p.button->setIcon("BellowsClosed");
         p.button->setCheckedIcon("BellowsOpen");
-        p.button->setButtonRole(ColorRole::Button);
-        p.button->setCheckedRole(ColorRole::Button);
+        p.button->setButtonRole(ColorRole::None);
+        p.button->setCheckedRole(ColorRole::None);
         p.button->setHStretch(Stretch::Expanding);
 
         p.buttonLayout = HorizontalLayout::create(context);
         p.buttonLayout->setSpacingRole(SizeRole::None);
-        p.buttonLayout->setBackgroundRole(ColorRole::Button);
         p.button->setParent(p.buttonLayout);
 
         p.layout = VerticalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::None);
         p.buttonLayout->setParent(p.layout);
-        Divider::create(context, Orientation::Horizontal, p.layout);
+        Divider::create(context, Orientation::Vertical, p.layout);
 
         p.button->setCheckedCallback(
             [this](bool value)
