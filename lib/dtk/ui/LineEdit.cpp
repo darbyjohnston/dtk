@@ -225,7 +225,10 @@ namespace dtk
         const Box2I g = align(value, getSizeHint(), getHAlign(), getVAlign());
         p.draw.border = border(g, p.size.border);
         p.draw.g2 = margin(g, -p.size.border);
-        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+        p.draw.g3 = margin(
+            p.draw.g2,
+            -p.size.margin * 2,
+            -p.size.margin);
     }
 
     void LineEdit::setVisible(bool value)
@@ -304,7 +307,10 @@ namespace dtk
         }
 
         Size2I sizeHint(p.size.formatSize.w, p.size.fontMetrics.lineHeight);
-        sizeHint = margin(sizeHint, p.size.margin + p.size.border);
+        sizeHint = margin(
+            sizeHint,
+            p.size.margin * 2 + p.size.border,
+            p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
     }
 

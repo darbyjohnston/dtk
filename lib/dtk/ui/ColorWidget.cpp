@@ -42,7 +42,7 @@ namespace dtk
         p.layout->setSpacingRole(SizeRole::SpacingSmall);
         p.swatch->setParent(p.layout);
         auto gridLayout = GridLayout::create(context, p.layout);
-        gridLayout->setSpacingRole(SizeRole::SpacingTool);
+        gridLayout->setSpacingRole(SizeRole::SpacingSmall);
         gridLayout->setHStretch(Stretch::Expanding);
         auto label = Label::create(context, "Red:", gridLayout);
         gridLayout->setGridPos(label, 0, 0);

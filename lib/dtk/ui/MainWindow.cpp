@@ -18,8 +18,8 @@ namespace dtk
         std::weak_ptr<App> app;
         std::shared_ptr<MenuBar> menuBar;
         std::map<std::string, std::shared_ptr<Menu> > menus;
-        std::vector<float> displayScales = { 1.F, 1.5F, 2.F, 2.5F, 3.F, 3.5F, 4.F };
-        std::map<float, std::shared_ptr<Action> > displayScaleActions;
+        std::vector<float> displayScales = { 0.F, 1.F, 1.5F, 2.F, 2.5F, 3.F, 3.5F, 4.F };
+        std::vector<std::shared_ptr<Action> > displayScaleActions;
         std::map<ColorStyle, std::shared_ptr<Action> > colorStyleActions;
         std::shared_ptr<Divider> menuBarDivider;
         std::shared_ptr<IWidget> centralWidget;
@@ -67,45 +67,34 @@ namespace dtk
             }));
 
         p.menus["DisplayScale"] = windowMenu->addSubMenu("Display Scale");
-        p.displayScaleActions[0.F] = std::make_shared<Action>(
-            "Automatic",
-            [this](bool)
-            {
-                setDisplayScale(0.F);
-            });
-        p.menus["DisplayScale"]->addItem(p.displayScaleActions[0.F]);
-        for (auto displayScale : p.displayScales)
+        for (size_t i = 0; i < p.displayScales.size(); ++i)
         {
-            p.displayScaleActions[displayScale] = std::make_shared<Action>(
-                Format("{0}").arg(displayScale),
+            const float displayScale = p.displayScales[i];
+            auto action = std::make_shared<Action>(
+                0 == i ? "Automatic" : Format("{0}").arg(displayScale).str(),
                 [this, displayScale](bool)
                 {
                     setDisplayScale(displayScale);
                 });
-            p.menus["DisplayScale"]->addItem(p.displayScaleActions[displayScale]);
+            p.displayScaleActions.push_back(action);
+            p.menus["DisplayScale"]->addItem(action);
         }
 
         p.menus["ColorStyle"] = windowMenu->addSubMenu("Color Style");
-        p.colorStyleActions[ColorStyle::Dark] = std::make_shared<Action>(
-            "Dark",
-            [this]
-            {
-                if (auto app = _p->app.lock())
+        for (auto colorStyle : getColorStyleEnums())
+        {
+            auto action = std::make_shared<Action>(
+                getLabel(colorStyle),
+                [this, colorStyle]
                 {
-                    app->setColorStyle(ColorStyle::Dark);
-                }
-            });
-        p.menus["ColorStyle"]->addItem(p.colorStyleActions[ColorStyle::Dark]);
-        p.colorStyleActions[ColorStyle::Light] = std::make_shared<Action>(
-            "Light",
-            [this]
-            {
-                if (auto app = _p->app.lock())
-                {
-                    app->setColorStyle(ColorStyle::Light);
-                }
-            });
-        p.menus["ColorStyle"]->addItem(p.colorStyleActions[ColorStyle::Light]);
+                    if (auto app = _p->app.lock())
+                    {
+                        app->setColorStyle(colorStyle);
+                    }
+                });
+            p.colorStyleActions[colorStyle] = action;
+            p.menus["ColorStyle"]->addItem(action);
+        }
 
         p.menuBar->addMenu("Window", windowMenu);
 
@@ -135,8 +124,12 @@ namespace dtk
             app->observeColorStyle(),
             [this](ColorStyle value)
             {
-                _p->menus["ColorStyle"]->setItemChecked(_p->colorStyleActions[ColorStyle::Dark], ColorStyle::Dark == value);
-                _p->menus["ColorStyle"]->setItemChecked(_p->colorStyleActions[ColorStyle::Light], ColorStyle::Light == value);
+                for (auto colorStyle : getColorStyleEnums())
+                {
+                    _p->menus["ColorStyle"]->setItemChecked(
+                        _p->colorStyleActions[colorStyle],
+                        colorStyle == value);
+                }
             });
     }
 
