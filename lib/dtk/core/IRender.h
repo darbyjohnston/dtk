@@ -166,8 +166,8 @@ namespace dtk
         virtual void drawImage(
             const std::shared_ptr<Image>&,
             const Box2F&,
-            const Color4F & = Color4F(1.F, 1.F, 1.F, 1.F),
-            const ImageOptions & = ImageOptions()) = 0;
+            const Color4F& = Color4F(1.F, 1.F, 1.F, 1.F),
+            const ImageOptions& = ImageOptions()) = 0;
 
         //! Draw an image.
         virtual void drawImage(
