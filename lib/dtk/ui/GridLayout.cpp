@@ -243,12 +243,13 @@ namespace dtk
             const V2I size(
                 p.geom.columnSizes[i.second.column],
                 p.geom.rowSizes[i.second.row]);
-            i.first->setGeometry(
+            i.first->setGeometry(Box2I(pos.x, pos.y, size.x, size.y));
+            /*i.first->setGeometry(
                 align(
                     Box2I(pos.x, pos.y, size.x, size.y),
                     i.first->getSizeHint(),
                     i.first->getHAlign(),
-                    i.first->getVAlign()));
+                    i.first->getVAlign()));*/
         }
     }
 
