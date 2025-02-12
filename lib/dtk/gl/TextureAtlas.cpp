@@ -136,13 +136,12 @@ namespace dtk
         {
             DTK_P();
             out.id = node->id;
-            const Size2I size = node->box.size() - p.border * 2;
             out.u = RangeF(
                 (node->box.min.x + p.border) / static_cast<float>(p.size),
-                (node->box.min.x + p.border + size.w - 1) / static_cast<float>(p.size));
+                (node->box.max.x - 1 - p.border) / static_cast<float>(p.size));
             out.v = RangeF(
                 (node->box.min.y + p.border) / static_cast<float>(p.size),
-                (node->box.min.y + p.border + size.h - 1) / static_cast<float>(p.size));
+                (node->box.max.y - 1 - p.border) / static_cast<float>(p.size));
         }
     }
 }
