@@ -4,6 +4,8 @@
 
 #include <dtk/ui/GridLayout.h>
 
+#include <dtk/ui/LayoutUtil.h>
+
 namespace dtk
 {
     namespace
@@ -241,7 +243,12 @@ namespace dtk
             const V2I size(
                 p.geom.columnSizes[i.second.column],
                 p.geom.rowSizes[i.second.row]);
-            i.first->setGeometry(Box2I(pos.x, pos.y, size.x, size.y));
+            i.first->setGeometry(
+                align(
+                    Box2I(pos.x, pos.y, size.x, size.y),
+                    i.first->getSizeHint(),
+                    i.first->getHAlign(),
+                    i.first->getVAlign()));
         }
     }
 
