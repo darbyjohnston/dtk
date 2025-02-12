@@ -20,6 +20,7 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int size = 0;
+            int margin = 0;
             int border = 0;
             int handle = 0;
             FontMetrics fontMetrics;
@@ -30,7 +31,7 @@ namespace dtk
         {
             TriMesh2F border;
             Box2I background;
-            TriMesh2F handleBorder;
+            Box2I margin;
             Box2I handle;
         };
         DrawData draw;
@@ -154,19 +155,18 @@ namespace dtk
         DTK_P();
         p.draw.border = border(value, p.size.border);
         p.draw.background = margin(value, -p.size.border);
+        p.draw.margin = margin(p.draw.background, -p.size.margin);
         const Box2I g = _getSliderGeometry();
         int pos = 0;
         if (p.model)
         {
             pos = _valueToPos(p.model->getValue());
         }
-        const Box2I g2 = Box2I(
+        p.draw.handle = Box2I(
             pos - p.size.handle / 2,
             g.y(),
             p.size.handle,
             g.h());
-        p.draw.handleBorder = border(g2, p.size.border);
-        p.draw.handle = margin(g2, -p.size.border);
     }
 
     void FloatSlider::sizeHintEvent(const SizeHintEvent& event)
@@ -178,6 +178,7 @@ namespace dtk
             p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.size = event.style->getSizeRole(SizeRole::Slider, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
             auto fontInfo = event.style->getFontRole(FontRole::Label, p.size.displayScale);
@@ -201,9 +202,6 @@ namespace dtk
             event.style->getColorRole(ColorRole::Base));
 
         // Draw the handle.
-        event.render->drawMesh(
-            p.draw.handleBorder,
-            event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
             p.draw.handle,
             event.style->getColorRole(ColorRole::Button));
@@ -326,7 +324,7 @@ namespace dtk
     {
         DTK_P();
         return margin(
-            getGeometry(),
+            p.draw.margin,
             -(p.size.handle / 2),
             0,
             -(p.size.handle / 2),
