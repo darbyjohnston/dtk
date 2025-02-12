@@ -652,7 +652,7 @@ namespace dtk
 #endif // dtk_API_GL_4_1
 
             p.window->swap();
-            p.window->doneCurrent();
+            //p.window->doneCurrent();
 
             p.refresh = false;
         }
