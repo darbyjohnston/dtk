@@ -110,6 +110,11 @@ namespace dtk
         return _p->exit;
     }
 
+    const std::shared_ptr<Context>& IApp::getContext() const
+    {
+        return _context;
+    }
+
     void IApp::_print(const std::string& value)
     {
         std::cout << value << std::endl;

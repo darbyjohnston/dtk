@@ -62,6 +62,9 @@ namespace dtk
         //! Get the exit code.
         int getExit() const;
 
+        //! Get the context.
+        const std::shared_ptr<Context>& getContext() const;
+
         //! Run the application.
         virtual void run() = 0;
 
