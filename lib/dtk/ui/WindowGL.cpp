@@ -652,6 +652,7 @@ namespace dtk
 #endif // dtk_API_GL_4_1
 
             p.window->swap();
+            //! \todo Is this necessary?
             //p.window->doneCurrent();
 
             p.refresh = false;
