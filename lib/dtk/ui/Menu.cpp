@@ -261,21 +261,24 @@ namespace dtk
     {
         DTK_P();
         bool out = false;
-        for (const auto& i : p.itemToButton)
+        if (shortcut != Key::Unknown)
         {
-            if (shortcut == i.first->shortcut &&
-                modifiers == i.first->shortcutModifiers)
+            for (const auto& i : p.itemToButton)
             {
-                if (i.first->callback)
+                if (shortcut == i.first->shortcut &&
+                    modifiers == i.first->shortcutModifiers)
                 {
-                    i.first->callback();
-                    out = true;
-                }
-                if (i.first->checkedCallback)
-                {
-                    setItemChecked(i.first, !i.first->checked);
-                    i.first->checkedCallback(i.first->checked);
-                    out = true;
+                    if (i.first->callback)
+                    {
+                        i.first->callback();
+                        out = true;
+                    }
+                    if (i.first->checkedCallback)
+                    {
+                        setItemChecked(i.first, !i.first->checked);
+                        i.first->checkedCallback(i.first->checked);
+                        out = true;
+                    }
                 }
             }
         }
