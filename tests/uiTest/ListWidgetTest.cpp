@@ -90,6 +90,7 @@ namespace dtk
             case ButtonGroupType::Toggle:
                 DTK_ASSERT(widget->getChecked(0));
                 break;
+            default: break;
             }
             window->setKey(Key::Down);
             window->setKey(Key::Up);

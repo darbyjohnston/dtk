@@ -100,7 +100,7 @@ namespace dtk
         p.draw.g = value;
         p.draw.g2 = margin(
             p.draw.g,
-            -(p.size.margin + acceptsKeyFocus() ? p.size.border : 0));
+            -(p.size.margin + (acceptsKeyFocus() ? p.size.border : 0)));
     }
 
     void ToolButton::setAcceptsKeyFocus(bool value)
