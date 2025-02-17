@@ -489,6 +489,7 @@ namespace dtk
         }
         else
         {
+            p.window->setFullScreen(false);
             p.window->hide();
         }
     }
