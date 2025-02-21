@@ -85,6 +85,15 @@ namespace dtk
         //! Set the color style.
         void setColorStyle(ColorStyle);
 
+        //! Get the display scale.
+        float getDisplayScale() const;
+
+        //! Observe the display scale.
+        std::shared_ptr<IObservableValue<float> > observeDisplayScale() const;
+
+        //! Set the display scale.
+        void setDisplayScale(float);
+
         //! Exit the application.
         void exit();
 

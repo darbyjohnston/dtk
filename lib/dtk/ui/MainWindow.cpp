@@ -74,7 +74,10 @@ namespace dtk
                 0 == i ? "Automatic" : Format("{0}").arg(displayScale).str(),
                 [this, displayScale](bool)
                 {
-                    setDisplayScale(displayScale);
+                    if (auto app = _p->app.lock())
+                    {
+                        app->setDisplayScale(displayScale);
+                    }
                 });
             p.displayScaleActions.push_back(action);
             p.menus["DisplayScale"]->addItem(action);

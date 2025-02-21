@@ -136,7 +136,6 @@ namespace dtk
             {
                 window->setDisplayScale(p.displayScale);
             }
-            run();
         }
 
         void App::tick(size_t count)

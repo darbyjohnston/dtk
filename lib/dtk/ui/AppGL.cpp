@@ -45,8 +45,8 @@ namespace dtk
         std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
         std::shared_ptr<ObservableValue<ColorStyle> > colorStyle;
+        std::shared_ptr<ObservableValue<float> > displayScale;
         bool running = true;
-        float displayScale = 0.F;
         std::list<std::shared_ptr<Window> > windows;
         std::list<int> tickTimes;
         std::shared_ptr<Timer> logTimer;
@@ -65,8 +65,9 @@ namespace dtk
             _p->exit,
             { "-exit" },
             "Start the user interface and then exit."));
+        float displayScale = 0.F;
         cmdLineOptionsTmp.push_back(CmdLineValueOption<float>::create(
-            _p->displayScale,
+            displayScale,
             { "-displayScale", "-ds" },
             "Set the display scale. A value of 0.0 sets the scale automatically."));
         ColorStyle colorStyle = ColorStyle::Dark;
@@ -92,6 +93,7 @@ namespace dtk
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
+        p.displayScale = ObservableValue<float>::create(displayScale);
 
         _styleUpdate();
 
@@ -132,7 +134,7 @@ namespace dtk
     void App::addWindow(const std::shared_ptr<Window>& window)
     {
         DTK_P();
-        window->setDisplayScale(p.displayScale);
+        window->setDisplayScale(p.displayScale->get());
         p.windows.push_back(window);
     }
 
@@ -189,6 +191,28 @@ namespace dtk
         if (p.colorStyle->setIfChanged(value))
         {
             _styleUpdate();
+        }
+    }
+
+    float App::getDisplayScale() const
+    {
+        return _p->displayScale->get();
+    }
+
+    std::shared_ptr<IObservableValue<float> > App::observeDisplayScale() const
+    {
+        return _p->displayScale;
+    }
+
+    void App::setDisplayScale(float value)
+    {
+        DTK_P();
+        if (p.displayScale->setIfChanged(value))
+        {
+            for (const auto& window : p.windows)
+            {
+                window->setDisplayScale(value);
+            }
         }
     }
 
