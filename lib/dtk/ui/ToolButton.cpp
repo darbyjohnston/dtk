@@ -208,15 +208,20 @@ namespace dtk
 
         // Draw the icon.
         int x = p.draw.g2.x();
-        if (_iconImage)
+        auto image = _iconImage;
+        if (_checked && _checkedIconImage)
         {
-            const Size2I& iconSize = _iconImage->getSize();
+            image = _checkedIconImage;
+        }
+        if (image)
+        {
+            const Size2I& iconSize = image->getSize();
             if (_text.empty())
             {
                 x = p.draw.g2.x() + p.draw.g2.w() / 2 - iconSize.w / 2;
             }
             event.render->drawImage(
-                _iconImage,
+                image,
                 Box2I(
                     x,
                     p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,

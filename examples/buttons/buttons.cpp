@@ -85,6 +85,10 @@ DTK_MAIN()
             toolButton->setIcon(toolIcons[i]);
             toolButtonGroup->addButton(toolButton);
         }
+        auto playStopButton = ToolButton::create(context, hLayout);
+        playStopButton->setIcon("PlaybackStop");
+        playStopButton->setCheckedIcon("PlaybackForward");
+        playStopButton->setCheckable(true);
         auto toolButton = ToolButton::create(context, "Text", hLayout);
         toolButton = ToolButton::create(context, "Text", hLayout);
         toolButton->setIcon("Settings");

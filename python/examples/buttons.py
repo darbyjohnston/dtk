@@ -56,6 +56,10 @@ for i in range(0, 3):
     toolButton.checked = 0 == i
     toolButton.icon = toolIcons[i]
     toolButtonGroup.addButton(toolButton)
+playStopButton = dtk.ToolButton(context, hLayout)
+playStopButton.icon = "PlaybackStop"
+playStopButton.checkedIcon = "PlaybackForward"
+playStopButton.checkable = True
 toolButton = dtk.ToolButton(context, "Text", hLayout)
 toolButton = dtk.ToolButton(context, "Text", hLayout)
 toolButton.icon = "Settings"
