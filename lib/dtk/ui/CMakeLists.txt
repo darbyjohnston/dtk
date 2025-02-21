@@ -19,14 +19,15 @@ set(HEADERS
     DrawUtil.h
     DrivesModel.h
     Event.h
-    GridLayout.h
-    GroupBox.h
     FileBrowser.h
     FileEdit.h
     FloatEdit.h
     FloatEditSlider.h
     FloatModel.h
     FloatSlider.h
+    FormLayout.h
+    GridLayout.h
+    GroupBox.h
     IButton.h
     IClipboard.h
     IDialog.h
@@ -121,6 +122,7 @@ set(SOURCE
     FloatEditSlider.cpp
     FloatModel.cpp
     FloatSlider.cpp
+    FormLayout.cpp
     GridLayout.cpp
     GroupBox.cpp
     IButton.cpp
