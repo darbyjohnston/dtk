@@ -66,7 +66,7 @@ namespace dtk
         const std::shared_ptr<Context>& getContext() const;
 
         //! Run the application.
-        virtual void run() {};
+        virtual void run() {}
 
     protected:
         void _print(const std::string&);

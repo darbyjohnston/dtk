@@ -91,7 +91,7 @@ namespace dtk
         void run() override;
 
     protected:
-        virtual void _tick();
+        virtual void _tick() {}
 
     private:
         void _tickRecursive(

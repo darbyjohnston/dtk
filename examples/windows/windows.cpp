@@ -35,8 +35,11 @@ DTK_MAIN()
 
         // Create the secondary window.
         auto secondaryWindow = Window::create(context, "Secondary Window", Size2I(1280, 960));
-        auto label = Label::create(context, "Secondary Window", secondaryWindow);
-        label->setAlign(HAlign::Center, VAlign::Center);
+        auto secondaryLayout = VerticalLayout::create(context, secondaryWindow);
+        secondaryLayout->setAlign(HAlign::Center, VAlign::Center);
+        auto label = Label::create(context, "Secondary Window", secondaryLayout);
+        auto fullScreenButton = PushButton::create(context, "Full Screen", secondaryLayout);
+        fullScreenButton->setCheckable(true);
         app->addWindow(secondaryWindow);
 
         // Create a button to open the secondary window.
@@ -45,7 +48,7 @@ DTK_MAIN()
 
         // Setup callbacks.
         window->setCloseCallback(
-            [secondaryWindow]
+            [&secondaryWindow]
             {
                 secondaryWindow->hide();
             });
@@ -53,6 +56,11 @@ DTK_MAIN()
             [&button]
             {
                 button->setChecked(false);
+            });
+        fullScreenButton->setCheckedCallback(
+            [&secondaryWindow](bool value)
+            {
+                secondaryWindow->setFullScreen(value);
             });
         button->setCheckedCallback(
             [&secondaryWindow, &button](bool value)

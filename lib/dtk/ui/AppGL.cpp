@@ -244,9 +244,6 @@ namespace dtk
         }
     }
 
-    void App::_tick()
-    {}
-
     void App::_tickRecursive(
         const std::shared_ptr<IWidget>& widget,
         bool visible,

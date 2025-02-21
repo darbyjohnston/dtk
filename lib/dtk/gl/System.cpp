@@ -140,15 +140,15 @@ namespace dtk
                         for (const auto& i : value)
                         {
                             lines.push_back(Format("Monitor: {0}").arg(i.name));
-                            lines.push_back(Format("  Size: {0}").arg(i.size));
-                            lines.push_back(Format("  Color bits: {0} {1} {2}").
+                            lines.push_back(Format("    Size: {0}").arg(i.size));
+                            lines.push_back(Format("    Color bits: {0} {1} {2}").
                                 arg(i.colorBits[0]).
                                 arg(i.colorBits[1]).
                                 arg(i.colorBits[2]));
-                            lines.push_back(Format("  Referesh rate: {0}").arg(i.refreshRate));
-                            lines.push_back(Format("  Content scale: {0}").arg(i.contentScale));
-                            lines.push_back(Format("  Position: {0}").arg(i.pos));
-                            lines.push_back(Format("  Physical size mm: {0}").arg(i.physicalSizeMM));
+                            lines.push_back(Format("    Referesh rate: {0}").arg(i.refreshRate));
+                            lines.push_back(Format("    Content scale: {0}").arg(i.contentScale));
+                            lines.push_back(Format("    Position: {0}").arg(i.pos));
+                            lines.push_back(Format("    Physical size mm: {0}").arg(i.physicalSizeMM));
                         }
                         auto logSystem = context->getSystem<LogSystem>();
                         logSystem->print(
