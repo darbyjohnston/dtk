@@ -150,7 +150,9 @@ namespace dtk
                     p.draw.g.y() + p.draw.g.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
-                event.style->getColorRole(ColorRole::Text));
+                event.style->getColorRole(isEnabled() ?
+                    ColorRole::Text :
+                    ColorRole::TextDisabled));
         }
     }
 }
