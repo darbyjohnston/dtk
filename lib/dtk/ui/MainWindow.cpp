@@ -21,6 +21,7 @@ namespace dtk
         std::vector<float> displayScales = { 0.F, 1.F, 1.5F, 2.F, 2.5F, 3.F, 3.5F, 4.F };
         std::vector<std::shared_ptr<Action> > displayScaleActions;
         std::map<ColorStyle, std::shared_ptr<Action> > colorStyleActions;
+        std::shared_ptr<Action> tooltipsAction;
         std::shared_ptr<Divider> menuBarDivider;
         std::shared_ptr<IWidget> centralWidget;
         std::shared_ptr<VerticalLayout> layout;
@@ -28,6 +29,7 @@ namespace dtk
 
         std::shared_ptr<ValueObserver<float> > displayScaleObserver;
         std::shared_ptr<ValueObserver<ColorStyle> > colorStyleObserver;
+        std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
     };
 
     void MainWindow::_init(
@@ -56,8 +58,8 @@ namespace dtk
             }));
         p.menuBar->addMenu("File", fileMenu);
 
-        auto windowMenu = Menu::create(context);
-        windowMenu->addItem(std::make_shared<Action>(
+        p.menus["Window"] = Menu::create(context);
+        p.menus["Window"]->addItem(std::make_shared<Action>(
             "Full Screen",
             Key::U,
             static_cast<int>(commandKeyModifier),
@@ -66,7 +68,23 @@ namespace dtk
                 setFullScreen(value);
             }));
 
-        p.menus["DisplayScale"] = windowMenu->addSubMenu("Display Scale");
+        p.menus["ColorStyle"] = p.menus["Window"]->addSubMenu("Color Style");
+        for (auto colorStyle : getColorStyleEnums())
+        {
+            auto action = std::make_shared<Action>(
+                getLabel(colorStyle),
+                [this, colorStyle]
+                {
+                    if (auto app = _p->app.lock())
+                    {
+                        app->setColorStyle(colorStyle);
+                    }
+                });
+            p.colorStyleActions[colorStyle] = action;
+            p.menus["ColorStyle"]->addItem(action);
+        }
+
+        p.menus["DisplayScale"] = p.menus["Window"]->addSubMenu("Display Scale");
         for (size_t i = 0; i < p.displayScales.size(); ++i)
         {
             const float displayScale = p.displayScales[i];
@@ -83,23 +101,18 @@ namespace dtk
             p.menus["DisplayScale"]->addItem(action);
         }
 
-        p.menus["ColorStyle"] = windowMenu->addSubMenu("Color Style");
-        for (auto colorStyle : getColorStyleEnums())
-        {
-            auto action = std::make_shared<Action>(
-                getLabel(colorStyle),
-                [this, colorStyle]
+        p.tooltipsAction = std::make_shared<Action>(
+            "Tooltips",
+            [this](bool value)
+            {
+                if (auto app = _p->app.lock())
                 {
-                    if (auto app = _p->app.lock())
-                    {
-                        app->setColorStyle(colorStyle);
-                    }
-                });
-            p.colorStyleActions[colorStyle] = action;
-            p.menus["ColorStyle"]->addItem(action);
-        }
+                    app->setTooltipsEnabled(value);
+                }
+            });
+        p.menus["Window"]->addItem(p.tooltipsAction);
 
-        p.menuBar->addMenu("Window", windowMenu);
+        p.menuBar->addMenu("Window", p.menus["Window"]);
 
         p.menuBarDivider = Divider::create(context, Orientation::Vertical);
 
@@ -111,18 +124,6 @@ namespace dtk
         p.centralLayout->setSpacingRole(SizeRole::None);
         p.centralLayout->setVStretch(Stretch::Expanding);
 
-        p.displayScaleObserver = ValueObserver<float>::create(
-            observeDisplayScale(),
-            [this](float value)
-            {
-                for (auto displayScale : _p->displayScales)
-                {
-                    _p->menus["DisplayScale"]->setItemChecked(
-                        _p->displayScaleActions[displayScale],
-                        displayScale == value);
-                }
-            });
-
         p.colorStyleObserver = ValueObserver<ColorStyle>::create(
             app->observeColorStyle(),
             [this](ColorStyle value)
@@ -133,6 +134,25 @@ namespace dtk
                         _p->colorStyleActions[colorStyle],
                         colorStyle == value);
                 }
+            });
+
+        p.displayScaleObserver = ValueObserver<float>::create(
+            app->observeDisplayScale(),
+            [this](float value)
+            {
+                for (auto displayScale : _p->displayScales)
+                {
+                    _p->menus["DisplayScale"]->setItemChecked(
+                        _p->displayScaleActions[displayScale],
+                        displayScale == value);
+                }
+            });
+
+        p.tooltipsObserver = ValueObserver<bool>::create(
+            app->observeTooltipsEnabled(),
+            [this](bool value)
+            {
+                _p->menus["Window"]->setItemChecked(_p->tooltipsAction, value);
             });
     }
 

@@ -46,6 +46,7 @@ namespace dtk
         std::shared_ptr<Style> style;
         std::shared_ptr<ObservableValue<ColorStyle> > colorStyle;
         std::shared_ptr<ObservableValue<float> > displayScale;
+        std::shared_ptr<ObservableValue<bool> > tooltipsEnabled;
         bool running = true;
         std::list<std::shared_ptr<Window> > windows;
         std::list<int> tickTimes;
@@ -94,6 +95,7 @@ namespace dtk
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
         p.displayScale = ObservableValue<float>::create(displayScale);
+        p.tooltipsEnabled = ObservableValue<bool>::create(true);
 
         _styleUpdate();
 
@@ -135,6 +137,7 @@ namespace dtk
     {
         DTK_P();
         window->setDisplayScale(p.displayScale->get());
+        window->setTooltipsEnabled(p.tooltipsEnabled->get());
         p.windows.push_back(window);
     }
 
@@ -207,12 +210,30 @@ namespace dtk
     void App::setDisplayScale(float value)
     {
         DTK_P();
-        if (p.displayScale->setIfChanged(value))
+        p.displayScale->setIfChanged(value);
+        for (const auto& window : p.windows)
         {
-            for (const auto& window : p.windows)
-            {
-                window->setDisplayScale(value);
-            }
+            window->setDisplayScale(value);
+        }
+    }
+
+    bool App::areTooltipsEnabled() const
+    {
+        return _p->tooltipsEnabled->get();
+    }
+
+    std::shared_ptr<IObservableValue<bool> > App::observeTooltipsEnabled() const
+    {
+        return _p->tooltipsEnabled;
+    }
+
+    void App::setTooltipsEnabled(bool value)
+    {
+        DTK_P();
+        p.tooltipsEnabled->setIfChanged(value);
+        for (const auto& window : p.windows)
+        {
+            window->setTooltipsEnabled(value);
         }
     }
 

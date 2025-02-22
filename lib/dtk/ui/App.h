@@ -94,6 +94,15 @@ namespace dtk
         //! Set the display scale.
         void setDisplayScale(float);
 
+        //! Get whether tooltips are enabled.
+        bool areTooltipsEnabled() const;
+
+        //! Observe whether tooltips are enabled.
+        std::shared_ptr<IObservableValue<bool> > observeTooltipsEnabled() const;
+
+        //! Set whether tooltips are enabled.
+        void setTooltipsEnabled(bool);
+
         //! Exit the application.
         void exit();
 

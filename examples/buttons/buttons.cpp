@@ -75,6 +75,12 @@ DTK_MAIN()
             "PlaybackStop",
             "PlaybackForward"
         };
+        const std::vector<std::string> toolTooltips =
+        {
+            "Reverse playback",
+            "Stop playback",
+            "Forward playback"
+        };
         auto hLayout2 = HorizontalLayout::create(context, hLayout);
         hLayout2->setSpacingRole(SizeRole::SpacingTool);
         for (size_t i = 0; i < 3; ++i)
@@ -83,6 +89,7 @@ DTK_MAIN()
             toolButton->setCheckable(true);
             toolButton->setChecked(0 == i);
             toolButton->setIcon(toolIcons[i]);
+            toolButton->setTooltip(toolTooltips[i]);
             toolButtonGroup->addButton(toolButton);
         }
         auto playStopButton = ToolButton::create(context, hLayout);
