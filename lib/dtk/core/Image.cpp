@@ -176,7 +176,9 @@ namespace dtk
         }
         else
         {
-            _data.reserve(_byteCount);
+            // Allocate a bit of extra space since FFmpeg sws_scale()
+            // can read past the end.
+            _data.resize(_byteCount + 16);
             _dataP = _data.data();
         }
     }
