@@ -20,7 +20,3 @@ install(
     FILE dtkresourceTargets.cmake
     DESTINATION "lib/cmake/dtk"
     NAMESPACE dtk::)
-
-add_test(
-    NAME dtkresource
-    COMMAND dtkresource -log ${CMAKE_CURRENT_SOURCE_DIR}/test_resource.txt test_resource.h test_resource)

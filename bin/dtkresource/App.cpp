@@ -106,7 +106,7 @@ void App::run()
         tmp.append("{\n");
         tmp.append("    std::vector<uint8_t> " + function + "();\n");
         tmp.append("}\n");
-        File file(headerOutput.string(), "w");
+        File file(headerOutput.string(), "wb");
         file.write((const uint8_t*)tmp.c_str(), tmp.size());
     }
 
@@ -138,7 +138,7 @@ void App::run()
         tmp.append("        };\n");
         tmp.append("    }\n");
         tmp.append("}\n");
-        File file(sourceOutput.string(), "w");
+        File file(sourceOutput.string(), "wb");
         file.write((const uint8_t*)tmp.c_str(), tmp.size());
     }
 
