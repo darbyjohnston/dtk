@@ -4,40 +4,31 @@
 
 #pragma once
 
-#include <dtk/core/IApp.h>
+#include <chrono>
+#include <memory>
+#include <string>
 
-namespace dtk
+//! Resource application.
+class App
 {
-    //! Resource application
-    namespace resource
-    {
-        //! Resource application.
-        class App : public IApp
-        {
-            DTK_NON_COPYABLE(App);
+protected:
+    void _init(int argc, char** argv);
 
-        protected:
-            void _init(
-                const std::shared_ptr<Context>&,
-                std::vector<std::string>& argv);
+    App() = default;
 
-            App();
-
-        public:
-            virtual ~App();
+public:
+    ~App();
             
-            static std::shared_ptr<App> create(
-                const std::shared_ptr<Context>&,
-                std::vector<std::string>& argv);
+    static std::shared_ptr<App> create(int argc, char** argv);
 
-            void run() override;
+    int getExit() const { return _exit; }
 
-        private:
-            std::string _input;
-            std::string _output;
-            std::string _varName;
-            std::chrono::steady_clock::time_point _startTime;
-        };
-    }
-}
+    void run();
 
+private:
+    int _exit = 0;
+    std::string _input;
+    std::string _output;
+    std::string _namespace;
+    std::chrono::steady_clock::time_point _startTime;
+};

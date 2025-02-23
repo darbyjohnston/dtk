@@ -8,7 +8,9 @@
 #include <dtk/core/LRUCache.h>
 #include <dtk/core/LogSystem.h>
 
-#include <dtk/resource/Resource.h>
+#include <dtk/resource/NotoSansBold.h>
+#include <dtk/resource/NotoSansMonoRegular.h>
+#include <dtk/resource/NotoSansRegular.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -55,6 +57,11 @@ namespace dtk
         _p(new Private)
     {
         DTK_P();
+
+        p.fontData["NotoSans-Bold"] = getNotoSansBold();
+        p.fontData["NotoSans-MonoRegular"] = getNotoSansMonoRegular();
+        p.fontData["NotoSans-Regular"] = getNotoSansRegular();
+
 #if defined(dtk_API_GLES_2)
         //! \bug Some GLES 2 implementations (Pi Zero W) only support RGBA?
         p.imageType = ImageType::RGBA_U8;
@@ -67,15 +74,14 @@ namespace dtk
                 throw std::runtime_error("FreeType cannot be initialized");
             }
 
-            for (const auto& font : getFontResources())
+            for (const auto& i : p.fontData)
             {
-                p.fontData[font] = getFontResource(font);
                 ftError = FT_New_Memory_Face(
                     p.ftLibrary,
-                    p.fontData[font].data(),
-                    p.fontData[font].size(),
+                    i.second.data(),
+                    i.second.size(),
                     0,
-                    &p.ftFaces[font]);
+                    &p.ftFaces[i.first]);
                 if (ftError)
                 {
                     throw std::runtime_error("Cannot create font");

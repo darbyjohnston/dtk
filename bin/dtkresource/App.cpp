@@ -10,109 +10,139 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/String.h>
 
-namespace dtk
+void App::_init(int argc, char** argv)
 {
-    namespace resource
+    if (argc != 4)
     {
-        void App::_init(
-            const std::shared_ptr<Context>& context,
-            std::vector<std::string>& argv)
-        {
-            IApp::_init(
-                context,
-                argv,
-                "tlresource",
-                "Convert a resource file to a source file.",
-                {
-                    CmdLineValueArg<std::string>::create(
-                        _input,
-                        "input",
-                        "The input resource file."),
-                    CmdLineValueArg<std::string>::create(
-                        _output,
-                        "output",
-                        "The output base name."),
-                    CmdLineValueArg<std::string>::create(
-                        _varName,
-                        "variable name",
-                        "The resource variable name.")
-                });
-        }
-
-        App::App()
-        {}
-
-        App::~App()
-        {}
-        
-        std::shared_ptr<App> App::create(
-            const std::shared_ptr<Context>& context,
-            std::vector<std::string>& argv)
-        {
-            auto out = std::shared_ptr<App>(new App);
-            out->_init(context, argv);
-            return out;
-        }
-        
-        void App::run()
-        {
-            _startTime = std::chrono::steady_clock::now();
-
-            size_t size = 0;
-            std::vector<uint8_t> data;
-            {
-                _print(Format("Input: {0}").arg(_input));
-                auto io = FileIO::create(_input, FileMode::Read);
-                size = io->getSize();
-                data.resize(size);
-                io->readU8(data.data(), size);
-            }
-
-            std::filesystem::path headerOutput = _output;
-            headerOutput.replace_extension(".h");
-            {
-                _print(Format("Header output: {0}").arg(headerOutput.u8string()));
-                std::string tmp;
-                tmp.append("#include <cstdint>\n");
-                tmp.append("#include <vector>\n");
-                tmp.append("namespace dtk\n");
-                tmp.append("{\n");
-                tmp.append(Format("    extern const std::vector<uint8_t> {0};\n").arg(_varName));
-                tmp.append("}\n");
-                auto io = FileIO::create(headerOutput, FileMode::Write);
-                io->write(tmp);
-            }
-
-            {
-                std::filesystem::path sourceOutput = _output;
-                sourceOutput.replace_extension(".cpp");
-                _print(Format("Source output: {0}").arg(sourceOutput.u8string()));
-                std::string tmp;
-                tmp.append("#include <cstdint>\n");
-                tmp.append("#include <vector>\n");
-                tmp.append("namespace dtk\n");
-                tmp.append("{\n");
-                tmp.append(Format("    extern const std::vector<uint8_t> {0} = {\n").arg(_varName));
-                const size_t columns = 30;
-                for (size_t i = 0; i < size; i += columns)
-                {
-                    tmp.append("        ");
-                    for (size_t j = i; j < i + columns && j < size; ++j)
-                    {
-                        tmp.append(Format("{0}, ").arg(static_cast<int>(data[j])));
-                    }
-                    tmp.append("\n");
-                }
-                tmp.append("    };\n");
-                tmp.append("}\n");
-                auto io = FileIO::create(sourceOutput, FileMode::Write);
-                io->write(tmp);
-            }
-
-            const auto now = std::chrono::steady_clock::now();
-            const std::chrono::duration<float> diff = now - _startTime;
-            _print(Format("Seconds elapsed: {0}").arg(diff.count(), 2));
-        }
+        std::cout << "Usage: dtkresource (input file name) (output base name) (namespace)" << std::endl;
+        _exit = 1;
+    }
+    else
+    {
+        _input = argv[1];
+        _output = argv[2];
+        _namespace = argv[3];
     }
 }
 
+App::~App()
+{}
+        
+std::shared_ptr<App> App::create(int argc, char** argv)
+{
+    auto out = std::shared_ptr<App>(new App);
+    out->_init(argc, argv);
+    return out;
+}
+
+class File
+{
+public:
+    File(const std::string& fileName, const std::string& mode) :
+        _fileName(fileName)
+    {
+        _f = fopen(fileName.c_str(), mode.c_str());
+        if (!_f)
+        {
+            throw std::runtime_error("Cannot open: " + _fileName);
+        }
+    }
+
+    ~File()
+    {
+        if (_f)
+        {
+            fclose(_f);
+        }
+    }
+
+    void read(uint8_t* data, size_t size)
+    {
+        size_t r = fread(data, size, 1, _f);
+        if (r != 1)
+        {
+            throw std::runtime_error("Cannot read: " + _fileName);
+        }
+    }
+
+    void write(const uint8_t* data, size_t size)
+    {
+        size_t r = fwrite(data, size, 1, _f);
+        if (r != 1)
+        {
+            throw std::runtime_error("Cannot write: " + _fileName);
+        }
+    }
+
+private:
+    std::string _fileName;
+    FILE* _f = nullptr;
+};
+
+void App::run()
+{
+    _startTime = std::chrono::steady_clock::now();
+
+    size_t size = 0;
+    std::vector<uint8_t> data;
+    {
+        std::cout << "Input: " << _input << std::endl;
+        File file(_input, "rb");
+        size = std::filesystem::file_size(_input);
+        data.resize(size);
+        file.read(data.data(), size);
+    }
+
+    const std::string function = "get" + std::filesystem::path(_input).stem().string();
+    std::filesystem::path headerOutput = _output;
+    headerOutput.replace_extension(".h");
+    {
+        std::cout << "Header output: " << headerOutput.string() << std::endl;
+        std::string tmp;
+        tmp.append("#include <cstdint>\n");
+        tmp.append("#include <vector>\n");
+        tmp.append("\n");
+        tmp.append("namespace " + _namespace + "\n");
+        tmp.append("{\n");
+        tmp.append("    std::vector<uint8_t> " + function + "();\n");
+        tmp.append("}\n");
+        File file(headerOutput.string(), "w");
+        file.write((const uint8_t*)tmp.c_str(), tmp.size());
+    }
+
+    {
+        std::filesystem::path sourceOutput = _output;
+        sourceOutput.replace_extension(".cpp");
+        std::cout << "Source output: " << sourceOutput.string() << std::endl;
+        std::string tmp;
+        tmp.append("#include \"" + headerOutput.filename().string() + "\"\n");
+        tmp.append("\n");
+        tmp.append("namespace " + _namespace + "\n");
+        tmp.append("{\n");
+        tmp.append("    std::vector<uint8_t> " + function + "()\n");
+        tmp.append("    {\n");
+        tmp.append("        return std::vector<uint8_t>\n");
+        tmp.append("        {\n");
+        const size_t columns = 30;
+        for (size_t i = 0; i < size; i += columns)
+        {
+            tmp.append("            ");
+            for (size_t j = i; j < i + columns && j < size; ++j)
+            {
+                std::stringstream ss;
+                ss << static_cast<int>(data[j]) << ", ";
+                tmp.append(ss.str());
+            }
+            tmp.append("\n");
+        }
+        tmp.append("        };\n");
+        tmp.append("    }\n");
+        tmp.append("}\n");
+        File file(sourceOutput.string(), "w");
+        file.write((const uint8_t*)tmp.c_str(), tmp.size());
+    }
+
+    const auto now = std::chrono::steady_clock::now();
+    const std::chrono::duration<float> diff = now - _startTime;
+    std::cout << "Seconds elapsed:" << diff.count() << std::endl;
+}

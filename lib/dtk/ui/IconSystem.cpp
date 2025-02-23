@@ -10,7 +10,60 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/LRUCache.h>
 
-#include <dtk/resource/Resource.h>
+#include <dtk/resource/ArrowDown.h>
+#include <dtk/resource/ArrowLeft.h>
+#include <dtk/resource/ArrowRight.h>
+#include <dtk/resource/ArrowUp.h>
+#include <dtk/resource/Audio.h>
+#include <dtk/resource/BellowsClosed.h>
+#include <dtk/resource/BellowsOpen.h>
+#include <dtk/resource/Clear.h>
+#include <dtk/resource/Close.h>
+#include <dtk/resource/Copy.h>
+#include <dtk/resource/Decrement.h>
+#include <dtk/resource/Directory.h>
+#include <dtk/resource/DirectoryBack.h>
+#include <dtk/resource/DirectoryForward.h>
+#include <dtk/resource/DirectoryUp.h>
+#include <dtk/resource/Edit.h>
+#include <dtk/resource/Empty.h>
+#include <dtk/resource/File.h>
+#include <dtk/resource/FileBrowser.h>
+#include <dtk/resource/FileClose.h>
+#include <dtk/resource/FileCloseAll.h>
+#include <dtk/resource/FileOpen.h>
+#include <dtk/resource/FrameEnd.h>
+#include <dtk/resource/FrameInOut.h>
+#include <dtk/resource/FrameNext.h>
+#include <dtk/resource/FramePrev.h>
+#include <dtk/resource/FrameStart.h>
+#include <dtk/resource/Increment.h>
+#include <dtk/resource/MenuArrow.h>
+#include <dtk/resource/MenuChecked.h>
+#include <dtk/resource/Mute.h>
+#include <dtk/resource/Next.h>
+#include <dtk/resource/PanelBottom.h>
+#include <dtk/resource/PanelLeft.h>
+#include <dtk/resource/PanelRight.h>
+#include <dtk/resource/PanelTop.h>
+#include <dtk/resource/PlaybackForward.h>
+#include <dtk/resource/PlaybackReverse.h>
+#include <dtk/resource/PlaybackStop.h>
+#include <dtk/resource/Prev.h>
+#include <dtk/resource/Reload.h>
+#include <dtk/resource/Reset.h>
+#include <dtk/resource/ReverseSort.h>
+#include <dtk/resource/Search.h>
+#include <dtk/resource/Settings.h>
+#include <dtk/resource/SubMenuArrow.h>
+#include <dtk/resource/TimeEnd.h>
+#include <dtk/resource/TimeStart.h>
+#include <dtk/resource/ViewFrame.h>
+#include <dtk/resource/ViewZoomIn.h>
+#include <dtk/resource/ViewZoomOut.h>
+#include <dtk/resource/ViewZoomReset.h>
+#include <dtk/resource/Volume.h>
+#include <dtk/resource/WindowFullScreen.h>
 
 #include <lunasvg/lunasvg.h>
 
@@ -71,6 +124,61 @@ namespace dtk
         DTK_P();
         p.context = context;
 
+        p.iconData["ArrowDown"] = getArrowDown();
+        p.iconData["ArrowLeft"] = getArrowLeft();
+        p.iconData["ArrowRight"] = getArrowRight();
+        p.iconData["ArrowUp"] = getArrowUp();
+        p.iconData["Audio"] = getAudio();
+        p.iconData["BellowsClosed"] = getBellowsClosed();
+        p.iconData["BellowsOpen"] = getBellowsOpen();
+        p.iconData["Clear"] = getClear();
+        p.iconData["Close"] = getClose();
+        p.iconData["Copy"] = getCopy();
+        p.iconData["Decrement"] = getDecrement();
+        p.iconData["Directory"] = getDirectory();
+        p.iconData["DirectoryBack"] = getDirectoryBack();
+        p.iconData["DirectoryForward"] = getDirectoryForward();
+        p.iconData["DirectoryUp"] = getDirectoryUp();
+        p.iconData["Edit"] = getEdit();
+        p.iconData["Empty"] = getEmpty();
+        p.iconData["File"] = getFile();
+        p.iconData["FileBrowser"] = getFileBrowser();
+        p.iconData["FileClose"] = getFileClose();
+        p.iconData["FileCloseAll"] = getFileCloseAll();
+        p.iconData["FileOpen"] = getFileOpen();
+        p.iconData["FrameEnd"] = getFrameEnd();
+        p.iconData["FrameInOut"] = getFrameInOut();
+        p.iconData["FrameNext"] = getFrameNext();
+        p.iconData["FramePrev"] = getFramePrev();
+        p.iconData["FrameStart"] = getFrameStart();
+        p.iconData["Increment"] = getIncrement();
+        p.iconData["MenuArrow"] = getMenuArrow();
+        p.iconData["MenuChecked"] = getMenuChecked();
+        p.iconData["Mute"] = getMute();
+        p.iconData["Next"] = getNext();
+        p.iconData["PanelBottom"] = getPanelBottom();
+        p.iconData["PanelLeft"] = getPanelLeft();
+        p.iconData["PanelRight"] = getPanelRight();
+        p.iconData["PanelTop"] = getPanelTop();
+        p.iconData["PlaybackForward"] = getPlaybackForward();
+        p.iconData["PlaybackReverse"] = getPlaybackReverse();
+        p.iconData["PlaybackStop"] = getPlaybackStop();
+        p.iconData["Prev"] = getPrev();
+        p.iconData["Reload"] = getReload();
+        p.iconData["Reset"] = getReset();
+        p.iconData["ReverseSort"] = getReverseSort();
+        p.iconData["Search"] = getSearch();
+        p.iconData["Settings"] = getSettings();
+        p.iconData["SubMenuArrow"] = getSubMenuArrow();
+        p.iconData["TimeEnd"] = getTimeEnd();
+        p.iconData["TimeStart"] = getTimeStart();
+        p.iconData["ViewFrame"] = getViewFrame();
+        p.iconData["ViewZoomIn"] = getViewZoomIn();
+        p.iconData["ViewZoomOut"] = getViewZoomOut();
+        p.iconData["ViewZoomReset"] = getViewZoomReset();
+        p.iconData["Volume"] = getVolume();
+        p.iconData["WindowFullScreen"] = getWindowFullScreen();
+
         p.mutex.cache.setMax(1000);
         p.thread.running = true;
         p.thread.thread = std::thread(
@@ -114,7 +222,7 @@ namespace dtk
                         }
                         if (!cached)
                         {
-                            std::vector<uint8_t> resource = getIconResource(request->name);
+                            std::vector<uint8_t> resource;
                             if (resource.empty())
                             {
                                 const auto i = p.iconData.find(request->name);
@@ -196,7 +304,7 @@ namespace dtk
     std::vector<std::string> IconSystem::getNames() const
     {
         DTK_P();
-        std::vector<std::string> out = getIconResources();
+        std::vector<std::string> out;
         for (const auto& i : p.iconData)
         {
             out.push_back(i.first);

@@ -88,7 +88,7 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-include_directories(lib etc)
+include_directories(lib)
 if(dtk_TESTS)
     include_directories(tests)
 endif()
@@ -144,8 +144,8 @@ endif()
 #-------------------------------------------------------------------------------
 # Subdirectories
 
+add_subdirectory(bin/dtkresource)
 add_subdirectory(lib/dtk)
-add_subdirectory(bin)
 if(dtk_UI_LIB AND dtk_PYTHON)
     add_subdirectory(python)
 endif()

@@ -4,21 +4,14 @@
 
 #include "App.h"
 
-#include <dtk/core/Context.h>
-
 #include <iostream>
 
-using namespace dtk;
-using namespace dtk::resource;
-
-DTK_MAIN()
+int main(int argc, char** argv)
 {
     int r = 0;
     try
     {
-        auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args);
+        auto app = App::create(argc, argv);
         r = app->getExit();
         if (0 == r)
         {
