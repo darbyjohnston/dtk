@@ -31,7 +31,7 @@ if(@dtk_UI_LIB@)
     endif()
 endif()
 
-include("${CMAKE_CURRENT_LIST_DIR}/dtkresourceTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dtkresTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/dtkResourceLibTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/dtkCoreTargets.cmake")
 if(@dtk_UI_LIB@)

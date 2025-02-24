@@ -62,7 +62,7 @@ foreach(RESOURCE ${RESOURCES})
     get_filename_component(RESOURCE_BASE ${RESOURCE} NAME_WE)
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE_BASE}.cpp
-        COMMAND dtkresource ${CMAKE_SOURCE_DIR}/${RESOURCE} ${RESOURCE_BASE} dtk_resource
+        COMMAND dtkres ${CMAKE_SOURCE_DIR}/${RESOURCE} ${RESOURCE_BASE} dtk_resource
         DEPENDS ${CMAKE_SOURCE_DIR}/${RESOURCE})
     list(APPEND SOURCE ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE_BASE}.cpp)
 endforeach()
@@ -71,7 +71,7 @@ add_library(dtkResource ${HEADERS} ${SOURCE})
 target_link_libraries(dtkResource)
 set_target_properties(dtkResource PROPERTIES FOLDER lib)
 set_target_properties(dtkResource PROPERTIES PUBLIC_HEADER "${HEADERS}")
-add_dependencies(dtkResource dtkresource)
+add_dependencies(dtkResource dtkres)
 
 install(
     TARGETS dtkResource

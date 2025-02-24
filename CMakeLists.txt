@@ -144,7 +144,7 @@ endif()
 #-------------------------------------------------------------------------------
 # Subdirectories
 
-add_subdirectory(bin/dtkresource)
+add_subdirectory(bin/dtkres)
 add_subdirectory(lib/dtk)
 if(dtk_UI_LIB AND dtk_PYTHON)
     add_subdirectory(python)
