@@ -62,7 +62,7 @@ namespace dtk
         DTK_P();
 
         p.fontData["NotoSans-Bold"] = dtk_resource::NotoSansBold;
-        p.fontData["NotoSans-MonoRegular"] = dtk_resource::NotoSansMonoRegular;
+        p.fontData["NotoSansMono-Regular"] = dtk_resource::NotoSansMonoRegular;
         p.fontData["NotoSans-Regular"] = dtk_resource::NotoSansRegular;
 
 #if defined(dtk_API_GLES_2)
