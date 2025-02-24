@@ -59,16 +59,18 @@ namespace dtk
 
     void StackLayout::setCurrentWidget(const std::shared_ptr<IWidget>& value)
     {
-        int index = 0;
+        int index = -1;
         const auto& children = getChildren();
-        for (auto i = children.begin(); i != children.end(); ++i, ++index)
+        int j = 0;
+        for (auto i = children.begin(); i != children.end(); ++i, ++j)
         {
             if (value == *i)
             {
-                setCurrentIndex(index);
+                index = j;
                 break;
             }
         }
+        setCurrentIndex(index);
     }
 
     SizeRole StackLayout::getMarginRole() const
@@ -145,29 +147,14 @@ namespace dtk
         _setSizeHint(sizeHint);
     }
 
-    std::shared_ptr<IWidget> StackLayout::_getCurrentWidget() const
-    {
-        DTK_P();
-        std::shared_ptr<IWidget> out;
-        int i = 0;
-        for (const auto& child : getChildren())
-        {
-            if (i == p.currentIndex)
-            {
-                out = child;
-                break;
-            }
-            ++i;
-        }
-        return out;
-    }
-
     void StackLayout::_widgetUpdate()
     {
-        const auto currentWidget = _getCurrentWidget();
-        for (const auto& child : getChildren())
+        DTK_P();
+        const auto& children = getChildren();
+        int j = 0;
+        for (auto i = children.begin(); i != children.end(); ++i, ++j)
         {
-            child->setVisible(child == currentWidget);
+            (*i)->setVisible(j == p.currentIndex);
         }
         _setSizeUpdate();
         _setDrawUpdate();

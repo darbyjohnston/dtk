@@ -51,8 +51,6 @@ namespace dtk
         void sizeHintEvent(const SizeHintEvent&) override;
 
     private:
-        std::shared_ptr<IWidget> _getCurrentWidget() const;
-
         void _widgetUpdate();
 
         DTK_PRIVATE();
