@@ -87,6 +87,29 @@ namespace dtk
         p.widgets.clear();
     }
 
+    void FormLayout::setRowVisible(int index, bool visible)
+    {
+        DTK_P();
+        if (index >= 0 && index < p.widgets.size())
+        {
+            p.widgets[index].first->setVisible(visible);
+            p.widgets[index].second->setVisible(visible);
+        }
+    }
+
+    void FormLayout::setRowVisible(const std::shared_ptr<IWidget>& widget, bool visible)
+    {
+        DTK_P();
+        for (size_t i = 0; i < p.widgets.size(); ++i)
+        {
+            if (widget == p.widgets[i].second)
+            {
+                setRowVisible(i, visible);
+                break;
+            }
+        }
+    }
+
     SizeRole FormLayout::getMarginRole() const
     {
         return _p->layout->getMarginRole();

@@ -41,6 +41,12 @@ namespace dtk
         //! Clear all of the rows.
         void clear();
 
+        //! Set row visibility.
+        void setRowVisible(int, bool);
+
+        //! Set row visibility.
+        void setRowVisible(const std::shared_ptr<IWidget>&, bool);
+
         //! Get the margin role.
         SizeRole getMarginRole() const;
 
