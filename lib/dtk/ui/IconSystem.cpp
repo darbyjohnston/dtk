@@ -10,61 +10,6 @@
 #include <dtk/core/Format.h>
 #include <dtk/core/LRUCache.h>
 
-#include <dtk/resource/ArrowDown.h>
-#include <dtk/resource/ArrowLeft.h>
-#include <dtk/resource/ArrowRight.h>
-#include <dtk/resource/ArrowUp.h>
-#include <dtk/resource/Audio.h>
-#include <dtk/resource/BellowsClosed.h>
-#include <dtk/resource/BellowsOpen.h>
-#include <dtk/resource/Clear.h>
-#include <dtk/resource/Close.h>
-#include <dtk/resource/Copy.h>
-#include <dtk/resource/Decrement.h>
-#include <dtk/resource/Directory.h>
-#include <dtk/resource/DirectoryBack.h>
-#include <dtk/resource/DirectoryForward.h>
-#include <dtk/resource/DirectoryUp.h>
-#include <dtk/resource/Edit.h>
-#include <dtk/resource/Empty.h>
-#include <dtk/resource/File.h>
-#include <dtk/resource/FileBrowser.h>
-#include <dtk/resource/FileClose.h>
-#include <dtk/resource/FileCloseAll.h>
-#include <dtk/resource/FileOpen.h>
-#include <dtk/resource/FrameEnd.h>
-#include <dtk/resource/FrameInOut.h>
-#include <dtk/resource/FrameNext.h>
-#include <dtk/resource/FramePrev.h>
-#include <dtk/resource/FrameStart.h>
-#include <dtk/resource/Increment.h>
-#include <dtk/resource/MenuArrow.h>
-#include <dtk/resource/MenuChecked.h>
-#include <dtk/resource/Mute.h>
-#include <dtk/resource/Next.h>
-#include <dtk/resource/PanelBottom.h>
-#include <dtk/resource/PanelLeft.h>
-#include <dtk/resource/PanelRight.h>
-#include <dtk/resource/PanelTop.h>
-#include <dtk/resource/PlaybackForward.h>
-#include <dtk/resource/PlaybackReverse.h>
-#include <dtk/resource/PlaybackStop.h>
-#include <dtk/resource/Prev.h>
-#include <dtk/resource/Reload.h>
-#include <dtk/resource/Reset.h>
-#include <dtk/resource/ReverseSort.h>
-#include <dtk/resource/Search.h>
-#include <dtk/resource/Settings.h>
-#include <dtk/resource/SubMenuArrow.h>
-#include <dtk/resource/TimeEnd.h>
-#include <dtk/resource/TimeStart.h>
-#include <dtk/resource/ViewFrame.h>
-#include <dtk/resource/ViewZoomIn.h>
-#include <dtk/resource/ViewZoomOut.h>
-#include <dtk/resource/ViewZoomReset.h>
-#include <dtk/resource/Volume.h>
-#include <dtk/resource/WindowFullScreen.h>
-
 #include <lunasvg/lunasvg.h>
 
 #include <atomic>
@@ -72,6 +17,64 @@
 #include <list>
 #include <mutex>
 #include <thread>
+
+namespace dtk_resource
+{
+    extern std::vector<uint8_t> ArrowDown;
+    extern std::vector<uint8_t> ArrowLeft;
+    extern std::vector<uint8_t> ArrowRight;
+    extern std::vector<uint8_t> ArrowUp;
+    extern std::vector<uint8_t> Audio;
+    extern std::vector<uint8_t> BellowsClosed;
+    extern std::vector<uint8_t> BellowsOpen;
+    extern std::vector<uint8_t> Clear;
+    extern std::vector<uint8_t> Close;
+    extern std::vector<uint8_t> Copy;
+    extern std::vector<uint8_t> Decrement;
+    extern std::vector<uint8_t> Directory;
+    extern std::vector<uint8_t> DirectoryBack;
+    extern std::vector<uint8_t> DirectoryForward;
+    extern std::vector<uint8_t> DirectoryUp;
+    extern std::vector<uint8_t> Edit;
+    extern std::vector<uint8_t> Empty;
+    extern std::vector<uint8_t> File;
+    extern std::vector<uint8_t> FileBrowser;
+    extern std::vector<uint8_t> FileClose;
+    extern std::vector<uint8_t> FileCloseAll;
+    extern std::vector<uint8_t> FileOpen;
+    extern std::vector<uint8_t> FrameEnd;
+    extern std::vector<uint8_t> FrameInOut;
+    extern std::vector<uint8_t> FrameNext;
+    extern std::vector<uint8_t> FramePrev;
+    extern std::vector<uint8_t> FrameStart;
+    extern std::vector<uint8_t> Increment;
+    extern std::vector<uint8_t> MenuArrow;
+    extern std::vector<uint8_t> MenuChecked;
+    extern std::vector<uint8_t> Mute;
+    extern std::vector<uint8_t> Next;
+    extern std::vector<uint8_t> PanelBottom;
+    extern std::vector<uint8_t> PanelLeft;
+    extern std::vector<uint8_t> PanelRight;
+    extern std::vector<uint8_t> PanelTop;
+    extern std::vector<uint8_t> PlaybackForward;
+    extern std::vector<uint8_t> PlaybackReverse;
+    extern std::vector<uint8_t> PlaybackStop;
+    extern std::vector<uint8_t> Prev;
+    extern std::vector<uint8_t> Reload;
+    extern std::vector<uint8_t> Reset;
+    extern std::vector<uint8_t> ReverseSort;
+    extern std::vector<uint8_t> Search;
+    extern std::vector<uint8_t> Settings;
+    extern std::vector<uint8_t> SubMenuArrow;
+    extern std::vector<uint8_t> TimeEnd;
+    extern std::vector<uint8_t> TimeStart;
+    extern std::vector<uint8_t> ViewFrame;
+    extern std::vector<uint8_t> ViewZoomIn;
+    extern std::vector<uint8_t> ViewZoomOut;
+    extern std::vector<uint8_t> ViewZoomReset;
+    extern std::vector<uint8_t> Volume;
+    extern std::vector<uint8_t> WindowFullScreen;
+}
 
 namespace dtk
 {
@@ -124,60 +127,60 @@ namespace dtk
         DTK_P();
         p.context = context;
 
-        p.iconData["ArrowDown"] = getArrowDown();
-        p.iconData["ArrowLeft"] = getArrowLeft();
-        p.iconData["ArrowRight"] = getArrowRight();
-        p.iconData["ArrowUp"] = getArrowUp();
-        p.iconData["Audio"] = getAudio();
-        p.iconData["BellowsClosed"] = getBellowsClosed();
-        p.iconData["BellowsOpen"] = getBellowsOpen();
-        p.iconData["Clear"] = getClear();
-        p.iconData["Close"] = getClose();
-        p.iconData["Copy"] = getCopy();
-        p.iconData["Decrement"] = getDecrement();
-        p.iconData["Directory"] = getDirectory();
-        p.iconData["DirectoryBack"] = getDirectoryBack();
-        p.iconData["DirectoryForward"] = getDirectoryForward();
-        p.iconData["DirectoryUp"] = getDirectoryUp();
-        p.iconData["Edit"] = getEdit();
-        p.iconData["Empty"] = getEmpty();
-        p.iconData["File"] = getFile();
-        p.iconData["FileBrowser"] = getFileBrowser();
-        p.iconData["FileClose"] = getFileClose();
-        p.iconData["FileCloseAll"] = getFileCloseAll();
-        p.iconData["FileOpen"] = getFileOpen();
-        p.iconData["FrameEnd"] = getFrameEnd();
-        p.iconData["FrameInOut"] = getFrameInOut();
-        p.iconData["FrameNext"] = getFrameNext();
-        p.iconData["FramePrev"] = getFramePrev();
-        p.iconData["FrameStart"] = getFrameStart();
-        p.iconData["Increment"] = getIncrement();
-        p.iconData["MenuArrow"] = getMenuArrow();
-        p.iconData["MenuChecked"] = getMenuChecked();
-        p.iconData["Mute"] = getMute();
-        p.iconData["Next"] = getNext();
-        p.iconData["PanelBottom"] = getPanelBottom();
-        p.iconData["PanelLeft"] = getPanelLeft();
-        p.iconData["PanelRight"] = getPanelRight();
-        p.iconData["PanelTop"] = getPanelTop();
-        p.iconData["PlaybackForward"] = getPlaybackForward();
-        p.iconData["PlaybackReverse"] = getPlaybackReverse();
-        p.iconData["PlaybackStop"] = getPlaybackStop();
-        p.iconData["Prev"] = getPrev();
-        p.iconData["Reload"] = getReload();
-        p.iconData["Reset"] = getReset();
-        p.iconData["ReverseSort"] = getReverseSort();
-        p.iconData["Search"] = getSearch();
-        p.iconData["Settings"] = getSettings();
-        p.iconData["SubMenuArrow"] = getSubMenuArrow();
-        p.iconData["TimeEnd"] = getTimeEnd();
-        p.iconData["TimeStart"] = getTimeStart();
-        p.iconData["ViewFrame"] = getViewFrame();
-        p.iconData["ViewZoomIn"] = getViewZoomIn();
-        p.iconData["ViewZoomOut"] = getViewZoomOut();
-        p.iconData["ViewZoomReset"] = getViewZoomReset();
-        p.iconData["Volume"] = getVolume();
-        p.iconData["WindowFullScreen"] = getWindowFullScreen();
+        p.iconData["ArrowDown"] = dtk_resource::ArrowDown;
+        p.iconData["ArrowLeft"] = dtk_resource::ArrowLeft;
+        p.iconData["ArrowRight"] = dtk_resource::ArrowRight;
+        p.iconData["ArrowUp"] = dtk_resource::ArrowUp;
+        p.iconData["Audio"] = dtk_resource::Audio;
+        p.iconData["BellowsClosed"] = dtk_resource::BellowsClosed;
+        p.iconData["BellowsOpen"] = dtk_resource::BellowsOpen;
+        p.iconData["Clear"] = dtk_resource::Clear;
+        p.iconData["Close"] = dtk_resource::Close;
+        p.iconData["Copy"] = dtk_resource::Copy;
+        p.iconData["Decrement"] = dtk_resource::Decrement;
+        p.iconData["Directory"] = dtk_resource::Directory;
+        p.iconData["DirectoryBack"] = dtk_resource::DirectoryBack;
+        p.iconData["DirectoryForward"] = dtk_resource::DirectoryForward;
+        p.iconData["DirectoryUp"] = dtk_resource::DirectoryUp;
+        p.iconData["Edit"] = dtk_resource::Edit;
+        p.iconData["Empty"] = dtk_resource::Empty;
+        p.iconData["File"] = dtk_resource::File;
+        p.iconData["FileBrowser"] = dtk_resource::FileBrowser;
+        p.iconData["FileClose"] = dtk_resource::FileClose;
+        p.iconData["FileCloseAll"] = dtk_resource::FileCloseAll;
+        p.iconData["FileOpen"] = dtk_resource::FileOpen;
+        p.iconData["FrameEnd"] = dtk_resource::FrameEnd;
+        p.iconData["FrameInOut"] = dtk_resource::FrameInOut;
+        p.iconData["FrameNext"] = dtk_resource::FrameNext;
+        p.iconData["FramePrev"] = dtk_resource::FramePrev;
+        p.iconData["FrameStart"] = dtk_resource::FrameStart;
+        p.iconData["Increment"] = dtk_resource::Increment;
+        p.iconData["MenuArrow"] = dtk_resource::MenuArrow;
+        p.iconData["MenuChecked"] = dtk_resource::MenuChecked;
+        p.iconData["Mute"] = dtk_resource::Mute;
+        p.iconData["Next"] = dtk_resource::Next;
+        p.iconData["PanelBottom"] = dtk_resource::PanelBottom;
+        p.iconData["PanelLeft"] = dtk_resource::PanelLeft;
+        p.iconData["PanelRight"] = dtk_resource::PanelRight;
+        p.iconData["PanelTop"] = dtk_resource::PanelTop;
+        p.iconData["PlaybackForward"] = dtk_resource::PlaybackForward;
+        p.iconData["PlaybackReverse"] = dtk_resource::PlaybackReverse;
+        p.iconData["PlaybackStop"] = dtk_resource::PlaybackStop;
+        p.iconData["Prev"] = dtk_resource::Prev;
+        p.iconData["Reload"] = dtk_resource::Reload;
+        p.iconData["Reset"] = dtk_resource::Reset;
+        p.iconData["ReverseSort"] = dtk_resource::ReverseSort;
+        p.iconData["Search"] = dtk_resource::Search;
+        p.iconData["Settings"] = dtk_resource::Settings;
+        p.iconData["SubMenuArrow"] = dtk_resource::SubMenuArrow;
+        p.iconData["TimeEnd"] = dtk_resource::TimeEnd;
+        p.iconData["TimeStart"] = dtk_resource::TimeStart;
+        p.iconData["ViewFrame"] = dtk_resource::ViewFrame;
+        p.iconData["ViewZoomIn"] = dtk_resource::ViewZoomIn;
+        p.iconData["ViewZoomOut"] = dtk_resource::ViewZoomOut;
+        p.iconData["ViewZoomReset"] = dtk_resource::ViewZoomReset;
+        p.iconData["Volume"] = dtk_resource::Volume;
+        p.iconData["WindowFullScreen"] = dtk_resource::WindowFullScreen;
 
         p.mutex.cache.setMax(1000);
         p.thread.running = true;

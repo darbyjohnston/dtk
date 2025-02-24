@@ -93,40 +93,23 @@ void App::run()
         file.read(data.data(), size);
     }
 
-    const std::string function = "get" + std::filesystem::path(_input).stem().string();
-    std::filesystem::path headerOutput = _output;
-    headerOutput.replace_extension(".h");
+    const std::string var = std::filesystem::path(_input).stem().string();
     {
-        std::cout << "Header output: " << headerOutput.string() << std::endl;
+        std::filesystem::path sourceOutput = _output;
+        sourceOutput.replace_extension(".cpp");
+        std::cout << "Source output: " << sourceOutput.string() << std::endl;
         std::string tmp;
         tmp.append("#include <cstdint>\n");
         tmp.append("#include <vector>\n");
         tmp.append("\n");
         tmp.append("namespace " + _namespace + "\n");
         tmp.append("{\n");
-        tmp.append("    std::vector<uint8_t> " + function + "();\n");
-        tmp.append("}\n");
-        File file(headerOutput.string(), "wb");
-        file.write((const uint8_t*)tmp.c_str(), tmp.size());
-    }
-
-    {
-        std::filesystem::path sourceOutput = _output;
-        sourceOutput.replace_extension(".cpp");
-        std::cout << "Source output: " << sourceOutput.string() << std::endl;
-        std::string tmp;
-        tmp.append("#include \"" + headerOutput.filename().string() + "\"\n");
-        tmp.append("\n");
-        tmp.append("namespace " + _namespace + "\n");
-        tmp.append("{\n");
-        tmp.append("    std::vector<uint8_t> " + function + "()\n");
+        tmp.append("    std::vector<uint8_t> " + var + " = \n");
         tmp.append("    {\n");
-        tmp.append("        return std::vector<uint8_t>\n");
-        tmp.append("        {\n");
         const size_t columns = 30;
         for (size_t i = 0; i < size; i += columns)
         {
-            tmp.append("            ");
+            tmp.append("        ");
             for (size_t j = i; j < i + columns && j < size; ++j)
             {
                 std::stringstream ss;
@@ -135,8 +118,7 @@ void App::run()
             }
             tmp.append("\n");
         }
-        tmp.append("        };\n");
-        tmp.append("    }\n");
+        tmp.append("    };\n");
         tmp.append("}\n");
         File file(sourceOutput.string(), "wb");
         file.write((const uint8_t*)tmp.c_str(), tmp.size());

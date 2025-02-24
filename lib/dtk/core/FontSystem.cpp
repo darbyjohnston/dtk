@@ -8,10 +8,6 @@
 #include <dtk/core/LRUCache.h>
 #include <dtk/core/LogSystem.h>
 
-#include <dtk/resource/NotoSansBold.h>
-#include <dtk/resource/NotoSansMonoRegular.h>
-#include <dtk/resource/NotoSansRegular.h>
-
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
@@ -21,6 +17,13 @@
 #include <limits>
 #include <locale>
 #include <map>
+
+namespace dtk_resource
+{
+    extern std::vector<uint8_t> NotoSansBold;
+    extern std::vector<uint8_t> NotoSansMonoRegular;
+    extern std::vector<uint8_t> NotoSansRegular;
+}
 
 namespace dtk
 {
@@ -58,9 +61,9 @@ namespace dtk
     {
         DTK_P();
 
-        p.fontData["NotoSans-Bold"] = getNotoSansBold();
-        p.fontData["NotoSans-MonoRegular"] = getNotoSansMonoRegular();
-        p.fontData["NotoSans-Regular"] = getNotoSansRegular();
+        p.fontData["NotoSans-Bold"] = dtk_resource::NotoSansBold;
+        p.fontData["NotoSans-MonoRegular"] = dtk_resource::NotoSansMonoRegular;
+        p.fontData["NotoSans-Regular"] = dtk_resource::NotoSansRegular;
 
 #if defined(dtk_API_GLES_2)
         //! \bug Some GLES 2 implementations (Pi Zero W) only support RGBA?
