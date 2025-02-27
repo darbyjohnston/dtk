@@ -14,14 +14,16 @@ namespace dtk
     {
         std::string text;
         ColorRole textRole = ColorRole::Text;
-        SizeRole marginRole = SizeRole::None;
+        SizeRole hMarginRole = SizeRole::None;
+        SizeRole vMarginRole = SizeRole::None;
         FontRole fontRole = FontRole::Label;
 
         struct SizeData
         {
             bool init = true;
             float displayScale = 0.F;
-            int margin = 0;
+            int hMargin = 0;
+            int vMargin = 0;
             FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
@@ -103,17 +105,57 @@ namespace dtk
         _setDrawUpdate();
     }
 
-    SizeRole Label::getMarginRole() const
+    SizeRole Label::getHMarginRole() const
     {
-        return _p->marginRole;
+        return _p->hMarginRole;
+    }
+
+    SizeRole Label::getVMarginRole() const
+    {
+        return _p->vMarginRole;
     }
 
     void Label::setMarginRole(SizeRole value)
     {
         DTK_P();
-        if (value == p.marginRole)
+        if (value == p.hMarginRole && value == p.vMarginRole)
             return;
-        p.marginRole = value;
+        p.hMarginRole = value;
+        p.vMarginRole = value;
+        p.size.init = true;
+        _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
+    void Label::setMarginRole(SizeRole horizontal, SizeRole vertical)
+    {
+        DTK_P();
+        if (horizontal == p.hMarginRole && vertical == p.vMarginRole)
+            return;
+        p.hMarginRole = horizontal;
+        p.vMarginRole = vertical;
+        p.size.init = true;
+        _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
+    void Label::setHMarginRole(SizeRole value)
+    {
+        DTK_P();
+        if (value == p.hMarginRole)
+            return;
+        p.hMarginRole = value;
+        p.size.init = true;
+        _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
+    void Label::setVMarginRole(SizeRole value)
+    {
+        DTK_P();
+        if (value == p.vMarginRole)
+            return;
+        p.vMarginRole = value;
         p.size.init = true;
         _setSizeUpdate();
         _setDrawUpdate();
@@ -141,7 +183,7 @@ namespace dtk
         IWidget::setGeometry(value);
         DTK_P();
         p.draw.g = align(value, getSizeHint(), getHAlign(), getVAlign());
-        p.draw.g2 = margin(p.draw.g, -p.size.margin);
+        p.draw.g2 = margin(p.draw.g, -p.size.hMargin, -p.size.vMargin, -p.size.hMargin, -p.size.vMargin);
     }
 
     void Label::sizeHintEvent(const SizeHintEvent& event)
@@ -153,14 +195,15 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(p.marginRole, event.displayScale);
+            p.size.hMargin = event.style->getSizeRole(p.hMarginRole, event.displayScale);
+            p.size.vMargin = event.style->getSizeRole(p.vMarginRole, event.displayScale);
             p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
             p.draw.glyphs.clear();
         }
         Size2I sizeHint(p.size.textSize);
-        sizeHint = margin(sizeHint, p.size.margin);
+        sizeHint = margin(sizeHint, p.size.hMargin, p.size.vMargin);
         _setSizeHint(sizeHint);
     }
 

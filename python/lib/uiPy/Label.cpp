@@ -32,7 +32,10 @@ namespace dtk
                 py::arg("parent") = nullptr)
             .def_property("text", &Label::getText, &Label::setText)
             .def_property("textRole", &Label::getTextRole, &Label::setTextRole)
-            .def_property("marginRole", &Label::getMarginRole, &Label::setMarginRole)
+            .def_property("hMarginRole", &Label::getHMarginRole, &Label::setHMarginRole)
+            .def_property("vMarginRole", &Label::getVMarginRole, &Label::setVMarginRole)
+            .def("setMarginRole", py::overload_cast<SizeRole>(&Label::setMarginRole))
+            .def("setMarginRole", py::overload_cast<SizeRole, SizeRole>(&Label::setMarginRole))
             .def_property("fontRole", &Label::getFontRole, &Label::setFontRole);
     }
 }

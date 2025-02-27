@@ -49,11 +49,23 @@ namespace dtk
         //! Set the text color role.
         void setTextRole(ColorRole);
 
-        //! Get the margin role.
-        SizeRole getMarginRole() const;
+        //! Get the horizontal margin role.
+        SizeRole getHMarginRole() const;
 
-        //! Set the margin role.
+        //! Get the vertical margin role.
+        SizeRole getVMarginRole() const;
+
+        //! Set the margin roles.
         void setMarginRole(SizeRole);
+
+        //! Set the margin roles.
+        void setMarginRole(SizeRole horizontal, SizeRole vertical);
+
+        //! Set the horizontal margin role.
+        void setHMarginRole(SizeRole);
+
+        //! Set the vertical margin role.
+        void setVMarginRole(SizeRole);
 
         //! Get the font role.
         FontRole getFontRole() const;
