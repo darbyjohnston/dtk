@@ -105,6 +105,11 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    SizeRole Label::getMarginRole() const
+    {
+        return _p->hMarginRole;
+    }
+
     SizeRole Label::getHMarginRole() const
     {
         return _p->hMarginRole;

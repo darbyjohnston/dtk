@@ -49,6 +49,10 @@ namespace dtk
         //! Set the text color role.
         void setTextRole(ColorRole);
 
+        //! Get the margin role. If the horizontal and vertical margin roles
+        //! are different the horizontal role is returned.
+        SizeRole getMarginRole() const;
+
         //! Get the horizontal margin role.
         SizeRole getHMarginRole() const;
 
