@@ -38,6 +38,9 @@ namespace dtk
             const std::filesystem::path&,
             bool reset = false);
 
+        //! Get the settings path.
+        const std::filesystem::path& getPath() const;
+
         //! Do the settings contain the given value?
         bool contains(const std::string& key) const;
 

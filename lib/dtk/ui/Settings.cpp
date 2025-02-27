@@ -70,6 +70,11 @@ namespace dtk
         return std::shared_ptr<Settings>(new Settings(context, path, reset));
     }
 
+    const std::filesystem::path& Settings::getPath() const
+    {
+        return _p->path;
+    }
+
     bool Settings::contains(const std::string& key) const
     {
         DTK_P();
