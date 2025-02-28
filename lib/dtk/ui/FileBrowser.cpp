@@ -120,17 +120,32 @@ namespace dtk
 
     void to_json(nlohmann::json& json, const FileBrowserOptions& value)
     {
-        json["leftPanel"] = value.leftPanel;
-        json["pathEdit"] = value.pathEdit;
-        json["sort"] = to_string(value.sort);
-        json["reverseSort"] = value.reverseSort;
+        json = nlohmann::json
+        {
+            { "leftPanel", value.leftPanel },
+            { "pathEdit", value.pathEdit },
+            { "sort", to_string(value.sort) },
+            { "reverseSort", value.reverseSort }
+        };
     }
 
     void from_json(const nlohmann::json& json, FileBrowserOptions& value)
     {
-        json["leftPanel"].get_to(value.leftPanel);
-        json["pathEdit"].get_to(value.pathEdit);
-        from_string(json["sort"].get<std::string>(), value.sort);
-        json["reverseSort"].get_to(value.reverseSort);
+        if (json.contains("leftPanel"))
+        {
+            json["leftPanel"].get_to(value.leftPanel);
+        }
+        if (json.contains("pathEdit"))
+        {
+            json["pathEdit"].get_to(value.pathEdit);
+        }
+        if (json.contains("sort"))
+        {
+            from_string(json["sort"].get<std::string>(), value.sort);
+        }
+        if (json.contains("reverseSort"))
+        {
+            json["reverseSort"].get_to(value.reverseSort);
+        }
     }
 }
