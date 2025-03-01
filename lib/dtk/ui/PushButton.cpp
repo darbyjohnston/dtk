@@ -161,10 +161,13 @@ namespace dtk
         IButton::drawEvent(drawRect, event);
         DTK_P();
 
-        // Draw the focus and border.
-        event.render->drawMesh(
-            border(p.draw.g, p.size.border),
-            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
+        // Draw the focus.
+        if (hasKeyFocus())
+        {
+            event.render->drawMesh(
+                border(p.draw.g, p.size.border),
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
 
         // Draw the background.
         const auto mesh = rect(p.draw.g2);
