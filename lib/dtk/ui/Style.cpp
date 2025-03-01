@@ -127,8 +127,8 @@ namespace dtk
         out[ColorRole::Border] = Color4F(.6F, .6F, .6F);
         out[ColorRole::Hover] = Color4F(0.F, 0.F, 0.F, .1F);
         out[ColorRole::Pressed] = Color4F(0.F, 0.F, 0.F, .2F);
-        out[ColorRole::Checked] = Color4F(.5F, .6F, .9F);
-        out[ColorRole::KeyFocus] = Color4F(.3F, .4F, 1.F);
+        out[ColorRole::Checked] = Color4F(.6F, .7F, .85F);
+        out[ColorRole::KeyFocus] = Color4F(0.F, .5F, 1.F);
 
         return out;
     }
