@@ -19,8 +19,18 @@ namespace dtk
     {
         py::class_<FileEdit, IWidget, std::shared_ptr<FileEdit> >(m, "FileEdit")
             .def(
-                py::init(&FileEdit::create),
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::shared_ptr<IWidget>&>(&FileEdit::create)),
                 py::arg("context"),
+                py::arg("parent") = nullptr)
+            .def(
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    FileBrowserMode,
+                    const std::shared_ptr<IWidget>&>(&FileEdit::create)),
+                py::arg("context"),
+                py::arg("mode"),
                 py::arg("parent") = nullptr)
             .def_property("path",
                 [](const std::shared_ptr<FileEdit>& w)
