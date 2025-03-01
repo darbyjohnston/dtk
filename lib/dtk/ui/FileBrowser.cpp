@@ -14,6 +14,11 @@
 namespace dtk
 {
     DTK_ENUM_IMPL(
+        FileBrowserMode,
+        "File",
+        "Dir");
+
+    DTK_ENUM_IMPL(
         FileBrowserSort,
         "Name",
         "Extension",
@@ -42,6 +47,7 @@ namespace dtk
     void FileBrowser::_init(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         IDialog::_init(context, "dtk::FileBrowser", parent);
@@ -50,6 +56,7 @@ namespace dtk
         p.widget = FileBrowserWidget::create(
             context,
             path,
+            mode,
             shared_from_this());
 
         p.widget->setCancelCallback(
@@ -69,10 +76,11 @@ namespace dtk
     std::shared_ptr<FileBrowser> FileBrowser::create(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
-        out->_init(context, path, parent);
+        out->_init(context, path, mode, parent);
         return out;
     }
 
@@ -131,21 +139,9 @@ namespace dtk
 
     void from_json(const nlohmann::json& json, FileBrowserOptions& value)
     {
-        if (json.contains("leftPanel"))
-        {
-            json["leftPanel"].get_to(value.leftPanel);
-        }
-        if (json.contains("pathEdit"))
-        {
-            json["pathEdit"].get_to(value.pathEdit);
-        }
-        if (json.contains("sort"))
-        {
-            from_string(json["sort"].get<std::string>(), value.sort);
-        }
-        if (json.contains("reverseSort"))
-        {
-            json["reverseSort"].get_to(value.reverseSort);
-        }
+        json.at("leftPanel").get_to(value.leftPanel);
+        json.at("pathEdit").get_to(value.pathEdit);
+        from_string(json.at("sort").get<std::string>(), value.sort);
+        json.at("reverseSort").get_to(value.reverseSort);
     }
 }

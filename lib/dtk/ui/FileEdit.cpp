@@ -5,7 +5,6 @@
 #include <dtk/ui/FileEdit.h>
 
 #include <dtk/ui/LineEdit.h>
-#include <dtk/ui/FileBrowser.h>
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/ToolButton.h>
 
@@ -13,6 +12,7 @@ namespace dtk
 {
     struct FileEdit::Private
     {
+        FileBrowserMode mode = FileBrowserMode::File;
         std::filesystem::path path;
         std::shared_ptr<LineEdit> lineEdit;
         std::shared_ptr<ToolButton> browseButton;
@@ -23,12 +23,15 @@ namespace dtk
 
     void FileEdit::_init(
         const std::shared_ptr<Context>& context,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "dtk::FileEdit", parent);
         DTK_P();
 
         setHStretch(Stretch::Expanding);
+
+        p.mode = mode;
 
         p.lineEdit = LineEdit::create(context);
         p.lineEdit->setHStretch(Stretch::Expanding);
@@ -78,7 +81,17 @@ namespace dtk
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileEdit>(new FileEdit);
-        out->_init(context, parent);
+        out->_init(context, FileBrowserMode::File, parent);
+        return out;
+    }
+
+    std::shared_ptr<FileEdit> FileEdit::create(
+        const std::shared_ptr<Context>& context,
+        FileBrowserMode mode,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FileEdit>(new FileEdit);
+        out->_init(context, mode, parent);
         return out;
     }
 
@@ -138,6 +151,7 @@ namespace dtk
                             _p->callback(_p->path);
                         }
                     },
+                    p.mode,
                     p.recentFilesModel);
             }
         }

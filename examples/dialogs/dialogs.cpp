@@ -146,7 +146,7 @@ void DialogsWindow::_init(
             }
         });
 
-    // File browser.
+    // File browsers.
     _recentFilesModel = RecentFilesModel::create(context);
     size_t recentFilesMax = 10;
     if (_settings->contains("RecentFilesMax"))
@@ -174,6 +174,8 @@ void DialogsWindow::_init(
     auto fileEdit = FileEdit::create(context, layout);
     fileEdit->setRecentFilesModel(_recentFilesModel);
     fileEdit->setPath("File Browser");
+    auto dirEdit = FileEdit::create(context, FileBrowserMode::Dir, layout);
+    dirEdit->setPath("Directory Browser");
 }
 
 DialogsWindow::~DialogsWindow()

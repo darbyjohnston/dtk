@@ -85,6 +85,7 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
+            FileBrowserMode,
             const std::shared_ptr<IWidget>& parent);
 
         FileBrowserView();
@@ -94,6 +95,7 @@ namespace dtk
 
         static std::shared_ptr<FileBrowserView> create(
             const std::shared_ptr<Context>&,
+            FileBrowserMode,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         const std::filesystem::path& getPath() const;
@@ -103,6 +105,8 @@ namespace dtk
         void reload();
 
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
+
+        void setSelectCallback(const std::function<void(const std::filesystem::path&)>&);
 
         const FileBrowserOptions& getOptions() const;
 
@@ -131,7 +135,7 @@ namespace dtk
         int _getItem(const V2I&) const;
         void _directoryUpdate();
         void _setCurrent(int);
-        void _click(int);
+        void _doubleClick(int);
 
         DTK_PRIVATE();
     };

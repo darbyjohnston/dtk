@@ -15,6 +15,8 @@ namespace dtk
 {
     namespace
     {
+        const float doubleClickTime = .5F;
+
         struct FileBrowserItem
         {
             std::shared_ptr<Image> icon;
@@ -26,6 +28,7 @@ namespace dtk
 
     struct FileBrowserView::Private
     {
+        FileBrowserMode mode = FileBrowserMode::File;
         std::filesystem::path path;
         FileBrowserOptions options;
         std::string extension;
@@ -34,6 +37,7 @@ namespace dtk
         std::shared_ptr<ObservableValue<int> > current;
         std::vector<FileBrowserItem> items;
         std::function<void(const std::filesystem::path&)> callback;
+        std::function<void(const std::filesystem::path&)> selectCallback;
 
         float iconScale = 1.F;
         std::shared_ptr<Image> directoryImage;
@@ -55,12 +59,15 @@ namespace dtk
         {
             int hover = -1;
             int pressed = -1;
+            int click = -1;
+            std::chrono::steady_clock::time_point clickTime;
         };
         MouseData mouse;
     };
 
     void FileBrowserView::_init(
         const std::shared_ptr<Context>& context,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "dtk::FileBrowserView", parent);
@@ -71,6 +78,7 @@ namespace dtk
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
 
+        p.mode = mode;
         p.current = ObservableValue<int>::create(-1);
     }
 
@@ -83,10 +91,11 @@ namespace dtk
 
     std::shared_ptr<FileBrowserView> FileBrowserView::create(
         const std::shared_ptr<Context>& context,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowserView>(new FileBrowserView);
-        out->_init(context, parent);
+        out->_init(context, mode, parent);
         return out;
     }
 
@@ -112,6 +121,11 @@ namespace dtk
     void FileBrowserView::setCallback(const std::function<void(const std::filesystem::path&)>& value)
     {
         _p->callback = value;
+    }
+
+    void FileBrowserView::setSelectCallback(const std::function<void(const std::filesystem::path&)>& value)
+    {
+        _p->selectCallback = value;
     }
 
     const FileBrowserOptions& FileBrowserView::getOptions() const
@@ -371,7 +385,14 @@ namespace dtk
         {
             if (contains(getRect(p.mouse.pressed), event.pos - g.min))
             {
-                _click(p.mouse.pressed);
+                const auto now = std::chrono::steady_clock::now();
+                const std::chrono::duration<float> diff = now - p.mouse.clickTime;
+                if (p.mouse.click == p.mouse.pressed && diff.count() < doubleClickTime)
+                {
+                    _doubleClick(p.mouse.pressed);
+                }
+                p.mouse.click = p.mouse.pressed;
+                p.mouse.clickTime = now;
             }
             p.mouse.pressed = -1;
             _setDrawUpdate();
@@ -428,7 +449,7 @@ namespace dtk
             case Key::Enter:
                 event.accept = true;
                 takeKeyFocus();
-                _click(p.current->get());
+                _doubleClick(p.current->get());
                 break;
             case Key::Escape:
                 if (hasKeyFocus())
@@ -475,6 +496,7 @@ namespace dtk
     namespace
     {
         void list(
+            FileBrowserMode mode,
             const std::filesystem::path& path,
             const FileBrowserOptions& options,
             const std::string& extension,
@@ -501,12 +523,16 @@ namespace dtk
                     {
                         extension = path.extension().u8string();
                     }
-                    if (!isDir && !extension.empty())
+                    if (keep && !isDir && !extension.empty())
                     {
                         keep = compare(
                             extension,
                             extension,
                             CaseCompare::Insensitive);
+                    }
+                    if (keep && FileBrowserMode::Dir == mode && !isDir)
+                    {
+                        keep = false;
                     }
                     if (keep)
                     {
@@ -576,7 +602,7 @@ namespace dtk
         DTK_P();
         p.info.clear();
         p.items.clear();
-        list(p.path, p.options, p.extension, p.search, p.info);
+        list(p.mode, p.path, p.options, p.extension, p.search, p.info);
         if (auto context = getContext())
         {
             for (size_t i = 0; i < p.info.size(); ++i)
@@ -632,13 +658,22 @@ namespace dtk
     {
         DTK_P();
         const int tmp = clamp(index, 0, static_cast<int>(p.info.size()) - 1);
+        std::filesystem::path path;
+        if (tmp != -1)
+        {
+            path = p.info[tmp].path;
+        }
         if (p.current->setIfChanged(tmp))
         {
+            if (p.selectCallback)
+            {
+                p.selectCallback(path);
+            }
             _setDrawUpdate();
         }
     }
 
-    void FileBrowserView::_click(int index)
+    void FileBrowserView::_doubleClick(int index)
     {
         DTK_P();
         takeKeyFocus();

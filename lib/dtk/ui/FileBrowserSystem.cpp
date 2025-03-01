@@ -57,6 +57,7 @@ namespace dtk
     void FileBrowserSystem::open(
         const std::shared_ptr<IWindow>& window,
         const std::function<void(const std::filesystem::path&)>& callback,
+        FileBrowserMode mode,
         const std::shared_ptr<RecentFilesModel>& recentFilesModel)
     {
         DTK_P();
@@ -65,7 +66,15 @@ namespace dtk
         if (native)
         {
             nfdu8char_t* outPath = nullptr;
-            NFD::OpenDialog(outPath);
+            switch (mode)
+            {
+            case FileBrowserMode::File:
+                NFD::OpenDialog(outPath);
+                break;
+            case FileBrowserMode::Dir:
+                NFD::PickFolder(outPath);
+                break;
+            }
             if (outPath)
             {
                 callback(outPath);
@@ -81,7 +90,7 @@ namespace dtk
             {
                 if (!p.fileBrowser)
                 {
-                    p.fileBrowser = FileBrowser::create(context, p.path);
+                    p.fileBrowser = FileBrowser::create(context, p.path, mode);
                 }
                 p.fileBrowser->setOptions(p.options);
                 p.fileBrowser->setRecentFilesModel(recentFilesModel);
@@ -99,6 +108,7 @@ namespace dtk
                     {
                         _p->path = _p->fileBrowser->getPath();
                         _p->options = _p->fileBrowser->getOptions();
+                        _p->fileBrowser.reset();
                     });
 
                 p.optionsObserver = ValueObserver<FileBrowserOptions>::create(

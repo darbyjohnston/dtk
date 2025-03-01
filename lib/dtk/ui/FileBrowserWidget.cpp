@@ -7,6 +7,7 @@
 #include <dtk/ui/ComboBox.h>
 #include <dtk/ui/Divider.h>
 #include <dtk/ui/Label.h>
+#include <dtk/ui/LineEdit.h>
 #include <dtk/ui/PushButton.h>
 #include <dtk/ui/RecentFilesModel.h>
 #include <dtk/ui/RowLayout.h>
@@ -25,6 +26,7 @@ namespace dtk
 {
     struct FileBrowserWidget::Private
     {
+        FileBrowserMode mode = FileBrowserMode::File;
         std::vector<std::filesystem::path> paths;
         int currentPath = -1;
         std::shared_ptr<ObservableValue<FileBrowserOptions> > options;
@@ -43,6 +45,7 @@ namespace dtk
         std::shared_ptr<ScrollWidget> shortcutsScrollWidget;
         std::shared_ptr<FileBrowserView> view;
         std::shared_ptr<ScrollWidget> viewScrollWidget;
+        std::shared_ptr<LineEdit> fileEdit;
         std::shared_ptr<SearchBox> searchBox;
         std::shared_ptr<ComboBox> extensionsComboBox;
         std::shared_ptr<ComboBox> sortComboBox;
@@ -61,6 +64,7 @@ namespace dtk
     void FileBrowserWidget::_init(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "dtk::FileBrowserWidget", parent);
@@ -71,6 +75,7 @@ namespace dtk
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
 
+        p.mode = mode;
         p.paths.push_back(path);
         p.currentPath = 0;
         p.options = ObservableValue<FileBrowserOptions>::create();
@@ -111,10 +116,12 @@ namespace dtk
         p.shortcutsScrollWidget->setWidget(p.shortcutsWidget);
         p.shortcutsScrollWidget->setVStretch(Stretch::Expanding);
 
-        p.view = FileBrowserView::create(context);
+        p.view = FileBrowserView::create(context, mode);
         p.viewScrollWidget = ScrollWidget::create(context);
         p.viewScrollWidget->setWidget(p.view);
         p.viewScrollWidget->setVStretch(Stretch::Expanding);
+
+        p.fileEdit = LineEdit::create(context);
 
         p.searchBox = SearchBox::create(context);
         p.searchBox->setTooltip("Filter");
@@ -157,6 +164,7 @@ namespace dtk
         p.splitter->setSplit(.2F);
         p.shortcutsScrollWidget->setParent(p.splitter);
         p.viewScrollWidget->setParent(p.splitter);
+        p.fileEdit->setParent(vLayout);
         hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::SpacingSmall);
         p.searchBox->setParent(hLayout);
@@ -257,6 +265,7 @@ namespace dtk
                 DTK_P();
                 if (std::filesystem::is_directory(value))
                 {
+                    p.fileEdit->setText(std::string());
                     _setPath(value);
                 }
                 else
@@ -267,9 +276,17 @@ namespace dtk
                     }
                     if (p.callback)
                     {
-                        p.callback(value);
+                        std::filesystem::path tmp = value;
+                        tmp.replace_filename(std::filesystem::u8path(p.fileEdit->getText()));
+                        p.callback(tmp);
                     }
                 }
+            });
+        p.view->setSelectCallback(
+            [this](const std::filesystem::path& value)
+            {
+                DTK_P();
+                p.fileEdit->setText(value.filename().u8string());
             });
 
         p.searchBox->setCallback(
@@ -321,13 +338,15 @@ namespace dtk
                 DTK_P();
                 if (p.currentPath >= 0 && p.currentPath < p.paths.size())
                 {
+                    std::filesystem::path tmp = p.paths[p.currentPath];
+                    tmp.replace_filename(std::filesystem::u8path(p.fileEdit->getText()));
                     if (p.recentFilesModel)
                     {
-                        p.recentFilesModel->addRecent(p.paths[p.currentPath]);
+                        p.recentFilesModel->addRecent(tmp);
                     }
                     if (p.callback)
                     {
-                        p.callback(p.paths[p.currentPath]);
+                        p.callback(tmp);
                     }
                 }
             });
@@ -366,10 +385,11 @@ namespace dtk
     std::shared_ptr<FileBrowserWidget> FileBrowserWidget::create(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowserWidget>(new FileBrowserWidget);
-        out->_init(context, path, parent);
+        out->_init(context, path, mode, parent);
         return out;
     }
 

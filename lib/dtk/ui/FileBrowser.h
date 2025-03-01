@@ -17,7 +17,18 @@ namespace dtk
     //! \name File Widgets
     ///@{
 
-    //! Directory sorting.
+    //! File browser mode.
+    enum class FileBrowserMode
+    {
+        File,
+        Dir,
+
+        Count,
+        First = File
+    };
+    DTK_ENUM(FileBrowserMode);
+
+    //! File browser directory sorting.
     enum class FileBrowserSort
     {
         Name,
@@ -33,10 +44,10 @@ namespace dtk
     //! File browser options.
     struct FileBrowserOptions
     {
-        bool                     leftPanel   = true;
-        bool                     pathEdit    = false;
-        FileBrowserSort          sort        = FileBrowserSort::Name;
-        bool                     reverseSort = false;
+        bool            leftPanel   = true;
+        bool            pathEdit    = false;
+        FileBrowserSort sort        = FileBrowserSort::Name;
+        bool            reverseSort = false;
 
         bool operator == (const FileBrowserOptions&) const;
         bool operator != (const FileBrowserOptions&) const;
@@ -49,6 +60,7 @@ namespace dtk
         void _init(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            FileBrowserMode,
             const std::shared_ptr<IWidget>& parent);
 
         FileBrowserWidget();
@@ -60,6 +72,7 @@ namespace dtk
         static std::shared_ptr<FileBrowserWidget> create(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            FileBrowserMode = FileBrowserMode::File,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         //! Set the callback.
@@ -111,6 +124,7 @@ namespace dtk
         void _init(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            FileBrowserMode,
             const std::shared_ptr<IWidget>& parent);
 
         FileBrowser();
@@ -122,6 +136,7 @@ namespace dtk
         static std::shared_ptr<FileBrowser> create(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            FileBrowserMode = FileBrowserMode::File,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         //! Set the callback.
@@ -171,6 +186,7 @@ namespace dtk
         void open(
             const std::shared_ptr<IWindow>&,
             const std::function<void(const std::filesystem::path&)>&,
+            FileBrowserMode = FileBrowserMode::File,
             const std::shared_ptr<RecentFilesModel>& = nullptr);
 
         //! Get whether the native file dialog is used.

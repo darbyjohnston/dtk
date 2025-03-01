@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/ui/IWidget.h>
+#include <dtk/ui/FileBrowser.h>
 
 #include <filesystem>
 
@@ -21,6 +21,7 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
+            FileBrowserMode,
             const std::shared_ptr<IWidget>& parent);
 
         FileEdit();
@@ -31,6 +32,12 @@ namespace dtk
         //! Create a new widget.
         static std::shared_ptr<FileEdit> create(
             const std::shared_ptr<Context>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        //! Create a new widget.
+        static std::shared_ptr<FileEdit> create(
+            const std::shared_ptr<Context>&,
+            FileBrowserMode,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         //! Get the path.
