@@ -31,7 +31,6 @@ namespace dtk
             .value("ScrollArea", SizeRole::ScrollArea)
             .value("Slider", SizeRole::Slider)
             .value("Handle", SizeRole::Handle)
-            .value("HandleSmall", SizeRole::HandleSmall)
             .value("Swatch", SizeRole::Swatch)
             .value("SwatchLarge", SizeRole::SwatchLarge)
             .value("Shadow", SizeRole::Shadow)

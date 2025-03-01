@@ -19,8 +19,10 @@ namespace dtk
             bool init = true;
             float displayScale = 0.F;
             int handle = 0;
+            int border = 0;
 
-            Box2I handleGeometry;
+            Box2I g;
+            Box2I g2;
         };
         SizeData size;
 
@@ -96,7 +98,7 @@ namespace dtk
         }
 
         std::vector<Box2I> childGeometry;
-        p.size.handleGeometry = Box2I();
+        p.size.g = Box2I();
         if (1 == children.size())
         {
             childGeometry.push_back(g);
@@ -118,11 +120,16 @@ namespace dtk
                     g.min.y,
                     g.w() - (s + p.size.handle / 2),
                     g.h()));
-                p.size.handleGeometry = Box2I(
+                p.size.g = Box2I(
                     g.min.x + s - p.size.handle / 2,
                     g.min.y,
                     p.size.handle,
                     g.h());
+                p.size.g2 = Box2I(
+                    p.size.g.min.x + p.size.g.w() / 2 - p.size.border / 2,
+                    p.size.g.min.y,
+                    p.size.border,
+                    p.size.g.h());
                 break;
             }
             case Orientation::Vertical:
@@ -138,11 +145,16 @@ namespace dtk
                     g.min.y + s + p.size.handle / 2,
                     g.w(),
                     g.h() - (s + p.size.handle / 2)));
-                p.size.handleGeometry = Box2I(
+                p.size.g = Box2I(
                     g.min.x,
                     g.min.y + s - p.size.handle / 2,
                     g.w(),
                     p.size.handle);
+                p.size.g2 = Box2I(
+                    p.size.g.min.x,
+                    p.size.g.min.y + p.size.g.h() / 2 - p.size.border / 2,
+                    p.size.g.w(),
+                    p.size.border);
                 break;
             }
             default: break;
@@ -165,7 +177,8 @@ namespace dtk
         {
             p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.handle = event.style->getSizeRole(SizeRole::HandleSmall, p.size.displayScale);
+            p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
         }
 
         Size2I sizeHint;
@@ -201,21 +214,21 @@ namespace dtk
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
-        if (p.size.handleGeometry.isValid())
+        if (p.size.g.isValid())
         {
             event.render->drawRect(
-                p.size.handleGeometry,
-                event.style->getColorRole(ColorRole::Button));
+                p.size.g2,
+                event.style->getColorRole(ColorRole::Border));
             if (p.mouse.pressedHandle)
             {
                 event.render->drawRect(
-                    p.size.handleGeometry,
+                    p.size.g,
                     event.style->getColorRole(ColorRole::Pressed));
             }
             else if (p.mouse.hoverHandle)
             {
                 event.render->drawRect(
-                    p.size.handleGeometry,
+                    p.size.g,
                     event.style->getColorRole(ColorRole::Hover));
             }
         }
@@ -258,12 +271,12 @@ namespace dtk
             _setSizeUpdate();
             _setDrawUpdate();
         }
-        else if (contains(p.size.handleGeometry, event.pos) && !p.mouse.hoverHandle)
+        else if (contains(p.size.g, event.pos) && !p.mouse.hoverHandle)
         {
             p.mouse.hoverHandle = true;
             _setDrawUpdate();
         }
-        else if (!contains(p.size.handleGeometry, event.pos) && p.mouse.hoverHandle)
+        else if (!contains(p.size.g, event.pos) && p.mouse.hoverHandle)
         {
             p.mouse.hoverHandle = false;
             _setDrawUpdate();
@@ -273,7 +286,7 @@ namespace dtk
     void Splitter::mousePressEvent(MouseClickEvent& event)
     {
         DTK_P();
-        if (contains(p.size.handleGeometry, event.pos))
+        if (contains(p.size.g, event.pos))
         {
             event.accept = true;
             p.mouse.pressedHandle = true;

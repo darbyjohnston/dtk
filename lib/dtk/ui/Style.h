@@ -33,7 +33,6 @@ namespace dtk
         ScrollArea,
         Slider,
         Handle,
-        HandleSmall,
         Swatch,
         SwatchLarge,
         Shadow,

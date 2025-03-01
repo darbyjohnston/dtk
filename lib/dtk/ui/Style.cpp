@@ -29,7 +29,6 @@ namespace dtk
         "ScrollArea",
         "Slider",
         "Handle",
-        "HandleSmall",
         "Swatch",
         "SwatchLarge",
         "Shadow",
@@ -53,7 +52,6 @@ namespace dtk
         out[SizeRole::ScrollArea] = 200;
         out[SizeRole::Slider] = 100;
         out[SizeRole::Handle] = 8;
-        out[SizeRole::HandleSmall] = 6;
         out[SizeRole::Swatch] = 20;
         out[SizeRole::SwatchLarge] = 40;
         out[SizeRole::Shadow] = 15;

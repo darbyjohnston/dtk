@@ -41,7 +41,6 @@ namespace dtk
                     argv,
                     "SplitterTest",
                     "Splitter test.");
-                app->getStyle()->setSizeRole(SizeRole::HandleSmall, 100);
                 auto window = Window::create(context, app, "SplitterTest");
                 app->addWindow(window);
                 window->show();
