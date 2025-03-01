@@ -45,7 +45,6 @@ namespace dtk
             .value("Button", ColorRole::Button)
             .value("Text", ColorRole::Text)
             .value("TextDisabled", ColorRole::TextDisabled)
-            .value("Trough", ColorRole::Trough)
             .value("Border", ColorRole::Border)
             .value("Hover", ColorRole::Hover)
             .value("Pressed", ColorRole::Pressed)

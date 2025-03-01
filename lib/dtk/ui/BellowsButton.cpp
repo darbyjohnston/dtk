@@ -131,6 +131,14 @@ namespace dtk
                 event.style->getColorRole(colorRole));
         }
 
+        // Draw the focus.
+        if (hasKeyFocus())
+        {
+            event.render->drawMesh(
+                p.draw.border,
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
+
         // Draw the mouse states.
         if (_isMousePressed())
         {
@@ -143,14 +151,6 @@ namespace dtk
             event.render->drawRect(
                 p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
-        }
-
-        // Draw the focus.
-        if (hasKeyFocus())
-        {
-            event.render->drawMesh(
-                p.draw.border,
-                event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the icon.

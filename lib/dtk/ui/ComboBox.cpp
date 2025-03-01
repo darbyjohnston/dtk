@@ -53,7 +53,6 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
-            Box2I g3;
             std::vector<std::shared_ptr<Glyph> > glyphs;
             float iconScale = 1.F;
             std::shared_ptr<Image> iconImage;
@@ -192,8 +191,7 @@ namespace dtk
         IWidget::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
-        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
+        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
     }
 
     void ComboBox::sizeHintEvent(const SizeHintEvent& event)
@@ -262,19 +260,16 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
-        // Draw the focus and border.
-        if (hasKeyFocus())
-        {
-            event.render->drawMesh(
-                border(p.draw.g, p.size.border),
-                event.style->getColorRole(ColorRole::KeyFocus));
-        }
-
         // Draw the background.
-        const auto mesh = rect(p.draw.g2);
+        const auto mesh = rect(p.draw.g);
         event.render->drawMesh(
             mesh,
             event.style->getColorRole(ColorRole::Button));
+
+        // Draw the focus and border.
+        event.render->drawMesh(
+            border(p.draw.g, p.size.border),
+            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the mouse states.
         if (_isMousePressed())
@@ -291,7 +286,7 @@ namespace dtk
         }
 
         // Draw the icon.
-        int x = p.draw.g3.x();
+        int x = p.draw.g2.x();
         if (p.draw.iconImage)
         {
             const Size2I& iconSize = p.draw.iconImage->getSize();
@@ -299,7 +294,7 @@ namespace dtk
                 p.draw.iconImage,
                 Box2I(
                     x,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
@@ -319,7 +314,7 @@ namespace dtk
                 p.draw.glyphs,
                 p.size.fontMetrics,
                 V2I(x + p.size.pad,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
@@ -332,8 +327,8 @@ namespace dtk
             event.render->drawImage(
                 p.draw.arrowIconImage,
                 Box2I(
-                    p.draw.g3.x() + p.draw.g3.w() - iconSize.w,
-                    p.draw.g3.y() + p.draw.g3.h() / 2 - iconSize.h / 2,
+                    p.draw.g2.x() + p.draw.g2.w() - iconSize.w,
+                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?

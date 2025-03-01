@@ -217,6 +217,9 @@ namespace dtk
                 p.draw.handle,
                 event.style->getColorRole(ColorRole::Hover));
         }
+        event.render->drawMesh(
+            border(p.draw.handle, p.size.border),
+            event.style->getColorRole(ColorRole::Border));
 
         // Draw the focus and border.
         const Box2I& g = getGeometry();

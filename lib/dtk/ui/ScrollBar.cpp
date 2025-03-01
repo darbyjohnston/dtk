@@ -37,7 +37,7 @@ namespace dtk
     {
         IWidget::_init(context, "dtk::ScrollBar", parent);
         DTK_P();
-        setBackgroundRole(ColorRole::Trough);
+        setBackgroundRole(ColorRole::Base);
         _setMouseHoverEnabled(true);
         _setMousePressEnabled(true);
         p.orientation = orientation;

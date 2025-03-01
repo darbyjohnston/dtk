@@ -132,6 +132,14 @@ namespace dtk
                 event.style->getColorRole(colorRole));
         }
 
+        // Draw the current state.
+        if (p.current)
+        {
+            event.render->drawMesh(
+                border(p.draw.g, p.size.border),
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
+
         // Draw the mouse state.
         if (_isMousePressed())
         {
@@ -144,14 +152,6 @@ namespace dtk
             event.render->drawRect(
                 p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
-        }
-
-        // Draw the current state.
-        if (p.current)
-        {
-            event.render->drawMesh(
-                border(p.draw.g, p.size.border),
-                event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the text.

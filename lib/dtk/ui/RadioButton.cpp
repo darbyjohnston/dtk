@@ -103,11 +103,10 @@ namespace dtk
         IButton::setGeometry(value);
         DTK_P();
         p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.border);
-        p.draw.g3 = margin(p.draw.g2, -p.size.margin);
-        p.draw.g4 = Box2I(
-            p.draw.g3.x(),
-            p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.diameter / 2,
+        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
+        p.draw.g3 = Box2I(
+            p.draw.g2.x(),
+            p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.diameter / 2,
             p.size.diameter,
             p.size.diameter);
     }
@@ -171,22 +170,22 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g2,
+                p.draw.g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
         // Draw the button.
         event.render->drawMesh(
-            circle(center(p.draw.g4), p.size.diameter / 2),
+            circle(center(p.draw.g3), p.size.diameter / 2),
             event.style->getColorRole(ColorRole::Border));
         event.render->drawMesh(
-            circle(center(p.draw.g4), p.size.diameter / 2 - p.size.border),
+            circle(center(p.draw.g3), p.size.diameter / 2 - p.size.border),
             event.style->getColorRole(_checked ? ColorRole::Checked : ColorRole::Base));
 
         // Draw the text.
@@ -197,8 +196,8 @@ namespace dtk
         event.render->drawText(
             p.draw.glyphs,
             p.size.fontMetrics,
-            V2I(p.draw.g3.x() + p.size.diameter + p.size.spacing + p.size.pad,
-                p.draw.g3.y() + p.draw.g3.h() / 2 - p.size.textSize.h / 2),
+            V2I(p.draw.g2.x() + p.size.diameter + p.size.spacing + p.size.pad,
+                p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
             event.style->getColorRole(isEnabled() ?
                 ColorRole::Text :
                 ColorRole::TextDisabled));

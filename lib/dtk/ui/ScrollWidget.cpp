@@ -299,7 +299,8 @@ namespace dtk
             p.size.displayScale = event.displayScale;
             p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
         }
-        _setSizeHint(_p->layout->getSizeHint());
+        Size2I sizeHint = _p->layout->getSizeHint();
+        _setSizeHint(sizeHint);
     }
 
     void ScrollWidget::drawEvent(
@@ -308,10 +309,13 @@ namespace dtk
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
-        const Box2I& g = getGeometry();
-        event.render->drawMesh(
-            border(g, p.size.border),
-            event.style->getColorRole(ColorRole::Border));
+        if (p.border)
+        {
+            const Box2I& g = getGeometry();
+            event.render->drawMesh(
+                border(g, p.size.border),
+                event.style->getColorRole(ColorRole::Border));
+        }
     }
 
     void ScrollWidget::scrollEvent(ScrollEvent& event)

@@ -246,6 +246,15 @@ namespace dtk
         DTK_P();
         const Box2I& g = getGeometry();
 
+        // Draw the current state.
+        if (p.current->get() != -1 && hasKeyFocus())
+        {
+            const Box2I g2 = move(getRect(p.current->get()), g.min);
+            event.render->drawMesh(
+                border(g2, p.size.border),
+                event.style->getColorRole(ColorRole::KeyFocus));
+        }
+
         // Draw the mouse states.
         if (p.mouse.pressed != -1)
         {
@@ -260,15 +269,6 @@ namespace dtk
             event.render->drawRect(
                 g2,
                 event.style->getColorRole(ColorRole::Hover));
-        }
-
-        // Draw the current state.
-        if (p.current->get() != -1 && hasKeyFocus())
-        {
-            const Box2I g2 = move(getRect(p.current->get()), g.min);
-            event.render->drawMesh(
-                border(g2, p.size.border),
-                event.style->getColorRole(ColorRole::KeyFocus));
         }
 
         // Draw the items.
