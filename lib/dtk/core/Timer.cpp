@@ -157,8 +157,24 @@ namespace dtk
     void TimerSystem::tick()
     {
         DTK_P();
+
+        // Delete the expired timers.
         auto i = p.timers.begin();
         while (i != p.timers.end())
+        {
+            if (i->expired())
+            {
+                i = p.timers.erase(i);
+            }
+            else
+            {
+                ++i;
+            }
+        }
+
+        // Tick the active timers.
+        auto timers = p.timers;
+        for (i = timers.begin(); i != timers.end(); ++i)
         {
             if (auto timer = i->lock())
             {
@@ -166,11 +182,6 @@ namespace dtk
                 {
                     timer->tick();
                 }
-                ++i;
-            }
-            else
-            {
-                i = p.timers.erase(i);
             }
         }
     }
