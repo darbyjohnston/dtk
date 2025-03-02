@@ -87,10 +87,12 @@ namespace dtk
 
         void System::Private::monitorCallback(GLFWmonitor* monitor, int event)
         {
-            System::Private* p = reinterpret_cast<System::Private*>(
-                glfwGetMonitorUserPointer(monitor));
-            p->monitors->setIfChanged(getMonitorInfo());
-            p->monitorsUpdate();
+            if (System::Private* p = reinterpret_cast<System::Private*>(
+                glfwGetMonitorUserPointer(monitor)))
+            {
+                p->monitors->setIfChanged(getMonitorInfo());
+                p->monitorsUpdate();
+            }
         }
 
         void System::Private::monitorsUpdate()
