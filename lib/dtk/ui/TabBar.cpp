@@ -166,8 +166,12 @@ namespace dtk
         p.text = value;
         p.tooltips = tooltips;
         p.tooltips.resize(p.text.size());
-        p.currentTab = clamp(p.currentTab, 0, static_cast<int>(p.text.size()) - 1);
-        p.currentFocus = clamp(p.currentFocus, 0, static_cast<int>(p.text.size()) - 1);
+        p.currentTab = !p.text.empty() ?
+            clamp(p.currentTab, 0, static_cast<int>(p.text.size()) - 1) :
+            -1;
+        p.currentFocus = !p.text.empty() ?
+            clamp(p.currentFocus, 0, static_cast<int>(p.text.size()) - 1) :
+            -1;
         _widgetUpdate();
         _currentUpdate();
     }
@@ -230,7 +234,9 @@ namespace dtk
     void TabBar::setCurrentTab(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.text.size()) - 1);
+        const int tmp = !p.text.empty() ?
+            clamp(value, 0, static_cast<int>(p.text.size()) - 1) :
+            -1;
         if (tmp == _p->currentTab)
             return;
         _p->currentTab = tmp;
@@ -385,7 +391,9 @@ namespace dtk
     void TabBar::_setCurrent(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.text.size()) - 1);
+        const int tmp = !p.text.empty() ?
+            clamp(value, 0, static_cast<int>(p.text.size()) - 1) :
+            -1;
         if (tmp == p.currentFocus)
             return;
         p.currentFocus = tmp;

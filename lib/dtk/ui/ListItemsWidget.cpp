@@ -119,7 +119,10 @@ namespace dtk
             return;
         p.items = value;
         _itemsUpdate();
-        if (p.current->setIfChanged(clamp(p.current->get(), 0, static_cast<int>(p.items.size()) - 1)))
+        const int index = !p.items.empty() ?
+            clamp(p.current->get(), 0, static_cast<int>(p.items.size()) - 1) :
+            -1;
+        if (p.current->setIfChanged(index))
         {
             p.scrollTo->setIfChanged(p.current->get());
         }
@@ -169,7 +172,9 @@ namespace dtk
     void ListItemsWidget::setCurrent(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+        const int tmp = !p.items.empty() ?
+            clamp(value, 0, static_cast<int>(p.items.size()) - 1) :
+            -1;
         if (p.current->setIfChanged(tmp))
         {
             _currentUpdate();

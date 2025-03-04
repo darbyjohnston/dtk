@@ -219,7 +219,9 @@ namespace dtk
     void MenuBar::_setCurrent(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.buttons.size()) - 1);
+        const int tmp = !p.buttons.empty() ?
+            clamp(value, 0, static_cast<int>(p.buttons.size()) - 1) :
+            -1;
         if (tmp == p.current)
             return;
         p.current = tmp;

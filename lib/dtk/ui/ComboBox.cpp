@@ -118,7 +118,9 @@ namespace dtk
         if (value == p.items)
             return;
         p.items = value;
-        p.currentIndex = clamp(p.currentIndex, 0, static_cast<int>(p.items.size()) - 1);
+        p.currentIndex = !p.items.empty() ?
+            clamp(p.currentIndex, 0, static_cast<int>(p.items.size()) - 1) :
+            -1;
         const ComboBoxItem item = _getItem(p.currentIndex);
         p.text = item.text;
         p.icon = item.icon;
@@ -147,7 +149,9 @@ namespace dtk
     void ComboBox::setCurrentIndex(int value)
     {
         DTK_P();
-        const int tmp = clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+        const int tmp = !p.items.empty() ?
+            clamp(value, 0, static_cast<int>(p.items.size()) - 1) :
+            -1;
         if (tmp == p.currentIndex)
             return;
         p.currentIndex = tmp;

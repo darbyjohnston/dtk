@@ -648,7 +648,13 @@ namespace dtk
                 p.items.push_back(item);
             }
         }
-        _setCurrent(0);
+
+        p.current->setIfChanged(-1);
+        if (p.selectCallback)
+        {
+            p.selectCallback(std::filesystem::path());
+        }
+
         _setSizeUpdate();
         _setDrawUpdate();
         p.size.init = true;
@@ -657,7 +663,9 @@ namespace dtk
     void FileBrowserView::_setCurrent(int index)
     {
         DTK_P();
-        const int tmp = clamp(index, 0, static_cast<int>(p.info.size()) - 1);
+        const int tmp = !p.info.empty() ?
+            clamp(index, 0, static_cast<int>(p.info.size()) - 1) :
+            -1;
         std::filesystem::path path;
         if (tmp != -1)
         {
