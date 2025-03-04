@@ -131,6 +131,12 @@ namespace dtk
         bool operator != (const ImageOptions&) const;
     };
         
+    void to_json(nlohmann::json&, const ImageFilters&);
+    void to_json(nlohmann::json&, const ImageOptions&);
+
+    void from_json(const nlohmann::json&, ImageFilters&);
+    void from_json(const nlohmann::json&, ImageOptions&);
+
     ///@}
 }
 
