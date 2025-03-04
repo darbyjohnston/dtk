@@ -230,6 +230,10 @@ namespace dtk
         uint8_t* _dataP = nullptr;
     };
 
+    void to_json(nlohmann::json&, const ImageMirror&);
+
+    void from_json(const nlohmann::json&, ImageMirror&);
+
     ///@}
 }
 

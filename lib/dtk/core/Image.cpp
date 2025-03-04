@@ -215,4 +215,16 @@ namespace dtk
     {
         memset(_dataP, 0, _byteCount);
     }
+
+    void to_json(nlohmann::json& json, const ImageMirror& in)
+    {
+        json["x"] = in.x;
+        json["y"] = in.y;
+    }
+
+    void from_json(const nlohmann::json& json, ImageMirror& out)
+    {
+        json.at("x").get_to(out.x);
+        json.at("y").get_to(out.y);
+    }
 }
