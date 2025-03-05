@@ -279,19 +279,19 @@ namespace dtk
         return Vector<2, float>(value.x, value.y);
     }
 
-    inline Vector<2, int> round(const Vector<2, float>& value)
+    inline Vector<2, float> round(const Vector<2, float>& value)
     {
-        return Vector<2, int>(std::round(value.x), std::round(value.y));
+        return Vector<2, float>(std::round(value.x), std::round(value.y));
     }
 
-    inline Vector<2, int> floor(const Vector<2, float>& value)
+    inline Vector<2, float> floor(const Vector<2, float>& value)
     {
-        return Vector<2, int>(std::floor(value.x), std::floor(value.y));
+        return Vector<2, float>(std::floor(value.x), std::floor(value.y));
     }
 
-    inline Vector<2, int> ceil(const Vector<2, float>& value)
+    inline Vector<2, float> ceil(const Vector<2, float>& value)
     {
-        return Vector<2, int>(std::ceil(value.x), std::ceil(value.y));
+        return Vector<2, float>(std::ceil(value.x), std::ceil(value.y));
     }
 
     template<int C, typename T>
