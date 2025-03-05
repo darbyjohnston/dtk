@@ -129,6 +129,15 @@ namespace dtk
     //! Convert vector types.
     constexpr Vector<2, float> convert(const Vector<2, int>&);
 
+    //! Convert vector types.
+    Vector<2, int> round(const Vector<2, float>&);
+
+    //! Convert vector types.
+    Vector<2, int> floor(const Vector<2, float>&);
+
+    //! Convert vector types.
+    Vector<2, int> ceil(const Vector<2, float>&);
+
     void to_json(nlohmann::json&, const V2I&);
     void to_json(nlohmann::json&, const V2F&);
     void to_json(nlohmann::json&, const V3F&);

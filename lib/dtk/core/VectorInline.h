@@ -279,6 +279,21 @@ namespace dtk
         return Vector<2, float>(value.x, value.y);
     }
 
+    inline Vector<2, int> round(const Vector<2, float>& value)
+    {
+        return Vector<2, int>(std::round(value.x), std::round(value.y));
+    }
+
+    inline Vector<2, int> floor(const Vector<2, float>& value)
+    {
+        return Vector<2, int>(std::floor(value.x), std::floor(value.y));
+    }
+
+    inline Vector<2, int> ceil(const Vector<2, float>& value)
+    {
+        return Vector<2, int>(std::ceil(value.x), std::ceil(value.y));
+    }
+
     template<int C, typename T>
     constexpr Vector<C, T> operator + (const Vector<C, T>& v0, const Vector<C, T>& v1)
     {
