@@ -73,8 +73,11 @@
     \
     void from_string(const std::string& s, ENUM& value) \
     { \
-        std::stringstream ss(s); \
-        ss >> value; \
+        if (!s.empty()) \
+        { \
+            std::stringstream ss(s); \
+            ss >> value; \
+        } \
     } \
     \
     std::ostream& operator << (std::ostream& os, ENUM in) \
