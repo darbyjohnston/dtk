@@ -48,24 +48,21 @@ namespace dtk
         p.layout = VerticalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::None);
 
-        p.listWidgets["Drives"] = ListItemsWidget::create(context, ButtonGroupType::Click);
-        p.bellowsOpen["Drives"] = true;
-        p.bellows["Drives"] = Bellows::create(context, "Drives", p.layout);
-        p.bellows["Drives"]->setWidget(p.listWidgets["Drives"]);
+        p.listWidgets["drives"] = ListItemsWidget::create(context, ButtonGroupType::Click);
+        p.bellows["drives"] = Bellows::create(context, "Drives", p.layout);
+        p.bellows["drives"]->setWidget(p.listWidgets["drives"]);
 
-        p.listWidgets["Shortcuts"] = ListItemsWidget::create(context, ButtonGroupType::Click);
-        p.bellowsOpen["Shortcuts"] = true;
-        p.bellows["Shortcuts"] = Bellows::create(context, "Shortcuts", p.layout);
-        p.bellows["Shortcuts"]->setWidget(p.listWidgets["Shortcuts"]);
+        p.listWidgets["shortcuts"] = ListItemsWidget::create(context, ButtonGroupType::Click);
+        p.bellows["shortcuts"] = Bellows::create(context, "Shortcuts", p.layout);
+        p.bellows["shortcuts"]->setWidget(p.listWidgets["shortcuts"]);
 
-        p.listWidgets["Recent"] = ListItemsWidget::create(context, ButtonGroupType::Click);
-        p.bellowsOpen["Recent"] = true;
-        p.bellows["Recent"] = Bellows::create(context, "Recent", p.layout);
-        p.bellows["Recent"]->setWidget(p.listWidgets["Recent"]);
+        p.listWidgets["recent"] = ListItemsWidget::create(context, ButtonGroupType::Click);
+        p.bellows["recent"] = Bellows::create(context, "Recent", p.layout);
+        p.bellows["recent"]->setWidget(p.listWidgets["recent"]);
 
         _widgetUpdate();
 
-        p.listWidgets["Drives"]->setCallback(
+        p.listWidgets["drives"]->setCallback(
             [this](int index, bool)
             {
                 DTK_P();
@@ -75,18 +72,18 @@ namespace dtk
                 }
             });
 
-        p.bellows["Drives"]->setOpenCallback(
+        p.bellows["drives"]->setOpenCallback(
             [this](bool value)
             {
                 DTK_P();
-                p.bellowsOpen["Drives"] = value;
+                p.bellowsOpen["drives"] = value;
                 if (p.bellowsCallback)
                 {
                     p.bellowsCallback(p.bellowsOpen);
                 }
             });
 
-        p.listWidgets["Shortcuts"]->setCallback(
+        p.listWidgets["shortcuts"]->setCallback(
             [this](int index, bool)
             {
                 DTK_P();
@@ -96,18 +93,18 @@ namespace dtk
                 }
             });
 
-        p.bellows["Shortcuts"]->setOpenCallback(
+        p.bellows["shortcuts"]->setOpenCallback(
             [this](bool value)
             {
                 DTK_P();
-                p.bellowsOpen["Shortcuts"] = value;
+                p.bellowsOpen["shortcuts"] = value;
                 if (p.bellowsCallback)
                 {
                     p.bellowsCallback(p.bellowsOpen);
                 }
             });
 
-        p.listWidgets["Recent"]->setCallback(
+        p.listWidgets["recent"]->setCallback(
             [this](int index, bool)
             {
                 DTK_P();
@@ -117,11 +114,11 @@ namespace dtk
                 }
             });
 
-        p.bellows["Recent"]->setOpenCallback(
+        p.bellows["recent"]->setOpenCallback(
             [this](bool value)
             {
                 DTK_P();
-                p.bellowsOpen["Recent"] = value;
+                p.bellowsOpen["recent"] = value;
                 if (p.bellowsCallback)
                 {
                     p.bellowsCallback(p.bellowsOpen);
@@ -223,7 +220,7 @@ namespace dtk
         {
             items.push_back(ListItem(drive.u8string(), drive.u8string()));
         }
-        p.listWidgets["Drives"]->setItems(items);
+        p.listWidgets["drives"]->setItems(items);
 
         p.shortcuts.clear();
         items.clear();
@@ -236,14 +233,14 @@ namespace dtk
             p.shortcuts.push_back(path);
             items.push_back(ListItem(path.filename().u8string(), path.u8string()));
         }
-        p.listWidgets["Shortcuts"]->setItems(items);
+        p.listWidgets["shortcuts"]->setItems(items);
 
         items.clear();
         for (const auto& recent : p.recent)
         {
             items.push_back(ListItem(recent.filename().u8string(), recent.u8string()));
         }
-        p.listWidgets["Recent"]->setItems(items);
+        p.listWidgets["recent"]->setItems(items);
 
         for (const auto& i : p.bellowsOpen)
         {

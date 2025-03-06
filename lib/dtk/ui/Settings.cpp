@@ -43,7 +43,12 @@ namespace dtk
             if (std::filesystem::exists(p.path) && !reset)
             {
                 const std::string contents = read(FileIO::create(p.path, FileMode::Read));
-                p.settings = nlohmann::json::parse(contents);
+                try
+                {
+                    p.settings = nlohmann::json::parse(contents);
+                }
+                catch (const std::exception&)
+                {}
             }
         }
     }
