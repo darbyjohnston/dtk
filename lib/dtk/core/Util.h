@@ -73,11 +73,13 @@
     \
     void from_string(const std::string& s, ENUM& value) \
     { \
-        if (!s.empty()) \
+        try \
         { \
             std::stringstream ss(s); \
             ss >> value; \
         } \
+        catch (const std::exception&) \
+        {} \
     } \
     \
     std::ostream& operator << (std::ostream& os, ENUM in) \
