@@ -189,7 +189,6 @@ namespace dtk
                 options.leftPanel = value;
                 if (p.options->setIfChanged(options))
                 {
-                    p.view->setOptions(options);
                     _optionsUpdate();
                 }
             });
@@ -248,7 +247,6 @@ namespace dtk
                 options.pathEdit = value;
                 if (p.options->setIfChanged(options))
                 {
-                    p.view->setOptions(options);
                     _optionsUpdate();
                 }
             });
@@ -257,6 +255,17 @@ namespace dtk
             [this](const std::filesystem::path& value)
             {
                 _setPath(value);
+            });
+        p.shortcutsWidget->setBellowsCallback(
+            [this](const std::map<std::string, bool>& value)
+            {
+                DTK_P();
+                FileBrowserOptions options = p.options->get();
+                options.bellows = value;
+                if (p.options->setIfChanged(options))
+                {
+                    _optionsUpdate();
+                }
             });
 
         p.view->setCallback(
@@ -314,7 +323,6 @@ namespace dtk
                 options.sort = static_cast<FileBrowserSort>(value);
                 if (p.options->setIfChanged(options))
                 {
-                    p.view->setOptions(options);
                     _optionsUpdate();
                 }
             });
@@ -327,7 +335,6 @@ namespace dtk
                 options.reverseSort = value;
                 if (p.options->setIfChanged(options))
                 {
-                    p.view->setOptions(options);
                     _optionsUpdate();
                 }
             });
@@ -502,6 +509,8 @@ namespace dtk
         p.shortcutsScrollWidget->setVisible(options.leftPanel);
 
         p.pathWidget->setEdit(options.pathEdit);
+
+        p.shortcutsWidget->setBellows(options.bellows);
 
         p.view->setOptions(options);
 

@@ -31,7 +31,8 @@ namespace dtk
             leftPanel == other.leftPanel &&
             pathEdit == other.pathEdit &&
             sort == other.sort &&
-            reverseSort == other.reverseSort;
+            reverseSort == other.reverseSort &&
+            bellows == other.bellows;
     }
 
     bool FileBrowserOptions::operator != (const FileBrowserOptions& other) const
@@ -128,13 +129,14 @@ namespace dtk
 
     void to_json(nlohmann::json& json, const FileBrowserOptions& value)
     {
-        json = nlohmann::json
+        json["leftPanel"] = value.leftPanel;
+        json["pathEdit"] = value.pathEdit;
+        json["sort"] = to_string(value.sort);
+        json["reverseSort"] = value.reverseSort;
+        for (const auto& i : value.bellows)
         {
-            { "leftPanel", value.leftPanel },
-            { "pathEdit", value.pathEdit },
-            { "sort", to_string(value.sort) },
-            { "reverseSort", value.reverseSort }
-        };
+            json["bellows"][i.first] = i.second;
+        }
     }
 
     void from_json(const nlohmann::json& json, FileBrowserOptions& value)
@@ -143,5 +145,12 @@ namespace dtk
         json.at("pathEdit").get_to(value.pathEdit);
         from_string(json.at("sort").get<std::string>(), value.sort);
         json.at("reverseSort").get_to(value.reverseSort);
+        for (auto i = json.at("bellows").begin(); i != json.at("bellows").end(); ++i)
+        {
+            if (i->is_boolean())
+            {
+                i->get_to(value.bellows[i.key()]);
+            }
+        }
     }
 }

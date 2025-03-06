@@ -16,6 +16,7 @@ namespace dtk
         std::shared_ptr<IWidget> toolWidget;
         std::shared_ptr<HorizontalLayout> buttonLayout;
         std::shared_ptr<VerticalLayout> layout;
+        std::function<void(bool)> openCallback;
     };
 
     void Bellows::_init(
@@ -121,7 +122,16 @@ namespace dtk
         if (p.widget)
         {
             p.widget->setVisible(value);
+            if (p.openCallback)
+            {
+                p.openCallback(value);
+            }
         }
+    }
+
+    void Bellows::setOpenCallback(const std::function<void(bool)>& value)
+    {
+        _p->openCallback = value;
     }
 
     const std::shared_ptr<IWidget>& Bellows::getToolWidget() const

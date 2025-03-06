@@ -63,6 +63,10 @@ namespace dtk
 
         void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
+        void setBellows(const std::map<std::string, bool>&);
+
+        void setBellowsCallback(const std::function<void(const std::map<std::string, bool>&)>&);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
 

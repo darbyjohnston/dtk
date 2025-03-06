@@ -53,6 +53,9 @@ namespace dtk
         //! Set whether the bellows is open.
         void setOpen(bool);
 
+        //! Set the open callback.
+        void setOpenCallback(const std::function<void(bool)>&);
+
         //! Get the tool widget.
         const std::shared_ptr<IWidget>& getToolWidget() const;
 
