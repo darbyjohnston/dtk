@@ -112,6 +112,12 @@ namespace dtk
         Super   = 8
     };
 
+    //! Convert to a string.
+    std::string to_string(KeyModifier);
+
+    //! Convert from a string.
+    void from_string(const std::string&, KeyModifier&);
+
     //! OS specific command key modifier.
 #if defined(__APPLE__)
     const KeyModifier commandKeyModifier = KeyModifier::Super;
@@ -119,7 +125,7 @@ namespace dtk
     const KeyModifier commandKeyModifier = KeyModifier::Control;
 #endif // __APPLE__
 
-    //! Get a keyboard modifier label.
+    //! Get a keyboard modifiers label.
     std::string getKeyModifierLabel(int);
 
     //! Mouse click event.

@@ -76,24 +76,53 @@ namespace dtk
         pos(pos)
     {}
 
+    namespace
+    {
+        std::map<KeyModifier, std::string> keyModifierLabels =
+        {
+            { KeyModifier::None, "None" },
+            { KeyModifier::Shift, "Shift" },
+            { KeyModifier::Control, "Ctrl" },
+            { KeyModifier::Alt, "Alt" },
+            { KeyModifier::Super, "Cmd" }
+        };
+    }
+
+    std::string to_string(KeyModifier value)
+    {
+        return keyModifierLabels[value];
+    }
+
+    void from_string(const std::string& s, KeyModifier& value)
+    {
+        for (auto i = keyModifierLabels.begin(); i != keyModifierLabels.end(); ++i)
+        {
+            if (compare(s, i->second, CaseCompare::Insensitive))
+            {
+                value = i->first;
+                break;
+            }
+        }
+    }
+
     std::string getKeyModifierLabel(int value)
     {
         std::vector<std::string> out;
         if (value & static_cast<size_t>(KeyModifier::Shift))
         {
-            out.push_back("Shift");
+            out.push_back(to_string(KeyModifier::Shift));
         }
         if (value & static_cast<size_t>(KeyModifier::Control))
         {
-            out.push_back("Ctrl");
+            out.push_back(to_string(KeyModifier::Control));
         }
         if (value & static_cast<size_t>(KeyModifier::Alt))
         {
-            out.push_back("Alt");
+            out.push_back(to_string(KeyModifier::Alt));
         }
         if (value & static_cast<size_t>(KeyModifier::Super))
         {
-            out.push_back("Cmd");
+            out.push_back(to_string(KeyModifier::Super));
         }
         return join(out, '+');
     }
