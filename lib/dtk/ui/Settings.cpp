@@ -6,6 +6,7 @@
 
 #include <dtk/core/File.h>
 #include <dtk/core/FileIO.h>
+#include <dtk/core/String.h>
 
 #include <map>
 
@@ -83,150 +84,186 @@ namespace dtk
     bool Settings::contains(const std::string& key) const
     {
         DTK_P();
-        return p.settings.find(key) != p.settings.end();
+        return p.settings.contains(nlohmann::json::json_pointer(key));
     }
 
     bool Settings::get(const std::string& key, nlohmann::json& value) const
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            value = p.settings.at(nlohmann::json::json_pointer(key));
+            out = true;
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, bool& value)
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_boolean())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_boolean())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, int& value)
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_number_integer())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_number_integer())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, int64_t& value)
     {
+        bool out = false;
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_number_integer())
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_number_integer())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, float& value)
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_number_float())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_number_float())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, double& value)
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_number_float())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_number_float())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, size_t& value)
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_number_unsigned())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_number_unsigned())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     bool Settings::get(const std::string& key, std::string& value)
     {
         DTK_P();
-        const auto i = p.settings.find(key);
-        if (i != p.settings.end() && i->is_string())
+        bool out = false;
+        try
         {
-            value = *i;
-            return true;
+            auto i = p.settings.at(nlohmann::json::json_pointer(key));
+            if (i.is_string())
+            {
+                value = i;
+                out = true;
+            }
         }
-        return false;
+        catch (const std::exception&)
+        {}
+        return out;
     }
 
     void Settings::set(const std::string& key, const nlohmann::json& value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, bool value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, int value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, int64_t value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, float value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, double value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, size_t value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 
     void Settings::set(const std::string& key, const std::string& value)
     {
-        DTK_P();
-        p.settings[key] = value;
+        _p->settings[nlohmann::json::json_pointer(key)] = value;
     }
 }

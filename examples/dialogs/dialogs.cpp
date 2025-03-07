@@ -24,10 +24,6 @@ void DialogsWindow::_init(
 
     // Load the settings.
     _settings = Settings::create(context, getSettingsPath("dtk", "dialogs.json"));
-    FileBrowserOptions fileBrowserOptions;
-    _settings->getT("FileBrowser", fileBrowserOptions);
-    auto fileBrowserSystem = context->getSystem<FileBrowserSystem>();
-    fileBrowserSystem->setOptions(fileBrowserOptions);
 
     // Create the menus.
     auto menu = getMenuBar()->getMenu("File");
@@ -147,25 +143,23 @@ void DialogsWindow::_init(
         });
 
     // File browsers.
+    FileBrowserOptions fileBrowserOptions;
+    _settings->getT("/FileBrowser/Options", fileBrowserOptions);
+    auto fileBrowserSystem = context->getSystem<FileBrowserSystem>();
+    fileBrowserSystem->setOptions(fileBrowserOptions);
     _recentFilesModel = RecentFilesModel::create(context);
     size_t recentFilesMax = 10;
-    if (_settings->contains("RecentFilesMax"))
-    {
-        _settings->get("RecentFilesMax", recentFilesMax);
-    }
+    _settings->get("/FileBrowser/RecentFilesMax", recentFilesMax);
     std::vector<std::filesystem::path> recentFiles;
-    if (_settings->contains("RecentFiles"))
+    nlohmann::json json;
+    _settings->get("/FileBrowser/RecentFiles", json);
+    if (json.is_array())
     {
-        nlohmann::json json;
-        _settings->get("RecentFiles", json);
-        if (json.is_array())
+        for (auto i = json.begin(); i != json.end(); ++i)
         {
-            for (auto i = json.begin(); i != json.end(); ++i)
+            if (i->is_string())
             {
-                if (i->is_string())
-                {
-                    recentFiles.push_back(std::filesystem::u8path(i->get<std::string>()));
-                }
+                recentFiles.push_back(std::filesystem::u8path(i->get<std::string>()));
             }
         }
     }
@@ -181,15 +175,15 @@ void DialogsWindow::_init(
 DialogsWindow::~DialogsWindow()
 {
     auto fileBrowserSystem = getContext()->getSystem<FileBrowserSystem>();
-    _settings->setT("FileBrowser", fileBrowserSystem->getOptions());
+    _settings->setT("/FileBrowser/Options", fileBrowserSystem->getOptions());
 
-    _settings->set("RecentFilesMax", static_cast<int>(_recentFilesModel->getRecentMax()));
+    _settings->set("/FileBrowser/RecentFilesMax", static_cast<int>(_recentFilesModel->getRecentMax()));
     nlohmann::json json;
     for (const auto& path : _recentFilesModel->getRecent())
     {
         json.push_back(path.u8string());
     }
-    _settings->set("RecentFiles", json);
+    _settings->set("/FileBrowser/RecentFiles", json);
 }
 
 std::shared_ptr<Window> DialogsWindow::create(
