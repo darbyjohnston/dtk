@@ -129,23 +129,23 @@ namespace dtk
 
     void to_json(nlohmann::json& json, const FileBrowserOptions& value)
     {
-        json["leftPanel"] = value.leftPanel;
-        json["pathEdit"] = value.pathEdit;
-        json["sort"] = to_string(value.sort);
-        json["reverseSort"] = value.reverseSort;
+        json["LeftPanel"] = value.leftPanel;
+        json["PathEdit"] = value.pathEdit;
+        json["Sort"] = to_string(value.sort);
+        json["ReverseSort"] = value.reverseSort;
         for (const auto& i : value.bellows)
         {
-            json["bellows"][i.first] = i.second;
+            json["Bellows"][i.first] = i.second;
         }
     }
 
     void from_json(const nlohmann::json& json, FileBrowserOptions& value)
     {
-        json.at("leftPanel").get_to(value.leftPanel);
-        json.at("pathEdit").get_to(value.pathEdit);
-        from_string(json.at("sort").get<std::string>(), value.sort);
-        json.at("reverseSort").get_to(value.reverseSort);
-        for (auto i = json.at("bellows").begin(); i != json.at("bellows").end(); ++i)
+        json.at("LeftPanel").get_to(value.leftPanel);
+        json.at("PathEdit").get_to(value.pathEdit);
+        from_string(json.at("Sort").get<std::string>(), value.sort);
+        json.at("ReverseSort").get_to(value.reverseSort);
+        for (auto i = json.at("Bellows").begin(); i != json.at("Bellows").end(); ++i)
         {
             if (i->is_boolean())
             {

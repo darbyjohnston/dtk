@@ -218,13 +218,13 @@ namespace dtk
 
     void to_json(nlohmann::json& json, const ImageMirror& in)
     {
-        json["x"] = in.x;
-        json["y"] = in.y;
+        json["X"] = in.x;
+        json["Y"] = in.y;
     }
 
     void from_json(const nlohmann::json& json, ImageMirror& out)
     {
-        json.at("x").get_to(out.x);
-        json.at("y").get_to(out.y);
+        json.at("X").get_to(out.x);
+        json.at("Y").get_to(out.y);
     }
 }

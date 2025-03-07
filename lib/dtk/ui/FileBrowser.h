@@ -50,9 +50,9 @@ namespace dtk
         bool                        reverseSort = false;
         std::map<std::string, bool> bellows =
         {
-            { "drives", true },
-            { "shortcuts", true },
-            { "recent", true }
+            { "Drives", true },
+            { "Shortcuts", true },
+            { "Recent", true }
         };
 
         bool operator == (const FileBrowserOptions&) const;
