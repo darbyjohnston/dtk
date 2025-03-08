@@ -107,9 +107,9 @@ namespace dtk
 
     bool checkKeyModifier(KeyModifier modifier, int modifiers)
     {
-        return modifier != KeyModifier::None ?
-            (modifiers & static_cast<int>(modifier)) :
-            true;
+        return (KeyModifier::None == modifier && 0 == modifiers) ?
+            true :
+            (modifiers & static_cast<int>(modifier));
     }
 
     std::string getKeyModifierLabel(int value)
