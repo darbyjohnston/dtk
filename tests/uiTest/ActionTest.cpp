@@ -29,88 +29,76 @@ namespace dtk
         void ActionTest::run()
         {
             {
-                const Action a;
-                DTK_ASSERT(a.text.empty());
-            }
-            {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     [] {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT(a.callback);
+                DTK_ASSERT("Test" == a->getText());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     "Icon",
                     [] {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT("Icon" == a.icon);
-                DTK_ASSERT(a.callback);
+                DTK_ASSERT("Test" == a->getText());
+                DTK_ASSERT("Icon" == a->getIcon());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [] {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT(Key::T == a.shortcut);
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a.shortcutModifiers);
-                DTK_ASSERT(a.callback);
+                DTK_ASSERT("Test" == a->getText());
+                DTK_ASSERT(Key::T == a->getShortcut());
+                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     "Icon",
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [] {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT("Icon" == a.icon);
-                DTK_ASSERT(Key::T == a.shortcut);
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a.shortcutModifiers);
-                DTK_ASSERT(a.callback);
+                DTK_ASSERT("Test" == a->getText());
+                DTK_ASSERT("Icon" == a->getIcon());
+                DTK_ASSERT(Key::T == a->getShortcut());
+                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     [](bool) {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT(a.checkedCallback);
+                DTK_ASSERT("Test" == a->getText());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     "Icon",
                     [](bool) {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT("Icon" == a.icon);
-                DTK_ASSERT(a.checkedCallback);
+                DTK_ASSERT("Test" == a->getText());
+                DTK_ASSERT("Icon" == a->getIcon());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [](bool) {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT(Key::T == a.shortcut);
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a.shortcutModifiers);
-                DTK_ASSERT(a.checkedCallback);
+                DTK_ASSERT("Test" == a->getText());
+                DTK_ASSERT(Key::T == a->getShortcut());
+                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
             {
-                const Action a(
+                auto a = Action::create(
                     "Test",
                     "Icon",
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [](bool) {});
-                DTK_ASSERT("Test" == a.text);
-                DTK_ASSERT("Icon" == a.icon);
-                DTK_ASSERT(Key::T == a.shortcut);
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a.shortcutModifiers);
-                DTK_ASSERT(a.checkedCallback);
+                DTK_ASSERT("Test" == a->getText());
+                DTK_ASSERT("Icon" == a->getIcon());
+                DTK_ASSERT(Key::T == a->getShortcut());
+                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
         }
     }

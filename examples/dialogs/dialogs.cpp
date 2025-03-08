@@ -28,7 +28,7 @@ void DialogsWindow::_init(
     // Create the menus.
     auto menu = getMenuBar()->getMenu("File");
     menu->clear();
-    menu->addItem(std::make_shared<Action>(
+    menu->addItem(Action::create(
         "Open",
         Key::O,
         static_cast<int>(commandKeyModifier),
@@ -45,7 +45,7 @@ void DialogsWindow::_init(
                     });
             }
         }));
-    auto action = std::make_shared<Action>(
+    auto action = Action::create(
         "Close",
         Key::E,
         static_cast<int>(commandKeyModifier),
@@ -53,7 +53,7 @@ void DialogsWindow::_init(
     menu->addItem(action);
     menu->setItemEnabled(action, false);
     menu->addDivider();
-    menu->addItem(std::make_shared<Action>(
+    menu->addItem(Action::create(
         "Exit",
         Key::Q,
         static_cast<int>(commandKeyModifier),

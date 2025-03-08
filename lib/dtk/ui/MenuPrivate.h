@@ -15,6 +15,7 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
+            const std::shared_ptr<Action>&,
             const std::shared_ptr<IWidget>& parent);
 
         MenuButton();
@@ -24,6 +25,7 @@ namespace dtk
 
         static std::shared_ptr<MenuButton> create(
             const std::shared_ptr<Context>&,
+            const std::shared_ptr<Action>& = nullptr,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         void setCurrent(bool);

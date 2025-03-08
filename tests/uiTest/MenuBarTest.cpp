@@ -53,14 +53,14 @@ namespace dtk
 
                 auto menu = Menu::create(context);
                 bool action1 = false;
-                menu->addItem(std::make_shared<Action>(
+                menu->addItem(Action::create(
                     "Action 1",
                     "FileOpen",
                     Key::O,
                     static_cast<int>(KeyModifier::Control),
                     [&action1] { action1 = true; }));
                 bool action2 = false;
-                auto item = std::make_shared<Action>(
+                auto item = Action::create(
                     "Action 2",
                     "Mute",
                     Key::M,
@@ -71,7 +71,7 @@ namespace dtk
                 menu->setItemEnabled(item, false);
                 auto subMenu = menu->addSubMenu("Sub Menu");
                 bool action3 = false;
-                subMenu->addItem(std::make_shared<Action>(
+                subMenu->addItem(Action::create(
                     "Action 3",
                     [&action3] { action3 = true; }));
                 menuBar->addMenu("Menu 1", menu);
@@ -79,13 +79,13 @@ namespace dtk
 
                 menu = Menu::create(context);
                 bool action4 = false;
-                menu->addItem(std::make_shared<Action>(
+                menu->addItem(Action::create(
                     "Action 4",
                     Key::_4,
                     static_cast<int>(KeyModifier::Control),
                     [&action4] { action4 = true; }));
                 bool action5 = false;
-                menu->addItem(std::make_shared<Action>(
+                menu->addItem(Action::create(
                     "Action 5",
                     Key::_5,
                     static_cast<int>(KeyModifier::Control),

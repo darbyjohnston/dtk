@@ -46,6 +46,11 @@ namespace dtk
         return _p->value->get();
     }
 
+    std::shared_ptr<IObservableValue<int> > IntModel::observeValue() const
+    {
+        return _p->value;
+    }
+
     void IntModel::setValue(int value)
     {
         DTK_P();
@@ -54,14 +59,14 @@ namespace dtk
         _p->value->setIfChanged(tmp);
     }
 
-    std::shared_ptr<IObservableValue<int> > IntModel::observeValue() const
-    {
-        return _p->value;
-    }
-
     const RangeI& IntModel::getRange() const
     {
         return _p->range->get();
+    }
+
+    std::shared_ptr<IObservableValue<RangeI> > IntModel::observeRange() const
+    {
+        return _p->range;
     }
 
     void IntModel::setRange(const RangeI& range)
@@ -71,11 +76,6 @@ namespace dtk
         {
             setValue(p.value->get());
         }
-    }
-
-    std::shared_ptr<IObservableValue<RangeI> > IntModel::observeRange() const
-    {
-        return _p->range;
     }
 
     int IntModel::getStep() const

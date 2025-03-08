@@ -37,11 +37,11 @@ namespace dtk
         //! Get the value.
         float getValue() const;
 
-        //! Set the value.
-        void setValue(float);
-
         //! Observe the value.
         std::shared_ptr<IObservableValue<float> > observeValue() const;
+
+        //! Set the value.
+        void setValue(float);
 
         ///@}
 
@@ -51,11 +51,11 @@ namespace dtk
         //! Get the range.
         const RangeF& getRange() const;
 
-        //! Set the range.
-        void setRange(const RangeF&);
-
         //! Observe the range.
         std::shared_ptr<IObservableValue<RangeF> > observeRange() const;
+
+        //! Set the range.
+        void setRange(const RangeF&);
 
         ///@}
 

@@ -30,7 +30,7 @@ namespace dtk
 
                 _menus["File"] = Menu::create(context);
                 auto appWeak = std::weak_ptr<App>(app);
-                _actions["File/Open"] = std::make_shared<Action>(
+                _actions["File/Open"] = Action::create(
                     "Open",
                     "FileOpen",
                     Key::O,
@@ -54,7 +54,7 @@ namespace dtk
                         }
                     });
                 _menus["File"]->addItem(_actions["File/Open"]);
-                _actions["File/Close"] = std::make_shared<Action>(
+                _actions["File/Close"] = Action::create(
                     "Close",
                     "FileClose",
                     Key::E,
@@ -65,7 +65,7 @@ namespace dtk
                     });
                 _menus["File"]->addItem(_actions["File/Close"]);
                 _menus["File"]->addDivider();
-                _actions["File/Exit"] = std::make_shared<Action>(
+                _actions["File/Exit"] = Action::create(
                     "Exit",
                     Key::Q,
                     static_cast<int>(KeyModifier::Control),
@@ -80,7 +80,7 @@ namespace dtk
 
                 _menus["Edit"] = Menu::create(context);
                 _menus["Edit/Font"] = _menus["Edit"]->addSubMenu("Font");
-                _actions["Edit/Font/Monospace"] = std::make_shared<Action>(
+                _actions["Edit/Font/Monospace"] = Action::create(
                     "Monospace",
                     [appWeak]
                     {
@@ -90,7 +90,7 @@ namespace dtk
                         }
                     });
                 _menus["Edit/Font"]->addItem(_actions["Edit/Font/Monospace"]);
-                _actions["Edit/Font/Regular"] = std::make_shared<Action>(
+                _actions["Edit/Font/Regular"] = Action::create(
                     "Regular",
                     [appWeak]
                     {

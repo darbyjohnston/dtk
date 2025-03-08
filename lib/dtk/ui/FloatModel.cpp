@@ -46,6 +46,11 @@ namespace dtk
         return _p->value->get();
     }
 
+    std::shared_ptr<IObservableValue<float> > FloatModel::observeValue() const
+    {
+        return _p->value;
+    }
+
     void FloatModel::setValue(float value)
     {
         DTK_P();
@@ -54,14 +59,14 @@ namespace dtk
         _p->value->setIfChanged(tmp);
     }
 
-    std::shared_ptr<IObservableValue<float> > FloatModel::observeValue() const
-    {
-        return _p->value;
-    }
-
     const RangeF& FloatModel::getRange() const
     {
         return _p->range->get();
+    }
+
+    std::shared_ptr<IObservableValue<RangeF> > FloatModel::observeRange() const
+    {
+        return _p->range;
     }
 
     void FloatModel::setRange(const RangeF& range)
@@ -71,11 +76,6 @@ namespace dtk
         {
             setValue(p.value->get());
         }
-    }
-
-    std::shared_ptr<IObservableValue<RangeF> > FloatModel::observeRange() const
-    {
-        return _p->range;
     }
 
     float FloatModel::getStep() const

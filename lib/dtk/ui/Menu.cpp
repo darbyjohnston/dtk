@@ -62,21 +62,7 @@ namespace dtk
         {
             p.items.push_back(item);
 
-            auto button = MenuButton::create(context, p.layout);
-            button->setText(item->text);
-            button->setIcon(!item->icon.empty() ? item->icon : "Empty");
-            if (!item->checkedIcon.empty())
-            {
-                button->setCheckedIcon(item->checkedIcon);
-            }
-            else if (item->icon.empty())
-            {
-                button->setCheckedIcon("MenuChecked");
-            }
-            button->setShortcut(item->shortcut, item->shortcutModifiers);
-            button->setCheckable(item->checkable);
-            button->setChecked(item->checked);
-
+            auto button = MenuButton::create(context, item, p.layout);
             p.buttons.push_back(button);
             p.itemToButton[item] = button;
 
@@ -98,21 +84,15 @@ namespace dtk
                 {
                     _setCurrent(buttonWeak.lock());
                     _accept();
-                    if (item->callback)
-                    {
-                        item->callback();
-                    }
+                    item->doCallback();
                 });
             button->setCheckedCallback(
                 [this, item, buttonWeak](bool value)
                 {
-                    item->checked = value;
+                    item->setChecked(value);
                     _setCurrent(buttonWeak.lock());
                     _accept();
-                    if (item->checkedCallback)
-                    {
-                        item->checkedCallback(value);
-                    }
+                    item->doCheckedCallback(value);
                 });
 
             if (!p.current)
@@ -129,7 +109,7 @@ namespace dtk
         const auto i = p.itemToButton.find(item);
         if (i != p.itemToButton.end())
         {
-            i->first->checked = value;
+            i->first->setChecked(value);
             i->second->setChecked(value);
         }
     }
@@ -160,7 +140,7 @@ namespace dtk
             out->_p->parentMenu = std::dynamic_pointer_cast<Menu>(shared_from_this());
             p.subMenus.push_back(out);
 
-            auto button = MenuButton::create(context, p.layout);
+            auto button = MenuButton::create(context, nullptr, p.layout);
             button->setText(text);
             button->setIcon("Empty");
             button->setSubMenuIcon("SubMenuArrow");
@@ -265,20 +245,19 @@ namespace dtk
         {
             for (const auto& i : p.itemToButton)
             {
-                if (shortcut == i.first->shortcut &&
-                    modifiers == i.first->shortcutModifiers)
+                if (shortcut == i.first->getShortcut() &&
+                    modifiers == i.first->getShortcutModifiers())
                 {
-                    if (i.first->callback)
+                    if (i.first->isCheckable())
                     {
-                        i.first->callback();
-                        out = true;
+                        setItemChecked(i.first, !i.first->isChecked());
+                        i.first->doCheckedCallback(i.first->isChecked());
                     }
-                    if (i.first->checkedCallback)
+                    else
                     {
-                        setItemChecked(i.first, !i.first->checked);
-                        i.first->checkedCallback(i.first->checked);
-                        out = true;
+                        i.first->doCallback();
                     }
+                    out = true;
                 }
             }
         }

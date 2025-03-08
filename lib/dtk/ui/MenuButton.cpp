@@ -19,6 +19,14 @@ namespace dtk
         std::string subMenuIcon;
         std::shared_ptr<Image> subMenuImage;
 
+        std::shared_ptr<ValueObserver<std::string> > textObserver;
+        std::shared_ptr<ValueObserver<std::string> > iconObserver;
+        std::shared_ptr<ValueObserver<std::string> > checkedIconObserver;
+        std::shared_ptr<ValueObserver<Key> > shortcutObserver;
+        std::shared_ptr<ValueObserver<int> > shortcutModifiersObserver;
+        std::shared_ptr<ValueObserver<bool> > checkableObserver;
+        std::shared_ptr<ValueObserver<bool> > checkedObserver;
+
         struct SizeData
         {
             int init = true;
@@ -45,11 +53,59 @@ namespace dtk
 
     void MenuButton::_init(
         const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Action>& action,
         const std::shared_ptr<IWidget>& parent)
     {
         IButton::_init(context, "dtk::MenuButton", parent);
         DTK_P();
+
         setButtonRole(ColorRole::None);
+
+        if (action)
+        {
+            p.textObserver = ValueObserver<std::string>::create(
+                action->observeText(),
+                [this](const std::string& value)
+                {
+                    setText(value);
+                });
+            p.iconObserver = ValueObserver<std::string>::create(
+                action->observeIcon(),
+                [this](const std::string& value)
+                {
+                    setIcon(value);
+                });
+            p.checkedIconObserver = ValueObserver<std::string>::create(
+                action->observeCheckedIcon(),
+                [this](const std::string& value)
+                {
+                    setCheckedIcon(value);
+                });
+            p.shortcutObserver = ValueObserver<Key>::create(
+                action->observeShortcut(),
+                [this](Key value)
+                {
+                    setShortcut(value, _p->shortcutModifiers);
+                });
+            p.shortcutModifiersObserver = ValueObserver<int>::create(
+                action->observeShortcutModifiers(),
+                [this](int value)
+                {
+                    setShortcut(_p->shortcut, value);
+                });
+            p.checkableObserver = ValueObserver<bool>::create(
+                action->observeCheckable(),
+                [this](bool value)
+                {
+                    setCheckable(value);
+                });
+            p.checkedObserver = ValueObserver<bool>::create(
+                action->observeChecked(),
+                [this](bool value)
+                {
+                    setChecked(value);
+                });
+        }
     }
 
     MenuButton::MenuButton() :
@@ -61,10 +117,11 @@ namespace dtk
 
     std::shared_ptr<MenuButton> MenuButton::create(
         const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Action>& action,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<MenuButton>(new MenuButton);
-        out->_init(context, parent);
+        out->_init(context, action, parent);
         return out;
     }
 

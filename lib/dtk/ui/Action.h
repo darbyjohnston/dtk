@@ -12,56 +12,135 @@ namespace dtk
     ///@{
 
     //! Action.
-    struct Action
+    class Action : public std::enable_shared_from_this<Action>
     {
+    protected:
+        void _init(
+            const std::string&               text,
+            const std::string&               icon,
+            Key                              shortcut,
+            int                              shortcutModifiers,
+            const std::function<void(void)>& callback,
+            const std::function<void(bool)>& checkedCallback);
+
         Action();
-        Action(
+
+    public:
+        ~Action();
+
+        //! \name Create
+        ///@{
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             const std::function<void(void)>& callback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             const std::string&               icon,
             const std::function<void(void)>& callback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             Key                              shortcut,
             int                              shortcutModifiers,
             const std::function<void(void)>& callback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             const std::string&               icon,
             Key                              shortcut,
             int                              shortcutModifiers,
             const std::function<void(void)>& callback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             const std::function<void(bool)>& checkedCallback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             const std::string&               icon,
             const std::function<void(bool)>& checkedCallback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             Key                              shortcut,
             int                              shortcutModifiers,
             const std::function<void(bool)>& checkedCallback);
-        Action(
+
+        static std::shared_ptr<Action> create(
             const std::string&               text,
             const std::string&               icon,
             Key                              shortcut,
             int                              shortcutModifiers,
             const std::function<void(bool)>& checkedCallback);
 
-        std::string               text;
-        std::string               icon;
-        std::string               checkedIcon;
-        Key                       shortcut          = Key::Unknown;
-        int                       shortcutModifiers = 0;
-        std::function<void(void)> callback;
-        bool                      checkable         = false;
-        bool                      checked           = false;
-        std::function<void(bool)> checkedCallback;
-        std::string               toolTip;
+        ///@}
+
+        //! \name Text
+        ///@{
+
+        const std::string& getText() const;
+        std::shared_ptr<IObservableValue<std::string> > observeText() const;
+        void setText(const std::string&);
+
+        ///@}
+
+        //! \name Icon
+        ///@{
+
+        const std::string& getIcon() const;
+        const std::string& getCheckedIcon() const;
+        std::shared_ptr<IObservableValue<std::string> > observeIcon() const;
+        std::shared_ptr<IObservableValue<std::string> > observeCheckedIcon() const;
+        void setIcon(const std::string&);
+        void setCheckedIcon(const std::string&);
+
+        ///@}
+
+        //! \name Shortcut
+        ///@{
+
+        Key getShortcut() const;
+        int getShortcutModifiers() const;
+        std::shared_ptr<IObservableValue<Key> > observeShortcut() const;
+        std::shared_ptr<IObservableValue<int> > observeShortcutModifiers() const;
+        void setShortcut(Key);
+        void setShortcutModifiers(int);
+
+        ///@}
+
+        //! \name Callback
+        ///@{
+
+        void doCallback();
+
+        ///@}
+
+        //! \name Checkable
+        ///@{
+
+        bool isCheckable() const;
+        bool isChecked() const;
+        std::shared_ptr<IObservableValue<bool> > observeCheckable() const;
+        std::shared_ptr<IObservableValue<bool> > observeChecked() const;
+        void setCheckable(bool);
+        void setChecked(bool);
+        void doCheckedCallback(bool);
+
+        ///@}
+
+        //! \name Tooltip
+        ///@{
+
+        const std::string& getTooltip() const;
+        std::shared_ptr<IObservableValue<std::string> > observeTooltip() const;
+        void setTooltip(const std::string&);
+
+        ///@}
+
+    private:
+        DTK_PRIVATE();
     };
 
     ///@}

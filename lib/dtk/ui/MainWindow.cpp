@@ -45,7 +45,7 @@ namespace dtk
 
         p.menuBar = MenuBar::create(context);
         auto fileMenu = Menu::create(context);
-        fileMenu->addItem(std::make_shared<Action>(
+        fileMenu->addItem(Action::create(
             "Exit",
             Key::Q,
             static_cast<int>(commandKeyModifier),
@@ -59,7 +59,7 @@ namespace dtk
         p.menuBar->addMenu("File", fileMenu);
 
         p.menus["Window"] = Menu::create(context);
-        p.menus["Window"]->addItem(std::make_shared<Action>(
+        p.menus["Window"]->addItem(Action::create(
             "Full Screen",
             Key::U,
             static_cast<int>(commandKeyModifier),
@@ -71,7 +71,7 @@ namespace dtk
         p.menus["ColorStyle"] = p.menus["Window"]->addSubMenu("Color Style");
         for (auto colorStyle : getColorStyleEnums())
         {
-            auto action = std::make_shared<Action>(
+            auto action = Action::create(
                 getLabel(colorStyle),
                 [this, colorStyle]
                 {
@@ -88,7 +88,7 @@ namespace dtk
         for (size_t i = 0; i < p.displayScales.size(); ++i)
         {
             const float displayScale = p.displayScales[i];
-            auto action = std::make_shared<Action>(
+            auto action = Action::create(
                 0 == i ? "Automatic" : Format("{0}").arg(displayScale).str(),
                 [this, displayScale](bool)
                 {
@@ -101,7 +101,7 @@ namespace dtk
             p.menus["DisplayScale"]->addItem(action);
         }
 
-        p.tooltipsAction = std::make_shared<Action>(
+        p.tooltipsAction = Action::create(
             "Tooltips",
             [this](bool value)
             {
