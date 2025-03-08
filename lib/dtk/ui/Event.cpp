@@ -105,6 +105,13 @@ namespace dtk
         }
     }
 
+    bool checkKeyModifier(KeyModifier modifier, int modifiers)
+    {
+        return modifier != KeyModifier::None ?
+            (modifiers & static_cast<int>(modifier)) :
+            true;
+    }
+
     std::string getKeyModifierLabel(int value)
     {
         std::vector<std::string> out;

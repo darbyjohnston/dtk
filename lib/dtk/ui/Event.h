@@ -118,6 +118,9 @@ namespace dtk
     //! Convert from a string.
     void from_string(const std::string&, KeyModifier&);
 
+    //! Check for the given key modifier.
+    bool checkKeyModifier(KeyModifier, int modifiers);
+
     //! OS specific command key modifier.
 #if defined(__APPLE__)
     const KeyModifier commandKeyModifier = KeyModifier::Super;
