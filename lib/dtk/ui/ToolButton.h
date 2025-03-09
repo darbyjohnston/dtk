@@ -8,6 +8,8 @@
 
 namespace dtk
 {
+    class Action;
+
     //! \name Buttons
     ///@{
 
@@ -17,6 +19,7 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
+            const std::shared_ptr<Action>&,
             const std::shared_ptr<IWidget>& parent);
 
         ToolButton();
@@ -33,6 +36,12 @@ namespace dtk
         static std::shared_ptr<ToolButton> create(
             const std::shared_ptr<Context>&,
             const std::string& text,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        //! Create a new widget.
+        static std::shared_ptr<ToolButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<Action>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
         void setText(const std::string&) override;

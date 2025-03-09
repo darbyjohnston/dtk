@@ -4,12 +4,20 @@
 
 #include <dtk/ui/ToolButton.h>
 
+#include <dtk/ui/Action.h>
 #include <dtk/ui/DrawUtil.h>
 
 namespace dtk
 {
     struct ToolButton::Private
     {
+        std::shared_ptr<dtk::Action> action;
+        std::shared_ptr<dtk::ValueObserver<std::string> > iconObserver;
+        std::shared_ptr<dtk::ValueObserver<std::string> > checkedIconObserver;
+        std::shared_ptr<dtk::ValueObserver<bool> > checkableObserver;
+        std::shared_ptr<dtk::ValueObserver<bool> > checkedObserver;
+        std::shared_ptr<dtk::ValueObserver<std::string> > tooltipObserver;
+
         struct SizeData
         {
             bool init = true;
@@ -34,11 +42,63 @@ namespace dtk
 
     void ToolButton::_init(
         const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Action>& action,
         const std::shared_ptr<IWidget>& parent)
     {
         IButton::_init(context, "dtk::ToolButton", parent);
+        DTK_P();
+
         setAcceptsKeyFocus(true);
+
         _buttonRole = ColorRole::None;
+
+        p.action = action;
+
+        if (action)
+        {
+            setClickedCallback(
+                [this]
+                {
+                    _p->action->doCallback();
+                });
+
+            setCheckedCallback(
+                [this](bool value)
+                {
+                    _p->action->doCheckedCallback(value);
+                });
+
+            p.iconObserver = dtk::ValueObserver<std::string>::create(
+                action->observeIcon(),
+                [this](const std::string& value)
+                {
+                    setIcon(value);
+                });
+            p.checkedIconObserver = dtk::ValueObserver<std::string>::create(
+                action->observeCheckedIcon(),
+                [this](const std::string& value)
+                {
+                    setCheckedIcon(value);
+                });
+            p.checkableObserver = dtk::ValueObserver<bool>::create(
+                action->observeCheckable(),
+                [this](bool value)
+                {
+                    setCheckable(value);
+                });
+            p.checkedObserver = dtk::ValueObserver<bool>::create(
+                action->observeChecked(),
+                [this](bool value)
+                {
+                    setChecked(value);
+                });
+            p.tooltipObserver = dtk::ValueObserver<std::string>::create(
+                action->observeTooltip(),
+                [this](const std::string& value)
+                {
+                    setTooltip(value);
+                });
+        }
     }
 
     ToolButton::ToolButton() :
@@ -53,7 +113,7 @@ namespace dtk
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<ToolButton>(new ToolButton);
-        out->_init(context, parent);
+        out->_init(context, nullptr, parent);
         return out;
     }
 
@@ -62,8 +122,19 @@ namespace dtk
         const std::string& text,
         const std::shared_ptr<IWidget>& parent)
     {
-        auto out = create(context, parent);
+        auto out = std::shared_ptr<ToolButton>(new ToolButton);
+        out->_init(context, nullptr, parent);
         out->setText(text);
+        return out;
+    }
+
+    std::shared_ptr<ToolButton> ToolButton::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<Action>& action,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<ToolButton>(new ToolButton);
+        out->_init(context, action, parent);
         return out;
     }
 
