@@ -98,7 +98,7 @@ namespace dtk
                 [this](bool value)
                 {
                     setCheckable(value);
-                    if (!getIcon().empty() && getCheckedIcon().empty())
+                    if ("Empty" == getIcon() && getCheckedIcon().empty())
                     {
                         setCheckedIcon("MenuChecked");
                     }
@@ -108,7 +108,7 @@ namespace dtk
                 [this](bool value)
                 {
                     setChecked(value);
-                    if (!getIcon().empty() && getCheckedIcon().empty())
+                    if ("Empty" == getIcon() && getCheckedIcon().empty())
                     {
                         setCheckedIcon("MenuChecked");
                     }
