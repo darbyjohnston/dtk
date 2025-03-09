@@ -32,12 +32,7 @@ namespace dtk
 
         p.text = ObservableValue<std::string>::create(text);
         p.icon = ObservableValue<std::string>::create(icon);
-        std::string checkedIcon;
-        if (checkedCallback)
-        {
-            checkedIcon = "MenuChecked";
-        }
-        p.checkedIcon = ObservableValue<std::string>::create(checkedIcon);
+        p.checkedIcon = ObservableValue<std::string>::create();
         p.shortcut = ObservableValue<Key>::create(shortcut);
         p.shortcutModifiers = ObservableValue<int>::create(shortcutModifiers);
         p.callback = callback;
@@ -292,25 +287,13 @@ namespace dtk
     void Action::setCheckable(bool value)
     {
         DTK_P();
-        if (p.checkable->setIfChanged(value))
-        {
-            if (!p.icon->get().empty() && p.checkedIcon->get().empty())
-            {
-                p.checkedIcon->setIfChanged("MenuChecked");
-            }
-        }
+        p.checkable->setIfChanged(value);
     }
 
     void Action::setChecked(bool value)
     {
         DTK_P();
-        if (p.checked->setIfChanged(value))
-        {
-            if (!p.icon->get().empty() && p.checkedIcon->get().empty())
-            {
-                p.checkedIcon->setIfChanged("MenuChecked");
-            }
-        }
+        p.checked->setIfChanged(value);
     }
 
     void Action::doCheckedCallback(bool value)

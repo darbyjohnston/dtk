@@ -98,12 +98,20 @@ namespace dtk
                 [this](bool value)
                 {
                     setCheckable(value);
+                    if (!getIcon().empty() && getCheckedIcon().empty())
+                    {
+                        setCheckedIcon("MenuChecked");
+                    }
                 });
             p.checkedObserver = ValueObserver<bool>::create(
                 action->observeChecked(),
                 [this](bool value)
                 {
                     setChecked(value);
+                    if (!getIcon().empty() && getCheckedIcon().empty())
+                    {
+                        setCheckedIcon("MenuChecked");
+                    }
                 });
         }
     }
