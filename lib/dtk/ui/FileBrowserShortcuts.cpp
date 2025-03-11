@@ -238,7 +238,16 @@ namespace dtk
         items.clear();
         for (const auto& recent : p.recent)
         {
-            items.push_back(ListItem(recent.filename().u8string(), recent.u8string()));
+            std::filesystem::path tmp = recent.filename();
+            if (tmp.empty())
+            {
+                tmp = recent.parent_path().filename();
+            }
+            if (tmp.empty())
+            {
+                tmp = recent;
+            }
+            items.push_back(ListItem(tmp.u8string(), recent.u8string()));
         }
         p.listWidgets["Recent"]->setItems(items);
 
