@@ -77,6 +77,11 @@ namespace dtk
         "TooltipWindow",
         "TooltipText",
 
+        "VideoClip",
+        "VideoGap",
+        "AudioClip",
+        "AudioGap",
+
         "Red",
         "Green",
         "Blue",
@@ -103,6 +108,11 @@ namespace dtk
         out[ColorRole::TooltipWindow] = Color4F(1.F, .95F, .7F);
         out[ColorRole::TooltipText] = Color4F(0.F, 0.F, 0.F);
 
+        out[ColorRole::VideoClip] = Color4F(.2F, .4F, .4F);
+        out[ColorRole::VideoGap] = Color4F(.25F, .31F, .31F);
+        out[ColorRole::AudioClip] = Color4F(.3F, .25F, .4F);
+        out[ColorRole::AudioGap] = Color4F(.25F, .24F, .3F);
+
         out[ColorRole::Red] = Color4F(.6F, .3F, .3F);
         out[ColorRole::Green] = Color4F(.3F, .6F, .3F);
         out[ColorRole::Blue] = Color4F(.3F, .3F, .6F);
@@ -127,6 +137,11 @@ namespace dtk
         out[ColorRole::Pressed] = Color4F(0.F, 0.F, 0.F, .2F);
         out[ColorRole::Checked] = Color4F(.6F, .7F, .85F);
         out[ColorRole::KeyFocus] = Color4F(0.F, .5F, 1.F);
+
+        out[ColorRole::VideoClip] = Color4F(.8F, .6F, .6F);
+        out[ColorRole::VideoGap] = Color4F(.75F, .69F, .69F);
+        out[ColorRole::AudioClip] = Color4F(.7F, .75F, .6F);
+        out[ColorRole::AudioGap] = Color4F(.75F, .76F, .7F);
 
         return out;
     }

@@ -65,6 +65,11 @@ namespace dtk
         TooltipWindow,
         TooltipText,
 
+        VideoClip,
+        VideoGap,
+        AudioClip,
+        AudioGap,
+
         Red,
         Green,
         Blue,
