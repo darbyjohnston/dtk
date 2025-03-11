@@ -137,11 +137,12 @@ namespace dtk
         out[ColorRole::Pressed] = Color4F(0.F, 0.F, 0.F, .2F);
         out[ColorRole::Checked] = Color4F(.6F, .7F, .85F);
         out[ColorRole::KeyFocus] = Color4F(0.F, .5F, 1.F);
+        out[ColorRole::Overlay] = Color4F(1.F, 1.F, 1.F, .5F);
 
-        out[ColorRole::VideoClip] = Color4F(.8F, .6F, .6F);
-        out[ColorRole::VideoGap] = Color4F(.75F, .69F, .69F);
-        out[ColorRole::AudioClip] = Color4F(.7F, .75F, .6F);
-        out[ColorRole::AudioGap] = Color4F(.75F, .76F, .7F);
+        out[ColorRole::VideoClip] = Color4F(.6F, .8F, .8F);
+        out[ColorRole::VideoGap] = Color4F(.65F, .71F, .71F);
+        out[ColorRole::AudioClip] = Color4F(.7F, .65F, .8F);
+        out[ColorRole::AudioGap] = Color4F(.65F, .64F, .7F);
 
         return out;
     }
