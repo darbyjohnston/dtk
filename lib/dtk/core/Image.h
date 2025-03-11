@@ -98,9 +98,8 @@ namespace dtk
     V4F getYUVCoefficients(YUVCoefficients);
 
     //! Image mirroring.
-    class ImageMirror
+    struct ImageMirror
     {
-    public:
         ImageMirror() = default;
         constexpr ImageMirror(bool x, bool y);
 
@@ -112,9 +111,8 @@ namespace dtk
     };
 
     //! Image data layout.
-    class ImageLayout
+    struct ImageLayout
     {
-    public:
         ImageLayout() = default;
         ImageLayout(
             const ImageMirror& mirror,
