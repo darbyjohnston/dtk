@@ -42,6 +42,7 @@ namespace dtk_resource
     extern std::vector<uint8_t> FileClose;
     extern std::vector<uint8_t> FileCloseAll;
     extern std::vector<uint8_t> FileOpen;
+    extern std::vector<uint8_t> FileReload;
     extern std::vector<uint8_t> FrameEnd;
     extern std::vector<uint8_t> FrameInOut;
     extern std::vector<uint8_t> FrameNext;
@@ -149,6 +150,7 @@ namespace dtk
         p.iconData["FileClose"] = dtk_resource::FileClose;
         p.iconData["FileCloseAll"] = dtk_resource::FileCloseAll;
         p.iconData["FileOpen"] = dtk_resource::FileOpen;
+        p.iconData["FileReload"] = dtk_resource::FileReload;
         p.iconData["FrameEnd"] = dtk_resource::FrameEnd;
         p.iconData["FrameInOut"] = dtk_resource::FrameInOut;
         p.iconData["FrameNext"] = dtk_resource::FrameNext;
