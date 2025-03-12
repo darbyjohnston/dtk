@@ -139,7 +139,8 @@ namespace dtk
         virtual void drawTexture(
             unsigned int,
             const Box2I&,
-            const Color4F& = Color4F(1.F, 1.F, 1.F)) = 0;
+            const Color4F& = Color4F(1.F, 1.F, 1.F),
+            AlphaBlend = AlphaBlend::Straight) = 0;
 
         //! Draw text.
         virtual void drawText(

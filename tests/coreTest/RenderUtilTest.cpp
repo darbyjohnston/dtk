@@ -79,7 +79,8 @@ namespace dtk
                 void drawTexture(
                     unsigned int,
                     const Box2I&,
-                    const Color4F& = Color4F(1.F, 1.F, 1.F)) override {}
+                    const Color4F& = Color4F(1.F, 1.F, 1.F),
+                    AlphaBlend = AlphaBlend::Straight) override {}
                 void drawText(
                     const std::vector<std::shared_ptr<Glyph> >&,
                     const FontMetrics&,

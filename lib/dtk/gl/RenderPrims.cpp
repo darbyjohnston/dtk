@@ -203,17 +203,50 @@ namespace dtk
             }
         }
 
+        namespace
+        {
+            void setAlphaBlend(AlphaBlend alphaBlend)
+            {
+                switch (alphaBlend)
+                {
+                case AlphaBlend::None:
+#if defined(dtk_API_GL_4_1)
+                    glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
+#elif defined(dtk_API_GLES_2)
+                    glBlendFunc(GL_ONE, GL_ZERO);
+#endif // dtk_API_GL_4_1
+                    break;
+                case AlphaBlend::Straight:
+#if defined(dtk_API_GL_4_1)
+                    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+#elif defined(dtk_API_GLES_2)
+                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#endif // dtk_API_GL_4_1
+                    break;
+                case AlphaBlend::Premultiplied:
+#if defined(dtk_API_GL_4_1)
+                    glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+#elif defined(dtk_API_GLES_2)
+                    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+#endif // dtk_API_GL_4_1
+                    break;
+                default: break;
+                }
+            }
+        }
+
         void Render::drawTexture(
             unsigned int id,
             const Box2I& rect,
-            const Color4F& color)
+            const Color4F& color,
+            AlphaBlend alphaBlend)
         {
             DTK_P();
             p.shaders["texture"]->bind();
             p.shaders["texture"]->setUniform("color", color);
             p.shaders["texture"]->setUniform("textureSampler", 0);
 
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            setAlphaBlend(alphaBlend);
 
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE0));
             glBindTexture(GL_TEXTURE_2D, id);
@@ -418,31 +451,7 @@ namespace dtk
                 break;
             }
 
-            switch (imageOptions.alphaBlend)
-            {
-            case AlphaBlend::None:
-#if defined(dtk_API_GL_4_1)
-                glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
-#elif defined(dtk_API_GLES_2)
-                glBlendFunc(GL_ONE, GL_ZERO);
-#endif // dtk_API_GL_4_1
-                break;
-            case AlphaBlend::Straight:
-#if defined(dtk_API_GL_4_1)
-                glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-#elif defined(dtk_API_GLES_2)
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-#endif // dtk_API_GL_4_1
-                break;
-            case AlphaBlend::Premultiplied:
-#if defined(dtk_API_GL_4_1)
-                glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-#elif defined(dtk_API_GLES_2)
-                glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-#endif // dtk_API_GL_4_1
-                break;
-            default: break;
-            }
+            setAlphaBlend(imageOptions.alphaBlend);
 
             const size_t size = mesh.triangles.size();
             if (!p.vbos["image"] || (p.vbos["image"] && p.vbos["image"]->getSize() < size * 3))
