@@ -138,6 +138,7 @@ namespace dtk
         event.render->drawMesh(
             p.draw.border,
             event.style->getColorRole(ColorRole::Border));
+        event.render->drawRect(p.draw.g2, Color4F(0.F, 0.F, 0.F));
         event.render->drawRect(p.draw.g2, p.color);
     }
 
