@@ -38,6 +38,14 @@ namespace dtk
         "Light",
         "Custom");
 
+    std::map<ColorRole, Color4F> getCustomColorRoles()
+    {
+        std::map<ColorRole, Color4F> out = getDefaultColorRoles();
+        out[ColorRole::Window] = Color4F(.15F, .15F, .2F);
+        out[ColorRole::Button] = Color4F(.2F, .2F, .3F);
+        return out;
+    }
+
     struct App::Private
     {
         bool exit = false;
@@ -95,10 +103,7 @@ namespace dtk
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
-        auto customColorRoles = getDefaultColorRoles();
-        customColorRoles[ColorRole::Window] = Color4F(.15F, .15F, .2F);
-        customColorRoles[ColorRole::Button] = Color4F(.2F, .2F, .3F);
-        p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(customColorRoles);
+        p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(getCustomColorRoles());
         p.displayScale = ObservableValue<float>::create(displayScale);
         p.tooltipsEnabled = ObservableValue<bool>::create(true);
 

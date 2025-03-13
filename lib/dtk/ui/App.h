@@ -32,6 +32,9 @@ namespace dtk
     };
     DTK_ENUM(ColorStyle);
 
+    //! Get custom color roles.
+    std::map<ColorRole, Color4F> getCustomColorRoles();
+
     //! Base class for user interface applications.
     class App : public IApp
     {
