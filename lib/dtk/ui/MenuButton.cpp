@@ -26,6 +26,7 @@ namespace dtk
         std::shared_ptr<ValueObserver<int> > shortcutModifiersObserver;
         std::shared_ptr<ValueObserver<bool> > checkableObserver;
         std::shared_ptr<ValueObserver<bool> > checkedObserver;
+        std::shared_ptr<ValueObserver<bool> > enabledObserver;
 
         struct SizeData
         {
@@ -112,6 +113,12 @@ namespace dtk
                     {
                         setCheckedIcon("MenuChecked");
                     }
+                });
+            p.enabledObserver = ValueObserver<bool>::create(
+                action->observeEnabled(),
+                [this](bool value)
+                {
+                    setEnabled(value);
                 });
         }
     }

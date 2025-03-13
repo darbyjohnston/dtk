@@ -17,6 +17,7 @@ namespace dtk
         std::shared_ptr<ObservableValue<bool> > checkable;
         std::shared_ptr<ObservableValue<bool> > checked;
         std::function<void(bool)> checkedCallback;
+        std::shared_ptr<ObservableValue<bool> > enabled;
         std::shared_ptr<ObservableValue<std::string> > tooltip;
     };
 
@@ -39,6 +40,7 @@ namespace dtk
         p.checkable = ObservableValue<bool>::create(bool(checkedCallback));
         p.checked = ObservableValue<bool>::create(false);
         p.checkedCallback = checkedCallback;
+        p.enabled = ObservableValue<bool>::create(true);
         p.tooltip = ObservableValue<std::string>::create();
     }
 
@@ -302,6 +304,22 @@ namespace dtk
         {
             _p->checkedCallback(value);
         }
+    }
+
+    bool Action::isEnabled() const
+    {
+        return _p->enabled->get();
+    }
+
+    std::shared_ptr<IObservableValue<bool> > Action::observeEnabled() const
+    {
+        return _p->enabled;
+    }
+
+    void Action::setEnabled(bool value)
+    {
+        DTK_P();
+        p.enabled->setIfChanged(value);
     }
 
     const std::string& Action::getTooltip() const

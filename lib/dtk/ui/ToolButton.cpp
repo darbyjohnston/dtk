@@ -16,6 +16,7 @@ namespace dtk
         std::shared_ptr<dtk::ValueObserver<std::string> > checkedIconObserver;
         std::shared_ptr<dtk::ValueObserver<bool> > checkableObserver;
         std::shared_ptr<dtk::ValueObserver<bool> > checkedObserver;
+        std::shared_ptr<dtk::ValueObserver<bool> > enabledObserver;
         std::shared_ptr<dtk::ValueObserver<std::string> > tooltipObserver;
 
         struct SizeData
@@ -91,6 +92,12 @@ namespace dtk
                 [this](bool value)
                 {
                     setChecked(value);
+                });
+            p.enabledObserver = dtk::ValueObserver<bool>::create(
+                action->observeEnabled(),
+                [this](bool value)
+                {
+                    setEnabled(value);
                 });
             p.tooltipObserver = dtk::ValueObserver<std::string>::create(
                 action->observeTooltip(),

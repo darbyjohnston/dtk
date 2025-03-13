@@ -130,6 +130,15 @@ namespace dtk
 
         ///@}
 
+        //! \name Enabled
+        ///@{
+
+        bool isEnabled() const;
+        std::shared_ptr<IObservableValue<bool> > observeEnabled() const;
+        void setEnabled(bool);
+
+        ///@}
+
         //! \name Tooltip
         ///@{
 
