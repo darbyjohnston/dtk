@@ -147,6 +147,20 @@ namespace dtk
         return out;
     }
 
+    bool ColorControls::operator == (const ColorControls& other) const
+    {
+        return
+            brightness == other.brightness &&
+            contrast == other.contrast &&
+            saturation == other.saturation &&
+            tint == other.tint;
+    }
+
+    bool ColorControls::operator != (const ColorControls& other) const
+    {
+        return !(*this == other);
+    }
+
     DTK_ENUM_IMPL(
         FontRole,
         "None",
@@ -166,6 +180,11 @@ namespace dtk
     struct Style::Private
     {
         std::weak_ptr<Context> context;
+        std::map<SizeRole, int> sizeRoles;
+        std::map<ColorRole, Color4F> colorRoles;
+        ColorControls colorControls;
+        M44F colorMatrix;
+        std::map<FontRole, FontInfo> fontRoles;
         std::shared_ptr<ObservableValue<bool> > changed;
     };
 
@@ -173,11 +192,14 @@ namespace dtk
         const std::shared_ptr<Context>& context)
     {
         DTK_P();
+
         p.context = context;
-        _sizeRoles = getDefaultSizeRoles();
-        _colorRoles = getDefaultColorRoles();
-        _fontRoles = getDefaultFontRoles();
+        p.sizeRoles = getDefaultSizeRoles();
+        p.colorRoles = getDefaultColorRoles();
+        p.fontRoles = getDefaultFontRoles();
         p.changed = ObservableValue<bool>::create();
+
+        _colorUpdate();
     }
 
     Style::Style() :
@@ -195,62 +217,136 @@ namespace dtk
         return out;
     }
 
+    int Style::getSizeRole(SizeRole role, float scale) const
+    {
+        DTK_P();
+        const auto i = p.sizeRoles.find(role);
+        return i != p.sizeRoles.end() ? (i->second * scale) : 0;
+    }
+
     void Style::setSizeRole(SizeRole role, int value)
     {
         DTK_P();
-        if (_sizeRoles[role] == value)
+        if (value == p.sizeRoles[role])
             return;
-        _sizeRoles[role] = value;
+        p.sizeRoles[role] = value;
         p.changed->setAlways(true);
     }
 
     void Style::setSizeRoles(const std::map<SizeRole, int>& value)
     {
         DTK_P();
-        if (_sizeRoles == value)
+        if (value == p.sizeRoles)
             return;
-        _sizeRoles = value;
+        p.sizeRoles = value;
         p.changed->setAlways(true);
+    }
+
+    Color4F Style::getColorRole(ColorRole role) const
+    {
+        DTK_P();
+        const auto i = p.colorRoles.find(role);
+        Color4F c;
+        if (i != p.colorRoles.end())
+        {
+            c = i->second;
+        }
+        const V3F v = p.colorMatrix * V3F(c.r, c.g, c.b);
+        return Color4F(v.x, v.y, v.z, c.a);
     }
 
     void Style::setColorRole(ColorRole role, const Color4F& value)
     {
         DTK_P();
-        if (_colorRoles[role] == value)
+        if (value == p.colorRoles[role])
             return;
-        _colorRoles[role] = value;
+        p.colorRoles[role] = value;
         p.changed->setAlways(true);
     }
 
     void Style::setColorRoles(const std::map<ColorRole, Color4F>& value)
     {
         DTK_P();
-        if (_colorRoles == value)
+        if (value == p.colorRoles)
             return;
-        _colorRoles = value;
+        p.colorRoles = value;
         p.changed->setAlways(true);
+    }
+
+    const ColorControls& Style::getColorControls() const
+    {
+        return _p->colorControls;
+    }
+
+    void Style::setColorControls(const ColorControls& value)
+    {
+        DTK_P();
+        if (value == p.colorControls)
+            return;
+        p.colorControls = value;
+        _colorUpdate();
+        p.changed->setAlways(true);
+    }
+
+    FontInfo Style::getFontRole(FontRole role, float scale) const
+    {
+        DTK_P();
+        FontInfo out;
+        const auto i = p.fontRoles.find(role);
+        if (i != p.fontRoles.end())
+        {
+            out = i->second;
+            out.size *= scale;
+        }
+        return out;
     }
 
     void Style::setFontRole(FontRole role, const FontInfo& value)
     {
         DTK_P();
-        if (_fontRoles[role] == value)
+        if (value == p.fontRoles[role])
             return;
-        _fontRoles[role] = value;
+        p.fontRoles[role] = value;
         p.changed->setAlways(true);
     }
 
     void Style::setFontRoles(const std::map<FontRole, FontInfo>& value)
     {
         DTK_P();
-        if (_fontRoles == value)
+        if (value == p.fontRoles)
             return;
-        _fontRoles = value;
+        p.fontRoles = value;
         p.changed->setAlways(true);
     }
 
     std::shared_ptr<IObservableValue<bool> > Style::observeChanged() const
     {
         return _p->changed;
+    }
+
+    void Style::_colorUpdate()
+    {
+        DTK_P();
+        p.colorMatrix =
+            brightness(V3F(p.colorControls.brightness, p.colorControls.brightness, p.colorControls.brightness)) *
+            contrast(V3F(p.colorControls.contrast, p.colorControls.contrast, p.colorControls.contrast)) *
+            saturation(V3F(p.colorControls.saturation, p.colorControls.saturation, p.colorControls.saturation)) *
+            tint(p.colorControls.tint);
+    }
+
+    void to_json(nlohmann::json& json, const ColorControls& value)
+    {
+        json["Brightness"] = value.brightness;
+        json["Contrast"] = value.contrast;
+        json["Saturation"] = value.saturation;
+        json["Tint"] = value.tint;
+    }
+
+    void from_json(const nlohmann::json& json, ColorControls& out)
+    {
+        json.at("Brightness").get_to(out.brightness);
+        json.at("Contrast").get_to(out.contrast);
+        json.at("Saturation").get_to(out.saturation);
+        json.at("Tint").get_to(out.tint);
     }
 }

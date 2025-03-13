@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <nlohmann/json.hpp>
+#include <dtk/core/Matrix.h>
 
 #include <array>
 #include <iostream>
@@ -140,6 +140,18 @@ namespace dtk
 
     //! Convert to greyscale.
     Color4F greyscale(const Color4F&);
+
+    //! Get a brightness color matrix.
+    M44F brightness(const V3F&);
+
+    //! Get a contrast color matrix.
+    M44F contrast(const V3F&);
+
+    //! Get a saturation color matrix.
+    M44F saturation(const V3F&);
+
+    //! Get a tint color matrix.
+    M44F tint(float);
 
     void to_json(nlohmann::json&, const Color1F&);
     void to_json(nlohmann::json&, const Color2F&);

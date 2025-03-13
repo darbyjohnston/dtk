@@ -6,6 +6,62 @@
 
 namespace dtk
 {
+    M44F brightness(const V3F& value)
+    {
+        return M44F(
+            value.x, 0.F, 0.F, 0.F,
+            0.F, value.y, 0.F, 0.F,
+            0.F, 0.F, value.z, 0.F,
+            0.F, 0.F, 0.F, 1.F);
+    }
+
+    M44F contrast(const V3F& value)
+    {
+        return
+            M44F(
+                1.F, 0.F, 0.F, -.5F,
+                0.F, 1.F, 0.F, -.5F,
+                0.F, 0.F, 1.F, -.5F,
+                0.F, 0.F, 0.F, 1.F) *
+            M44F(
+                value.x, 0.F, 0.F, 0.F,
+                0.F, value.y, 0.F, 0.F,
+                0.F, 0.F, value.z, 0.F,
+                0.F, 0.F, 0.F, 1.F) *
+            M44F(
+                1.F, 0.F, 0.F, .5F,
+                0.F, 1.F, 0.F, .5F,
+                0.F, 0.F, 1.F, .5F,
+                0.F, 0.F, 0.F, 1.F);
+    }
+
+    M44F saturation(const V3F& value)
+    {
+        const V3F s(
+            (1.F - value.x) * .3086F,
+            (1.F - value.y) * .6094F,
+            (1.F - value.z) * .0820F);
+        return M44F(
+            s.x + value.x, s.y, s.z, 0.F,
+            s.x, s.y + value.y, s.z, 0.F,
+            s.x, s.y, s.z + value.z, 0.F,
+            0.F, 0.F, 0.F, 1.F);
+    }
+
+    M44F tint(float v)
+    {
+        const float c = cos(v * pi * 2.F);
+        const float c2 = 1.F - c;
+        const float c3 = 1.F / 3.F * c2;
+        const float s = sin(v * pi * 2.F);
+        const float sq = sqrtf(1.F / 3.F);
+        return M44F(
+            c + c2 / 3.F, c3 - sq * s, c3 + sq * s, 0.F,
+            c3 + sq * s, c + c3, c3 - sq * s, 0.F,
+            c3 - sq * s, c3 + sq * s, c + c3, 0.F,
+            0.F, 0.F, 0.F, 1.F);
+    }
+
     void to_json(nlohmann::json& json, const Color1F& value)
     {
         json = { value.l };

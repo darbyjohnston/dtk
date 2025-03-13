@@ -88,6 +88,18 @@ namespace dtk
     //! Get light color roles.
     std::map<ColorRole, Color4F> getLightColorRoles();
 
+    //! Color controls.
+    struct ColorControls
+    {
+        float brightness = 1.F;
+        float contrast = 1.F;
+        float saturation = 1.F;
+        float tint = 0.F;
+
+        bool operator == (const ColorControls&) const;
+        bool operator != (const ColorControls&) const;
+    };
+
     //! Font roles.
     enum class FontRole
     {
@@ -139,6 +151,12 @@ namespace dtk
         //! Set the color roles.
         void setColorRoles(const std::map<ColorRole, Color4F>&);
 
+        //! Get the color controls.
+        const ColorControls& getColorControls() const;
+
+        //! Set the color controls.
+        void setColorControls(const ColorControls&);
+
         //! Get a font role.
         FontInfo getFontRole(FontRole, float scale) const;
 
@@ -152,14 +170,14 @@ namespace dtk
         std::shared_ptr<IObservableValue<bool> > observeChanged() const;
 
     private:
-        std::map<SizeRole, int> _sizeRoles;
-        std::map<ColorRole, Color4F> _colorRoles;
-        std::map<FontRole, FontInfo> _fontRoles;
+        void _colorUpdate();
 
         DTK_PRIVATE();
     };
 
+    void to_json(nlohmann::json&, const ColorControls&);
+
+    void from_json(const nlohmann::json&, ColorControls&);
+
     ///@}
 }
-
-#include <dtk/ui/StyleInline.h>

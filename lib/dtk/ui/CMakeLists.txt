@@ -72,7 +72,6 @@ set(HEADERS
     Splitter.h
     StackLayout.h
     Style.h
-    StyleInline.h
     TabBar.h
     TabWidget.h
     ToolButton.h
