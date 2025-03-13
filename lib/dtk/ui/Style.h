@@ -44,7 +44,7 @@ namespace dtk
     DTK_ENUM(SizeRole);
 
     //! Get the default size roles.
-    std::map<SizeRole, int> defaultSizeRoles();
+    std::map<SizeRole, int> getDefaultSizeRoles();
 
     //! Color roles.
     enum class ColorRole
@@ -83,10 +83,10 @@ namespace dtk
     DTK_ENUM(ColorRole);
 
     //! Get default color roles.
-    std::map<ColorRole, Color4F> defaultColorRoles();
+    std::map<ColorRole, Color4F> getDefaultColorRoles();
 
     //! Get light color roles.
-    std::map<ColorRole, Color4F> lightColorRoles();
+    std::map<ColorRole, Color4F> getLightColorRoles();
 
     //! Font roles.
     enum class FontRole
@@ -102,7 +102,7 @@ namespace dtk
     DTK_ENUM(FontRole);
 
     //! Get default font roles.
-    std::map<FontRole, FontInfo> defaultFontRoles();
+    std::map<FontRole, FontInfo> getDefaultFontRoles();
 
     //! Style.
     class Style : public std::enable_shared_from_this<Style>

@@ -4,7 +4,10 @@
 
 #pragma once
 
+#include <dtk/ui/Style.h>
+
 #include <dtk/core/IApp.h>
+#include <dtk/core/ObservableMap.h>
 #include <dtk/core/ObservableValue.h>
 
 #include <list>
@@ -14,7 +17,6 @@ namespace dtk
     class FontSystem;
     class IWidget;
     class IconSystem;
-    class Style;
     class TickEvent;
     class Window;
 
@@ -23,6 +25,7 @@ namespace dtk
     {
         Dark,
         Light,
+        Custom,
 
         Count,
         First = Dark
@@ -84,6 +87,15 @@ namespace dtk
 
         //! Set the color style.
         void setColorStyle(ColorStyle);
+
+        //! Get the custom color roles.
+        const std::map<ColorRole, Color4F>& getCustomColorRoles() const;
+
+        //! Observe the custom color roles.
+        std::shared_ptr<IObservableMap<ColorRole, Color4F> > observeCustomColorRoles() const;
+
+        //! Set the custom color roles.
+        void setCustomColorRoles(const std::map<ColorRole, Color4F>&);
 
         //! Get the display scale.
         float getDisplayScale() const;

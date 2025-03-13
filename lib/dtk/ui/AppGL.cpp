@@ -6,7 +6,6 @@
 
 #include <dtk/ui/IconSystem.h>
 #include <dtk/ui/Init.h>
-#include <dtk/ui/Style.h>
 #include <dtk/ui/Window.h>
 
 #include <dtk/gl/Init.h>
@@ -36,7 +35,8 @@ namespace dtk
     DTK_ENUM_IMPL(
         ColorStyle,
         "Dark",
-        "Light");
+        "Light",
+        "Custom");
 
     struct App::Private
     {
@@ -45,6 +45,7 @@ namespace dtk
         std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
         std::shared_ptr<ObservableValue<ColorStyle> > colorStyle;
+        std::shared_ptr<ObservableMap<ColorRole, Color4F> > customColorRoles;
         std::shared_ptr<ObservableValue<float> > displayScale;
         std::shared_ptr<ObservableValue<bool> > tooltipsEnabled;
         bool running = true;
@@ -94,6 +95,10 @@ namespace dtk
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
+        auto customColorRoles = getDefaultColorRoles();
+        customColorRoles[ColorRole::Window] = Color4F(.15F, .15F, .2F);
+        customColorRoles[ColorRole::Button] = Color4F(.2F, .2F, .3F);
+        p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(customColorRoles);
         p.displayScale = ObservableValue<float>::create(displayScale);
         p.tooltipsEnabled = ObservableValue<bool>::create(true);
 
@@ -194,6 +199,28 @@ namespace dtk
         if (p.colorStyle->setIfChanged(value))
         {
             _styleUpdate();
+        }
+    }
+
+    const std::map<ColorRole, Color4F>& App::getCustomColorRoles() const
+    {
+        return _p->customColorRoles->get();
+    }
+
+    std::shared_ptr<IObservableMap<ColorRole, Color4F> > App::observeCustomColorRoles() const
+    {
+        return _p->customColorRoles;
+    }
+
+    void App::setCustomColorRoles(const std::map<ColorRole, Color4F>& value)
+    {
+        DTK_P();
+        if (p.customColorRoles->setIfChanged(value))
+        {
+            if (ColorStyle::Custom == p.colorStyle->get())
+            {
+                _styleUpdate();
+            }
         }
     }
 
@@ -315,8 +342,9 @@ namespace dtk
         std::map<ColorRole, Color4F> colorRoles;
         switch (p.colorStyle->get())
         {
-        case ColorStyle::Dark: colorRoles = defaultColorRoles(); break;
-        case ColorStyle::Light: colorRoles = lightColorRoles(); break;
+        case ColorStyle::Dark: colorRoles = getDefaultColorRoles(); break;
+        case ColorStyle::Light: colorRoles = getLightColorRoles(); break;
+        case ColorStyle::Custom: colorRoles = p.customColorRoles->get(); break;
         default: break;
         }
         p.style->setColorRoles(colorRoles);

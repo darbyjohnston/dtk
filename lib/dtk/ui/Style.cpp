@@ -34,7 +34,7 @@ namespace dtk
         "Shadow",
         "DragLength");
 
-    std::map<SizeRole, int> defaultSizeRoles()
+    std::map<SizeRole, int> getDefaultSizeRoles()
     {
         std::map<SizeRole, int> out;
         out[SizeRole::Margin] = 10;
@@ -89,7 +89,7 @@ namespace dtk
         "Magenta",
         "Yellow");
 
-    std::map<ColorRole, Color4F> defaultColorRoles()
+    std::map<ColorRole, Color4F> getDefaultColorRoles()
     {
         std::map<ColorRole, Color4F> out;
         out[ColorRole::None] = Color4F();
@@ -123,9 +123,9 @@ namespace dtk
         return out;
     }
 
-    std::map<ColorRole, Color4F> lightColorRoles()
+    std::map<ColorRole, Color4F> getLightColorRoles()
     {
-        std::map<ColorRole, Color4F> out = defaultColorRoles();
+        std::map<ColorRole, Color4F> out = getDefaultColorRoles();
 
         out[ColorRole::Window] = Color4F(.8F, .8F, .8F);
         out[ColorRole::Base] = Color4F(.9F, .9F, .9F);
@@ -154,7 +154,7 @@ namespace dtk
         "Mono",
         "Title");
 
-    std::map<FontRole, FontInfo> defaultFontRoles()
+    std::map<FontRole, FontInfo> getDefaultFontRoles()
     {
         std::map<FontRole, FontInfo> out;
         out[FontRole::Label] = FontInfo("NotoSans-Regular", 12 * 1);
@@ -174,9 +174,9 @@ namespace dtk
     {
         DTK_P();
         p.context = context;
-        _sizeRoles = defaultSizeRoles();
-        _colorRoles = defaultColorRoles();
-        _fontRoles = defaultFontRoles();
+        _sizeRoles = getDefaultSizeRoles();
+        _colorRoles = getDefaultColorRoles();
+        _fontRoles = getDefaultFontRoles();
         p.changed = ObservableValue<bool>::create();
     }
 
