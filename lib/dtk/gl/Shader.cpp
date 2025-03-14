@@ -177,12 +177,14 @@ namespace dtk
 
         void Shader::setUniform(int location, const M33F& value)
         {
-            glUniformMatrix3fv(location, 1, GL_FALSE, value.data());
+            // Transpose the matrix for OpenGL (column-major).
+            glUniformMatrix3fv(location, 1, GL_TRUE, value.data());
         }
 
         void Shader::setUniform(int location, const M44F& value)
         {
-            glUniformMatrix4fv(location, 1, GL_FALSE, value.data());
+            // Transpose the matrix for OpenGL (column-major).
+            glUniformMatrix4fv(location, 1, GL_TRUE, value.data());
         }
 
         void Shader::setUniform(int location, const Color4F& value)

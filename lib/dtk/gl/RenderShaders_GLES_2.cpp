@@ -28,7 +28,7 @@ namespace dtk
                 "\n"
                 "void main()\n"
                 "{\n"
-                "    gl_Position = transform.mvp * vec4(vPos, 1.0);\n"
+                "    gl_Position = vec4(vPos, 1.0) * transform.mvp;\n"
                 "    fTexture = vTexture;\n"
                 "}\n";
         }
@@ -65,7 +65,7 @@ namespace dtk
                 "\n"
                 "void main()\n"
                 "{\n"
-                "    gl_Position = transform.mvp * vec4(vPos, 1.0);\n"
+                "    gl_Position = vec4(vPos, 1.0) * transform.mvp;\n"
                 "    fColor = vColor;\n"
                 "}\n";
         }

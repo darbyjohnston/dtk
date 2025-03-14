@@ -104,17 +104,17 @@ namespace dtk
         {
             {
                 const auto m33 = translate(V2F(-1.F, -2.F));
-                const auto v2 = m33 * V2F(1.F, 2.f);
+                const auto v2 = V2F(1.F, 2.f) * m33;
                 DTK_ASSERT(v2 == V2F(0.F, 0.F));
             }
             {
                 const auto m44 = translate(V3F(-1.F, -2.F, -3.F));
-                const auto v3 = m44 * V3F(1.F, 2.F, 3.F);
+                const auto v3 = V3F(1.F, 2.F, 3.F) * m44;
                 DTK_ASSERT(v3 == V3F(0.F, 0.F, 0.F));
             }
             {
                 const auto m44 = rotateX(90.F);
-                const auto v4 = m44 * V4F(0.F, 0.F, 1.F);
+                const auto v4 = V4F(0.F, 0.F, 1.F) * m44;
                 DTK_ASSERT(fuzzyCompare(v4.x, 0.F));
                 DTK_ASSERT(fuzzyCompare(v4.y, -1.F));
                 DTK_ASSERT(fuzzyCompare(v4.z, 0.F));
@@ -122,7 +122,7 @@ namespace dtk
             }
             {
                 const auto m44 = rotateY(90.F);
-                const auto v4 = m44 * V4F(1.F, 0.F, 0.F);
+                const auto v4 = V4F(1.F, 0.F, 0.F) * m44;
                 DTK_ASSERT(fuzzyCompare(v4.x, 0.F));
                 DTK_ASSERT(fuzzyCompare(v4.y, 0.F));
                 DTK_ASSERT(fuzzyCompare(v4.z, -1.F));
@@ -130,7 +130,7 @@ namespace dtk
             }
             {
                 const auto m44 = rotateZ(90.F);
-                const auto v4 = m44 * V4F(1.F, 0.F, 0.F);
+                const auto v4 = V4F(1.F, 0.F, 0.F) * m44;
                 DTK_ASSERT(fuzzyCompare(v4.x, 0.F));
                 DTK_ASSERT(fuzzyCompare(v4.y, -1.F));
                 DTK_ASSERT(fuzzyCompare(v4.z, 0.F));

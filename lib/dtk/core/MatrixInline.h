@@ -288,10 +288,10 @@ namespace dtk
     }
 
     template<typename T>
-    inline Vector<2, T> operator * (const Matrix<3, 3, T>& a, const Vector<2, T>& v)
+    inline Vector<2, T> operator * (const Vector<2, T>& v, const Matrix<3, 3, T>& m)
     {
-        const T x = v[0] * a[0] + v[1] * a[3] + a[6];
-        const T y = v[0] * a[1] + v[1] * a[4] + a[7];
+        const T x = v[0] * m[0] + v[1] * m[3] + m[6];
+        const T y = v[0] * m[1] + v[1] * m[4] + m[7];
         return Vector<2, T>(x, y);
     }
 
@@ -315,23 +315,23 @@ namespace dtk
     }
 
     template<typename T>
-    inline Vector<3, T> operator * (const Matrix<4, 4, T>& a, const Vector<3, T>& v)
+    inline Vector<3, T> operator * (const Vector<3, T>& v, const Matrix<4, 4, T>& m)
     {
-        const T x = v[0] * a[0] + v[1] * a[4] + v[2] * a[8] + a[12];
-        const T y = v[0] * a[1] + v[1] * a[5] + v[2] * a[9] + a[13];
-        const T z = v[0] * a[2] + v[1] * a[6] + v[2] * a[10] + a[14];
-        const T w = v[0] * a[3] + v[1] * a[7] + v[2] * a[11] + a[15];
+        const T x = v[0] * m[0] + v[1] * m[4] + v[2] * m[8] + m[12];
+        const T y = v[0] * m[1] + v[1] * m[5] + v[2] * m[9] + m[13];
+        const T z = v[0] * m[2] + v[1] * m[6] + v[2] * m[10] + m[14];
+        const T w = v[0] * m[3] + v[1] * m[7] + v[2] * m[11] + m[15];
         return Vector<3, T>(x / w, y / w, z / w);
     }
 
     template<typename T>
-    inline Vector<4, T> operator * (const Matrix<4, 4, T>& a, const Vector<4, T>& v)
+    inline Vector<4, T> operator * (const Vector<4, T>& v, const Matrix<4, 4, T>& m)
     {
         Vector<4, T> out;
-        out.x = v[0] * a[0] + v[1] * a[4] + v[2] * a[8] + v[3] * a[12];
-        out.y = v[0] * a[1] + v[1] * a[5] + v[2] * a[9] + v[3] * a[13];
-        out.z = v[0] * a[2] + v[1] * a[6] + v[2] * a[10] + v[3] * a[14];
-        out.w = v[0] * a[3] + v[1] * a[7] + v[2] * a[11] + v[3] * a[15];
+        out.x = v[0] * m[0] + v[1] * m[4] + v[2] * m[8] + v[3] * m[12];
+        out.y = v[0] * m[1] + v[1] * m[5] + v[2] * m[9] + v[3] * m[13];
+        out.z = v[0] * m[2] + v[1] * m[6] + v[2] * m[10] + v[3] * m[14];
+        out.w = v[0] * m[3] + v[1] * m[7] + v[2] * m[11] + v[3] * m[15];
         return out;
     }
         

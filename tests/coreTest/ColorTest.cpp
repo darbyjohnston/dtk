@@ -154,22 +154,22 @@ namespace dtk
             {
                 const V3F v(1.F, 0.F, 0.F);
                 const auto m = brightness(V3F(2.F, 2.F, 2.F));
-                _print(Format("{0} brightness: {1}").arg(v).arg(m * v));
+                _print(Format("{0} brightness: {1}").arg(v).arg(v * m));
             }
             {
                 const V3F v(1.F, 0.F, 0.F);
                 const auto m = contrast(V3F(.5F, .5F, .5F));
-                _print(Format("{0} contrast: {1}").arg(v).arg(m * v));
+                _print(Format("{0} contrast: {1}").arg(v).arg(v * m));
             }
             {
                 const V3F v(1.F, 0.F, 0.F);
                 const auto m = saturation(V3F(.5F, .5F, .5F));
-                _print(Format("{0} saturation: {1}").arg(v).arg(m * v));
+                _print(Format("{0} saturation: {1}").arg(v).arg(v * m));
             }
             {
                 const V3F v(1.F, 0.F, 0.F);
                 const auto m = tint(.5F);
-                _print(Format("{0} tint: {1}").arg(v).arg(m * v));
+                _print(Format("{0} tint: {1}").arg(v).arg(v * m));
             }
         }
 

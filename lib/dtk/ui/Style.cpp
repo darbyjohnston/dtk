@@ -251,7 +251,7 @@ namespace dtk
         {
             c = i->second;
         }
-        const V3F v = p.colorMatrix * V3F(c.r, c.g, c.b);
+        const V3F v = V3F(c.r, c.g, c.b) * p.colorMatrix;
         return Color4F(v.x, v.y, v.z, c.a);
     }
 

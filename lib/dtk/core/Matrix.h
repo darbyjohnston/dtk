@@ -11,7 +11,7 @@ namespace dtk
     //! \name Matrices
     ///@{
         
-    //! Base class for matrices.
+    //! Base class for matrices. Matrix elements are row-major.
     template<int R, int C, typename T>
     class Matrix
     {
@@ -124,13 +124,13 @@ namespace dtk
     template<typename T>
     Matrix<3, 3, T> operator * (const Matrix<3, 3, T>&, const Matrix<3, 3, T>&);
     template<typename T>
-    Vector<2, T> operator * (const Matrix<3, 3, T>&, const Vector<2, T>&);
+    Vector<2, T> operator * (const Vector<2, T>& , const Matrix<3, 3, T>&);
     template<typename T>
     Matrix<4, 4, T> operator * (const Matrix<4, 4, T>&, const Matrix<4, 4, T>&);
     template<typename T>
-    Vector<3, T> operator * (const Matrix<4, 4, T>&, const Vector<3, T>&);
+    Vector<3, T> operator * (const Vector<3, T>& , const Matrix<4, 4, T>&);
     template<typename T>
-    Vector<4, T> operator * (const Matrix<4, 4, T>&, const Vector<4, T>&);
+    Vector<4, T> operator * (const Vector<4, T>& , const Matrix<4, 4, T>&);
         
     template<int R, int C, typename T>
     constexpr bool operator == (const Matrix<R, C, T>&, const Matrix<R, C, T>&);
