@@ -56,10 +56,104 @@ namespace dtk
         const float s = sin(v * pi * 2.F);
         const float sq = sqrtf(1.F / 3.F);
         return M44F(
-            c + c2 / 3.F, c3 - sq * s, c3 + sq * s, 0.F,
+            c3 - sq * s, c3 + sq * s, c + c2 / 3.F, 0.F,
             c3 + sq * s, c + c3, c3 - sq * s, 0.F,
-            c3 - sq * s, c3 + sq * s, c + c3, 0.F,
+            c + c3, c3 - sq * s, c3 + sq * s, 0.F,
             0.F, 0.F, 0.F, 1.F);
+    }
+
+    void rgbToHSV(const float in[3], float out[3])
+    {
+        const float& min = std::min(in[0], std::min(in[1], in[2]));
+        const float& max = std::max(in[0], std::max(in[1], in[2]));
+        out[2] = max;
+        out[1] = max != 0.F ? (1.F - min / max) : 0.F;
+        const float v = (max - min) * 6.F;
+        if (max == min)
+        {
+            out[0] = 0.F;
+        }
+        else if (in[0] == max)
+        {
+            if (in[1] >= in[2])
+            {
+                out[0] = (in[1] - in[2]) / v;
+            }
+            else
+            {
+                out[0] = 1.F + (in[1] - in[2]) / v;
+            }
+        }
+        else if (in[1] == max)
+        {
+            out[0] = 1.F / 3.F + (in[2] - in[0]) / v;
+        }
+        else if (in[2] == max)
+        {
+            out[0] = 2.F / 3.F + (in[0] - in[1]) / v;
+        }
+    }
+
+    namespace
+    {
+        float mod(float value, float mod)
+        {
+            float tmp = value;
+            if (mod != 0.F)
+            {
+                tmp = value - (static_cast<float>(static_cast<int>(value / mod)) * mod);
+                if (tmp < 0.F)
+                {
+                    tmp += mod;
+                }
+            }
+            return tmp;
+        }
+
+    } // namespace
+
+    void hsvToRGB(const float in[3], float out[3])
+    {
+        const float h = mod(in[0] * 6.F, 6.F);
+        const int   i = static_cast<int>(floorf(h));
+        const float f = h - static_cast<float>(i);
+        const float p = in[2] * (1.F - in[1]);
+        const float q = in[2] * (1.F - (in[1] * f));
+        const float t = in[2] * (1.F - (in[1] * (1.F - f)));
+        switch (i)
+        {
+        case 0:
+            out[0] = in[2];
+            out[1] = t;
+            out[2] = p;
+            break;
+        case 1:
+            out[0] = q;
+            out[1] = in[2];
+            out[2] = p;
+            break;
+        case 2:
+            out[0] = p;
+            out[1] = in[2];
+            out[2] = t;
+            break;
+        case 3:
+            out[0] = p;
+            out[1] = q;
+            out[2] = in[2];
+            break;
+        case 4:
+            out[0] = t;
+            out[1] = p;
+            out[2] = in[2];
+            break;
+        case 5:
+            out[0] = in[2];
+            out[1] = p;
+            out[2] = q;
+            break;
+        default: break;
+        }
     }
 
     void to_json(nlohmann::json& json, const Color1F& value)

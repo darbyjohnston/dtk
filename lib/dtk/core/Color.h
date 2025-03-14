@@ -153,6 +153,12 @@ namespace dtk
     //! Get a tint color matrix.
     M44F tint(float);
 
+    //! Convert RGB to HSV.
+    void rgbToHSV(const float in[3], float out[3]);
+
+    //! Convert HSV to RGB.
+    void hsvToRGB(const float in[3], float out[3]);
+
     void to_json(nlohmann::json&, const Color1F&);
     void to_json(nlohmann::json&, const Color2F&);
     void to_json(nlohmann::json&, const Color3F&);

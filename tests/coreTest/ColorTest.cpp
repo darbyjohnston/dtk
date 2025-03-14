@@ -168,7 +168,17 @@ namespace dtk
             }
             {
                 const V3F v(1.F, 0.F, 0.F);
-                const auto m = tint(.5F);
+                auto m = tint(.0F);
+                _print(Format("{0} tint: {1}").arg(v).arg(v * m));
+                m = tint(.2F);
+                _print(Format("{0} tint: {1}").arg(v).arg(v * m));
+                m = tint(.4F);
+                _print(Format("{0} tint: {1}").arg(v).arg(v * m));
+                m = tint(.6F);
+                _print(Format("{0} tint: {1}").arg(v).arg(v * m));
+                m = tint(.8F);
+                _print(Format("{0} tint: {1}").arg(v).arg(v * m));
+                m = tint(1.F);
                 _print(Format("{0} tint: {1}").arg(v).arg(v * m));
             }
         }
