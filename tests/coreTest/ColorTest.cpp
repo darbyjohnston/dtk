@@ -151,6 +151,26 @@ namespace dtk
                 Color4F c(.4F, .5F, .6F);
                 _print(Format("{0} greyscale: {1}").arg(c).arg(greyscale(c)));
             }
+            {
+                const V3F v(1.F, 0.F, 0.F);
+                const auto m = brightness(V3F(2.F, 2.F, 2.F));
+                _print(Format("{0} brightness: {1}").arg(v).arg(m * v));
+            }
+            {
+                const V3F v(1.F, 0.F, 0.F);
+                const auto m = contrast(V3F(.5F, .5F, .5F));
+                _print(Format("{0} contrast: {1}").arg(v).arg(m * v));
+            }
+            {
+                const V3F v(1.F, 0.F, 0.F);
+                const auto m = saturation(V3F(.5F, .5F, .5F));
+                _print(Format("{0} saturation: {1}").arg(v).arg(m * v));
+            }
+            {
+                const V3F v(1.F, 0.F, 0.F);
+                const auto m = tint(.5F);
+                _print(Format("{0} tint: {1}").arg(v).arg(m * v));
+            }
         }
 
         void ColorTest::_serialize()
