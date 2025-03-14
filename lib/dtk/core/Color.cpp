@@ -56,9 +56,9 @@ namespace dtk
         const float s = sin(v * pi * 2.F);
         const float sq = sqrtf(1.F / 3.F);
         return M44F(
-            c3 - sq * s, c3 + sq * s, c + c2 / 3.F, 0.F,
+            c + c2 / 3.F, c3 - sq * s, c3 + sq * s, 0.F,
             c3 + sq * s, c + c3, c3 - sq * s, 0.F,
-            c + c3, c3 - sq * s, c3 + sq * s, 0.F,
+            c3 - sq * s, c3 + sq * s, c + c3, 0.F,
             0.F, 0.F, 0.F, 1.F);
     }
 
