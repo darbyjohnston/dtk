@@ -18,21 +18,6 @@ namespace dtk
     M44F contrast(const V3F& value)
     {
         return
-            /*M44F(
-                1.F, 0.F, 0.F, -.5F,
-                0.F, 1.F, 0.F, -.5F,
-                0.F, 0.F, 1.F, -.5F,
-                0.F, 0.F, 0.F, 1.F) *
-            M44F(
-                value.x, 0.F, 0.F, 0.F,
-                0.F, value.y, 0.F, 0.F,
-                0.F, 0.F, value.z, 0.F,
-                0.F, 0.F, 0.F, 1.F) *
-            M44F(
-                1.F, 0.F, 0.F, .5F,
-                0.F, 1.F, 0.F, .5F,
-                0.F, 0.F, 1.F, .5F,
-                0.F, 0.F, 0.F, 1.F);*/
             M44F(
                 1.F, 0.F, 0.F, 0.F,
                 0.F, 1.F, 0.F, 0.F,
@@ -56,11 +41,6 @@ namespace dtk
             (1.F - value.x) * .3086F,
             (1.F - value.y) * .6094F,
             (1.F - value.z) * .0820F);
-        /*return M44F(
-            s.x + value.x, s.y, s.z, 0.F,
-            s.x, s.y + value.y, s.z, 0.F,
-            s.x, s.y, s.z + value.z, 0.F,
-            0.F, 0.F, 0.F, 1.F);*/
         return M44F(
             s.x + value.x, s.x, s.x, 0.F,
             s.y, s.y + value.y, s.y, 0.F,
