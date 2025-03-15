@@ -7,7 +7,6 @@ namespace dtk
     inline bool RenderOptions::operator == (const RenderOptions& other) const
     {
         return
-            colorBuffer == other.colorBuffer &&
             clear == other.clear &&
             clearColor == other.clearColor &&
             textureCacheByteCount == other.textureCacheByteCount &&
