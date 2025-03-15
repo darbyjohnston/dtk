@@ -229,41 +229,81 @@ namespace dtk
 
     void Settings::set(const std::string& key, const nlohmann::json& value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, bool value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, int value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, int64_t value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, float value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, double value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, size_t value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 
     void Settings::set(const std::string& key, const std::string& value)
     {
-        _p->settings[nlohmann::json::json_pointer(key)] = value;
+        try
+        {
+            _p->settings[nlohmann::json::json_pointer(key)] = value;
+        }
+        catch (const std::exception&)
+        {}
     }
 }
