@@ -41,7 +41,7 @@ namespace dtk
             dtk::TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void ToolButton::_init(
@@ -174,20 +174,6 @@ namespace dtk
         }
     }
 
-    void ToolButton::setGeometry(const Box2I& value)
-    {
-        IButton::setGeometry(value);
-        DTK_P();
-        p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -p.size.margin);
-        if (acceptsKeyFocus())
-        {
-            p.draw.g2 = margin(p.draw.g2, -p.size.border);
-        }
-        p.draw.mesh = rect(p.draw.g);
-        p.draw.border = border(p.draw.g, p.size.border);
-    }
-
     void ToolButton::setAcceptsKeyFocus(bool value)
     {
         const bool changed = value != acceptsKeyFocus();
@@ -196,6 +182,17 @@ namespace dtk
         {
             _setSizeUpdate();
             _setDrawUpdate();
+        }
+    }
+
+    void ToolButton::setGeometry(const Box2I& value)
+    {
+        const bool changed = value != getGeometry();
+        IButton::setGeometry(value);
+        DTK_P();
+        if (changed)
+        {
+            p.draw.reset();
         }
     }
 
@@ -214,7 +211,7 @@ namespace dtk
             p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
 
         Size2I sizeHint;
@@ -248,7 +245,7 @@ namespace dtk
         DTK_P();
         if (clipped)
         {
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
     }
 
@@ -259,12 +256,25 @@ namespace dtk
         IButton::drawEvent(drawRect, event);
         DTK_P();
 
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = getGeometry();
+            p.draw->g2 = margin(p.draw->g, -p.size.margin);
+            if (acceptsKeyFocus())
+            {
+                p.draw->g2 = margin(p.draw->g2, -p.size.border);
+            }
+            p.draw->mesh = rect(p.draw->g);
+            p.draw->border = border(p.draw->g, p.size.border);
+        }
+
         // Draw the background.
         const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
         if (colorRole != ColorRole::None)
         {
             event.render->drawMesh(
-                p.draw.mesh,
+                p.draw->mesh,
                 event.style->getColorRole(colorRole));
         }
 
@@ -272,7 +282,7 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                p.draw.border,
+                p.draw->border,
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
@@ -280,18 +290,18 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawMesh(
-                p.draw.mesh,
+                p.draw->mesh,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawMesh(
-                p.draw.mesh,
+                p.draw->mesh,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
         // Draw the icon.
-        int x = p.draw.g2.x();
+        int x = p.draw->g2.x();
         auto image = _iconImage;
         if (_checked && _checkedIconImage)
         {
@@ -302,13 +312,13 @@ namespace dtk
             const Size2I& iconSize = image->getSize();
             if (_text.empty())
             {
-                x = p.draw.g2.x() + p.draw.g2.w() / 2 - iconSize.w / 2;
+                x = p.draw->g2.x() + p.draw->g2.w() / 2 - iconSize.w / 2;
             }
             event.render->drawImage(
                 image,
                 Box2I(
                     x,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
@@ -320,15 +330,15 @@ namespace dtk
         // Draw the text.
         if (!_text.empty())
         {
-            if (p.draw.glyphs.empty())
+            if (p.draw->glyphs.empty())
             {
-                p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
+                p.draw->glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
             }
             event.render->drawText(
-                p.draw.glyphs,
+                p.draw->glyphs,
                 p.size.fontMetrics,
                 V2I(x + p.size.pad,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
