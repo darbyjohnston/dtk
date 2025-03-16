@@ -37,6 +37,8 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
+            dtk::TriMesh2F mesh;
+            dtk::TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
         DrawData draw;
@@ -182,6 +184,8 @@ namespace dtk
         {
             p.draw.g2 = margin(p.draw.g2, -p.size.border);
         }
+        p.draw.mesh = rect(p.draw.g);
+        p.draw.border = border(p.draw.g, p.size.border);
     }
 
     void ToolButton::setAcceptsKeyFocus(bool value)
@@ -256,12 +260,11 @@ namespace dtk
         DTK_P();
 
         // Draw the background.
-        const auto mesh = rect(p.draw.g);
         const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
         if (colorRole != ColorRole::None)
         {
             event.render->drawMesh(
-                mesh,
+                p.draw.mesh,
                 event.style->getColorRole(colorRole));
         }
 
@@ -269,7 +272,7 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                border(p.draw.g, p.size.border),
+                p.draw.border,
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
@@ -277,13 +280,13 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawMesh(
-                mesh,
+                p.draw.mesh,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawMesh(
-                mesh,
+                p.draw.mesh,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
