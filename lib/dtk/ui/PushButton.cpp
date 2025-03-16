@@ -28,9 +28,11 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
+            dtk::TriMesh2F mesh;
+            dtk::TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void PushButton::_init(
@@ -95,15 +97,13 @@ namespace dtk
 
     void PushButton::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IButton::setGeometry(value);
         DTK_P();
-        p.draw.g = value;
-        p.draw.g2 = margin(
-            p.draw.g,
-            -(p.size.margin + p.size.pad + p.size.border),
-            -(p.size.margin + p.size.border),
-            -(p.size.margin + p.size.pad + p.size.border),
-            -(p.size.margin + p.size.border));
+        if (changed)
+        {
+            p.draw.reset();
+        }
     }
 
     void PushButton::sizeHintEvent(const SizeHintEvent& event)
@@ -121,7 +121,7 @@ namespace dtk
             p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
 
         Size2I sizeHint;
@@ -148,7 +148,7 @@ namespace dtk
         DTK_P();
         if (clipped)
         {
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
     }
 
@@ -159,50 +159,63 @@ namespace dtk
         IButton::drawEvent(drawRect, event);
         DTK_P();
 
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = getGeometry();
+            p.draw->g2 = margin(
+                p.draw->g,
+                -(p.size.margin + p.size.pad + p.size.border),
+                -(p.size.margin + p.size.border),
+                -(p.size.margin + p.size.pad + p.size.border),
+                -(p.size.margin + p.size.border));
+            p.draw->mesh = rect(p.draw->g);
+            p.draw->border = border(p.draw->g, p.size.border);
+        }
+
         // Draw the background.
-        const auto mesh = rect(p.draw.g);
         const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
         if (colorRole != ColorRole::None)
         {
             event.render->drawMesh(
-                mesh,
+                p.draw->mesh,
                 event.style->getColorRole(colorRole));
         }
 
         // Draw the focus and border.
         event.render->drawMesh(
-            border(p.draw.g, p.size.border),
+            p.draw->border,
             event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the mouse states.
         if (_isMousePressed())
         {
             event.render->drawMesh(
-                mesh,
+                p.draw->mesh,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawMesh(
-                mesh,
+                p.draw->mesh,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
         // Draw the icon and text.
-        int x = p.draw.g2.x();
+        int x = p.draw->g2.x();
         if (_iconImage && !_text.empty())
         {
             const Size2I& iconSize = _iconImage->getSize();
-            x += p.draw.g2.w() / 2 - (iconSize.w + p.size.textSize.w + p.size.pad * 2) / 2;
+            x += p.draw->g2.w() / 2 - (iconSize.w + p.size.textSize.w + p.size.pad * 2) / 2;
         }
         else if (_iconImage)
         {
             const Size2I& iconSize = _iconImage->getSize();
-            x += p.draw.g2.w() / 2 - iconSize.w / 2;
+            x += p.draw->g2.w() / 2 - iconSize.w / 2;
         }
         else if (!_text.empty())
         {
-            x += p.draw.g2.w() / 2 - (p.size.textSize.w + p.size.pad * 2) / 2;
+            x += p.draw->g2.w() / 2 - (p.size.textSize.w + p.size.pad * 2) / 2;
         }
         if (_iconImage)
         {
@@ -211,7 +224,7 @@ namespace dtk
                 _iconImage,
                 Box2I(
                     x,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
@@ -221,15 +234,15 @@ namespace dtk
         }
         if (!_text.empty())
         {
-            if (p.draw.glyphs.empty())
+            if (p.draw->glyphs.empty())
             {
-                p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
+                p.draw->glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
             }
             event.render->drawText(
-                p.draw.glyphs,
+                p.draw->glyphs,
                 p.size.fontMetrics,
                 V2I(x + p.size.pad,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
