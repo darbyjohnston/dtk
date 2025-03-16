@@ -60,6 +60,9 @@ namespace dtk
         void setSpacingRole(SizeRole);
 
         //! Add a spacer.
+        int addSpacer();
+
+        //! Add a spacer.
         int addSpacer(SizeRole);
 
         void setGeometry(const Box2I&) override;

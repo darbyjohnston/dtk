@@ -78,7 +78,7 @@ DTK_MAIN()
         formLayout->setHStretch(Stretch::Expanding);
         formLayout->addRow("One:", IntEditSlider::create(context));
         formLayout->addRow("Two:", IntEditSlider::create(context));
-        formLayout->addSpacer(SizeRole::Spacing);
+        formLayout->addSpacer();
         formLayout->addRow("Three:", IntEdit::create(context));
 
         window->show();

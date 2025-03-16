@@ -139,6 +139,11 @@ namespace dtk
         _p->layout->setSpacingRole(value);
     }
 
+    int FormLayout::addSpacer()
+    {
+        return addSpacer(_p->layout->getSpacingRole());
+    }
+
     int FormLayout::addSpacer(SizeRole value)
     {
         DTK_P();
