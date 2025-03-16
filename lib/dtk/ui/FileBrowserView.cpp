@@ -10,6 +10,7 @@
 #include <dtk/core/String.h>
 
 #include <filesystem>
+#include <optional>
 
 namespace dtk
 {
@@ -45,8 +46,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int margin = 0;
             int border = 0;
             int pad = 0;
@@ -203,14 +203,13 @@ namespace dtk
             p.fileImage = event.iconSystem->get("File", event.displayScale);
         }
 
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, event.displayScale);
             p.size.fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             for (size_t i = 0; i < p.info.size() && i < p.items.size(); ++i)
@@ -657,7 +656,7 @@ namespace dtk
 
         _setSizeUpdate();
         _setDrawUpdate();
-        p.size.init = true;
+        p.size.displayScale.reset();
     }
 
     void FileBrowserView::_setCurrent(int index)

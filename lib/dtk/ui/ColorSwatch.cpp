@@ -7,6 +7,8 @@
 #include <dtk/ui/ColorPopup.h>
 #include <dtk/ui/DrawUtil.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct ColorSwatch::Private
@@ -19,8 +21,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int size = 0;
             int border = 0;
         };
@@ -102,7 +103,7 @@ namespace dtk
         if (value == p.sizeRole)
             return;
         p.sizeRole = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -119,13 +120,15 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        if (p.size.init || event.displayScale != p.size.displayScale)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.size = event.style->getSizeRole(p.sizeRole, p.size.displayScale);
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.size = event.style->getSizeRole(p.sizeRole, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
         }
+
         _setSizeHint(Size2I(p.size.size, p.size.size));
     }
 

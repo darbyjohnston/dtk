@@ -6,14 +6,15 @@
 
 #include <dtk/ui/DrawUtil.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct CheckBox::Private
     {
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int margin = 0;
             int spacing = 0;
             int border = 0;
@@ -78,7 +79,7 @@ namespace dtk
         DTK_P();
         if (changed)
         {
-            p.size.init = true;
+            p.size.displayScale.reset();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -91,7 +92,7 @@ namespace dtk
         DTK_P();
         if (changed)
         {
-            p.size.init = true;
+            p.size.displayScale.reset();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -115,16 +116,15 @@ namespace dtk
         IButton::sizeHintEvent(event);
         DTK_P();
 
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
-            p.size.fontInfo = event.style->getFontRole(_fontRole, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
+            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, event.displayScale);
+            p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
             p.size.checkBox = p.size.fontMetrics.lineHeight * .8F;

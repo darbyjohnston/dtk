@@ -6,6 +6,8 @@
 
 #include <dtk/ui/DrawUtil.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct GroupBox::Private
@@ -15,8 +17,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int margin = 0;
             int spacing = 0;
             int border = 0;
@@ -80,7 +81,7 @@ namespace dtk
         if (value == p.text)
             return;
         p.text = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
@@ -97,7 +98,7 @@ namespace dtk
         if (value == p.fontRole)
             return;
         p.fontRole = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
@@ -139,15 +140,14 @@ namespace dtk
         IWidget::sizeHintEvent(event);
         DTK_P();
 
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(SizeRole::MarginSmall, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, p.size.displayScale);
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.fontInfo = event.style->getFontRole(p.fontRole, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginSmall, event.displayScale);
+            p.size.spacing = event.style->getSizeRole(SizeRole::SpacingSmall, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
             p.draw.glyphs.clear();

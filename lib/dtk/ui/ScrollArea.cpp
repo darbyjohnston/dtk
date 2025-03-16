@@ -9,6 +9,7 @@
 #include <dtk/core/Error.h>
 #include <dtk/core/String.h>
 
+#include <optional>
 #include <sstream>
 
 namespace dtk
@@ -30,8 +31,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int size = 0;
         };
         SizeData size;
@@ -197,12 +197,11 @@ namespace dtk
         IWidget::sizeHintEvent(event);
         DTK_P();
 
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, p.size.displayScale);
+            p.size.size = event.style->getSizeRole(SizeRole::ScrollArea, event.displayScale);
         }
 
         Size2I sizeHint;

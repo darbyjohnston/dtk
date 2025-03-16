@@ -8,6 +8,8 @@
 
 #include <dtk/core/String.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct Label::Private
@@ -20,8 +22,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int hMargin = 0;
             int vMargin = 0;
             FontInfo fontInfo;
@@ -85,7 +86,7 @@ namespace dtk
         if (value == p.text)
             return;
         p.text = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
@@ -127,7 +128,7 @@ namespace dtk
             return;
         p.hMarginRole = value;
         p.vMarginRole = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -139,7 +140,7 @@ namespace dtk
             return;
         p.hMarginRole = horizontal;
         p.vMarginRole = vertical;
-        p.size.init = true;
+        p.size.displayScale.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -150,7 +151,7 @@ namespace dtk
         if (value == p.hMarginRole)
             return;
         p.hMarginRole = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -161,7 +162,7 @@ namespace dtk
         if (value == p.vMarginRole)
             return;
         p.vMarginRole = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -177,7 +178,7 @@ namespace dtk
         if (value == p.fontRole)
             return;
         p.fontRole = value;
-        p.size.init = true;
+        p.size.displayScale.reset();
         p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
@@ -195,10 +196,10 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.hMargin = event.style->getSizeRole(p.hMarginRole, event.displayScale);
             p.size.vMargin = event.style->getSizeRole(p.vMarginRole, event.displayScale);
@@ -207,6 +208,7 @@ namespace dtk
             p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
             p.draw.glyphs.clear();
         }
+
         Size2I sizeHint(p.size.textSize);
         sizeHint = margin(sizeHint, p.size.hMargin, p.size.vMargin);
         _setSizeHint(sizeHint);

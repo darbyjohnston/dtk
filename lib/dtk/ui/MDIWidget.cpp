@@ -13,6 +13,7 @@
 #include <dtk/core/Error.h>
 #include <dtk/core/String.h>
 
+#include <optional>
 #include <sstream>
 
 namespace dtk
@@ -41,8 +42,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int border = 0;
             int handle = 0;
             int shadow = 0;
@@ -233,15 +233,16 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
-            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
+            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
         }
+
         const int margin = std::max(p.size.handle, p.size.shadow);
         Size2I sizeHint = p.layout->getSizeHint() + p.size.border * 2;
         sizeHint.w += margin * 2;

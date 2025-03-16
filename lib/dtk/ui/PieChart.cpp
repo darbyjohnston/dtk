@@ -9,6 +9,8 @@
 
 #include <dtk/core/Format.h>
 
+#include <optional>
+
 namespace dtk
 {
     PieChartData::PieChartData(
@@ -37,8 +39,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             FontMetrics fontMetrics;
         };
         SizeData size;
@@ -138,14 +139,15 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (displayScaleChanged || p.size.init)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
             const FontInfo fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
         }
+
         const int d = p.size.fontMetrics.lineHeight * p.sizeMult;
         _setSizeHint(Size2I(d, d));
     }

@@ -8,6 +8,8 @@
 #include <dtk/ui/IWindow.h>
 #include <dtk/ui/ScrollWidget.h>
 
+#include <optional>
+
 namespace dtk
 {
     namespace
@@ -91,8 +93,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int shadow = 0;
         };
         SizeData size;
@@ -273,11 +274,12 @@ namespace dtk
     {
         IPopup::sizeHintEvent(event);
         DTK_P();
-        if (p.size.init || event.displayScale != p.size.displayScale)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, p.size.displayScale);
+            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
         }
     }
 

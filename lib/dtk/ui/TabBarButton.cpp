@@ -6,6 +6,8 @@
 
 #include <dtk/ui/DrawUtil.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct TabBarButton::Private
@@ -14,8 +16,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale = 0.F;
             int margin = 0;
             int border = 0;
             int pad = 0;
@@ -86,14 +87,14 @@ namespace dtk
     {
         IButton::sizeHintEvent(event);
         DTK_P();
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.pad = event.style->getSizeRole(SizeRole::LabelPad, event.displayScale);
             p.size.fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);

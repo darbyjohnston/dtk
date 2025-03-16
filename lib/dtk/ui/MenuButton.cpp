@@ -6,6 +6,8 @@
 
 #include <dtk/ui/DrawUtil.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct MenuButton::Private
@@ -30,8 +32,7 @@ namespace dtk
 
         struct SizeData
         {
-            int init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int margin = 0;
             int border = 0;
             int pad = 0;
@@ -157,7 +158,7 @@ namespace dtk
         p.shortcut = key;
         p.shortcutModifiers = modifiers;
         p.shortcutText = getShortcutLabel(p.shortcut, p.shortcutModifiers);
-        p.size.init = true;
+        p.size.displayScale.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -178,7 +179,7 @@ namespace dtk
         DTK_P();
         if (changed)
         {
-            p.size.init = true;
+            p.size.displayScale.reset();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -197,10 +198,9 @@ namespace dtk
         IButton::sizeHintEvent(event);
         DTK_P();
 
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (displayScaleChanged || p.size.init)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
             p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);

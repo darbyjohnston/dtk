@@ -43,7 +43,6 @@ namespace dtk
 
         struct SizeData
         {
-            float displayScale = 0.F;
             int border = 0;
             int width = 0;
             int height = 0;
@@ -105,15 +104,12 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
 
-        if (event.displayScale != _size.displayScale)
-        {
-            _size.displayScale = event.displayScale;
-            _size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
-            _size.width = event.style->getSizeRole(SizeRole::ScrollArea, event.displayScale);
-            const FontInfo fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
-            const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
-            _size.height = fontMetrics.lineHeight * .75F;
-        }
+        _size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+        _size.width = event.style->getSizeRole(SizeRole::ScrollArea, event.displayScale);
+        const FontInfo fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
+        const FontMetrics fontMetrics = event.fontSystem->getMetrics(fontInfo);
+        _size.height = fontMetrics.lineHeight * .75F;
+
         _setSizeHint(Size2I(
             _size.width + _size.border * 2,
             _size.height + _size.border * 2));

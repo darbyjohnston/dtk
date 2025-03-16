@@ -4,14 +4,15 @@
 
 #include <dtk/ui/Divider.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct Divider::Private
     {
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int size = 0;
         };
         SizeData size;
@@ -57,12 +58,14 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        if (p.size.init || event.displayScale != p.size.displayScale)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.size = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.size = event.style->getSizeRole(SizeRole::Border, event.displayScale);
         }
+
         _setSizeHint(Size2I(p.size.size, p.size.size));
     }
 }

@@ -9,6 +9,8 @@
 #include <dtk/ui/ScrollArea.h>
 #include <dtk/ui/ScrollBar.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct ScrollWidget::Private
@@ -27,8 +29,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int border = 0;
         };
         SizeData size;
@@ -292,13 +293,14 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
         }
+
         Size2I sizeHint = _p->layout->getSizeHint();
         _setSizeHint(sizeHint);
     }

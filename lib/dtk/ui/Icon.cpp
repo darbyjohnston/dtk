@@ -8,6 +8,8 @@
 
 #include <dtk/core/String.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct Icon::Private
@@ -19,7 +21,7 @@ namespace dtk
 
         struct SizeData
         {
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int margin = 0;
         };
         SizeData size;
@@ -109,10 +111,11 @@ namespace dtk
         IWidget::sizeHintEvent(event);
         DTK_P();
 
-        if (event.displayScale != p.size.displayScale)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(p.marginRole, event.displayScale);
         }
 
         if (event.displayScale != p.iconScale)

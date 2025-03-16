@@ -6,6 +6,8 @@
 
 #include <dtk/ui/DrawUtil.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct FloatSlider::Private
@@ -17,8 +19,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int size = 0;
             int margin = 0;
             int border = 0;
@@ -173,17 +174,19 @@ namespace dtk
     {
         IWidget::sizeHintEvent(event);
         DTK_P();
-        if (p.size.init || event.displayScale != p.size.displayScale)
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.size = event.style->getSizeRole(SizeRole::Slider, p.size.displayScale);
-            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, p.size.displayScale);
-            p.size.border = event.style->getSizeRole(SizeRole::Border, p.size.displayScale);
-            p.size.handle = event.style->getSizeRole(SizeRole::Handle, p.size.displayScale);
-            auto fontInfo = event.style->getFontRole(FontRole::Label, p.size.displayScale);
+            p.size.size = event.style->getSizeRole(SizeRole::Slider, event.displayScale);
+            p.size.margin = event.style->getSizeRole(SizeRole::MarginInside, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
+            auto fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
         }
+
         Size2I sizeHint(p.size.size, p.size.fontMetrics.lineHeight);
         sizeHint = margin(sizeHint, p.size.border * 2);
         _setSizeHint(sizeHint);

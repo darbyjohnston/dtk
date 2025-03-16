@@ -7,6 +7,8 @@
 #include <dtk/ui/LayoutUtil.h>
 #include <dtk/ui/Spacer.h>
 
+#include <optional>
+
 namespace dtk
 {
     struct RowLayout::Private
@@ -17,8 +19,7 @@ namespace dtk
 
         struct SizeData
         {
-            bool init = true;
-            float displayScale = 0.F;
+            std::optional<float> displayScale;
             int margin = 0;
             int spacing = 0;
         };
@@ -246,13 +247,12 @@ namespace dtk
         IWidget::sizeHintEvent(event);
         DTK_P();
 
-        const bool displayScaleChanged = event.displayScale != p.size.displayScale;
-        if (p.size.init || displayScaleChanged)
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
         {
-            p.size.init = false;
             p.size.displayScale = event.displayScale;
-            p.size.margin = event.style->getSizeRole(p.marginRole, p.size.displayScale);
-            p.size.spacing = event.style->getSizeRole(p.spacingRole, p.size.displayScale);
+            p.size.margin = event.style->getSizeRole(p.marginRole, event.displayScale);
+            p.size.spacing = event.style->getSizeRole(p.spacingRole, event.displayScale);
         }
 
         Size2I sizeHint;
