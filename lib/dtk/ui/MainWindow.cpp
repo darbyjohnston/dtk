@@ -128,10 +128,11 @@ namespace dtk
             app->observeColorStyle(),
             [this](ColorStyle value)
             {
+                DTK_P();
                 for (auto colorStyle : getColorStyleEnums())
                 {
-                    _p->menus["ColorStyle"]->setItemChecked(
-                        _p->colorStyleActions[colorStyle],
+                    p.menus["ColorStyle"]->setItemChecked(
+                        p.colorStyleActions[colorStyle],
                         colorStyle == value);
                 }
             });
@@ -140,11 +141,12 @@ namespace dtk
             app->observeDisplayScale(),
             [this](float value)
             {
-                for (auto displayScale : _p->displayScales)
+                DTK_P();
+                for (size_t i = 0; i < p.displayScales.size() && i < p.displayScaleActions.size(); ++i)
                 {
-                    _p->menus["DisplayScale"]->setItemChecked(
-                        _p->displayScaleActions[displayScale],
-                        displayScale == value);
+                    p.menus["DisplayScale"]->setItemChecked(
+                        p.displayScaleActions[i],
+                        p.displayScales[i] == value);
                 }
             });
 
@@ -152,7 +154,8 @@ namespace dtk
             app->observeTooltipsEnabled(),
             [this](bool value)
             {
-                _p->menus["Window"]->setItemChecked(_p->tooltipsAction, value);
+                DTK_P();
+                p.menus["Window"]->setItemChecked(p.tooltipsAction, value);
             });
     }
 
