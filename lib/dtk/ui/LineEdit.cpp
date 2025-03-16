@@ -442,7 +442,13 @@ namespace dtk
     {
         IWidget::keyFocusEvent(value);
         DTK_P();
-        if (!value)
+        if (value)
+        {
+            p.selection.clear();
+            p.selection.select(0, p.text.size());
+            _setDrawUpdate();
+        }
+        else
         {
             p.selection.clear();
             if (p.textCallback)
