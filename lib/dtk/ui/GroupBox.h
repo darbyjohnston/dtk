@@ -47,6 +47,9 @@ namespace dtk
         //! Set the font role.
         void setFontRole(FontRole);
 
+        //! Remove all children from the group box.
+        void clear();
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void clipEvent(const Box2I&, bool) override;

@@ -145,6 +145,15 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    void GridLayout::clear()
+    {
+        auto children = getChildren();
+        for (auto child : children)
+        {
+            child->setParent(nullptr);
+        }
+    }
+
     void GridLayout::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);

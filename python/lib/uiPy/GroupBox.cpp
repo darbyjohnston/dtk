@@ -31,6 +31,7 @@ namespace dtk
                 py::arg("text"),
                 py::arg("parent") = nullptr)
             .def_property("text", &GroupBox::getText, &GroupBox::setText)
-            .def_property("fontRole", &GroupBox::getFontRole, &GroupBox::setFontRole);
+            .def_property("fontRole", &GroupBox::getFontRole, &GroupBox::setFontRole)
+            .def("clear", &GroupBox::clear);
     }
 }

@@ -44,6 +44,9 @@ namespace dtk
         //! Set the margin role.
         void setMarginRole(SizeRole);
 
+        //! Remove all children from the group box.
+        void clear();
+
         void setGeometry(const Box2I&) override;
         Box2I getChildrenClipRect() const override;
         void childAddEvent(const ChildAddEvent&) override;

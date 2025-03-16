@@ -307,12 +307,9 @@ namespace dtk
     {
         DTK_P();
 
-        for (const auto& button : p.buttons)
-        {
-            button->setParent(nullptr);
-        }
         p.buttons.clear();
         p.buttonGroup->clearButtons();
+        p.layout->clear();
 
         if (auto context = getContext())
         {

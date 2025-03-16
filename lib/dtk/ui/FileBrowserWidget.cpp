@@ -13,7 +13,6 @@
 #include <dtk/ui/RowLayout.h>
 #include <dtk/ui/SearchBox.h>
 #include <dtk/ui/ScrollWidget.h>
-#include <dtk/ui/Spacer.h>
 #include <dtk/ui/Splitter.h>
 #include <dtk/ui/ToolButton.h>
 
@@ -171,9 +170,7 @@ namespace dtk
         p.extensionsComboBox->setParent(hLayout);
         p.sortComboBox->setParent(hLayout);
         p.reverseSortButton->setParent(hLayout);
-        auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
-        spacer->setSpacingRole(SizeRole::None);
-        spacer->setHStretch(Stretch::Expanding);
+        hLayout->addSpacer(SizeRole::None, Stretch::Expanding);
         p.okButton->setParent(hLayout);
         p.cancelButton->setParent(hLayout);
 

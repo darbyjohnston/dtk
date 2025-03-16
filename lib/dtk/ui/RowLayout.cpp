@@ -5,6 +5,7 @@
 #include <dtk/ui/RowLayout.h>
 
 #include <dtk/ui/LayoutUtil.h>
+#include <dtk/ui/Spacer.h>
 
 namespace dtk
 {
@@ -87,6 +88,41 @@ namespace dtk
         p.spacingRole = value;
         _setSizeUpdate();
         _setDrawUpdate();
+    }
+
+    void RowLayout::addSpacer(Stretch stretch)
+    {
+        DTK_P();
+        addSpacer(p.spacingRole, stretch);
+    }
+
+    void RowLayout::addSpacer(SizeRole spacingRole, Stretch stretch)
+    {
+        DTK_P();
+        if (auto context = getContext())
+        {
+            auto spacer = Spacer::create(context, p.orientation, shared_from_this());
+            spacer->setSpacingRole(spacingRole);
+            switch (p.orientation)
+            {
+            case Orientation::Horizontal:
+                spacer->setHStretch(stretch);
+                break;
+            case Orientation::Vertical:
+                spacer->setVStretch(stretch);
+                break;
+            default: break;
+            }
+        }
+    }
+
+    void RowLayout::clear()
+    {
+        auto children = getChildren();
+        for (auto child : children)
+        {
+            child->setParent(nullptr);
+        }
     }
 
     void RowLayout::setGeometry(const Box2I& value)
@@ -233,18 +269,12 @@ namespace dtk
                 case Orientation::Horizontal:
                     sizeHint.w += childSizeHint.w;
                     sizeHint.h = std::max(sizeHint.h, childSizeHint.h);
-                    if (sizeHint.w > 0)
-                    {
-                        ++visible;
-                    }
+                    ++visible;
                     break;
                 case Orientation::Vertical:
                     sizeHint.w = std::max(sizeHint.w, childSizeHint.w);
                     sizeHint.h += childSizeHint.h;
-                    if (sizeHint.h > 0)
-                    {
-                        ++visible;
-                    }
+                    ++visible;
                     break;
                 default: break;
                 }

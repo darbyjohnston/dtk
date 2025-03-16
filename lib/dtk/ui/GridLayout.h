@@ -53,6 +53,9 @@ namespace dtk
         //! Set the spacing role.
         void setSpacingRole(SizeRole);
 
+        //! Remove all children from the layout.
+        void clear();
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void childRemoveEvent(const ChildRemoveEvent&) override;

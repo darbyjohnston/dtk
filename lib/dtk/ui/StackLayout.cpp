@@ -89,6 +89,15 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    void StackLayout::clear()
+    {
+        auto children = getChildren();
+        for (auto child : children)
+        {
+            child->setParent(nullptr);
+        }
+    }
+
     void StackLayout::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);

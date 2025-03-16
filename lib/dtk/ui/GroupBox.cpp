@@ -103,6 +103,15 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    void GroupBox::clear()
+    {
+        auto children = getChildren();
+        for (auto child : children)
+        {
+            child->setParent(nullptr);
+        }
+    }
+
     void GroupBox::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);

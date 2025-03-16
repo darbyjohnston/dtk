@@ -6,6 +6,7 @@
 
 #include <dtk/ui/GridLayout.h>
 #include <dtk/ui/Label.h>
+#include <dtk/ui/Spacer.h>
 
 namespace dtk
 {
@@ -57,8 +58,14 @@ namespace dtk
         DTK_P();
         if (index >= 0 && index < p.widgets.size())
         {
-            p.widgets[index].first->setParent(nullptr);
-            p.widgets[index].second->setParent(nullptr);
+            if (p.widgets[index].first)
+            {
+                p.widgets[index].first->setParent(nullptr);
+            }
+            if (p.widgets[index].second)
+            {
+                p.widgets[index].second->setParent(nullptr);
+            }
             p.widgets.erase(p.widgets.begin() + index);
         }
     }
@@ -79,12 +86,8 @@ namespace dtk
     void FormLayout::clear()
     {
         DTK_P();
-        for (size_t i = 0; i < p.widgets.size(); ++i)
-        {
-            p.widgets[i].first->setParent(nullptr);
-            p.widgets[i].second->setParent(nullptr);
-        }
         p.widgets.clear();
+        p.layout->clear();
     }
 
     void FormLayout::setRowVisible(int index, bool visible)
@@ -92,8 +95,14 @@ namespace dtk
         DTK_P();
         if (index >= 0 && index < p.widgets.size())
         {
-            p.widgets[index].first->setVisible(visible);
-            p.widgets[index].second->setVisible(visible);
+            if (p.widgets[index].first)
+            {
+                p.widgets[index].first->setVisible(visible);
+            }
+            if (p.widgets[index].second)
+            {
+                p.widgets[index].second->setVisible(visible);
+            }
         }
     }
 
@@ -128,6 +137,20 @@ namespace dtk
     void FormLayout::setSpacingRole(SizeRole value)
     {
         _p->layout->setSpacingRole(value);
+    }
+
+    int FormLayout::addSpacer(SizeRole value)
+    {
+        DTK_P();
+        const size_t index = p.widgets.size();
+        if (auto context = getContext())
+        {
+            auto spacer = Spacer::create(context, Orientation::Vertical, p.layout);
+            spacer->setSpacingRole(value);
+            p.layout->setGridPos(spacer, index, 0);
+            p.widgets.push_back({ nullptr, spacer });
+        }
+        return index;
     }
 
     void FormLayout::setGeometry(const Box2I& value)

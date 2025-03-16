@@ -358,11 +358,7 @@ namespace dtk
         p.buttonGroup->clearButtons();
         p.closeButtons.clear();
         p.closeButtonGroup->clearButtons();
-        auto children = p.buttonLayout->getChildren();
-        for (const auto& child : children)
-        {
-            child->setParent(nullptr);
-        }
+        p.buttonLayout->clear();
         if (auto context = getContext())
         {
             for (size_t i = 0; i < p.text.size(); ++i)

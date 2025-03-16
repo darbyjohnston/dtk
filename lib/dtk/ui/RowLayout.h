@@ -44,6 +44,15 @@ namespace dtk
         //! Set the spacing role.
         void setSpacingRole(SizeRole);
 
+        //! Add a spacer.
+        void addSpacer(Stretch = Stretch::Fixed);
+
+        //! Add a spacer.
+        void addSpacer(SizeRole, Stretch = Stretch::Fixed);
+
+        //! Remove all children from the layout.
+        void clear();
+
         void setGeometry(const Box2I&) override;
         Box2I getChildrenClipRect() const override;
         void sizeHintEvent(const SizeHintEvent&) override;

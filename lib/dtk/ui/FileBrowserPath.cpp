@@ -29,7 +29,6 @@ namespace dtk
         std::shared_ptr<ScrollWidget> buttonsScrollWidget;
         std::vector<std::shared_ptr<IButton> > buttons;
         std::shared_ptr<ButtonGroup> buttonGroup;
-        std::vector<std::shared_ptr<Divider> > dividers;
         std::shared_ptr<LineEdit> lineEdit;
         std::function<void(const std::filesystem::path&)> callback;
         std::function<void(bool)> editCallback;
@@ -173,17 +172,9 @@ namespace dtk
             std::static_pointer_cast<IWidget>(p.lineEdit) :
             std::static_pointer_cast<IWidget>(p.buttonsScrollWidget));
 
-        for (const auto& button : p.buttons)
-        {
-            button->setParent(nullptr);
-        }
         p.buttons.clear();
         p.buttonGroup->clearButtons();
-        for (const auto& divider : p.dividers)
-        {
-            divider->setParent(nullptr);
-        }
-        p.dividers.clear();
+        p.buttonsLayout->clear();
         p.pieces = split(p.path);
         if (auto context = getContext())
         {
@@ -192,7 +183,7 @@ namespace dtk
                 auto button = ToolButton::create(context, p.pieces[i], p.buttonsLayout);
                 p.buttons.push_back(button);
                 p.buttonGroup->addButton(button);
-                p.dividers.push_back(Divider::create(context, Orientation::Horizontal, p.buttonsLayout));
+                Divider::create(context, Orientation::Horizontal, p.buttonsLayout);
             }
         }
 

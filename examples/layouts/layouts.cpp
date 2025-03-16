@@ -50,10 +50,12 @@ DTK_MAIN()
         auto hLayout = HorizontalLayout::create(context, groupLayout);
         auto label = Label::create(context, "One", hLayout);
         label = Label::create(context, "Two", hLayout);
+        hLayout->addSpacer();
         label = Label::create(context, "Three", hLayout);
         auto vLayout = VerticalLayout::create(context, groupLayout);
         label = Label::create(context, "One", vLayout);
         label = Label::create(context, "Two", vLayout);
+        vLayout->addSpacer();
         label = Label::create(context, "Three", vLayout);
 
         // Create grid layouts.
@@ -76,6 +78,7 @@ DTK_MAIN()
         formLayout->setHStretch(Stretch::Expanding);
         formLayout->addRow("One:", IntEditSlider::create(context));
         formLayout->addRow("Two:", IntEditSlider::create(context));
+        formLayout->addSpacer(SizeRole::Spacing);
         formLayout->addRow("Three:", IntEdit::create(context));
 
         window->show();

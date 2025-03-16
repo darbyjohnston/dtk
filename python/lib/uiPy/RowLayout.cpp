@@ -22,7 +22,10 @@ namespace dtk
                 py::arg("orientation"),
                 py::arg("parent") = nullptr)
             .def_property("marginRole", &RowLayout::getMarginRole, &RowLayout::setMarginRole)
-            .def_property("spacingRole", &RowLayout::getSpacingRole, &RowLayout::setSpacingRole);
+            .def_property("spacingRole", &RowLayout::getSpacingRole, &RowLayout::setSpacingRole)
+            .def("addSpacer", py::overload_cast<Stretch>(&RowLayout::addSpacer), py::arg("stretch"))
+            .def("addSpacer", py::overload_cast<SizeRole, Stretch>(&RowLayout::addSpacer), py::arg("spacingRole"), py::arg("stretch"))
+            .def("clear", &RowLayout::clear);
 
         py::class_<VerticalLayout, RowLayout, std::shared_ptr<VerticalLayout> >(m, "VerticalLayout")
             .def(

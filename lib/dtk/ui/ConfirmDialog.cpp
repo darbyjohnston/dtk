@@ -8,7 +8,6 @@
 #include <dtk/ui/Label.h>
 #include <dtk/ui/PushButton.h>
 #include <dtk/ui/RowLayout.h>
-#include <dtk/ui/Spacer.h>
 
 namespace dtk
 {
@@ -77,8 +76,7 @@ namespace dtk
         auto hLayout = HorizontalLayout::create(context, _layout);
         hLayout->setMarginRole(SizeRole::MarginSmall);
         hLayout->setSpacingRole(SizeRole::SpacingSmall);
-        auto spacer = Spacer::create(context, Orientation::Horizontal, hLayout);
-        spacer->setHStretch(Stretch::Expanding);
+        hLayout->addSpacer(SizeRole::None, Stretch::Expanding);
         _okButton->setParent(hLayout);
         _cancelButton->setParent(hLayout);
 
