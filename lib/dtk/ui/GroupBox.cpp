@@ -34,7 +34,7 @@ namespace dtk
             TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void GroupBox::_init(
@@ -82,7 +82,6 @@ namespace dtk
             return;
         p.text = value;
         p.size.displayScale.reset();
-        p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -99,7 +98,6 @@ namespace dtk
             return;
         p.fontRole = value;
         p.size.displayScale.reset();
-        p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -115,8 +113,13 @@ namespace dtk
 
     void GroupBox::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
+        if (changed)
+        {
+            p.draw.reset();
+        }
 
         Box2I g = value;
         g.min.y += p.size.fontMetrics.lineHeight + p.size.spacing;
@@ -125,14 +128,6 @@ namespace dtk
         {
             child->setGeometry(g);
         }
-
-        p.draw.g = value;
-        p.draw.g2 = Box2I(
-            V2I(
-                p.draw.g.min.x,
-                p.draw.g.min.y + p.size.fontMetrics.lineHeight + p.size.spacing),
-            p.draw.g.max);
-        p.draw.border = border(p.draw.g2, p.size.border, p.size.margin);
     }
 
     void GroupBox::sizeHintEvent(const SizeHintEvent& event)
@@ -150,7 +145,7 @@ namespace dtk
             p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
 
         Size2I sizeHint;
@@ -172,7 +167,7 @@ namespace dtk
         DTK_P();
         if (clipped)
         {
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
     }
 
@@ -183,18 +178,30 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
-        if (!p.text.empty() && p.draw.glyphs.empty())
+        if (!p.draw.has_value())
         {
-            p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
+            p.draw = Private::DrawData();
+            p.draw->g = getGeometry();
+            p.draw->g2 = Box2I(
+                V2I(
+                    p.draw->g.min.x,
+                    p.draw->g.min.y + p.size.fontMetrics.lineHeight + p.size.spacing),
+                p.draw->g.max);
+            p.draw->border = border(p.draw->g2, p.size.border, p.size.margin);
+        }
+
+        if (!p.text.empty() && p.draw->glyphs.empty())
+        {
+            p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
         }
         event.render->drawText(
-            p.draw.glyphs,
+            p.draw->glyphs,
             p.size.fontMetrics,
-            p.draw.g.min,
+            p.draw->g.min,
             event.style->getColorRole(ColorRole::Text));
 
         event.render->drawMesh(
-            p.draw.border,
+            p.draw->border,
             event.style->getColorRole(ColorRole::Border));
     }
 }

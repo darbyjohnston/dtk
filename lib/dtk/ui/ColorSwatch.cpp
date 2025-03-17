@@ -32,7 +32,7 @@ namespace dtk
             TriMesh2F border;
             Box2I g2;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void ColorSwatch::_init(
@@ -110,10 +110,13 @@ namespace dtk
 
     void ColorSwatch::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.border = border(value, p.size.border);
-        p.draw.g2 = margin(value, -p.size.border);
+        if (changed)
+        {
+            p.draw.reset();
+        }
     }
 
     void ColorSwatch::sizeHintEvent(const SizeHintEvent& event)
@@ -127,9 +130,20 @@ namespace dtk
             p.size.displayScale = event.displayScale;
             p.size.size = event.style->getSizeRole(p.sizeRole, event.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.draw.reset();
         }
 
         _setSizeHint(Size2I(p.size.size, p.size.size));
+    }
+
+    void ColorSwatch::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
+        }
     }
 
     void ColorSwatch::drawEvent(
@@ -138,11 +152,20 @@ namespace dtk
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
+
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            const Box2I& g = getGeometry();
+            p.draw->border = border(g, p.size.border);
+            p.draw->g2 = margin(g, -p.size.border);
+        }
+
         event.render->drawMesh(
-            p.draw.border,
+            p.draw->border,
             event.style->getColorRole(ColorRole::Border));
-        event.render->drawRect(p.draw.g2, Color4F(0.F, 0.F, 0.F));
-        event.render->drawRect(p.draw.g2, p.color);
+        event.render->drawRect(p.draw->g2, Color4F(0.F, 0.F, 0.F));
+        event.render->drawRect(p.draw->g2, p.color);
     }
 
     void ColorSwatch::mousePressEvent(MouseClickEvent& event)

@@ -25,12 +25,6 @@ namespace dtk
             int margin = 0;
         };
         SizeData size;
-
-        struct DrawData
-        {
-            Box2I g;
-        };
-        DrawData draw;
     };
 
     void Icon::_init(
@@ -99,13 +93,6 @@ namespace dtk
         _setDrawUpdate();
     }
 
-    void Icon::setGeometry(const Box2I& value)
-    {
-        IWidget::setGeometry(value);
-        DTK_P();
-        p.draw.g = margin(value, -p.size.margin);
-    }
-
     void Icon::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
@@ -145,12 +132,13 @@ namespace dtk
         DTK_P();
         if (p.iconImage)
         {
+            const Box2I g = margin(getGeometry(), -p.size.margin);
             const Size2I& iconSize = p.iconImage->getSize();
             event.render->drawImage(
                 p.iconImage,
                 Box2I(
-                    p.draw.g.x() + p.draw.g.w() / 2 - iconSize.w / 2,
-                    p.draw.g.y() + p.draw.g.h() / 2 - iconSize.h / 2,
+                    g.x() + g.w() / 2 - iconSize.w / 2,
+                    g.y() + g.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?

@@ -32,7 +32,7 @@ namespace dtk
             TriMesh2F shadow;
             TriMesh2F border;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void IDialog::_init(
@@ -98,8 +98,14 @@ namespace dtk
 
     void IDialog::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IPopup::setGeometry(value);
         DTK_P();
+        if (changed)
+        {
+            p.draw.reset();
+        }
+
         const auto& children = getChildren();
         if (!children.empty())
         {
@@ -121,21 +127,6 @@ namespace dtk
                 g.y() + g.h() / 2 - size.y / 2,
                 size.x,
                 size.y));
-
-            p.draw.g = children.front()->getGeometry();
-            const Box2I g2(
-                p.draw.g.min.x - p.size.shadow,
-                p.draw.g.min.y,
-                p.draw.g.w() + p.size.shadow * 2,
-                p.draw.g.h() + p.size.shadow);
-            p.draw.shadow = shadow(g2, p.size.shadow);
-            p.draw.border = border(margin(p.draw.g, p.size.border), p.size.border);
-        }
-        else
-        {
-            p.draw.g = Box2I();
-            p.draw.shadow = TriMesh2F();
-            p.draw.border = TriMesh2F();
         }
     }
 
@@ -151,6 +142,17 @@ namespace dtk
             p.size.margin = event.style->getSizeRole(SizeRole::MarginDialog, event.displayScale);
             p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
             p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
+            p.draw.reset();
+        }
+    }
+
+    void IDialog::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
         }
     }
 
@@ -160,14 +162,38 @@ namespace dtk
     {
         IPopup::drawEvent(drawRect, event);
         DTK_P();
+
+        if (!p.draw.has_value())
+        {
+            const auto& children = getChildren();
+            if (!children.empty())
+            {
+                p.draw = Private::DrawData();
+                p.draw->g = children.front()->getGeometry();
+                const Box2I g2(
+                    p.draw->g.min.x - p.size.shadow,
+                    p.draw->g.min.y,
+                    p.draw->g.w() + p.size.shadow * 2,
+                    p.draw->g.h() + p.size.shadow);
+                p.draw->shadow = shadow(g2, p.size.shadow);
+                p.draw->border = border(margin(p.draw->g, p.size.border), p.size.border);
+            }
+            else
+            {
+                p.draw->g = Box2I();
+                p.draw->shadow = TriMesh2F();
+                p.draw->border = TriMesh2F();
+            }
+        }
+
         if (!getChildren().empty())
         {
-            event.render->drawColorMesh(p.draw.shadow);
+            event.render->drawColorMesh(p.draw->shadow);
             event.render->drawMesh(
-                p.draw.border,
+                p.draw->border,
                 event.style->getColorRole(ColorRole::Border));
             event.render->drawRect(
-                p.draw.g,
+                p.draw->g,
                 event.style->getColorRole(ColorRole::Window));
         }
     }

@@ -49,7 +49,7 @@ namespace dtk
             Box2I g;
             std::vector<TriMesh2F> meshes;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void PieChart::_init(
@@ -107,31 +107,12 @@ namespace dtk
 
     void PieChart::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.g = value;
-        p.draw.meshes.clear();
-        const float r = value.w() / 2.F;
-        float a = 0.F;
-        for (size_t i = 0; i < p.data.size(); ++i)
+        if (changed)
         {
-            TriMesh2F mesh;
-            const float d = p.data[i].percentage;
-            const float inc = 2.F;
-            for (int i = a; i < a + d; i += inc)
-            {
-                const size_t size = mesh.v.size();
-                mesh.v.push_back(V2F(0.F, 0.F));
-                mesh.v.push_back(V2F(
-                    cos(deg2rad(i / 100.F * 360.F - 90.F)) * r,
-                    sin(deg2rad(i / 100.F * 360.F - 90.F)) * r));
-                mesh.v.push_back(V2F(
-                    cos(deg2rad(std::min(i + inc, a + d) / 100.F * 360.F - 90.F)) * r,
-                    sin(deg2rad(std::min(i + inc, a + d) / 100.F * 360.F - 90.F)) * r));
-                mesh.triangles.push_back({ size + 1, size + 2, size + 3 });
-            }
-            p.draw.meshes.push_back(mesh);
-            a += p.data[i].percentage;
+            p.draw.reset();
         }
     }
 
@@ -146,10 +127,21 @@ namespace dtk
             p.size.displayScale = event.displayScale;
             const FontInfo fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
+            p.draw.reset();
         }
 
         const int d = p.size.fontMetrics.lineHeight * p.sizeMult;
         _setSizeHint(Size2I(d, d));
+    }
+
+    void PieChart::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
+        }
     }
 
     void PieChart::drawEvent(
@@ -158,11 +150,42 @@ namespace dtk
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
-        const V2I c = center(p.draw.g);
+
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            const Box2I& g = getGeometry();
+            p.draw->g = g;
+            p.draw->meshes.clear();
+            const float r = g.w() / 2.F;
+            float a = 0.F;
+            for (size_t i = 0; i < p.data.size(); ++i)
+            {
+                TriMesh2F mesh;
+                const float d = p.data[i].percentage;
+                const float inc = 2.F;
+                for (int i = a; i < a + d; i += inc)
+                {
+                    const size_t size = mesh.v.size();
+                    mesh.v.push_back(V2F(0.F, 0.F));
+                    mesh.v.push_back(V2F(
+                        cos(deg2rad(i / 100.F * 360.F - 90.F)) * r,
+                        sin(deg2rad(i / 100.F * 360.F - 90.F)) * r));
+                    mesh.v.push_back(V2F(
+                        cos(deg2rad(std::min(i + inc, a + d) / 100.F * 360.F - 90.F)) * r,
+                        sin(deg2rad(std::min(i + inc, a + d) / 100.F * 360.F - 90.F)) * r));
+                    mesh.triangles.push_back({ size + 1, size + 2, size + 3 });
+                }
+                p.draw->meshes.push_back(mesh);
+                a += p.data[i].percentage;
+            }
+        }
+
+        const V2I c = center(p.draw->g);
         for (size_t i = 0; i < p.data.size(); ++i)
         {
             event.render->drawMesh(
-                p.draw.meshes[i],
+                p.draw->meshes[i],
                 p.data[i].color,
                 convert(c));
         }

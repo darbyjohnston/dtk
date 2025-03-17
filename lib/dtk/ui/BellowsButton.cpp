@@ -27,11 +27,11 @@ namespace dtk
         struct DrawData
         {
             Box2I g;
-            TriMesh2F border;
             Box2I g2;
+            TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void BellowsButton::_init(
@@ -65,11 +65,13 @@ namespace dtk
 
     void BellowsButton::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IButton::setGeometry(value);
         DTK_P();
-        p.draw.g = value;
-        p.draw.border = border(p.draw.g, p.size.border);
-        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
+        if (changed)
+        {
+            p.draw.reset();
+        }
     }
 
     void BellowsButton::sizeHintEvent(const SizeHintEvent& event)
@@ -87,7 +89,7 @@ namespace dtk
             p.size.fontInfo = event.style->getFontRole(_fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(_text, p.size.fontInfo);
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
 
         Size2I sizeHint;
@@ -111,7 +113,7 @@ namespace dtk
         DTK_P();
         if (clipped)
         {
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
     }
 
@@ -122,12 +124,20 @@ namespace dtk
         IButton::drawEvent(drawRect, event);
         DTK_P();
 
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = getGeometry();
+            p.draw->g2 = margin(p.draw->g, -(p.size.margin + p.size.border));
+            p.draw->border = border(p.draw->g, p.size.border);
+        }
+
         // Draw the background.
         const ColorRole colorRole = _checked ? _checkedRole : _buttonRole;
         if (colorRole != ColorRole::None)
         {
             event.render->drawRect(
-                p.draw.g,
+                p.draw->g,
                 event.style->getColorRole(colorRole));
         }
 
@@ -135,7 +145,7 @@ namespace dtk
         if (hasKeyFocus())
         {
             event.render->drawMesh(
-                p.draw.border,
+                p.draw->border,
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
@@ -143,19 +153,19 @@ namespace dtk
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.g,
+                p.draw->g,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.g,
+                p.draw->g,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
         // Draw the icon.
         auto icon = _checked ? _checkedIconImage : _iconImage;
-        int x = p.draw.g2.x();
+        int x = p.draw->g2.x();
         if (icon)
         {
             const Size2I& iconSize = icon->getSize();
@@ -163,7 +173,7 @@ namespace dtk
                 icon,
                 Box2I(
                     x,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
@@ -175,15 +185,15 @@ namespace dtk
         // Draw the text.
         if (!_text.empty())
         {
-            if (p.draw.glyphs.empty())
+            if (p.draw->glyphs.empty())
             {
-                p.draw.glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
+                p.draw->glyphs = event.fontSystem->getGlyphs(_text, p.size.fontInfo);
             }
             event.render->drawText(
-                p.draw.glyphs,
+                p.draw->glyphs,
                 p.size.fontMetrics,
                 V2I(x + p.size.pad,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));

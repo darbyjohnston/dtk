@@ -36,6 +36,9 @@ namespace dtk
         FontRole fontRole = FontRole::Label;
         std::string text;
         std::string icon;
+        std::shared_ptr<Image> iconImage;
+        std::shared_ptr<Image> arrowIconImage;
+        float iconScale = 1.F;
         std::shared_ptr<ComboBoxMenu> menu;
 
         struct SizeData
@@ -54,12 +57,11 @@ namespace dtk
         {
             Box2I g;
             Box2I g2;
+            dtk::TriMesh2F mesh;
+            dtk::TriMesh2F border;
             std::vector<std::shared_ptr<Glyph> > glyphs;
-            float iconScale = 1.F;
-            std::shared_ptr<Image> iconImage;
-            std::shared_ptr<Image> arrowIconImage;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void ComboBox::_init(
@@ -125,8 +127,8 @@ namespace dtk
         const ComboBoxItem item = _getItem(p.currentIndex);
         p.text = item.text;
         p.icon = item.icon;
+        p.iconImage.reset();
         p.size.displayScale.reset();
-        p.draw.iconImage.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -159,8 +161,8 @@ namespace dtk
         const ComboBoxItem item = _getItem(p.currentIndex);
         p.text = item.text;
         p.icon = item.icon;
+        p.iconImage.reset();
         p.size.displayScale.reset();
-        p.draw.iconImage.reset();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -193,10 +195,13 @@ namespace dtk
 
     void ComboBox::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.g = value;
-        p.draw.g2 = margin(p.draw.g, -(p.size.margin + p.size.border));
+        if (changed)
+        {
+            p.draw.reset();
+        }
     }
 
     void ComboBox::sizeHintEvent(const SizeHintEvent& event)
@@ -223,39 +228,49 @@ namespace dtk
                     p.size.textSize.h = std::max(p.size.textSize.h, textSize.h);
                 }
             }
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
 
-        if (event.displayScale != p.draw.iconScale)
+        if (event.displayScale != p.iconScale)
         {
-            p.draw.iconScale = event.displayScale;
-            p.draw.iconImage.reset();
-            p.draw.arrowIconImage.reset();
+            p.iconScale = event.displayScale;
+            p.iconImage.reset();
+            p.arrowIconImage.reset();
         }
-        if (!p.icon.empty() && !p.draw.iconImage)
+        if (!p.icon.empty() && !p.iconImage)
         {
-            p.draw.iconImage = event.iconSystem->get(p.icon, event.displayScale);
+            p.iconImage = event.iconSystem->get(p.icon, event.displayScale);
         }
-        if (!p.draw.arrowIconImage)
+        if (!p.arrowIconImage)
         {
-            p.draw.arrowIconImage = event.iconSystem->get("MenuArrow", event.displayScale);
+            p.arrowIconImage = event.iconSystem->get("MenuArrow", event.displayScale);
         }
 
         Size2I sizeHint;
         sizeHint.w = p.size.textSize.w + p.size.pad * 2;
         sizeHint.h = p.size.fontMetrics.lineHeight;
-        if (p.draw.iconImage)
+        if (p.iconImage)
         {
-            sizeHint.w += p.draw.iconImage->getWidth();
-            sizeHint.h = std::max(sizeHint.h, p.draw.iconImage->getHeight());
+            sizeHint.w += p.iconImage->getWidth();
+            sizeHint.h = std::max(sizeHint.h, p.iconImage->getHeight());
         }
-        if (p.draw.arrowIconImage)
+        if (p.arrowIconImage)
         {
-            sizeHint.w += p.draw.arrowIconImage->getWidth();
-            sizeHint.h = std::max(sizeHint.h, p.draw.arrowIconImage->getHeight());
+            sizeHint.w += p.arrowIconImage->getWidth();
+            sizeHint.h = std::max(sizeHint.h, p.arrowIconImage->getHeight());
         }
         sizeHint = margin(sizeHint, p.size.margin + p.size.border);
         _setSizeHint(sizeHint);
+    }
+
+    void ComboBox::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
+        }
     }
 
     void ComboBox::drawEvent(
@@ -265,41 +280,49 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = getGeometry();
+            p.draw->g2 = margin(p.draw->g, -(p.size.margin + p.size.border));
+            p.draw->mesh = rect(p.draw->g);
+            p.draw->border = border(p.draw->g, p.size.border);
+        }
+
         // Draw the background.
-        const auto mesh = rect(p.draw.g);
         event.render->drawMesh(
-            mesh,
+            p.draw->mesh,
             event.style->getColorRole(ColorRole::Button));
 
         // Draw the focus and border.
         event.render->drawMesh(
-            border(p.draw.g, p.size.border),
+            p.draw->border,
             event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
 
         // Draw the mouse states.
         if (_isMousePressed())
         {
             event.render->drawMesh(
-                mesh,
+                p.draw->mesh,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawMesh(
-                mesh,
+                p.draw->mesh,
                 event.style->getColorRole(ColorRole::Hover));
         }
 
         // Draw the icon.
-        int x = p.draw.g2.x();
-        if (p.draw.iconImage)
+        int x = p.draw->g2.x();
+        if (p.iconImage)
         {
-            const Size2I& iconSize = p.draw.iconImage->getSize();
+            const Size2I& iconSize = p.iconImage->getSize();
             event.render->drawImage(
-                p.draw.iconImage,
+                p.iconImage,
                 Box2I(
                     x,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?
@@ -311,29 +334,29 @@ namespace dtk
         // Draw the text.
         if (!p.text.empty())
         {
-            if (p.draw.glyphs.empty())
+            if (p.draw->glyphs.empty())
             {
-                p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
+                p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
             }
             event.render->drawText(
-                p.draw.glyphs,
+                p.draw->glyphs,
                 p.size.fontMetrics,
                 V2I(x + p.size.pad,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - p.size.textSize.h / 2),
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - p.size.textSize.h / 2),
                 event.style->getColorRole(isEnabled() ?
                     ColorRole::Text :
                     ColorRole::TextDisabled));
         }
 
         // Draw the arrow icon.
-        if (p.draw.arrowIconImage)
+        if (p.arrowIconImage)
         {
-            const Size2I& iconSize = p.draw.arrowIconImage->getSize();
+            const Size2I& iconSize = p.arrowIconImage->getSize();
             event.render->drawImage(
-                p.draw.arrowIconImage,
+                p.arrowIconImage,
                 Box2I(
-                    p.draw.g2.x() + p.draw.g2.w() - iconSize.w,
-                    p.draw.g2.y() + p.draw.g2.h() / 2 - iconSize.h / 2,
+                    p.draw->g2.x() + p.draw->g2.w() - iconSize.w,
+                    p.draw->g2.y() + p.draw->g2.h() / 2 - iconSize.h / 2,
                     iconSize.w,
                     iconSize.h),
                 event.style->getColorRole(isEnabled() ?

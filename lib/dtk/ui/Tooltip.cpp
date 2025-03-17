@@ -33,7 +33,7 @@ namespace dtk
             TriMesh2F shadow;
             TriMesh2F border;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void Tooltip::_init(
@@ -82,6 +82,7 @@ namespace dtk
     {
         IPopup::setGeometry(value);
         DTK_P();
+
         Size2I sizeHint = p.label->getSizeHint();
         std::list<Box2I> boxes;
         boxes.push_back(Box2I(
@@ -144,16 +145,21 @@ namespace dtk
             g.max.y += value.min.y - g.min.y;
             g.min.y = value.min.y;
         }
+        const bool changed = g != p.label->getGeometry();
         p.label->setGeometry(g);
 
-        p.draw.g = g;
-        const Box2I g2(
-            g.min.x - p.size.shadow,
-            g.min.y,
-            g.w() + p.size.shadow * 2,
-            g.h() + p.size.shadow);
-        p.draw.shadow = shadow(g2, p.size.shadow);
-        p.draw.border = border(margin(p.draw.g, p.size.border), p.size.border);
+        if (!p.draw.has_value() || changed)
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = g;
+            const Box2I g2(
+                g.min.x - p.size.shadow,
+                g.min.y,
+                g.w() + p.size.shadow * 2,
+                g.h() + p.size.shadow);
+            p.draw->shadow = shadow(g2, p.size.shadow);
+            p.draw->border = border(margin(p.draw->g, p.size.border), p.size.border);
+        }
     }
 
     void Tooltip::sizeHintEvent(const SizeHintEvent& event)
@@ -168,6 +174,17 @@ namespace dtk
             p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
             p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
+            p.draw.reset();
+        }
+    }
+
+    void Tooltip::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
         }
     }
 
@@ -177,12 +194,16 @@ namespace dtk
     {
         IPopup::drawEvent(drawRect, event);
         DTK_P();
-        event.render->drawColorMesh(p.draw.shadow);
-        event.render->drawMesh(
-            p.draw.border,
-            event.style->getColorRole(ColorRole::Border));
-        event.render->drawRect(
-            p.draw.g,
-            event.style->getColorRole(ColorRole::TooltipWindow));
+
+        if (p.draw.has_value())
+        {
+            event.render->drawColorMesh(p.draw->shadow);
+            event.render->drawMesh(
+                p.draw->border,
+                event.style->getColorRole(ColorRole::Border));
+            event.render->drawRect(
+                p.draw->g,
+                event.style->getColorRole(ColorRole::TooltipWindow));
+        }
     }
 }

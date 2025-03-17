@@ -33,9 +33,8 @@ namespace dtk
             TriMesh2F border;
             Box2I background;
             Box2I margin;
-            Box2I handle;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void IntSlider::_init(
@@ -152,22 +151,13 @@ namespace dtk
 
     void IntSlider::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.border = border(value, p.size.border);
-        p.draw.background = margin(value, -p.size.border);
-        p.draw.margin = margin(p.draw.background, -p.size.margin);
-        const Box2I g = _getSliderGeometry();
-        int pos = 0;
-        if (p.model)
+        if (changed)
         {
-            pos = _valueToPos(p.model->getValue());
+            p.draw.reset();
         }
-        p.draw.handle = Box2I(
-            pos - p.size.handle / 2,
-            g.y(),
-            p.size.handle,
-            g.h());
     }
 
     void IntSlider::sizeHintEvent(const SizeHintEvent& event)
@@ -185,10 +175,22 @@ namespace dtk
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
             auto fontInfo = event.style->getFontRole(FontRole::Label, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(fontInfo);
+            p.draw.reset();
         }
+
         Size2I sizeHint(p.size.size, p.size.fontMetrics.lineHeight);
         sizeHint = margin(sizeHint, p.size.border * 2);
         _setSizeHint(sizeHint);
+    }
+
+    void IntSlider::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
+        }
     }
 
     void IntSlider::drawEvent(
@@ -198,35 +200,54 @@ namespace dtk
         IWidget::drawEvent(drawRect, event);
         DTK_P();
 
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            const Box2I& g = getGeometry();
+            p.draw->border = border(g, p.size.border);
+            p.draw->background = margin(g, -p.size.border);
+            p.draw->margin = margin(p.draw->background, -p.size.margin);
+        }
+
         // Draw the background.
         event.render->drawRect(
-            p.draw.background,
+            p.draw->background,
             event.style->getColorRole(ColorRole::Base));
 
         // Draw the handle.
+        const Box2I g = _getSliderGeometry();
+        int pos = 0;
+        if (p.model)
+        {
+            pos = _valueToPos(p.model->getValue());
+        }
+        const Box2I handle(
+            pos - p.size.handle / 2,
+            g.y(),
+            p.size.handle,
+            g.h());
         event.render->drawRect(
-            p.draw.handle,
+            handle,
             event.style->getColorRole(ColorRole::Button));
         if (_isMousePressed())
         {
             event.render->drawRect(
-                p.draw.handle,
+                handle,
                 event.style->getColorRole(ColorRole::Pressed));
         }
         else if (_isMouseInside())
         {
             event.render->drawRect(
-                p.draw.handle,
+                handle,
                 event.style->getColorRole(ColorRole::Hover));
         }
         event.render->drawMesh(
-            border(p.draw.handle, p.size.border),
+            border(handle, p.size.border),
             event.style->getColorRole(ColorRole::Border));
 
         // Draw the focus and border.
-        const Box2I& g = getGeometry();
         event.render->drawMesh(
-            p.draw.border,
+            p.draw->border,
             event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
     }
 
@@ -328,12 +349,17 @@ namespace dtk
     Box2I IntSlider::_getSliderGeometry() const
     {
         DTK_P();
-        return margin(
-            p.draw.margin,
-            -(p.size.handle / 2),
-            0,
-            -(p.size.handle / 2),
-            0);
+        Box2I out;
+        if (p.draw.has_value())
+        {
+            out = margin(
+                p.draw->margin,
+                -(p.size.handle / 2),
+                0,
+                -(p.size.handle / 2),
+                0);
+        }
+        return out;
     }
 
     int IntSlider::_posToValue(int pos) const

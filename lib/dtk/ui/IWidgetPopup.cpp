@@ -7,6 +7,8 @@
 #include <dtk/ui/DrawUtil.h>
 #include <dtk/ui/IWindow.h>
 
+#include <optional>
+
 namespace dtk
 {
     namespace
@@ -88,6 +90,7 @@ namespace dtk
 
         struct SizeData
         {
+            std::optional<float> displayScale;
             int border = 0;
             int shadow = 0;
         };
@@ -99,7 +102,7 @@ namespace dtk
             TriMesh2F shadow;
             TriMesh2F border;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void IWidgetPopup::_init(
@@ -202,6 +205,7 @@ namespace dtk
     {
         IPopup::setGeometry(value);
         DTK_P();
+
         Size2I sizeHint = p.containerWidget->getSizeHint();
         std::list<Box2I> boxes;
         boxes.push_back(Box2I(
@@ -243,26 +247,48 @@ namespace dtk
                     area(a.intersected.size()) >
                     area(b.intersected.size());
             });
-        Box2I g = intersect.front().intersected;
+        const Box2I g = intersect.front().intersected;
+        const bool changed = g != p.containerWidget->getGeometry();
         p.containerWidget->setGeometry(g);
 
-        p.draw.g = g;
-        const Box2I g2 = margin(g, p.size.border);
-        const Box2I g3 = Box2I(
-            g.min.x - p.size.shadow,
-            g.min.y,
-            g.w() + p.size.shadow * 2,
-            g.h() + p.size.shadow);
-        p.draw.shadow = shadow(g3, p.size.shadow);
-        p.draw.border = border(g2, p.size.border);
+        if (!p.draw.has_value() || changed)
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = g;
+            const Box2I g2 = margin(g, p.size.border);
+            const Box2I g3 = Box2I(
+                g.min.x - p.size.shadow,
+                g.min.y,
+                g.w() + p.size.shadow * 2,
+                g.h() + p.size.shadow);
+            p.draw->shadow = shadow(g3, p.size.shadow);
+            p.draw->border = border(g2, p.size.border);
+        }
     }
 
     void IWidgetPopup::sizeHintEvent(const SizeHintEvent& event)
     {
         IPopup::sizeHintEvent(event);
         DTK_P();
-        p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
-        p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
+
+        if (!p.size.displayScale.has_value() ||
+            (p.size.displayScale.has_value() && p.size.displayScale.value() != event.displayScale))
+        {
+            p.size.displayScale = event.displayScale;
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
+            p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
+            p.draw.reset();
+        }
+    }
+
+    void IWidgetPopup::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
+        }
     }
 
     void IWidgetPopup::drawEvent(
@@ -271,13 +297,17 @@ namespace dtk
     {
         IPopup::drawEvent(drawRect, event);
         DTK_P();
-        event.render->drawColorMesh(p.draw.shadow);
-        event.render->drawMesh(
-            p.draw.border,
-            event.style->getColorRole(ColorRole::Border));
-        event.render->drawRect(
-            p.draw.g,
-            event.style->getColorRole(p.popupRole));
+
+        if (p.draw.has_value())
+        {
+            event.render->drawColorMesh(p.draw->shadow);
+            event.render->drawMesh(
+                p.draw->border,
+                event.style->getColorRole(ColorRole::Border));
+            event.render->drawRect(
+                p.draw->g,
+                event.style->getColorRole(p.popupRole));
+        }
     }
 
     void IWidgetPopup::mousePressEvent(MouseClickEvent& event)

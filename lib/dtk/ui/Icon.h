@@ -47,7 +47,6 @@ namespace dtk
         //! Set the margin role.
         void setMarginRole(SizeRole);
 
-        void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void drawEvent(const Box2I&, const DrawEvent&) override;
 

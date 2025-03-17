@@ -55,7 +55,7 @@ namespace dtk
             TriMesh2F shadow;
             TriMesh2F border;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
 
         struct MouseData
         {
@@ -169,8 +169,13 @@ namespace dtk
 
     void MDIWidget::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
+        if (changed)
+        {
+            p.draw.reset();
+        }
 
         const int margin = std::max(p.size.handle, p.size.shadow);
         Box2I g = dtk::margin(
@@ -222,11 +227,6 @@ namespace dtk
             g.min.y - p.size.handle,
             p.size.handle * 2,
             p.size.handle * 2);
-
-        const Box2I g2 = dtk::margin(value, -margin, -p.size.handle, -margin, -margin);
-        p.draw.g = dtk::margin(g2, -p.size.border);
-        p.draw.shadow = shadow(dtk::margin(g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow);
-        p.draw.border = border(g2, p.size.border);
     }
 
     void MDIWidget::sizeHintEvent(const SizeHintEvent& event)
@@ -241,6 +241,7 @@ namespace dtk
             p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
             p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
+            p.draw.reset();
         }
 
         const int margin = std::max(p.size.handle, p.size.shadow);
@@ -250,13 +251,35 @@ namespace dtk
         _setSizeHint(sizeHint);
     }
 
+    void MDIWidget::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
+        }
+    }
+
     void MDIWidget::drawEvent(
         const Box2I& drawRect,
         const DrawEvent& event)
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
-        event.render->drawColorMesh(p.draw.shadow);
+
+        if (!p.draw.has_value())
+        {
+            p.draw = Private::DrawData();
+            const int margin = std::max(p.size.handle, p.size.shadow);
+            const Box2I& g = getGeometry();
+            const Box2I g2 = dtk::margin(g, -margin, -p.size.handle, -margin, -margin);
+            p.draw->g = dtk::margin(g2, -p.size.border);
+            p.draw->shadow = shadow(dtk::margin(g2, p.size.shadow, 0, p.size.shadow, p.size.shadow), p.size.shadow);
+            p.draw->border = border(g2, p.size.border);
+        }
+
+        event.render->drawColorMesh(p.draw->shadow);
         if (p.mouse.resize != MDIResize::None)
         {
             const auto i = p.mouse.resizeBoxes.find(p.mouse.resize);
@@ -268,10 +291,10 @@ namespace dtk
             }
         }
         event.render->drawMesh(
-            p.draw.border,
+            p.draw->border,
             event.style->getColorRole(ColorRole::Border));
         event.render->drawRect(
-            p.draw.g,
+            p.draw->g,
             event.style->getColorRole(ColorRole::Window));
     }
 

@@ -103,7 +103,7 @@ namespace dtk
             Box2I g;
             TriMesh2F shadow;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void IMenuPopup::_init(
@@ -199,6 +199,7 @@ namespace dtk
     {
         IPopup::setGeometry(value);
         DTK_P();
+
         Size2I sizeHint = p.menuPopupWidget->getSizeHint();
         std::list<Box2I> boxes;
         switch (p.popup)
@@ -258,16 +259,21 @@ namespace dtk
                     area(a.intersected.size()) >
                     area(b.intersected.size());
             });
-        Box2I g = intersect.front().intersected;
+        const Box2I g = intersect.front().intersected;
+        const bool changed = g != p.menuPopupWidget->getGeometry();
         p.menuPopupWidget->setGeometry(g);
 
-        p.draw.g = g;
-        const Box2I g2(
-            g.min.x - p.size.shadow,
-            g.min.y,
-            g.w() + p.size.shadow * 2,
-            g.h() + p.size.shadow);
-        p.draw.shadow = shadow(g2, p.size.shadow);
+        if (!p.draw.has_value() || changed)
+        {
+            p.draw = Private::DrawData();
+            p.draw->g = g;
+            const Box2I g2(
+                g.min.x - p.size.shadow,
+                g.min.y,
+                g.w() + p.size.shadow * 2,
+                g.h() + p.size.shadow);
+            p.draw->shadow = shadow(g2, p.size.shadow);
+        }
     }
 
     void IMenuPopup::sizeHintEvent(const SizeHintEvent& event)
@@ -280,6 +286,17 @@ namespace dtk
         {
             p.size.displayScale = event.displayScale;
             p.size.shadow = event.style->getSizeRole(SizeRole::Shadow, event.displayScale);
+            p.draw.reset();
+        }
+    }
+
+    void IMenuPopup::clipEvent(const Box2I& clipRect, bool clipped)
+    {
+        IWidget::clipEvent(clipRect, clipped);
+        DTK_P();
+        if (clipped)
+        {
+            p.draw.reset();
         }
     }
 
@@ -289,10 +306,13 @@ namespace dtk
     {
         IPopup::drawEvent(drawRect, event);
         DTK_P();
-        event.render->drawColorMesh(p.draw.shadow);
-        event.render->drawRect(
-            p.draw.g,
-            event.style->getColorRole(p.popupRole));
+        if (p.draw.has_value())
+        {
+            event.render->drawColorMesh(p.draw->shadow);
+            event.render->drawRect(
+                p.draw->g,
+                event.style->getColorRole(p.popupRole));
+        }
     }
 
     void IMenuPopup::mousePressEvent(MouseClickEvent& event)

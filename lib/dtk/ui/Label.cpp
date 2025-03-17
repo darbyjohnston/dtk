@@ -37,7 +37,7 @@ namespace dtk
             Box2I g2;
             std::vector<std::shared_ptr<Glyph> > glyphs;
         };
-        DrawData draw;
+        std::optional<DrawData> draw;
     };
 
     void Label::_init(
@@ -87,7 +87,6 @@ namespace dtk
             return;
         p.text = value;
         p.size.displayScale.reset();
-        p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
     }
@@ -179,17 +178,19 @@ namespace dtk
             return;
         p.fontRole = value;
         p.size.displayScale.reset();
-        p.draw.glyphs.clear();
         _setSizeUpdate();
         _setDrawUpdate();
     }
 
     void Label::setGeometry(const Box2I& value)
     {
+        const bool changed = value != getGeometry();
         IWidget::setGeometry(value);
         DTK_P();
-        p.draw.g = align(value, getSizeHint(), getHAlign(), getVAlign());
-        p.draw.g2 = margin(p.draw.g, -p.size.hMargin, -p.size.vMargin, -p.size.hMargin, -p.size.vMargin);
+        if (changed)
+        {
+            p.draw.reset();
+        }
     }
 
     void Label::sizeHintEvent(const SizeHintEvent& event)
@@ -206,7 +207,7 @@ namespace dtk
             p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
             p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
             p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
 
         Size2I sizeHint(p.size.textSize);
@@ -220,7 +221,7 @@ namespace dtk
         DTK_P();
         if (clipped)
         {
-            p.draw.glyphs.clear();
+            p.draw.reset();
         }
     }
 
@@ -228,14 +229,22 @@ namespace dtk
     {
         IWidget::drawEvent(drawRect, event);
         DTK_P();
-        if (!p.text.empty() && p.draw.glyphs.empty())
+
+        if (!p.draw.has_value())
         {
-            p.draw.glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
+            p.draw = Private::DrawData();
+            p.draw->g = align(getGeometry(), getSizeHint(), getHAlign(), getVAlign());
+            p.draw->g2 = margin(p.draw->g, -p.size.hMargin, -p.size.vMargin, -p.size.hMargin, -p.size.vMargin);
+        }
+
+        if (!p.text.empty() && p.draw->glyphs.empty())
+        {
+            p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
         }
         event.render->drawText(
-            p.draw.glyphs,
+            p.draw->glyphs,
             p.size.fontMetrics,
-            p.draw.g2.min,
+            p.draw->g2.min,
             event.style->getColorRole(isEnabled() ?
                 p.textRole :
                 ColorRole::TextDisabled));
