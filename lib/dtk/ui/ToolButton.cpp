@@ -178,8 +178,10 @@ namespace dtk
     {
         const bool changed = value != acceptsKeyFocus();
         IButton::setAcceptsKeyFocus(value);
+        DTK_P();
         if (changed)
         {
+            p.draw.reset();
             _setSizeUpdate();
             _setDrawUpdate();
         }
@@ -302,20 +304,20 @@ namespace dtk
 
         // Draw the icon.
         int x = p.draw->g2.x();
-        auto image = _iconImage;
+        auto iconImage = _iconImage;
         if (_checked && _checkedIconImage)
         {
-            image = _checkedIconImage;
+            iconImage = _checkedIconImage;
         }
-        if (image)
+        if (iconImage)
         {
-            const Size2I& iconSize = image->getSize();
+            const Size2I& iconSize = iconImage->getSize();
             if (_text.empty())
             {
                 x = p.draw->g2.x() + p.draw->g2.w() / 2 - iconSize.w / 2;
             }
             event.render->drawImage(
-                image,
+                iconImage,
                 Box2I(
                     x,
                     p.draw->g2.y() + p.draw->g2.h() / 2 - iconSize.h / 2,
