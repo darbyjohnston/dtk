@@ -234,7 +234,7 @@ namespace dtk
             {
                 const auto tooltipTime = std::chrono::steady_clock::now();
                 const auto tooltipDiff = std::chrono::duration_cast<std::chrono::milliseconds>(tooltipTime - p.tooltipTimer);
-                if (tooltipDiff > tooltipTimeout && !p.tooltip)
+                if (tooltipDiff > tooltipTimeout && !p.tooltip && !p.mousePress.lock())
                 {
                     if (auto context = getContext())
                     {
