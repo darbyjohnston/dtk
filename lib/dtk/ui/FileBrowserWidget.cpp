@@ -342,15 +342,32 @@ namespace dtk
                 DTK_P();
                 if (p.currentPath >= 0 && p.currentPath < p.paths.size())
                 {
-                    std::filesystem::path tmp = p.paths[p.currentPath];
-                    tmp.replace_filename(std::filesystem::u8path(p.fileEdit->getText()));
-                    if (p.recentFilesModel)
+                    std::filesystem::path path;
+                    const std::string& text = p.fileEdit->getText();
+                    switch (p.mode)
                     {
-                        p.recentFilesModel->addRecent(tmp);
+                    case FileBrowserMode::File:
+                        if (!text.empty())
+                        {
+                            path = p.paths[p.currentPath] / std::filesystem::u8path(text);
+                        }
+                        break;
+                    case FileBrowserMode::Dir:
+                        path = p.paths[p.currentPath];
+                        if (!text.empty())
+                        {
+                            path = path / std::filesystem::u8path(text);
+                        }
+                        break;
+                    default: break;
+                    }
+                    if (!path.empty() && p.recentFilesModel)
+                    {
+                        p.recentFilesModel->addRecent(path);
                     }
                     if (p.callback)
                     {
-                        p.callback(tmp);
+                        p.callback(path);
                     }
                 }
             });
