@@ -254,15 +254,8 @@ namespace dtk
                 event.style->getColorRole(ColorRole::KeyFocus));
         }
 
-        // Draw the mouse states.
-        if (p.mouse.pressed != -1)
-        {
-            const Box2I g2 = move(getRect(p.mouse.pressed), g.min);
-            event.render->drawRect(
-                g2,
-                event.style->getColorRole(ColorRole::Pressed));
-        }
-        else if (p.mouse.hover != -1)
+        // Draw the mouse hover.
+        if (p.mouse.hover != -1)
         {
             const Box2I g2 = move(getRect(p.mouse.hover), g.min);
             event.render->drawRect(
