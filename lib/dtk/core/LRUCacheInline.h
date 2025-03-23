@@ -51,7 +51,7 @@ namespace dtk
     }
 
     template<typename T, typename U>
-    inline bool LRUCache<T, U>::get(const T& key, U& value) const
+    inline bool LRUCache<T, U>::get(const T& key, U& value)
     {
         auto i = _map.find(key);
         if (i != _map.end())
@@ -66,6 +66,21 @@ namespace dtk
             return true;
         }
         return i != _map.end();
+    }
+
+    template<typename T, typename U>
+    inline void LRUCache<T, U>::touch(const T& key)
+    {
+        auto i = _map.find(key);
+        if (i != _map.end())
+        {
+            auto j = _counts.find(key);
+            if (j != _counts.end())
+            {
+                ++_counter;
+                j->second = _counter;
+            }
+        }
     }
 
     template<typename T, typename U>

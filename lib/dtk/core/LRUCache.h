@@ -31,7 +31,8 @@ namespace dtk
         ///@{
 
         bool contains(const T& key) const;
-        bool get(const T& key, U& value) const;
+        bool get(const T& key, U& value);
+        void touch(const T& key);
 
         void add(const T& key, const U& value, size_t size = 1);
         void remove(const T& key);
@@ -47,8 +48,8 @@ namespace dtk
 
         size_t _max = 10000;
         std::map<T, std::pair<U, size_t> > _map;
-        mutable std::map<T, int64_t> _counts;
-        mutable int64_t _counter = 0;
+        std::map<T, int64_t> _counts;
+        int64_t _counter = 0;
     };
 }
 
