@@ -32,7 +32,7 @@ namespace dtk
 
         bool contains(const T& key) const;
         bool get(const T& key, U& value);
-        void touch(const T& key);
+        bool touch(const T& key);
 
         void add(const T& key, const U& value, size_t size = 1);
         void remove(const T& key);

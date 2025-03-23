@@ -63,13 +63,12 @@ namespace dtk
                 ++_counter;
                 j->second = _counter;
             }
-            return true;
         }
         return i != _map.end();
     }
 
     template<typename T, typename U>
-    inline void LRUCache<T, U>::touch(const T& key)
+    inline bool LRUCache<T, U>::touch(const T& key)
     {
         auto i = _map.find(key);
         if (i != _map.end())
@@ -81,6 +80,7 @@ namespace dtk
                 j->second = _counter;
             }
         }
+        return i != _map.end();
     }
 
     template<typename T, typename U>
