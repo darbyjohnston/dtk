@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dtk/core/Image.h>
+#include <dtk/core/RenderOptions.h>
 
 #include <memory>
 #include <string>
@@ -21,6 +21,9 @@ namespace dtk
 
         //! Get the glReadPixels type.
         unsigned int getReadPixelsType(dtk::ImageType);
+
+        //! Set the alpha blending.
+        void setAlphaBlend(AlphaBlend);
 
         //! Set whether an OpenGL capability is enabled and restore it to the
         //! previous value when finished.

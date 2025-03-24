@@ -4,6 +4,8 @@
 
 #include <dtk/gl/RenderPrivate.h>
 
+#include <dtk/gl/Util.h>
+
 namespace dtk
 {
     namespace gl
@@ -199,38 +201,6 @@ namespace dtk
                 {
                     p.vaos["colorMesh"]->bind();
                     p.vaos["colorMesh"]->draw(GL_TRIANGLES, 0, size * 3);
-                }
-            }
-        }
-
-        namespace
-        {
-            void setAlphaBlend(AlphaBlend alphaBlend)
-            {
-                switch (alphaBlend)
-                {
-                case AlphaBlend::None:
-#if defined(dtk_API_GL_4_1)
-                    glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
-#elif defined(dtk_API_GLES_2)
-                    glBlendFunc(GL_ONE, GL_ZERO);
-#endif // dtk_API_GL_4_1
-                    break;
-                case AlphaBlend::Straight:
-#if defined(dtk_API_GL_4_1)
-                    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-#elif defined(dtk_API_GLES_2)
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-#endif // dtk_API_GL_4_1
-                    break;
-                case AlphaBlend::Premultiplied:
-#if defined(dtk_API_GL_4_1)
-                    glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-#elif defined(dtk_API_GLES_2)
-                    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-#endif // dtk_API_GL_4_1
-                    break;
-                default: break;
                 }
             }
         }
