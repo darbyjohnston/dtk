@@ -102,10 +102,14 @@ DTK_MAIN()
         subMenu->addItem(Action::create(
             "Action 15",
             [] { std::cout << "Action 15" << std::endl; }));
+        subMenu = menu->addSubMenu("Sub Menu 4");
         menu->addItem(Action::create(
             "Action 16",
             [] { std::cout << "Action 16" << std::endl; }));
         window->getMenuBar()->addMenu("Menu 3", menu);
+
+        menu = Menu::create(context);
+        window->getMenuBar()->addMenu("Menu 4", menu);
 
         // Create the layout.
         auto layout = VerticalLayout::create(context);
@@ -129,6 +133,7 @@ DTK_MAIN()
         comboBox->setTooltip("Playback");
         comboBox = ComboBox::create(context, getImageTypeLabels(), vLayout);
         comboBox->setTooltip("Image types");
+        comboBox = ComboBox::create(context, vLayout);
 
         // Create color swatches.
         groupBox = GroupBox::create(context, "Color Popups", layout);

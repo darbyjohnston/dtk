@@ -458,7 +458,7 @@ namespace dtk
         takeKeyFocus();
         if (auto context = getContext())
         {
-            if (!p.menu)
+            if (!p.menu && !p.items.empty())
             {
                 p.menu = ComboBoxMenu::create(context, p.items, p.currentIndex);
                 p.menu->open(getWindow(), getGeometry());
@@ -484,7 +484,7 @@ namespace dtk
                         }
                     });
             }
-            else
+            else if (p.menu)
             {
                 p.menu->close();
                 p.menu.reset();

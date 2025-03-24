@@ -163,7 +163,7 @@ namespace dtk
                             if (auto button = buttonWeak.lock())
                             {
                                 _setCurrent(button);
-                                if (!out->getItems().empty())
+                                if (!out->isEmpty())
                                 {
                                     out->open(getWindow(), button->getGeometry());
                                 }
@@ -184,7 +184,7 @@ namespace dtk
                         if (auto button = buttonWeak.lock())
                         {
                             _setCurrent(button);
-                            if (!out->getItems().empty())
+                            if (!out->isEmpty())
                             {
                                 out->open(getWindow(), button->getGeometry());
                             }
@@ -235,6 +235,11 @@ namespace dtk
         p.subMenus.clear();
         p.subMenuToButton.clear();
         p.buttonToSubMenu.clear();
+    }
+
+    bool Menu::isEmpty() const
+    {
+        return _p->items.empty();
     }
 
     bool Menu::shortcut(Key shortcut, int modifiers)
@@ -308,7 +313,7 @@ namespace dtk
                     if (i != p.buttonToSubMenu.end())
                     {
                         _setCurrent(button);
-                        if (!i->second->getItems().empty())
+                        if (!i->second->isEmpty())
                         {
                             i->second->open(getWindow(), button->getGeometry());
                         }

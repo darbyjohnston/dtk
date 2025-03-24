@@ -63,9 +63,17 @@ namespace dtk
             button->setHoveredCallback(
                 [this, index](bool value)
                 {
-                    if (value && _getOpenMenu())
+                    if (value)
                     {
-                        _setCurrent(index);
+                        if (_getOpenMenu())
+                        {
+                            _setCurrent(index);
+                        }
+                        else if (hasKeyFocus())
+                        {
+                            _setCurrent(index);
+                            _openMenu(index);
+                        }
                     }
                 });
             button->setPressedCallback(
@@ -271,7 +279,10 @@ namespace dtk
                 {
                     openMenu->close();
                 }
-                menu->open(getWindow(), p.buttons[value]->getGeometry());
+                if (!menu->isEmpty())
+                {
+                    menu->open(getWindow(), p.buttons[value]->getGeometry());
+                }
             }
         }
     }

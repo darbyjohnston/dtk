@@ -59,6 +59,9 @@ namespace dtk
         //! Clear the menu.
         void clear();
 
+        //! Get whether the menu is empty.
+        bool isEmpty() const;
+
         //! Handle keyboard shortcuts.
         bool shortcut(Key, int);
 
