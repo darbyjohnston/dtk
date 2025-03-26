@@ -14,11 +14,16 @@ namespace dtk
     {
         FileBrowserMode mode = FileBrowserMode::File;
         std::filesystem::path path;
+        FileBrowserOptions options;
+        std::vector<std::string> extensions;
+        std::string currentExtension;
+        std::shared_ptr<RecentFilesModel> recentFilesModel;
+
         std::shared_ptr<LineEdit> lineEdit;
         std::shared_ptr<ToolButton> browseButton;
         std::shared_ptr<HorizontalLayout> layout;
+
         std::function<void(const std::filesystem::path&)> callback;
-        std::shared_ptr<RecentFilesModel> recentFilesModel;
     };
 
     void FileEdit::_init(
@@ -115,6 +120,20 @@ namespace dtk
         _p->callback = value;
     }
 
+    void FileEdit::setOptions(const FileBrowserOptions& value)
+    {
+        _p->options = value;
+    }
+
+    void FileEdit::setExtensions(
+        const std::vector<std::string>& extensions,
+        const std::string& current)
+    {
+        DTK_P();
+        p.extensions = extensions;
+        p.currentExtension = current;
+    }
+
     void FileEdit::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
     {
         _p->recentFilesModel = value;
@@ -139,16 +158,19 @@ namespace dtk
         {
             if (auto fileBrowserSystem = context->getSystem<FileBrowserSystem>())
             {
+                fileBrowserSystem->setOptions(p.options);
+                fileBrowserSystem->setExtensions(p.extensions, p.currentExtension);
                 fileBrowserSystem->open(
                     getWindow(),
                     [this](const std::filesystem::path& value)
                     {
-                        _p->path = value;
-                        _p->lineEdit->setText(_p->path.u8string());
+                        DTK_P();
+                        p.path = value;
+                        p.lineEdit->setText(p.path.u8string());
                         _widgetUpdate();
-                        if (_p->callback)
+                        if (p.callback)
                         {
-                            _p->callback(_p->path);
+                            p.callback(p.path);
                         }
                     },
                     p.mode,

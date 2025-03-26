@@ -49,6 +49,14 @@ namespace dtk
         //! Set the callback.
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
+        //! Set the options.
+        void setOptions(const FileBrowserOptions&);
+
+        //! Set the extensions.
+        void setExtensions(
+            const std::vector<std::string>&,
+            const std::string& current = std::string());
+
         //! Set the recent files model.
         void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
