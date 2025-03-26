@@ -23,6 +23,8 @@ namespace dtk
         bool native = true;
         std::filesystem::path path;
         FileBrowserOptions options;
+        std::vector<std::string> extensions;
+        std::string currentExtension;
         std::shared_ptr<FileBrowser> fileBrowser;
         std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
     };
@@ -93,6 +95,7 @@ namespace dtk
                     p.fileBrowser = FileBrowser::create(context, p.path, mode);
                 }
                 p.fileBrowser->setOptions(p.options);
+                p.fileBrowser->setExtensions(p.extensions, p.currentExtension);
                 p.fileBrowser->setRecentFilesModel(recentFilesModel);
 
                 p.fileBrowser->open(window);
@@ -149,5 +152,14 @@ namespace dtk
     void FileBrowserSystem::setOptions(const FileBrowserOptions& options)
     {
         _p->options = options;
+    }
+
+    void FileBrowserSystem::setExtensions(
+        const std::vector<std::string>& extensions,
+        const std::string& current)
+    {
+        DTK_P();
+        p.extensions = extensions;
+        p.currentExtension = current;
     }
 }

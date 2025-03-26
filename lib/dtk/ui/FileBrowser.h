@@ -213,6 +213,11 @@ namespace dtk
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
 
+        //! Set the extensions.
+        void setExtensions(
+            const std::vector<std::string>&,
+            const std::string& current = std::string());
+
     private:
         DTK_PRIVATE();
     };
