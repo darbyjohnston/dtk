@@ -510,16 +510,11 @@ namespace dtk
                             CaseCompare::Insensitive);
                     }
                     const bool isDir = std::filesystem::is_directory(path);
-                    std::string extension;
-                    if (!isDir)
-                    {
-                        extension = path.extension().u8string();
-                    }
                     if (keep && !isDir && !extension.empty())
                     {
                         keep = compare(
                             extension,
-                            extension,
+                            path.extension().u8string(),
                             CaseCompare::Insensitive);
                     }
                     if (keep && FileBrowserMode::Dir == mode && !isDir)

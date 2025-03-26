@@ -145,8 +145,6 @@ void DialogsWindow::_init(
     // File browsers.
     FileBrowserOptions fileBrowserOptions;
     _settings->getT("/FileBrowser/Options", fileBrowserOptions);
-    auto fileBrowserSystem = context->getSystem<FileBrowserSystem>();
-    fileBrowserSystem->setOptions(fileBrowserOptions);
     _recentFilesModel = RecentFilesModel::create(context);
     size_t recentFilesMax = 10;
     _settings->get("/FileBrowser/RecentFilesMax", recentFilesMax);
@@ -168,8 +166,11 @@ void DialogsWindow::_init(
     auto fileEdit = FileEdit::create(context, layout);
     fileEdit->setRecentFilesModel(_recentFilesModel);
     fileEdit->setPath("File Browser");
+    fileEdit->setOptions(fileBrowserOptions);
+    fileEdit->setExtensions({ ".h", ".cpp" });
     auto dirEdit = FileEdit::create(context, FileBrowserMode::Dir, layout);
     dirEdit->setPath("Directory Browser");
+    dirEdit->setOptions(fileBrowserOptions);
 }
 
 DialogsWindow::~DialogsWindow()
