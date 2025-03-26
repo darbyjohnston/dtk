@@ -93,16 +93,20 @@ namespace dtk
         //! Get the options.
         const FileBrowserOptions& getOptions() const;
 
-        //! Observe the options.
-        std::shared_ptr<IObservableValue<FileBrowserOptions> > observeOptions() const;
-
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
 
+        //! Get the extensions.
+        const std::vector<std::string>& getExtensions() const;
+
         //! Set the extensions.
-        void setExtensions(
-            const std::vector<std::string>&,
-            const std::string& current = std::string());
+        void setExtensions(const std::vector<std::string>&);
+
+        //! Get the current extension.
+        const std::string& getExtension() const;
+
+        //! Set the current extension.
+        void setExtension(const std::string&);
 
         //! Get the recent files model.
         const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
@@ -154,16 +158,20 @@ namespace dtk
         //! Get the options.
         const FileBrowserOptions& getOptions() const;
 
-        //! Observe the options.
-        std::shared_ptr<IObservableValue<FileBrowserOptions> > observeOptions() const;
-
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
 
+        //! Get the extensions.
+        const std::vector<std::string>& getExtensions() const;
+
         //! Set the extensions.
-        void setExtensions(
-            const std::vector<std::string>&,
-            const std::string& current = std::string());
+        void setExtensions(const std::vector<std::string>&);
+
+        //! Get the current extension.
+        const std::string& getExtension() const;
+
+        //! Set the current extension.
+        void setExtension(const std::string&);
 
         //! Get the recent files model.
         const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
@@ -192,8 +200,7 @@ namespace dtk
         void open(
             const std::shared_ptr<IWindow>&,
             const std::function<void(const std::filesystem::path&)>&,
-            FileBrowserMode = FileBrowserMode::File,
-            const std::shared_ptr<RecentFilesModel>& = nullptr);
+            FileBrowserMode = FileBrowserMode::File);
 
         //! Get whether the native file dialog is used.
         bool isNativeFileDialog() const;
@@ -213,10 +220,23 @@ namespace dtk
         //! Set the options.
         void setOptions(const FileBrowserOptions&);
 
+        //! Get the extensions.
+        const std::vector<std::string>& getExtensions() const;
+
         //! Set the extensions.
-        void setExtensions(
-            const std::vector<std::string>&,
-            const std::string& current = std::string());
+        void setExtensions(const std::vector<std::string>&);
+
+        //! Get the current extension.
+        const std::string& getExtension() const;
+
+        //! Set the current extension.
+        void setExtension(const std::string&);
+
+        //! Get the recent files model.
+        const std::shared_ptr<RecentFilesModel>& getRecentFilesModel() const;
+
+        //! Set the recent files model.
+        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
 
     private:
         DTK_PRIVATE();

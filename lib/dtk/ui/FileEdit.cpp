@@ -14,10 +14,6 @@ namespace dtk
     {
         FileBrowserMode mode = FileBrowserMode::File;
         std::filesystem::path path;
-        FileBrowserOptions options;
-        std::vector<std::string> extensions;
-        std::string currentExtension;
-        std::shared_ptr<RecentFilesModel> recentFilesModel;
 
         std::shared_ptr<LineEdit> lineEdit;
         std::shared_ptr<ToolButton> browseButton;
@@ -120,25 +116,6 @@ namespace dtk
         _p->callback = value;
     }
 
-    void FileEdit::setOptions(const FileBrowserOptions& value)
-    {
-        _p->options = value;
-    }
-
-    void FileEdit::setExtensions(
-        const std::vector<std::string>& extensions,
-        const std::string& current)
-    {
-        DTK_P();
-        p.extensions = extensions;
-        p.currentExtension = current;
-    }
-
-    void FileEdit::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
-    {
-        _p->recentFilesModel = value;
-    }
-
     void FileEdit::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
@@ -158,8 +135,6 @@ namespace dtk
         {
             if (auto fileBrowserSystem = context->getSystem<FileBrowserSystem>())
             {
-                fileBrowserSystem->setOptions(p.options);
-                fileBrowserSystem->setExtensions(p.extensions, p.currentExtension);
                 fileBrowserSystem->open(
                     getWindow(),
                     [this](const std::filesystem::path& value)
@@ -173,8 +148,7 @@ namespace dtk
                             p.callback(p.path);
                         }
                     },
-                    p.mode,
-                    p.recentFilesModel);
+                    p.mode);
             }
         }
     }

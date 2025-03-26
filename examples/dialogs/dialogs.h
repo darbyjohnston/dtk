@@ -7,7 +7,6 @@
 #include <dtk/ui/App.h>
 #include <dtk/ui/ProgressDialog.h>
 #include <dtk/ui/MainWindow.h>
-#include <dtk/ui/RecentFilesModel.h>
 #include <dtk/ui/Settings.h>
 
 #include <dtk/core/Timer.h>
@@ -38,5 +37,4 @@ private:
     std::shared_ptr<Settings> _settings;
     std::shared_ptr<Timer> _progressTimer;
     std::shared_ptr<ProgressDialog> _progressDialog;
-    std::shared_ptr<RecentFilesModel> _recentFilesModel;
 };

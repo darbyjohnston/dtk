@@ -10,6 +10,7 @@
 #include <dtk/ui/FileEdit.h>
 #include <dtk/ui/MenuBar.h>
 #include <dtk/ui/PushButton.h>
+#include <dtk/ui/RecentFilesModel.h>
 #include <dtk/ui/RowLayout.h>
 
 #include <dtk/core/Format.h>
@@ -145,7 +146,14 @@ void DialogsWindow::_init(
     // File browsers.
     FileBrowserOptions fileBrowserOptions;
     _settings->getT("/FileBrowser/Options", fileBrowserOptions);
-    _recentFilesModel = RecentFilesModel::create(context);
+    auto fileBrowserSystem = context->getSystem<FileBrowserSystem>();
+    fileBrowserSystem->setOptions(fileBrowserOptions);
+    fileBrowserSystem->setExtensions({ ".h", ".cpp" });
+    std::string extension;
+    _settings->get("/FileBrowser/Extension", extension);
+    fileBrowserSystem->setExtension(extension);
+
+    auto recentFilesModel = RecentFilesModel::create(context);
     size_t recentFilesMax = 10;
     _settings->get("/FileBrowser/RecentFilesMax", recentFilesMax);
     std::vector<std::filesystem::path> recentFiles;
@@ -161,26 +169,26 @@ void DialogsWindow::_init(
             }
         }
     }
-    _recentFilesModel->setRecentMax(recentFilesMax);
-    _recentFilesModel->setRecent(recentFiles);
+    recentFilesModel->setRecentMax(recentFilesMax);
+    recentFilesModel->setRecent(recentFiles);
+    fileBrowserSystem->setRecentFilesModel(recentFilesModel);
+
     auto fileEdit = FileEdit::create(context, layout);
-    fileEdit->setRecentFilesModel(_recentFilesModel);
     fileEdit->setPath("File Browser");
-    fileEdit->setOptions(fileBrowserOptions);
-    fileEdit->setExtensions({ ".h", ".cpp" });
     auto dirEdit = FileEdit::create(context, FileBrowserMode::Dir, layout);
     dirEdit->setPath("Directory Browser");
-    dirEdit->setOptions(fileBrowserOptions);
 }
 
 DialogsWindow::~DialogsWindow()
 {
     auto fileBrowserSystem = getContext()->getSystem<FileBrowserSystem>();
     _settings->setT("/FileBrowser/Options", fileBrowserSystem->getOptions());
+    _settings->set("/FileBrowser/Extension", fileBrowserSystem->getExtension());
 
-    _settings->set("/FileBrowser/RecentFilesMax", static_cast<int>(_recentFilesModel->getRecentMax()));
+    auto recentFilesModel = fileBrowserSystem->getRecentFilesModel();
+    _settings->set("/FileBrowser/RecentFilesMax", static_cast<int>(recentFilesModel->getRecentMax()));
     nlohmann::json json;
-    for (const auto& path : _recentFilesModel->getRecent())
+    for (const auto& path : recentFilesModel->getRecent())
     {
         json.push_back(path.u8string());
     }

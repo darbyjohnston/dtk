@@ -100,21 +100,29 @@ namespace dtk
         return _p->widget->getOptions();
     }
 
-    std::shared_ptr<IObservableValue<FileBrowserOptions> > FileBrowser::observeOptions() const
-    {
-        return _p->widget->observeOptions();
-    }
-
     void FileBrowser::setOptions(const FileBrowserOptions& value)
     {
         _p->widget->setOptions(value);
     }
 
-    void FileBrowser::setExtensions(
-        const std::vector<std::string>& value,
-        const std::string& current)
+    const std::vector<std::string>& FileBrowser::getExtensions() const
     {
-        _p->widget->setExtensions(value, current);
+        return _p->widget->getExtensions();
+    }
+
+    void FileBrowser::setExtensions(const std::vector<std::string>& value)
+    {
+        _p->widget->setExtensions(value);
+    }
+
+    const std::string& FileBrowser::getExtension() const
+    {
+        return _p->widget->getExtension();
+    }
+
+    void FileBrowser::setExtension(const std::string& value)
+    {
+        _p->widget->setExtension(value);
     }
 
     const std::shared_ptr<RecentFilesModel>& FileBrowser::getRecentFilesModel() const

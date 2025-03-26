@@ -28,7 +28,7 @@ namespace dtk
         FileBrowserMode mode = FileBrowserMode::File;
         std::vector<std::filesystem::path> paths;
         int currentPath = -1;
-        std::shared_ptr<ObservableValue<FileBrowserOptions> > options;
+        FileBrowserOptions options;
         std::vector<std::string> extensions;
         std::string extension;
         std::shared_ptr<RecentFilesModel> recentFilesModel;
@@ -77,7 +77,6 @@ namespace dtk
         p.mode = mode;
         p.paths.push_back(path);
         p.currentPath = 0;
-        p.options = ObservableValue<FileBrowserOptions>::create();
 
         p.titleLabel = Label::create(context, "File Browser");
         p.titleLabel->setMarginRole(SizeRole::MarginSmall);
@@ -127,6 +126,7 @@ namespace dtk
 
         p.extensionsComboBox = ComboBox::create(context);
         p.extensionsComboBox->setTooltip("Filter by extension");
+        p.extensionsComboBox->setVisible(FileBrowserMode::File == mode);
 
         p.sortComboBox = ComboBox::create(context, getFileBrowserSortLabels());
         p.sortComboBox->setTooltip("Sorting");
@@ -181,13 +181,8 @@ namespace dtk
         p.leftPanelButton->setCheckedCallback(
             [this](bool value)
             {
-                DTK_P();
-                FileBrowserOptions options = p.options->get();
-                options.leftPanel = value;
-                if (p.options->setIfChanged(options))
-                {
-                    _optionsUpdate();
-                }
+                _p->options.leftPanel = value;
+                _optionsUpdate();
             });
 
         p.upButton->setClickedCallback(
@@ -239,13 +234,8 @@ namespace dtk
         p.pathWidget->setEditCallback(
             [this](bool value)
             {
-                DTK_P();
-                FileBrowserOptions options = p.options->get();
-                options.pathEdit = value;
-                if (p.options->setIfChanged(options))
-                {
-                    _optionsUpdate();
-                }
+                _p->options.pathEdit = value;
+                _optionsUpdate();
             });
 
         p.shortcutsWidget->setCallback(
@@ -257,12 +247,8 @@ namespace dtk
             [this](const std::map<std::string, bool>& value)
             {
                 DTK_P();
-                FileBrowserOptions options = p.options->get();
-                options.bellows = value;
-                if (p.options->setIfChanged(options))
-                {
-                    _optionsUpdate();
-                }
+                _p->options.bellows = value;
+                _optionsUpdate();
             });
 
         p.view->setCallback(
@@ -315,25 +301,15 @@ namespace dtk
         p.sortComboBox->setIndexCallback(
             [this](int value)
             {
-                DTK_P();
-                FileBrowserOptions options = p.options->get();
-                options.sort = static_cast<FileBrowserSort>(value);
-                if (p.options->setIfChanged(options))
-                {
-                    _optionsUpdate();
-                }
+                _p->options.sort = static_cast<FileBrowserSort>(value);
+                _optionsUpdate();
             });
 
         p.reverseSortButton->setCheckedCallback(
             [this](bool value)
             {
-                DTK_P();
-                FileBrowserOptions options = p.options->get();
-                options.reverseSort = value;
-                if (p.options->setIfChanged(options))
-                {
-                    _optionsUpdate();
-                }
+                _p->options.reverseSort = value;
+                _optionsUpdate();
             });
 
         p.okButton->setClickedCallback(
@@ -434,32 +410,43 @@ namespace dtk
 
     const FileBrowserOptions& FileBrowserWidget::getOptions() const
     {
-        return _p->options->get();
-    }
-
-    std::shared_ptr<IObservableValue<FileBrowserOptions> > FileBrowserWidget::observeOptions() const
-    {
         return _p->options;
     }
 
     void FileBrowserWidget::setOptions(const FileBrowserOptions& value)
     {
         DTK_P();
-        if (p.options->setIfChanged(value))
-        {
-            _optionsUpdate();
-        }
+        if (value == p.options)
+            return;
+        p.options = value;
+        _optionsUpdate();
     }
 
-    void FileBrowserWidget::setExtensions(
-        const std::vector<std::string>& extensions,
-        const std::string& extension)
+    const std::vector<std::string>& FileBrowserWidget::getExtensions() const
+    {
+        return _p->extensions;
+    }
+
+    void FileBrowserWidget::setExtensions(const std::vector<std::string>& value)
     {
         DTK_P();
-        if (extensions == p.extensions && extension == p.extension)
+        if (value == p.extensions)
             return;
-        p.extensions = extensions;
-        p.extension = extension;
+        p.extensions = value;
+        _extensionsUpdate();
+    }
+
+    const std::string& FileBrowserWidget::getExtension() const
+    {
+        return _p->extension;
+    }
+
+    void FileBrowserWidget::setExtension(const std::string& value)
+    {
+        DTK_P();
+        if (value == p.extension)
+            return;
+        p.extension = value;
         _extensionsUpdate();
     }
 
@@ -517,19 +504,17 @@ namespace dtk
     void FileBrowserWidget::_optionsUpdate()
     {
         DTK_P();
-        const FileBrowserOptions options = p.options->get();
+        p.leftPanelButton->setChecked(p.options.leftPanel);
+        p.shortcutsScrollWidget->setVisible(p.options.leftPanel);
 
-        p.leftPanelButton->setChecked(options.leftPanel);
-        p.shortcutsScrollWidget->setVisible(options.leftPanel);
+        p.pathWidget->setEdit(p.options.pathEdit);
 
-        p.pathWidget->setEdit(options.pathEdit);
+        p.shortcutsWidget->setBellows(p.options.bellows);
 
-        p.shortcutsWidget->setBellows(options.bellows);
+        p.view->setOptions(p.options);
 
-        p.view->setOptions(options);
-
-        p.sortComboBox->setCurrentIndex(static_cast<int>(options.sort));
-        p.reverseSortButton->setChecked(options.reverseSort);
+        p.sortComboBox->setCurrentIndex(static_cast<int>(p.options.sort));
+        p.reverseSortButton->setChecked(p.options.reverseSort);
     }
 
     void FileBrowserWidget::_extensionsUpdate()

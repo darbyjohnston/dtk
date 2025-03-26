@@ -24,9 +24,10 @@ namespace dtk
         std::filesystem::path path;
         FileBrowserOptions options;
         std::vector<std::string> extensions;
-        std::string currentExtension;
+        std::string extension;
+        std::shared_ptr<RecentFilesModel> recentFilesModel;
+
         std::shared_ptr<FileBrowser> fileBrowser;
-        std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
     };
 
     FileBrowserSystem::FileBrowserSystem(const std::shared_ptr<Context>& context) :
@@ -36,6 +37,7 @@ namespace dtk
         DTK_P();
 
         p.path = std::filesystem::current_path();
+        p.recentFilesModel = RecentFilesModel::create(context);
 
 #if defined(dtk_NFD)
         NFD::Init();
@@ -59,8 +61,7 @@ namespace dtk
     void FileBrowserSystem::open(
         const std::shared_ptr<IWindow>& window,
         const std::function<void(const std::filesystem::path&)>& callback,
-        FileBrowserMode mode,
-        const std::shared_ptr<RecentFilesModel>& recentFilesModel)
+        FileBrowserMode mode)
     {
         DTK_P();
         bool native = p.native;
@@ -95,8 +96,9 @@ namespace dtk
                     p.fileBrowser = FileBrowser::create(context, p.path, mode);
                 }
                 p.fileBrowser->setOptions(p.options);
-                p.fileBrowser->setExtensions(p.extensions, p.currentExtension);
-                p.fileBrowser->setRecentFilesModel(recentFilesModel);
+                p.fileBrowser->setExtensions(p.extensions);
+                p.fileBrowser->setExtension(p.extension);
+                p.fileBrowser->setRecentFilesModel(p.recentFilesModel);
 
                 p.fileBrowser->open(window);
 
@@ -109,16 +111,11 @@ namespace dtk
                 p.fileBrowser->setCloseCallback(
                     [this]
                     {
-                        _p->path = _p->fileBrowser->getPath();
-                        _p->options = _p->fileBrowser->getOptions();
-                        _p->fileBrowser.reset();
-                    });
-
-                p.optionsObserver = ValueObserver<FileBrowserOptions>::create(
-                    p.fileBrowser->observeOptions(),
-                    [this](const FileBrowserOptions& value)
-                    {
-                        _p->options = value;
+                        DTK_P();
+                        p.path = p.fileBrowser->getPath();
+                        p.options = p.fileBrowser->getOptions();
+                        p.extension = p.fileBrowser->getExtension();
+                        p.fileBrowser.reset();
                     });
             }
         }
@@ -154,12 +151,33 @@ namespace dtk
         _p->options = options;
     }
 
-    void FileBrowserSystem::setExtensions(
-        const std::vector<std::string>& extensions,
-        const std::string& current)
+    const std::vector<std::string>& FileBrowserSystem::getExtensions() const
     {
-        DTK_P();
-        p.extensions = extensions;
-        p.currentExtension = current;
+        return _p->extensions;
+    }
+
+    void FileBrowserSystem::setExtensions(const std::vector<std::string>& value)
+    {
+        _p->extensions = value;
+    }
+
+    const std::string& FileBrowserSystem::getExtension() const
+    {
+        return _p->extension;
+    }
+
+    void FileBrowserSystem::setExtension(const std::string& value)
+    {
+        _p->extension = value;
+    }
+
+    const std::shared_ptr<RecentFilesModel>& FileBrowserSystem::getRecentFilesModel() const
+    {
+        return _p->recentFilesModel;
+    }
+
+    void FileBrowserSystem::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
+    {
+        _p->recentFilesModel = value;
     }
 }

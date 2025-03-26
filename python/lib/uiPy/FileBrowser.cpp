@@ -25,8 +25,7 @@ namespace dtk
             .def("open", &FileBrowserSystem::open,
                 py::arg("window"),
                 py::arg("callback"),
-                py::arg("mode"),
-                py::arg("recentFilesModel") = nullptr)
+                py::arg("mode"))
             .def_property(
                 "nativeFileDialog",
                 &FileBrowserSystem::isNativeFileDialog,
@@ -43,6 +42,18 @@ namespace dtk
             .def_property(
                 "options",
                 &FileBrowserSystem::getOptions,
-                &FileBrowserSystem::setOptions);
+                &FileBrowserSystem::setOptions)
+            .def_property(
+                "extensions",
+                &FileBrowserSystem::getExtensions,
+                &FileBrowserSystem::setExtensions)
+            .def_property(
+                "extension",
+                &FileBrowserSystem::getExtension,
+                &FileBrowserSystem::setExtension)
+            .def_property(
+                "recentFilesModel",
+                &FileBrowserSystem::getRecentFilesModel,
+                &FileBrowserSystem::setRecentFilesModel);
     }
 }

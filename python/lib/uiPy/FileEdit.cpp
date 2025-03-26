@@ -41,7 +41,6 @@ namespace dtk
                 {
                     w->setPath(s);
                 })
-            .def("setCallback", &FileEdit::setCallback)
-            .def("setRecentFilesModel", &FileEdit::setRecentFilesModel);
+            .def("setCallback", &FileEdit::setCallback);
     }
 }
