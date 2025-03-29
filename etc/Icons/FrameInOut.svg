@@ -7,7 +7,7 @@
    viewBox="0 0 5.2916665 5.2916666"
    version="1.1"
    id="svg8"
-   inkscape:version="1.4-rc1 (61ec3f2, 2024-09-26)"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
    sodipodi:docname="FrameInOut.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -79,12 +79,6 @@
          height="2.6458209"
          x="0.26458341"
          y="293.03122" />
-      <path
-         sodipodi:nodetypes="cccc"
-         inkscape:connector-curvature="0"
-         id="path4520-8"
-         d="m 2.3812499,295.67706 -1.8898721,-1.32292 1.8898721,-1.32291 z"
-         style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.172521px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <rect
          style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.632471;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect831-4-8"
@@ -94,11 +88,23 @@
          y="293.03122"
          transform="scale(-1,1)" />
       <path
-         sodipodi:nodetypes="cccc"
-         inkscape:connector-curvature="0"
-         id="path4520-8-2"
-         d="m 2.9104165,295.67706 1.8898721,-1.32292 -1.8898721,-1.32291 z"
-         style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.172521px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         d="m 3.1351955,295.51971 1.4978901,-1.04853 a 0.1428554,0.1428554 0 0 0 0,-0.23405 l -1.4978925,-1.04854 a 0.1428554,0.1428554 0 0 0 -0.2247766,0.11704 v 2.09704 a 0.1428554,0.1428554 0 0 0 0.224779,0.11704"
+         stroke="#000000"
+         stroke-width="0.000693576"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         fill="none"
+         id="path1"
+         style="fill:#f0f0f0;fill-opacity:1;stroke:none" />
+      <path
+         d="m 2.1564709,295.5197 -1.4978901,-1.04853 a 0.1428554,0.1428554 0 0 1 0,-0.23405 l 1.4978925,-1.04854 a 0.1428554,0.1428554 0 0 1 0.2247766,0.11704 v 2.09704 a 0.1428554,0.1428554 0 0 1 -0.224779,0.11704"
+         stroke="#000000"
+         stroke-width="0.000693576"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         fill="none"
+         id="path2"
+         style="fill:#f0f0f0;fill-opacity:1;stroke:none" />
     </g>
   </g>
 </svg>

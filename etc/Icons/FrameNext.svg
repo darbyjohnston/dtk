@@ -7,7 +7,7 @@
    viewBox="0 0 5.2916665 5.2916666"
    version="1.1"
    id="svg8"
-   inkscape:version="1.2-rc (6364d40632, 2022-05-08)"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
    sodipodi:docname="FrameNext.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -43,7 +43,12 @@
     <inkscape:grid
        type="xygrid"
        id="grid4526"
-       empspacing="10" />
+       empspacing="10"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -75,11 +80,14 @@
          y="292.50208"
          transform="scale(-1,1)" />
       <path
-         sodipodi:nodetypes="cccc"
-         inkscape:connector-curvature="0"
-         id="path4520"
-         d="m 1.8520833,296.20623 2.6458333,-1.85209 -2.6458333,-1.85208 z"
-         style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.24153px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         d="m 2.1667769,295.98595 2.0970669,-1.46796 a 0.19999953,0.19999953 0 0 0 0,-0.32768 l -2.0970702,-1.46796 a 0.19999953,0.19999953 0 0 0 -0.3146903,0.16385 v 2.9359 a 0.19999953,0.19999953 0 0 0 0.3146936,0.16385"
+         stroke="#000000"
+         stroke-width="0.000971017"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         fill="none"
+         id="path1"
+         style="fill:#f0f0f0;fill-opacity:1;stroke:none" />
     </g>
   </g>
 </svg>

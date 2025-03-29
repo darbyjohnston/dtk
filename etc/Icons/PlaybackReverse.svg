@@ -7,7 +7,7 @@
    viewBox="0 0 5.2916665 5.2916666"
    version="1.1"
    id="svg8"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
    sodipodi:docname="PlaybackReverse.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -37,11 +37,18 @@
      inkscape:window-x="24"
      inkscape:window-y="30"
      inkscape:window-maximized="0"
-     inkscape:pagecheckerboard="0">
+     inkscape:pagecheckerboard="0"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
        id="grid4526"
-       empspacing="10" />
+       empspacing="10"
+       originx="0"
+       originy="0"
+       spacingy="0.26458332"
+       spacingx="0.26458332"
+       units="px" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -60,10 +67,13 @@
      id="layer1"
      transform="translate(0,-291.70831)">
     <path
-       sodipodi:nodetypes="cccc"
-       inkscape:connector-curvature="0"
-       id="path4520"
-       d="m 3.9687499,296.20623 -2.6458333,-1.85209 2.6458333,-1.85208 z"
-       style="fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.24153px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       d="m 3.6540562,295.98594 -2.0970669,-1.46796 a 0.19999953,0.19999953 0 0 1 0,-0.32768 l 2.0970702,-1.46796 a 0.19999953,0.19999953 0 0 1 0.3146903,0.16385 v 2.9359 a 0.19999953,0.19999953 0 0 1 -0.3146936,0.16385"
+       stroke="#000000"
+       stroke-width="0.000971017"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       fill="none"
+       id="path1"
+       style="fill:#f0f0f0;fill-opacity:1;stroke:none" />
   </g>
 </svg>
