@@ -46,8 +46,8 @@
        empspacing="10"
        originx="0"
        originy="0"
-       spacingy="1"
-       spacingx="1"
+       spacingy="0.26458332"
+       spacingx="0.26458332"
        units="px" />
   </sodipodi:namedview>
   <metadata
@@ -72,12 +72,12 @@
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <rect
-         style="opacity:1;fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.748352;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="opacity:1;fill:#f0f0f0;fill-opacity:1;stroke:none;stroke-width:0.69284;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect831"
          width="0.26458341"
-         height="3.7041667"
+         height="3.1750045"
          x="1.3229166"
-         y="292.50208" />
+         y="292.76663" />
       <path
          d="m 3.9186397,295.98595 -2.0970669,-1.46796 a 0.19999953,0.19999953 0 0 1 0,-0.32768 l 2.0970702,-1.46796 a 0.19999953,0.19999953 0 0 1 0.3146903,0.16385 v 2.9359 a 0.19999953,0.19999953 0 0 1 -0.3146936,0.16385"
          stroke="#000000"
