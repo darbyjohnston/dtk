@@ -176,6 +176,11 @@ namespace dtk
                     arg(e.what()));
             }
         }
+        if (!p.argv.empty())
+        {
+            _printCmdLineHelp();
+            return 1;
+        }
         return 0;
     }
 
