@@ -155,7 +155,6 @@ namespace dtk
             }
         }
         if (p.argv.size() < requiredArgs ||
-            p.argv.size() > requiredArgs + optionalArgs ||
             p.options.help)
         {
             _printCmdLineHelp();
