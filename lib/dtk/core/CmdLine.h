@@ -149,6 +149,32 @@ namespace dtk
         T& _value;
     };
 
+    //! Command line list argument. This argument should come last since it
+    //! will take all of the remaining arguments.
+    template<typename T>
+    class CmdLineListArg : public ICmdLineArg
+    {
+    protected:
+        CmdLineListArg(
+            std::vector<T>& list,
+            const std::string& name,
+            const std::string& help,
+            bool optional);
+
+    public:
+        //! Create a new command line argument.
+        static std::shared_ptr<CmdLineListArg<T> > create(
+            std::vector<T>& list,
+            const std::string& name,
+            const std::string& help,
+            bool optional = false);
+
+        void parse(std::vector<std::string>& args) override;
+
+    private:
+        std::vector<T>& _list;
+    };
+
     bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, std::string&);
     bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, bool&);
     bool cmdLineParse(std::vector<std::string>&, std::vector<std::string>::iterator&, int&);

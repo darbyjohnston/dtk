@@ -174,6 +174,41 @@ namespace dtk
     }
 
     template<typename T>
+    inline CmdLineListArg<T>::CmdLineListArg(
+        std::vector<T>& list,
+        const std::string& name,
+        const std::string& help,
+        bool optional) :
+        ICmdLineArg(name, help, optional),
+        _list(list)
+    { }
+
+    template<typename T>
+    inline std::shared_ptr<CmdLineListArg<T> > CmdLineListArg<T>::create(
+        std::vector<T>& list,
+        const std::string& name,
+        const std::string& help,
+        bool optional)
+    {
+        return std::shared_ptr<CmdLineListArg<T> >(new CmdLineListArg<T>(list, name, help, optional));
+    }
+
+    template<typename T>
+    inline void CmdLineListArg<T>::parse(std::vector<std::string>& args)
+    {
+        auto i = args.begin();
+        while (i != args.end())
+        {
+            T value;
+            if (!cmdLineParse(args, i, value))
+            {
+                throw ParseError();
+            }
+            _list.push_back(value);
+        }
+    }
+
+    template<typename T>
     inline bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, T& value)
     {
         bool out = false;

@@ -32,13 +32,19 @@ namespace dtk
             int intOption = 0;
             int intArg = 0;
             std::string stringArg;
+            std::vector<std::string> listArg;
 
-            std::vector<std::string> argv = {
+            std::vector<std::string> argv =
+            {
                 "-flag",
                 "-boolOption", "1",
                 "-intOption", "10",
                 "100",
-                "string" };
+                "string",
+                "list0",
+                "list1",
+                "list2"
+            };
 
             auto flagCmdLineOption = CmdLineFlagOption::create(
                 flag,
@@ -87,6 +93,19 @@ namespace dtk
             _print(stringCmdLineArg->getHelp());
             stringCmdLineArg->parse(argv);
             DTK_ASSERT("string" == stringArg);
+
+            auto listCmdLineArg = CmdLineListArg<std::string>::create(
+                listArg,
+                "list",
+                "This is a list argument");
+            DTK_ASSERT(!listCmdLineArg->getName().empty());
+            DTK_ASSERT(!listCmdLineArg->isOptional());
+            _print(listCmdLineArg->getHelp());
+            listCmdLineArg->parse(argv);
+            DTK_ASSERT(3 == listArg.size());
+            DTK_ASSERT("list0" == listArg[0]);
+            DTK_ASSERT("list1" == listArg[1]);
+            DTK_ASSERT("list2" == listArg[2]);
 
             try
             {
