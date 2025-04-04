@@ -5,6 +5,7 @@
 #include <dtk/core/FontSystem.h>
 
 #include <dtk/core/Context.h>
+#include <dtk/core/Format.h>
 #include <dtk/core/LRUCache.h>
 #include <dtk/core/LogSystem.h>
 
@@ -87,7 +88,7 @@ namespace dtk
                     &p.ftFaces[i.first]);
                 if (ftError)
                 {
-                    throw std::runtime_error("Cannot create font");
+                    throw std::runtime_error(Format("Cannot create font: \"{0}\"").arg(i.first));
                 }
             }
         }
@@ -132,7 +133,7 @@ namespace dtk
             &p.ftFaces[name]);
         if (ftError)
         {
-            throw std::runtime_error("Cannot create font");
+            throw std::runtime_error(Format("Cannot create font: \"{0}\"").arg(name));
         }
     }
 
@@ -235,21 +236,24 @@ namespace dtk
                     static_cast<int>(fontInfo.size));
                 if (ftError)
                 {
-                    throw std::runtime_error("Cannot set pixel sizes");
+                    throw std::runtime_error(
+                        Format("Cannot set pixel sizes: \"{0}\"").arg(fontInfo.family));
                 }
                 if (auto ftGlyphIndex = FT_Get_Char_Index(ftFaceIt->second, code))
                 {
                     ftError = FT_Load_Glyph(ftFaceIt->second, ftGlyphIndex, FT_LOAD_FORCE_AUTOHINT);
                     if (ftError)
                     {
-                        throw std::runtime_error("Cannot load glyph");
+                        throw std::runtime_error(
+                            Format("Cannot load glyph: \"{0}\"").arg(fontInfo.family));
                     }
                     FT_Render_Mode renderMode = FT_RENDER_MODE_NORMAL;
                     uint8_t renderModeChannels = 1;
                     ftError = FT_Render_Glyph(ftFaceIt->second->glyph, renderMode);
                     if (ftError)
                     {
-                        throw std::runtime_error("Cannot render glyph");
+                        throw std::runtime_error(
+                            Format("Cannot render glyph: \"{0}\"").arg(fontInfo.family));
                     }
 
                     auto ftBitmap = ftFaceIt->second->glyph->bitmap;
@@ -329,7 +333,8 @@ namespace dtk
                 static_cast<int>(fontInfo.size));
             if (ftError)
             {
-                throw std::runtime_error("Cannot set pixel sizes");
+                throw std::runtime_error(
+                    Format("Cannot set pixel sizes: \"{0}\"").arg(fontInfo.family));
             }
 
             const int h = ftFaceIt->second->size->metrics.height / 64;
