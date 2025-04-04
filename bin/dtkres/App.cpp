@@ -4,11 +4,10 @@
 
 #include "App.h"
 
-#include <dtk/core/CmdLine.h>
-
-#include <dtk/core/FileIO.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/String.h>
+#include <iostream>
+#include <sstream>
+#include <filesystem>
+#include <vector>
 
 void App::_init(int argc, char** argv)
 {
