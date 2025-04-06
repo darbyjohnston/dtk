@@ -65,14 +65,9 @@ namespace dtk
                 {
                     if (value)
                     {
-                        if (_getOpenMenu())
+                        if (_getOpenMenu() || hasKeyFocus())
                         {
                             _setCurrent(index);
-                        }
-                        else if (hasKeyFocus())
-                        {
-                            _setCurrent(index);
-                            _openMenu(index);
                         }
                     }
                 });
