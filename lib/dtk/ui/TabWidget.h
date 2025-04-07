@@ -53,8 +53,17 @@ namespace dtk
         //! Set the current tab.
         void setCurrentTab(int);
 
-        //! Set the callback.
-        void setCallback(const std::function<void(int)>&);
+        //! Set the current tab callback.
+        void setTabCallback(const std::function<void(int)>&);
+
+        //! Get the current widget.
+        std::shared_ptr<IWidget> getCurrentWidget() const;
+
+        //! Set the current widget.
+        void setCurrentWidget(const std::shared_ptr<IWidget>&);
+
+        //! Set the current widget callback.
+        void setWidgetCallback(const std::function<void(const std::shared_ptr<IWidget>&)>&);
 
         //! Get whether the tabs are closable.
         bool areTabsClosable() const;

@@ -11,9 +11,19 @@ namespace dtk
     //! \name Color Widgets
     ///@{
 
+    enum class ColorWidgetMode
+    {
+        RGB,
+        HSV,
+        Swatches,
+
+        Count,
+        First = RGB
+    };
+    DTK_ENUM(ColorWidgetMode);
+
     //! Color widget.
     //!
-    //! \todo Additional color modes like grayscale, hsv, etc.
     //! \todo Add a palette for saving colors.
     //! \todo Add support for displaying pixel types like U8, U16, etc.?
     class ColorWidget : public IWidget
@@ -42,10 +52,17 @@ namespace dtk
         //! Set the color callback.
         void setCallback(const std::function<void(const Color4F&)>&);
 
+        //! Get the widget mode.
+        ColorWidgetMode getMode() const;
+
+        //! Set the widget mode.
+        void setMode(ColorWidgetMode);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
 
     private:
+        void _modeUpdate();
         void _colorUpdate();
 
         DTK_PRIVATE();

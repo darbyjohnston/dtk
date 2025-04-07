@@ -15,7 +15,8 @@ namespace dtk
     {
         Color4F color;
         bool editable = false;
-        std::function<void(const Color4F&)> callback;
+        std::function<void(void)> pressedCallback;
+        std::function<void(const Color4F&)> colorCallback;
         SizeRole sizeRole = SizeRole::Swatch;
         std::shared_ptr<ColorPopup> popup;
 
@@ -72,6 +73,11 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    void ColorSwatch::setPressedCallback(const std::function<void(void)>& value)
+    {
+        _p->pressedCallback = value;
+    }
+
     bool ColorSwatch::isEditable() const
     {
         return _p->editable;
@@ -87,9 +93,9 @@ namespace dtk
         _setMousePressEnabled(p.editable);
     }
 
-    void ColorSwatch::setCallback(const std::function<void(const Color4F&)>& value)
+    void ColorSwatch::setColorCallback(const std::function<void(const Color4F&)>& value)
     {
-        _p->callback = value;
+        _p->colorCallback = value;
     }
 
     SizeRole ColorSwatch::getSizeRole() const
@@ -176,6 +182,10 @@ namespace dtk
         {
             _showPopup();
         }
+        else if (p.pressedCallback)
+        {
+            p.pressedCallback();
+        }
     }
 
     void ColorSwatch::_showPopup()
@@ -192,9 +202,9 @@ namespace dtk
                     {
                         _p->color = value;
                         _setDrawUpdate();
-                        if (_p->callback)
+                        if (_p->colorCallback)
                         {
-                            _p->callback(value);
+                            _p->colorCallback(value);
                         }
                     });
                 p.popup->setCloseCallback(

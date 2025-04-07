@@ -61,7 +61,6 @@ namespace dtk
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::None);
         p.scrollWidget->setParent(p.layout);
-        Divider::create(context, Orientation::Horizontal, p.layout);
         p.menuButton->setParent(p.layout);
 
         p.buttonGroup->setClickedCallback(

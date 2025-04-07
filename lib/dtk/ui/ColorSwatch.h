@@ -35,6 +35,9 @@ namespace dtk
         //! Set the color.
         void setColor(const Color4F&);
 
+        //! Set the pressed callback.
+        void setPressedCallback(const std::function<void(void)>&);
+
         //! Get whether the color is editable.
         bool isEditable() const;
 
@@ -42,7 +45,7 @@ namespace dtk
         void setEditable(bool);
 
         //! Set the color callback.
-        void setCallback(const std::function<void(const Color4F&)>&);
+        void setColorCallback(const std::function<void(const Color4F&)>&);
 
         //! Get the size role.
         SizeRole getSizeRole() const;

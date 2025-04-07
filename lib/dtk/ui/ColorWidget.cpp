@@ -9,16 +9,39 @@
 #include <dtk/ui/GridLayout.h>
 #include <dtk/ui/Label.h>
 #include <dtk/ui/RowLayout.h>
+#include <dtk/ui/TabWidget.h>
+
+#include <dtk/core/Error.h>
+#include <dtk/core/String.h>
+
+#include <sstream>
 
 namespace dtk
 {
+    namespace
+    {
+        const float hueMax = 359.F;
+    }
+
+    DTK_ENUM_IMPL(
+        ColorWidgetMode,
+        "RGB",
+        "HSV",
+        "Swatches");
+
     struct ColorWidget::Private
     {
         Color4F color;
+        float hsv[3] = { 0.F, 0.F, 0.F };
+        ColorWidgetMode mode = ColorWidgetMode::RGB;
 
         std::shared_ptr<ColorSwatch> swatch;
         std::map<std::string, std::shared_ptr<FloatEditSlider> > sliders;
         std::shared_ptr<HorizontalLayout> layout;
+        std::shared_ptr<TabWidget> tabWidget;
+        std::shared_ptr<GridLayout> rgbLayout;
+        std::shared_ptr<GridLayout> hsvLayout;
+        std::shared_ptr<GridLayout> swatchesLayout;
 
         std::function<void(const Color4F&)> callback;
     };
@@ -33,74 +56,251 @@ namespace dtk
         p.swatch = ColorSwatch::create(context);
         p.swatch->setSizeRole(SizeRole::SwatchLarge);
 
-        p.sliders["Red"] = FloatEditSlider::create(context);
-        p.sliders["Green"] = FloatEditSlider::create(context);
-        p.sliders["Blue"] = FloatEditSlider::create(context);
-        p.sliders["Alpha"] = FloatEditSlider::create(context);
+        p.sliders["RGB/R"] = FloatEditSlider::create(context);
+        p.sliders["RGB/G"] = FloatEditSlider::create(context);
+        p.sliders["RGB/B"] = FloatEditSlider::create(context);
+        p.sliders["RGB/A"] = FloatEditSlider::create(context);
+
+        p.sliders["HSV/H"] = FloatEditSlider::create(context);
+        p.sliders["HSV/H"]->setRange(RangeF(0.F, hueMax));
+        p.sliders["HSV/H"]->setStep(10.F);
+        p.sliders["HSV/H"]->setLargeStep(60.F);
+        p.sliders["HSV/S"] = FloatEditSlider::create(context);
+        p.sliders["HSV/V"] = FloatEditSlider::create(context);
+        p.sliders["HSV/A"] = FloatEditSlider::create(context);
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::SpacingSmall);
         p.swatch->setParent(p.layout);
-        auto gridLayout = GridLayout::create(context, p.layout);
-        gridLayout->setSpacingRole(SizeRole::SpacingSmall);
-        gridLayout->setHStretch(Stretch::Expanding);
-        auto label = Label::create(context, "Red:", gridLayout);
-        gridLayout->setGridPos(label, 0, 0);
-        p.sliders["Red"]->setParent(gridLayout);
-        gridLayout->setGridPos(p.sliders["Red"], 0, 1);
-        label = Label::create(context, "Green:", gridLayout);
-        gridLayout->setGridPos(label, 1, 0);
-        p.sliders["Green"]->setParent(gridLayout);
-        gridLayout->setGridPos(p.sliders["Green"], 1, 1);
-        label = Label::create(context, "Blue:", gridLayout);
-        gridLayout->setGridPos(label, 2, 0);
-        p.sliders["Blue"]->setParent(gridLayout);
-        gridLayout->setGridPos(p.sliders["Blue"], 2, 1);
-        label = Label::create(context, "Alpha:", gridLayout);
-        gridLayout->setGridPos(label, 3, 0);
-        p.sliders["Alpha"]->setParent(gridLayout);
-        gridLayout->setGridPos(p.sliders["Alpha"], 3, 1);
 
+        p.tabWidget = TabWidget::create(context, p.layout);
+        p.tabWidget->setHStretch(Stretch::Expanding);
+
+        p.rgbLayout = GridLayout::create(context);
+        p.rgbLayout->setMarginRole(SizeRole::MarginSmall);
+        p.rgbLayout->setSpacingRole(SizeRole::SpacingSmall);
+        p.tabWidget->addTab("RGB", p.rgbLayout);
+        auto label = Label::create(context, "R:", p.rgbLayout);
+        p.rgbLayout->setGridPos(label, 0, 0);
+        p.sliders["RGB/R"]->setParent(p.rgbLayout);
+        p.rgbLayout->setGridPos(p.sliders["RGB/R"], 0, 1);
+        label = Label::create(context, "G:", p.rgbLayout);
+        p.rgbLayout->setGridPos(label, 1, 0);
+        p.sliders["RGB/G"]->setParent(p.rgbLayout);
+        p.rgbLayout->setGridPos(p.sliders["RGB/G"], 1, 1);
+        label = Label::create(context, "B:", p.rgbLayout);
+        p.rgbLayout->setGridPos(label, 2, 0);
+        p.sliders["RGB/B"]->setParent(p.rgbLayout);
+        p.rgbLayout->setGridPos(p.sliders["RGB/B"], 2, 1);
+        label = Label::create(context, "A:", p.rgbLayout);
+        p.rgbLayout->setGridPos(label, 3, 0);
+        p.sliders["RGB/A"]->setParent(p.rgbLayout);
+        p.rgbLayout->setGridPos(p.sliders["RGB/A"], 3, 1);
+
+        p.hsvLayout = GridLayout::create(context);
+        p.hsvLayout->setMarginRole(SizeRole::MarginSmall);
+        p.hsvLayout->setSpacingRole(SizeRole::SpacingSmall);
+        p.tabWidget->addTab("HSV", p.hsvLayout);
+        label = Label::create(context, "H:", p.hsvLayout);
+        p.hsvLayout->setGridPos(label, 0, 0);
+        p.sliders["HSV/H"]->setParent(p.hsvLayout);
+        p.hsvLayout->setGridPos(p.sliders["HSV/H"], 0, 1);
+        label = Label::create(context, "S:", p.hsvLayout);
+        p.hsvLayout->setGridPos(label, 1, 0);
+        p.sliders["HSV/S"]->setParent(p.hsvLayout);
+        p.hsvLayout->setGridPos(p.sliders["HSV/S"], 1, 1);
+        label = Label::create(context, "V:", p.hsvLayout);
+        p.hsvLayout->setGridPos(label, 2, 0);
+        p.sliders["HSV/V"]->setParent(p.hsvLayout);
+        p.hsvLayout->setGridPos(p.sliders["HSV/V"], 2, 1);
+        label = Label::create(context, "A:", p.hsvLayout);
+        p.hsvLayout->setGridPos(label, 3, 0);
+        p.sliders["HSV/A"]->setParent(p.hsvLayout);
+        p.hsvLayout->setGridPos(p.sliders["HSV/A"], 3, 1);
+
+        p.swatchesLayout = GridLayout::create(context);
+        p.swatchesLayout->setMarginRole(SizeRole::MarginSmall);
+        p.swatchesLayout->setSpacingRole(SizeRole::SpacingSmall);
+        p.tabWidget->addTab("Swatches", p.swatchesLayout);
+        int rows = 4;
+        int columns = 9;
+        for (int y = 0; y < rows; ++y)
+        {
+            for (int x = 0; x < columns; ++x)
+            {
+                Color4F color;
+                if (x < columns - 1)
+                {
+                    float hsv[3] = { x / float(columns - 1), 1.F - (y / float(rows)), 1.F };
+                    float rgb[3] = { 0.F, 0.F, 0.F };
+                    hsvToRGB(hsv, rgb);
+                    color.r = rgb[0];
+                    color.g = rgb[1];
+                    color.b = rgb[2];
+                    color.a = 1.F;
+                }
+                else
+                {
+                    color.r = color.g = color.b = 1.F - (y / float(rows - 1));
+                    color.a = 1.F;
+                }
+                auto swatch = ColorSwatch::create(context, p.swatchesLayout);
+                swatch->setColor(color);
+                swatch->setPressedCallback(
+                    [this, color]
+                    {
+                        DTK_P();
+                        setColor(color);
+                        if (p.callback)
+                        {
+                            p.callback(color);
+                        }
+                    });
+                p.swatchesLayout->setGridPos(swatch, y, x);
+            }
+        }
+
+        _modeUpdate();
         _colorUpdate();
 
-        p.sliders["Red"]->setCallback(
+        p.tabWidget->setTabCallback(
+            [this](int value)
+            {
+                _p->mode = static_cast<ColorWidgetMode>(value);
+            });
+
+        p.sliders["RGB/R"]->setCallback(
             [this](float value)
             {
-                _p->color.r = value;
-                _colorUpdate();
-                if (_p->callback)
+                DTK_P();
+                if (p.rgbLayout == p.tabWidget->getCurrentWidget())
                 {
-                    _p->callback(_p->color);
+                    p.color.r = value;
+                    float rgb[3] = { p.color.r, p.color.g, p.color.b };
+                    rgbToHSV(rgb, p.hsv);
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
                 }
             });
-        p.sliders["Green"]->setCallback(
+        p.sliders["RGB/G"]->setCallback(
             [this](float value)
             {
-                _p->color.g = value;
-                _colorUpdate();
-                if (_p->callback)
+                DTK_P();
+                if (p.rgbLayout == p.tabWidget->getCurrentWidget())
                 {
-                    _p->callback(_p->color);
+                    p.color.g = value;
+                    float rgb[3] = { p.color.r, p.color.g, p.color.b };
+                    rgbToHSV(rgb, p.hsv);
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
                 }
             });
-        p.sliders["Blue"]->setCallback(
+        p.sliders["RGB/B"]->setCallback(
             [this](float value)
             {
-                _p->color.b = value;
-                _colorUpdate();
-                if (_p->callback)
+                DTK_P();
+                if (p.rgbLayout == p.tabWidget->getCurrentWidget())
                 {
-                    _p->callback(_p->color);
+                    p.color.b = value;
+                    float rgb[3] = { p.color.r, p.color.g, p.color.b };
+                    rgbToHSV(rgb, p.hsv);
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
                 }
             });
-        p.sliders["Alpha"]->setCallback(
+        p.sliders["RGB/A"]->setCallback(
             [this](float value)
             {
-                _p->color.a = value;
-                _colorUpdate();
-                if (_p->callback)
+                DTK_P();
+                if (p.rgbLayout == p.tabWidget->getCurrentWidget())
                 {
-                    _p->callback(_p->color);
+                    p.color.a = value;
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
+                }
+            });
+
+        p.sliders["HSV/H"]->setCallback(
+            [this](float value)
+            {
+                DTK_P();
+                if (p.hsvLayout == p.tabWidget->getCurrentWidget())
+                {
+                    p.hsv[0] = value / hueMax;
+                    float rgb[3] = { 0.F, 0.F, 0.F };
+                    hsvToRGB(p.hsv, rgb);
+                    p.color.r = rgb[0];
+                    p.color.g = rgb[1];
+                    p.color.b = rgb[2];
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
+                }
+            });
+        p.sliders["HSV/S"]->setCallback(
+            [this](float value)
+            {
+                DTK_P();
+                if (p.hsvLayout == p.tabWidget->getCurrentWidget())
+                {
+                    p.hsv[1] = value;
+                    float rgb[3] = { 0.F, 0.F, 0.F };
+                    hsvToRGB(p.hsv, rgb);
+                    p.color.r = rgb[0];
+                    p.color.g = rgb[1];
+                    p.color.b = rgb[2];
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
+                }
+            });
+        p.sliders["HSV/V"]->setCallback(
+            [this](float value)
+            {
+                DTK_P();
+                if (p.hsvLayout == p.tabWidget->getCurrentWidget())
+                {
+                    p.hsv[2] = value;
+                    float rgb[3] = { 0.F, 0.F, 0.F };
+                    hsvToRGB(p.hsv, rgb);
+                    p.color.r = rgb[0];
+                    p.color.g = rgb[1];
+                    p.color.b = rgb[2];
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
+                }
+            });
+        p.sliders["HSV/A"]->setCallback(
+            [this](float value)
+            {
+                DTK_P();
+                if (p.hsvLayout == p.tabWidget->getCurrentWidget())
+                {
+                    p.color.a = value;
+                    _colorUpdate();
+                    if (p.callback)
+                    {
+                        p.callback(p.color);
+                    }
                 }
             });
     }
@@ -132,6 +332,8 @@ namespace dtk
         if (value == p.color)
             return;
         p.color = value;
+        float rgb[3] = { p.color.r, p.color.g, p.color.b };
+        rgbToHSV(rgb, p.hsv);
         _colorUpdate();
         _setDrawUpdate();
     }
@@ -139,6 +341,20 @@ namespace dtk
     void ColorWidget::setCallback(const std::function<void(const Color4F&)>& value)
     {
         _p->callback = value;
+    }
+
+    ColorWidgetMode ColorWidget::getMode() const
+    {
+        return _p->mode;
+    }
+
+    void ColorWidget::setMode(ColorWidgetMode value)
+    {
+        DTK_P();
+        if (value == p.mode)
+            return;
+        p.mode = value;
+        _modeUpdate();
     }
 
     void ColorWidget::setGeometry(const Box2I& value)
@@ -153,13 +369,26 @@ namespace dtk
         _setSizeHint(_p->layout->getSizeHint());
     }
 
+    void ColorWidget::_modeUpdate()
+    {
+        DTK_P();
+        p.tabWidget->setCurrentTab(static_cast<int>(p.mode));
+    }
+
     void ColorWidget::_colorUpdate()
     {
         DTK_P();
+
         p.swatch->setColor(p.color);
-        p.sliders["Red"]->setValue(p.color.r);
-        p.sliders["Green"]->setValue(p.color.g);
-        p.sliders["Blue"]->setValue(p.color.b);
-        p.sliders["Alpha"]->setValue(p.color.a);
+
+        p.sliders["RGB/R"]->setValue(p.color.r);
+        p.sliders["RGB/G"]->setValue(p.color.g);
+        p.sliders["RGB/B"]->setValue(p.color.b);
+        p.sliders["RGB/A"]->setValue(p.color.a);
+
+        p.sliders["HSV/H"]->setValue(p.hsv[0] * hueMax);
+        p.sliders["HSV/S"]->setValue(p.hsv[1]);
+        p.sliders["HSV/V"]->setValue(p.hsv[2]);
+        p.sliders["HSV/A"]->setValue(p.color.a);
     }
 }

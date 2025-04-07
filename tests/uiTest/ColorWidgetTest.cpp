@@ -59,7 +59,7 @@ namespace dtk
                 widget->setEditable(true);
                 widget->setEditable(true);
                 DTK_ASSERT(widget->isEditable());
-                widget->setCallback(
+                widget->setColorCallback(
                     [&color](const Color4F& value)
                     {
                         color = value;

@@ -123,7 +123,7 @@ namespace dtk
                 widget->addTab(tabs[0], label0);
                 widget->addTab(tabs[1], label1);
                 int tab = 0;
-                widget->setCallback(
+                widget->setTabCallback(
                     [&tab](int value)
                     {
                         tab = value;

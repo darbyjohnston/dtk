@@ -30,6 +30,8 @@ namespace dtk
                 py::arg("tooltip") = std::string())
             .def("clearTabs", &TabWidget::clearTabs)
             .def_property("currentTab", &TabWidget::getCurrentTab, &TabWidget::setCurrentTab)
-            .def("setCallback", &TabWidget::setCallback);
+            .def("setTabCallback", &TabWidget::setTabCallback)
+            .def_property("currentWidget", &TabWidget::getCurrentWidget, &TabWidget::setCurrentWidget)
+            .def("setWidgetCallback", &TabWidget::setWidgetCallback);
     }
 }

@@ -16,7 +16,8 @@ namespace dtk
         std::shared_ptr<TabBar> tabs;
         std::shared_ptr<StackLayout> stack;
         std::shared_ptr<RowLayout> layout;
-        std::function<void(int)> callback;
+        std::function<void(int)> tabCallback;
+        std::function<void(const std::shared_ptr<IWidget>&)> widgetCallback;
     };
 
     void TabWidget::_init(
@@ -41,10 +42,19 @@ namespace dtk
         p.tabs->setCallback(
             [this](int value)
             {
+                DTK_P();
                 _widgetUpdate();
-                if (_p->callback)
+                if (p.tabCallback)
                 {
-                    _p->callback(value);
+                    p.tabCallback(value);
+                }
+                if (p.widgetCallback)
+                {
+                    const auto& children = p.stack->getChildren();
+                    auto i = children.begin();
+                    for (int j = 0; j < value; ++j, ++i)
+                        ;
+                    p.widgetCallback(i != children.end() ? *i : nullptr);
                 }
             });
     }
@@ -136,9 +146,46 @@ namespace dtk
         _widgetUpdate();
     }
 
-    void TabWidget::setCallback(const std::function<void(int)>& value)
+    void TabWidget::setTabCallback(const std::function<void(int)>& value)
     {
-        _p->callback = value;
+        _p->tabCallback = value;
+    }
+
+    std::shared_ptr<IWidget> TabWidget::getCurrentWidget() const
+    {
+        DTK_P();
+        std::shared_ptr<IWidget> out;
+        const auto& children = p.stack->getChildren();
+        int i = 0;
+        for (auto j = children.begin(); j != children.end(); ++j, ++i)
+        {
+            if (i == p.tabs->getCurrentTab())
+            {
+                out = *j;
+                break;
+            }
+        }
+        return out;
+    }
+
+    void TabWidget::setCurrentWidget(const std::shared_ptr<IWidget>& value)
+    {
+        DTK_P();
+        const auto& children = p.stack->getChildren();
+        int i = 0;
+        for (auto j = children.begin(); j != children.end(); ++j, ++i)
+        {
+            if (*j == value)
+            {
+                setCurrentTab(i);
+                break;
+            }
+        }
+    }
+
+    void TabWidget::setWidgetCallback(const std::function<void(const std::shared_ptr<IWidget>&)>& value)
+    {
+        _p->widgetCallback = value;
     }
 
     bool TabWidget::areTabsClosable() const
