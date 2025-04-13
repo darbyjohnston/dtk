@@ -74,6 +74,7 @@ set(HEADERS
     Style.h
     TabBar.h
     TabWidget.h
+    ToolBar.h
     ToolButton.h
     Tooltip.h
     WidgetOptions.h
@@ -172,6 +173,7 @@ set(SOURCE
     TabBar.cpp
     TabBarButton.cpp
     TabWidget.cpp
+    ToolBar.cpp
     ToolButton.cpp
     Tooltip.cpp
     WidgetOptions.cpp)
