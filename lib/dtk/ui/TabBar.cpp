@@ -50,7 +50,7 @@ namespace dtk
         p.buttonLayout->setSpacingRole(SizeRole::None);
 
         p.scrollWidget = ScrollWidget::create(context, ScrollType::Horizontal);
-        p.scrollWidget->setScrollBarsVisible(false);
+        p.scrollWidget->setScrollBarsAutoHide(true);
         p.scrollWidget->setBorder(false);
         p.scrollWidget->setStretch(Stretch::Expanding, Stretch::Fixed);
         p.scrollWidget->setWidget(p.buttonLayout);
@@ -266,6 +266,16 @@ namespace dtk
     void TabBar::setTabCloseCallback(const std::function<void(int)>& value)
     {
         _p->closeCallback = value;
+    }
+
+    bool TabBar::areScrollBarVisible() const
+    {
+        return _p->scrollWidget->areScrollBarsVisible();
+    }
+
+    void TabBar::setScrollBarVisible(bool value)
+    {
+        _p->scrollWidget->setScrollBarsVisible(value);
     }
 
     void TabBar::setGeometry(const Box2I& value)
