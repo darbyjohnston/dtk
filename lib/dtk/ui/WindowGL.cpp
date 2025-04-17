@@ -259,6 +259,11 @@ namespace dtk
             {
                 _p->refresh = true;
             });
+        p.window->setFullScreenCallback(
+            [this](bool value)
+            {
+                _p->fullScreen->setIfChanged(value);
+            });
         p.window->setCursorEnterCallback(
             [this](bool value)
             {
@@ -395,10 +400,7 @@ namespace dtk
 
     void Window::setFullScreen(bool value, int screen)
     {
-        if (_p->fullScreen->setIfChanged(value))
-        {
-            _p->window->setFullScreen(value, screen);
-        }
+        _p->window->setFullScreen(value, screen);
     }
 
     int Window::getScreen() const
@@ -489,10 +491,6 @@ namespace dtk
         }
         else
         {
-            if (p.fullScreen->setIfChanged(false))
-            {
-                p.window->setFullScreen(false);
-            }
             p.window->hide();
         }
     }

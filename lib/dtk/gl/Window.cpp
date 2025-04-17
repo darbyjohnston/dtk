@@ -72,6 +72,7 @@ namespace dtk
             std::function<void(const Size2I&)> frameBufferSizeCallback;
             std::function<void(const V2F&)> contentScaleCallback;
             std::function<void(void)> refreshCallback;
+            std::function<void(bool)> fullScreenCallback;
             std::function<void(bool)> cursorEnterCallback;
             std::function<void(const V2F&)> cursorPosCallback;
             std::function<void(int, int, int)> buttonCallback;
@@ -220,6 +221,7 @@ namespace dtk
 
         void Window::hide()
         {
+            setFullScreen(false);
             glfwHideWindow(_p->glfwWindow);
         }
 
@@ -354,6 +356,10 @@ namespace dtk
                     p.restoreSize[1],
                     0);
             }
+            if (p.fullScreenCallback)
+            {
+                p.fullScreenCallback(value);
+            }
         }
 
         bool Window::isFloatOnTop() const
@@ -399,6 +405,11 @@ namespace dtk
         void Window::setRefreshCallback(const std::function<void(void)>& value)
         {
             _p->refreshCallback = value;
+        }
+
+        void Window::setFullScreenCallback(const std::function<void(bool)>& value)
+        {
+            _p->fullScreenCallback = value;
         }
 
         void Window::setCursorEnterCallback(const std::function<void(bool)>& value)

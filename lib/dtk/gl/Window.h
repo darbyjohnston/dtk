@@ -117,6 +117,9 @@ namespace dtk
             //! Set the window refresh callback.
             void setRefreshCallback(const std::function<void(void)>&);
 
+            //! Set the window full screen callback.
+            void setFullScreenCallback(const std::function<void(bool)>&);
+
             //! Set the cursor enter callback.
             void setCursorEnterCallback(const std::function<void(bool)>&);
 
