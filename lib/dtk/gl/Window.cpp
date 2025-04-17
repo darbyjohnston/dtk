@@ -199,6 +199,7 @@ namespace dtk
 
         void Window::setSize(const Size2I& value)
         {
+            setFullScreen(false);
             glfwSetWindowSize(_p->glfwWindow, value[0], value[1]);
         }
 
