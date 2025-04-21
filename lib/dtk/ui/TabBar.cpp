@@ -268,7 +268,7 @@ namespace dtk
         _p->closeCallback = value;
     }
 
-    bool TabBar::areScrollBarVisible() const
+    bool TabBar::isScrollBarVisible() const
     {
         return _p->scrollWidget->areScrollBarsVisible();
     }

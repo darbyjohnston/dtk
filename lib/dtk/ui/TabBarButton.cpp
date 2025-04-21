@@ -176,6 +176,6 @@ namespace dtk
             p.size.fontMetrics,
             V2I(p.draw->g2.x() + p.size.pad,
                 p.draw->g2.y() + p.draw->g2.h() / 2 - p.size.textSize.h / 2),
-            event.style->getColorRole(ColorRole::Text));
+            event.style->getColorRole(_checked ? ColorRole::Text : ColorRole::TextDisabled));
     }
 }

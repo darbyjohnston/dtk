@@ -69,7 +69,7 @@ namespace dtk
         void setTabCloseCallback(const std::function<void(int)>&);
 
         //! Get whether the scroll bar is visible.
-        bool areScrollBarVisible() const;
+        bool isScrollBarVisible() const;
 
         //! Set whether the scroll bar is visible.
         void setScrollBarVisible(bool);
