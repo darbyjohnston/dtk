@@ -12,16 +12,19 @@ if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create the window.
-window = dtk.Window(context, "icons", dtk.Size2I(1280, 960))
+window = dtk.MainWindow(context, app, "icons", dtk.Size2I(1280, 960))
 app.addWindow(window)
 
 # Create the layout.
 layout = dtk.GridLayout(context)
 layout.rowBackgroundRole = dtk.ColorRole.Base
 layout.spacingRole = dtk.SizeRole.SizeRole_None
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both, window)
+scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+scrollWidget.border = False
+scrollWidget.vStretch = dtk.Stretch.Expanding
 scrollWidget.widget = layout
-        
+window.setWidget(scrollWidget)
+
 # Create the icons.
 row = 0
 for name in context.getSystemByName("dtk::IconSystem").names:

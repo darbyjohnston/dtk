@@ -18,6 +18,11 @@ namespace dtk
 {
     void fileBrowser(py::module_& m)
     {
+        py::enum_<FileBrowserMode>(m, "FileBrowserMode")
+            .value("File", FileBrowserMode::File)
+            .value("Dir", FileBrowserMode::Dir)
+            .export_values();
+
         py::class_<FileBrowserSystem, ISystem, std::shared_ptr<FileBrowserSystem> >(m, "FileBrowserSystem")
             .def(
                 py::init(&FileBrowserSystem::create),

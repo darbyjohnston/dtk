@@ -31,9 +31,11 @@ class DialogsWindow(dtk.MainWindow):
         button = dtk.PushButton(context, "Progress Dialog", layout)
         button.setClickedCallback(self._progressDialog)
 
-        # File browser.
+        # File browsers.
         fileEdit = dtk.FileEdit(context, layout)
-        fileEdit.path = "File Browser"        
+        fileEdit.path = "File Browser"
+        dirEdit = dtk.FileEdit(context, dtk.FileBrowserMode.Dir, layout)
+        dirEdit.path = "Directory Browser"
 
     def _progressDialog(self):
         self.progressDialog = dtk.ProgressDialog(self.context, "Progress", "In progress:", self)

@@ -10,6 +10,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl/filesystem.h>
 
 namespace py = pybind11;
 
@@ -21,7 +22,7 @@ namespace dtk
             "getSettingsPath",
             &getSettingsPath,
             py::arg("directory"),
-            py::arg("name"),
+            py::arg("fileName"),
             "Get a settings path.");
 
         py::class_<Settings, std::shared_ptr<Settings> >(m, "Settings")
