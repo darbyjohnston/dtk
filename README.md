@@ -59,7 +59,6 @@ int main(int argc, char** argv)
 Simple Python exmple that shows a window with a text label:
 ```
 import dtk
-
 import sys
     
 context = dtk.Context()
