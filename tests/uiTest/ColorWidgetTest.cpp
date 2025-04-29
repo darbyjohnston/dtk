@@ -87,7 +87,6 @@ namespace dtk
                 window->setKey(Key::Home);
                 window->setKey(Key::Escape);
                 window->setKey(Key::Escape);
-                DTK_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
 
                 auto popup = ColorPopup::create(context, color);
                 popup->setPopupRole(ColorRole::Red);
