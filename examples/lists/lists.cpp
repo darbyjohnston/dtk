@@ -16,21 +16,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "lists", "Lists example");
+        auto app = App::create(context, argc, argv, "lists", "Lists example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "lists",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
@@ -102,6 +101,7 @@ DTK_MAIN()
                 std::cout << "Toggle: " << index << std::endl;
             });
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

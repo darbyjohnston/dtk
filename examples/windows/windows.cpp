@@ -16,24 +16,23 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "windows", "Multiple windows example");
+        auto app = App::create(context, argc, argv, "windows", "Multiple windows example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "windows",
             Size2I(1280, 960));
-        app->addWindow(window);
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::MarginLarge);
         window->setWidget(layout);
 
-        // Create the secondary window.
+        // Create a secondary window.
         auto secondaryWindow = Window::create(context, "Secondary Window", Size2I(1280, 960));
         auto secondaryLayout = VerticalLayout::create(context, secondaryWindow);
         secondaryLayout->setAlign(HAlign::Center, VAlign::Center);
@@ -68,6 +67,7 @@ DTK_MAIN()
                 secondaryWindow->setVisible(value);
             });
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

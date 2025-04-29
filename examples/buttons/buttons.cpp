@@ -21,21 +21,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "buttons", "Buttons example");
+        auto app = App::create(context, argc, argv, "buttons", "Buttons example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "buttons",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
@@ -136,6 +135,7 @@ DTK_MAIN()
         auto radioButton = RadioButton::create(context, "Disabled", vLayout);
         radioButton->setEnabled(false);
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

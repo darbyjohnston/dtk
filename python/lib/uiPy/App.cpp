@@ -23,7 +23,13 @@ namespace dtk
     {
         py::class_<App, IApp, std::shared_ptr<App> >(m, "App")
             .def(
-                py::init(&App::create),
+                py::init(py::overload_cast<
+                    const std::shared_ptr<Context>&,
+                    const std::vector<std::string>&,
+                    const std::string&,
+                    const std::string&,
+                    const std::vector<std::shared_ptr<ICmdLineArg> >&,
+                    const std::vector<std::shared_ptr<ICmdLineOption> >&>(&App::create)),
                 py::arg("context"),
                 py::arg("argv"),
                 py::arg("name"),

@@ -64,7 +64,7 @@ namespace dtk
 
     void App::_init(
         const std::shared_ptr<Context>& context,
-        std::vector<std::string>& argv,
+        const std::vector<std::string>& argv,
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
@@ -132,14 +132,40 @@ namespace dtk
 
     std::shared_ptr<App> App::create(
         const std::shared_ptr<Context>& context,
-        std::vector<std::string>& argv,
+        int argc, char** argv,
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
         const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
     {
         auto out = std::shared_ptr<App>(new App);
-        out->_init(context, argv, name, summary, cmdLineArgs, cmdLineOptions);
+        out->_init(context, convert(argc, argv), name, summary, cmdLineArgs, cmdLineOptions);
+        return out;
+    }
+
+    std::shared_ptr<App> App::create(
+        const std::shared_ptr<Context>& context,
+        int argc, wchar_t* argv[],
+        const std::string& name,
+        const std::string& summary,
+        const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
+        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
+    {
+        auto out = std::shared_ptr<App>(new App);
+        out->_init(context, convert(argc, argv), name, summary, cmdLineArgs, cmdLineOptions);
+        return out;
+    }
+
+    std::shared_ptr<App> App::create(
+        const std::shared_ptr<Context>& context,
+        const std::vector<std::string>& args,
+        const std::string& name,
+        const std::string& summary,
+        const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
+        const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
+    {
+        auto out = std::shared_ptr<App>(new App);
+        out->_init(context, args, name, summary, cmdLineArgs, cmdLineOptions);
         return out;
     }
 

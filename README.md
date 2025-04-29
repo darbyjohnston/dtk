@@ -4,19 +4,26 @@
 
 dtk
 ===
-dtk is a C++ library for building cross-platform applications.
+dtk is a C++ library for building lightweight cross-platform applications.
 
 Features:
 * Support for Linux, macOS, and Windows
-* Widgets including buttons, editors, sliders, and menus
-* Layouts including horizontal, vertical, grid, and tabs
+* Collection of widgets including buttons, editors, sliders, and menus
+* Collection of layouts including horizontal, vertical, grid, and tabs
 * Keyboard navigation
 * Command-line parsing
-* WIP Python bindings
+* Written in C++17 with a CMake build system
+* Project and dependencies build in a few minutes
+* Statically linked demo binaries are under 10MB
+* BSD open source license
 
-Todo:
+To do:
 * Multiple line text editor widget
-* Complete Python bindings
+* Python bindings
+
+Projects using dtk:
+* https://github.com/darbyjohnston/tlRender
+* https://github.com/OpenTimelineIO/toucan
 
 Demo example with dark color style:
 
@@ -36,20 +43,23 @@ using namespace dtk;
 
 int main(int argc, char** argv)
 {
+    // Create the context and application.
     auto context = Context::create();
-    auto args = convert(argc, argv);
-    auto app = App::create(context, args, "simple", "Simple example");
+    auto app = App::create(context, argc, argv, "simple", "Simple example");
     if (app->getExit() != 0)
         return app->getExit();
 
+    // Create a window.
     auto window = MainWindow::create(context, app, "simple", Size2I(1280, 960));
-    app->addWindow(window);
 
+    // Create a label.
     auto label = Label::create(context, "Hello world");
+    label->setFontRole(FontRole::Title);
     label->setAlign(HAlign::Center, VAlign::Center);
     label->setStretch(Stretch::Expanding);
     window->setWidget(label);
 
+    // Show the window and run the application.
     window->show();
     app->run();
     return 0;
@@ -60,22 +70,27 @@ Simple Python exmple that shows a window with a text label:
 ```
 import dtk
 import sys
-    
+
+# Create the context and application.
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "simple", "Simple example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
+# Create a window.
 window = dtk.MainWindow(context, app, "simple", dtk.Size2I(1280, 960))
-app.addWindow(window)
 
+# Create a label.
 label = dtk.Label(context, "Hello world")
+label.fontRole = dtk.FontRole.Title
 label.setAlign(dtk.HAlign.Center, dtk.VAlign.Center);
 label.setStretch(dtk.Stretch.Expanding);
 window.setWidget(label)
 
+# Show the window and run the application.
 window.show()
 app.run()
+
 # \bug Need to manually reset the window.
 window = None
 

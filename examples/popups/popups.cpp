@@ -19,21 +19,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "popups", "Popups example");
+        auto app = App::create(context, argc, argv, "popups", "Popups example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "popups",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the menus.
+        // Create menus.
         auto menu = Menu::create(context);
         menu->addAction(Action::create(
             "Action 1",
@@ -111,7 +110,7 @@ DTK_MAIN()
         menu = Menu::create(context);
         window->getMenuBar()->addMenu("Menu 4", menu);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
@@ -154,6 +153,7 @@ DTK_MAIN()
             colorSwatch->setEditable(true);
         }
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

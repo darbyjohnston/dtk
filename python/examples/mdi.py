@@ -6,27 +6,27 @@ import dtk
 
 import sys
         
+# Create the context and application.
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
-# Create the window.
+# Create a window.
 size = dtk.Size2I(1280, 960)
 window = dtk.MainWindow(context, app, "buttons", size)
-app.addWindow(window)
 
-# Create the scroll widget.
+# Create a scroll widget.
 scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
 scrollWidget.border = False
 scrollWidget.vStretch = dtk.Stretch.Expanding
 window.setWidget(scrollWidget)
 
-# Create the MDI canvas.
+# Create a MDI canvas.
 canvas = dtk.MDICanvas(context)
 scrollWidget.widget = canvas
         
-# Create the MDI widgets.
+# Create MDI widgets.
 random = dtk.Random()
 for i in range(0, 10):
     colorWidget = dtk.ColorWidget(context)
@@ -39,7 +39,9 @@ for i in range(0, 10):
         dtk.V2I(random.getI(0, size[0]), random.getI(0, size[1])),
         colorWidget)
 
+# Show the window and run the application.
 window.show()
 app.run()
+
 # \bug Need to manually reset the window.
 window = None

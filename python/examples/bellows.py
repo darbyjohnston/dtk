@@ -5,17 +5,17 @@
 import dtk
 
 import sys
-        
+
+# Create the context and application.
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "bellows", "Bellows example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
-# Create the window.
+# Create a window.
 window = dtk.MainWindow(context, app, "bellows", dtk.Size2I(1280, 960))
-app.addWindow(window)
 
-# Create the layout.
+# Create a layout.
 layout = dtk.VerticalLayout(context)
 layout.spacingRole = dtk.SizeRole.SizeRole_None
 scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
@@ -65,7 +65,9 @@ for i in range(0, 10):
 bellows = dtk.Bellows(context, "Check Boxes", layout)
 bellows.widget = vLayout
 
+# Show the window and run the application.
 window.show()
 app.run()
+
 # \bug Need to manually reset the window.
 window = None

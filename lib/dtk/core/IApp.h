@@ -45,7 +45,7 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
-            std::vector<std::string>& argv,
+            const std::vector<std::string>& argv,
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},

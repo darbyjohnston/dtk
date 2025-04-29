@@ -48,7 +48,7 @@ namespace dtk
 
     void IApp::_init(
         const std::shared_ptr<Context>& context,
-        std::vector<std::string>& argv,
+        const std::vector<std::string>& argv,
         const std::string& name,
         const std::string& summary,
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,

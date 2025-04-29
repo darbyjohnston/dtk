@@ -18,28 +18,27 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "mdi", "MDI example");
+        auto app = App::create(context, argc, argv, "mdi", "MDI example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         const Size2I size(1280, 720);
         auto window = MainWindow::create(context, app, "mdi", size);
-        app->addWindow(window);
 
-        // Create the scroll widget.
+        // Create a scroll widget.
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
         scrollWidget->setBorder(false);
         scrollWidget->setVStretch(Stretch::Expanding);
         window->setWidget(scrollWidget);
 
-        // Create the MDI canvas.
+        // Create a MDI canvas.
         auto canvas = MDICanvas::create(context);
         scrollWidget->setWidget(canvas);
 
-        // Create the MDI widgets.
+        // Create MDI widgets.
         Random random;
         for (size_t i = 0; i < 10; ++i)
         {
@@ -51,6 +50,7 @@ DTK_MAIN()
                 colorWidget);
         }
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

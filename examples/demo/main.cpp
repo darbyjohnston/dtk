@@ -10,13 +10,16 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "bellows", "Bellows example");
+        auto app = App::create(context, argc, argv, "bellows", "Bellows example");
         if (app->getExit() != 0)
             return app->getExit();
+
+        // Create a window.
         auto window = DemoWindow::create(context, app);
-        app->addWindow(window);
+
+        // Show the window and run the application.
         window->show();
         app->run();
     }

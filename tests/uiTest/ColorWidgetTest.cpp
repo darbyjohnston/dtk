@@ -75,6 +75,8 @@ namespace dtk
                 window->setCursorPos(c);
                 window->setButton(0);
                 window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
+                window->setKey(Key::Tab);
                 window->setKey(Key::Home);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Tab);

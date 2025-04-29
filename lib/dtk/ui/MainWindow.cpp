@@ -41,6 +41,7 @@ namespace dtk
         Window::_init(context, name, size);
         DTK_P();
 
+        app->addWindow(std::dynamic_pointer_cast<Window>(shared_from_this()));
         p.app = app;
 
         p.menuBar = MenuBar::create(context);

@@ -14,21 +14,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "charts", "Charts example");
+        auto app = App::create(context, argc, argv, "charts", "Charts example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "charts",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
@@ -60,6 +59,7 @@ DTK_MAIN()
                 PieChartData(5.F, Color4F(.5F, .1F, .8F))
             });
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

@@ -21,12 +21,10 @@ namespace dtk
         {
             DragAndDropData::DragAndDropData(const std::shared_ptr<DragWidget>& widget) :
                 _widget(widget)
-            {
-            }
+            {}
 
             DragAndDropData::~DragAndDropData()
-            {
-            }
+            {}
 
             const std::shared_ptr<DragWidget>& DragAndDropData::getWidget() const
             {
@@ -51,8 +49,7 @@ namespace dtk
             }
 
             DragWidget::~DragWidget()
-            {
-            }
+            {}
 
             std::shared_ptr<DragWidget> DragWidget::create(
                 const std::shared_ptr<Context>& context,
@@ -145,8 +142,7 @@ namespace dtk
             }
 
             ContainerWidget::~ContainerWidget()
-            {
-            }
+            {}
 
             std::shared_ptr<ContainerWidget> ContainerWidget::create(
                 const std::shared_ptr<Context>& context,
@@ -282,21 +278,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "dnd", "Drag and drop example");
+        auto app = App::create(context, argc, argv, "dnd", "Drag and drop example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "dnd",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = HorizontalLayout::create(context);
         layout->setSpacingRole(SizeRole::None);
         layout->setStretch(Stretch::Expanding);
@@ -319,6 +314,7 @@ DTK_MAIN()
             dndContainer1->addWidget(examples::dnd::DragWidget::create(context, i));
         }
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

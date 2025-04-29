@@ -6,16 +6,16 @@ import dtk
 
 import sys
 
+# Create the context and application.
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "icons", "Icons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
-# Create the window.
+# Create a window.
 window = dtk.MainWindow(context, app, "icons", dtk.Size2I(1280, 960))
-app.addWindow(window)
 
-# Create the layout.
+# Create a layout.
 layout = dtk.GridLayout(context)
 layout.rowBackgroundRole = dtk.ColorRole.Base
 layout.spacingRole = dtk.SizeRole.SizeRole_None
@@ -25,7 +25,7 @@ scrollWidget.vStretch = dtk.Stretch.Expanding
 scrollWidget.widget = layout
 window.setWidget(scrollWidget)
 
-# Create the icons.
+# Create icons.
 row = 0
 for name in context.getSystemByName("dtk::IconSystem").names:
     icon = dtk.Icon(context, name, layout)
@@ -35,7 +35,9 @@ for name in context.getSystemByName("dtk::IconSystem").names:
     layout.setGridPos(label, row, 1)
     row = row + 1
 
+# Show the window and run the application.
 window.show()
 app.run()
+
 # \bug Need to manually reset the window.
 window = None

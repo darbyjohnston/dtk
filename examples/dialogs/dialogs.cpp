@@ -210,27 +210,23 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(
-            context,
-            args,
-            "dialogs",
-            "Dialogs example");
+        auto app = App::create(context, argc, argv, "dialogs", "Dialogs example");
         if (app->getExit() != 0)
             return app->getExit();
 
         // Disable the native file dialog.
         context->getSystem<dtk::FileBrowserSystem>()->setNativeFileDialog(false);
 
-        // Create the window.
+        // Create tahe window.
         auto window = DialogsWindow::create(
             context,
             app,
             "dialogs",
             Size2I(1280, 960));
-        app->addWindow(window);
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

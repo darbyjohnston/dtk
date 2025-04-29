@@ -24,7 +24,7 @@ namespace dtk
             protected:
                 void _init(
                     const std::shared_ptr<Context>&,
-                    std::vector<std::string>& argv);
+                    const std::vector<std::string>& argv);
 
                 App() = default;
 
@@ -33,7 +33,7 @@ namespace dtk
 
                 static std::shared_ptr<App> create(
                     const std::shared_ptr<Context>&,
-                    std::vector<std::string>& argv);
+                    const std::vector<std::string>&);
 
                 std::shared_ptr<IObservableValue<FontRole> > observeFont() const;
 

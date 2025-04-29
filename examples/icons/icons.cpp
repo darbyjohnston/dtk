@@ -18,21 +18,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "icons", "Icons example");
+        auto app = App::create(context, argc, argv, "icons", "Icons example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "icons",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = GridLayout::create(context);
         layout->setRowBackgroundRole(ColorRole::Base);
         layout->setSpacingRole(SizeRole::None);
@@ -42,7 +41,7 @@ DTK_MAIN()
         scrollWidget->setVStretch(Stretch::Expanding);
         window->setWidget(scrollWidget);
 
-        // Create the icons.
+        // Create icons.
         auto iconSystem = context->getSystem<IconSystem>();
         int row = 0;
         for (const auto& name : iconSystem->getNames())
@@ -55,6 +54,7 @@ DTK_MAIN()
             ++row;
         }
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

@@ -19,21 +19,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "sliders", "Sliders example");
+        auto app = App::create(context, argc, argv, "sliders", "Sliders example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create thae window.
         auto window = MainWindow::create(
             context,
             app,
             "sliders",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the layout.
+        // Create a layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
@@ -114,6 +113,7 @@ DTK_MAIN()
                 std::cout << Format("Double: {0}").arg(value) << std::endl;
             });
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

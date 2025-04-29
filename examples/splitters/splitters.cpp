@@ -15,21 +15,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "splitters", "splitters example");
+        auto app = App::create(context, argc, argv, "splitters", "splitters example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "splitters",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the splitters.
+        // Create splitters.
         auto splitter = Splitter::create(context, Orientation::Vertical);
         auto splitter2 = Splitter::create(context, Orientation::Horizontal, splitter);
         auto label = Label::create(context, "Label 1", splitter2);
@@ -40,6 +39,7 @@ DTK_MAIN()
         label->setAlign(HAlign::Center, VAlign::Center);
         window->setWidget(splitter);
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

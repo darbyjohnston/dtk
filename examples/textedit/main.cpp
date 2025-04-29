@@ -9,8 +9,7 @@ DTK_MAIN()
     try
     {
         auto context = dtk::Context::create();
-        auto args = dtk::convert(argc, argv);
-        auto app = dtk::examples::textedit::App::create(context, args);
+        auto app = dtk::examples::textedit::App::create(context, dtk::convert(argc, argv));
         if (app->getExit() != 0)
             return app->getExit();
         app->run();

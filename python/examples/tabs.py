@@ -5,17 +5,17 @@
 import dtk
 
 import sys
-        
+
+# Create the context and application.
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "tabs", "Tabs example")
 if app.getExit() != 0:
     sys.exit(1)
 
-# Create the window.
+# Create a window.
 window = dtk.MainWindow(context, app, "tabs", dtk.Size2I(1280, 960))
-app.addWindow(window)
 
-# Create the tab widget.
+# Create a tab widget.
 tabWidget = dtk.TabWidget(context)
 tabWidget.vStretch = dtk.Stretch.Expanding
 window.setWidget(tabWidget)
@@ -29,7 +29,9 @@ for i in range(0, 10):
     scrollWidget.widget = label
     tabWidget.addTab("Tab {}".format(i), scrollWidget)
 
+# Show the window and run the application.
 window.show()
 app.run()
+
 # \bug Need to manually reset the window.
 window = None

@@ -21,21 +21,20 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "layouts", "Layouts example");
+        auto app = App::create(context, argc, argv, "layouts", "Layouts example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "layouts",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the window layout.
+        // Create a layout.
         auto layout = VerticalLayout::create(context);
         layout->setMarginRole(SizeRole::Margin);
         auto scrollWidget = ScrollWidget::create(context, ScrollType::Both);
@@ -81,6 +80,7 @@ DTK_MAIN()
         formLayout->addSpacer();
         formLayout->addRow("Three:", IntEdit::create(context));
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

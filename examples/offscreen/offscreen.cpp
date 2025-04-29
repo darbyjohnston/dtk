@@ -190,24 +190,24 @@ DTK_MAIN()
 {
     try
     {
+        // Create the context and application.
         auto context = Context::create();
-        auto args = convert(argc, argv);
-        auto app = App::create(context, args, "offscreen", "Offscreen rendering example");
+        auto app = App::create(context, argc, argv, "offscreen", "Offscreen rendering example");
         if (app->getExit() != 0)
             return app->getExit();
 
-        // Create the window.
+        // Create a window.
         auto window = MainWindow::create(
             context,
             app,
             "offscreen",
             Size2I(1280, 960));
-        app->addWindow(window);
 
-        // Create the offscreen widget.
+        // Create an offscreen widget.
         auto offscreenWidget = OffscreenWidget::create(context);
         window->setWidget(offscreenWidget);
 
+        // Show the window and run the application.
         window->show();
         app->run();
     }

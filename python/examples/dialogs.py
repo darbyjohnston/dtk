@@ -10,7 +10,7 @@ class DialogsWindow(dtk.MainWindow):
     def __init__(self, context, app, name, size):
         dtk.MainWindow.__init__(self, context, app, name, size)
         
-        # Create the layout.
+        # Create a layout.
         layout = dtk.VerticalLayout(context)
         layout.marginRole = dtk.SizeRole.Margin
         self.setWidget(layout)
@@ -55,6 +55,7 @@ class DialogsWindow(dtk.MainWindow):
         else:
             self.progressDialog.close()
 
+# Create the context and application.
 context = dtk.Context()
 app = dtk.App(context, sys.argv, "dialogs", "Dialogs example")
 if app.getExit() != 0:
@@ -63,11 +64,12 @@ if app.getExit() != 0:
 # Disable the native file dialog.
 context.getSystemByName("dtk::FileBrowserSystem").nativeFileDialog = False
 
-# Create the window.
+# Create a window.
 window = DialogsWindow(context, app, "dialogs", dtk.Size2I(1280, 960))
-app.addWindow(window)
 
+# Show the window and run the application.
 window.show()
 app.run()
+
 # \bug Need to manually reset the window.
 window = None

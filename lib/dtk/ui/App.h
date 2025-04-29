@@ -41,7 +41,7 @@ namespace dtk
     protected:
         void _init(
             const std::shared_ptr<Context>&,
-            std::vector<std::string>&,
+            const std::vector<std::string>&,
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
@@ -55,7 +55,25 @@ namespace dtk
         //! Create a new application.
         static std::shared_ptr<App> create(
             const std::shared_ptr<Context>&,
-            std::vector<std::string>&,
+            int argc, char** argv,
+            const std::string& name,
+            const std::string& summary,
+            const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
+            const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
+
+        //! Create a new application.
+        static std::shared_ptr<App> create(
+            const std::shared_ptr<Context>&,
+            int argc, wchar_t* argv[],
+            const std::string& name,
+            const std::string& summary,
+            const std::vector<std::shared_ptr<ICmdLineArg> >& = {},
+            const std::vector<std::shared_ptr<ICmdLineOption> >& = {});
+
+        //! Create a new application.
+        static std::shared_ptr<App> create(
+            const std::shared_ptr<Context>&,
+            const std::vector<std::string>&,
             const std::string& name,
             const std::string& summary,
             const std::vector<std::shared_ptr<ICmdLineArg> >& = {},

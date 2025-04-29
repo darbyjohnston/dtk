@@ -23,7 +23,7 @@ namespace dtk
         {
             void App::_init(
                 const std::shared_ptr<Context>& context,
-                std::vector<std::string>& argv)
+                const std::vector<std::string>& argv)
             {
                 dtk::App::_init(
                     context,
@@ -48,7 +48,6 @@ namespace dtk
                     std::dynamic_pointer_cast<App>(shared_from_this()),
                     "textedit",
                     Size2I(1280, 960));
-                addWindow(_window);
 
                 if (!_path.empty())
                 {
@@ -60,7 +59,7 @@ namespace dtk
 
             std::shared_ptr<App> App::create(
                 const std::shared_ptr<Context>& context,
-                std::vector<std::string>& argv)
+                const std::vector<std::string>& argv)
             {
                 auto out = std::shared_ptr<App>(new App);
                 out->_init(context, argv);
