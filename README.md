@@ -17,7 +17,7 @@ Features:
 * Statically linked demo binaries are under 10MB
 * BSD open source license
 
-To do:
+Work in progress:
 * Multiple line text editor widget
 * Python bindings
 
