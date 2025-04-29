@@ -4,12 +4,24 @@
 
 dtk
 ===
-A toolkit for building DJV and other applications.
+dtk is a C++ library for building cross-platform applications.
 
-Demo example with the dark style:
+Features:
+* Support for Linux, macOS, and Windows
+* Widgets including buttons, editors, sliders, and menus
+* Layouts including horizontal, vertical, grid, and tabs
+* Keyboard navigation
+* Command-line parsing
+* WIP Python bindings
+
+Todo:
+* Multiple line text editor widget
+* Complete Python bindings
+
+Demo example with dark color style:
 ![DemoDarkStyle](etc/Images/DemoDarkStyle.png)
 
-Demo example with the light style:
+Demo example with light color style:
 ![DemoLightStyle](etc/Images/DemoLightStyle.png)
 
 
