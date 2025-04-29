@@ -12,15 +12,14 @@ Features:
 * Layouts including horizontal, vertical, grid, and tabs
 * Keyboard navigation
 * Command-line parsing
-* WIP Python bindings
 * Entire project and dependencies builds in a few minutes
 * Staticly linked demo binaries are under 10MB
 
-Todo:
+Work in progress:
 * Multiple line text editor widget
-* Complete Python bindings
+* Python bindings
 
-Projects that use dtk:
+Projects using dtk:
 * https://github.com/darbyjohnston/tlRender
 * https://github.com/OpenTimelineIO/toucan
 
