@@ -26,6 +26,62 @@ Demo example with light color style:
 
 ![DemoLightStyle](etc/Images/DemoLightStyle.png)
 
+Simple C++ example that shows a window with a text label:
+```
+#include <dtk/ui/App.h>
+#include <dtk/ui/Label.h>
+#include <dtk/ui/MainWindow.h>
+
+using namespace dtk;
+
+int main(int argc, char** argv)
+{
+    auto context = Context::create();
+    auto args = convert(argc, argv);
+    auto app = App::create(context, args, "simple", "Simple example");
+    if (app->getExit() != 0)
+        return app->getExit();
+
+    auto window = MainWindow::create(context, app, "simple", Size2I(1280, 960));
+    app->addWindow(window);
+
+    auto label = Label::create(context, "Hello world");
+    label->setAlign(HAlign::Center, VAlign::Center);
+    label->setStretch(Stretch::Expanding);
+    window->setWidget(label);
+
+    window->show();
+    app->run();
+    return 0;
+}
+```
+
+Simple Python exmple that shows a window with a text label:
+```
+import dtk
+
+import sys
+    
+context = dtk.Context()
+app = dtk.App(context, sys.argv, "simple", "Simple example")
+if app.getExit() != 0:
+    sys.exit(app.getExit())
+
+window = dtk.MainWindow(context, app, "simple", dtk.Size2I(1280, 960))
+app.addWindow(window)
+
+label = dtk.Label(context, "Hello world")
+label.setAlign(dtk.HAlign.Center, dtk.VAlign.Center);
+label.setStretch(dtk.Stretch.Expanding);
+window.setWidget(label)
+
+window.show()
+app.run()
+# \bug Need to manually reset the window.
+window = None
+
+```
+
 
 Building
 ========
