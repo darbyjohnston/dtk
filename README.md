@@ -19,9 +19,11 @@ Todo:
 * Complete Python bindings
 
 Demo example with dark color style:
+
 ![DemoDarkStyle](etc/Images/DemoDarkStyle.png)
 
 Demo example with light color style:
+
 ![DemoLightStyle](etc/Images/DemoLightStyle.png)
 
 
