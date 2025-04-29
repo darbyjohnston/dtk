@@ -4,7 +4,7 @@
 
 dtk
 ===
-dtk is a C++ library for building cross-platform applications.
+dtk is a C++ library for building lightweight cross-platform applications.
 
 Features:
 * Support for Linux, macOS, and Windows
@@ -13,12 +13,16 @@ Features:
 * Keyboard navigation
 * Command-line parsing
 * WIP Python bindings
-* Entire project and dependencies builds in a couple of minutes
+* Entire project and dependencies builds in a few minutes
 * Staticly linked demo binaries are under 10MB
 
 Todo:
 * Multiple line text editor widget
 * Complete Python bindings
+
+Projects that use dtk:
+* https://github.com/darbyjohnston/tlRender
+* https://github.com/OpenTimelineIO/toucan
 
 Demo example with dark color style:
 
