@@ -13,6 +13,8 @@ Features:
 * Keyboard navigation
 * Command-line parsing
 * WIP Python bindings
+* Entire project and dependencies builds in a couple of minutes
+* Staticly linked demo binaries are under 10MB
 
 Todo:
 * Multiple line text editor widget
