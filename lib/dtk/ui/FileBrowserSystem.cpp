@@ -61,6 +61,7 @@ namespace dtk
     void FileBrowserSystem::open(
         const std::shared_ptr<IWindow>& window,
         const std::function<void(const std::filesystem::path&)>& callback,
+        const std::filesystem::path& fileName,
         FileBrowserMode mode)
     {
         DTK_P();
@@ -93,7 +94,7 @@ namespace dtk
             {
                 if (!p.fileBrowser)
                 {
-                    p.fileBrowser = FileBrowser::create(context, p.path, mode);
+                    p.fileBrowser = FileBrowser::create(context, p.path, fileName, mode);
                 }
                 p.fileBrowser->setOptions(p.options);
                 p.fileBrowser->setExtensions(p.extensions);

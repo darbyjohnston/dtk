@@ -148,6 +148,7 @@ namespace dtk
                             p.callback(p.path);
                         }
                     },
+                    std::filesystem::u8path(p.lineEdit->getText()),
                     p.mode);
             }
         }

@@ -472,29 +472,6 @@ namespace dtk
         }
     }
 
-    void Window::setGeometry(const Box2I& value)
-    {
-        IWindow::setGeometry(value);
-        for (const auto& child : getChildren())
-        {
-            child->setGeometry(value);
-        }
-    }
-
-    void Window::setVisible(bool value)
-    {
-        IWindow::setVisible(value);
-        DTK_P();
-        if (value)
-        {
-            p.window->show();
-        }
-        else
-        {
-            p.window->hide();
-        }
-    }
-
     void Window::update(
         const std::shared_ptr<FontSystem>& fontSystem,
         const std::shared_ptr<IconSystem>& iconSystem,
@@ -664,6 +641,62 @@ namespace dtk
     void Window::setCloseCallback(const std::function<void(void)>& value)
     {
         _p->closeCallback = value;
+    }
+
+    std::shared_ptr<Image> Window::screenshot(const Box2I& rect)
+    {
+        DTK_P();
+        std::shared_ptr<Image> out;
+        if (p.buffer)
+        {
+            Box2I rect2 = rect;
+            if (!rect.isValid())
+            {
+                rect2 = Box2I(V2I(), p.buffer->getSize());
+            }
+            if (rect2.isValid())
+            {
+                out = Image::create(rect2.w(), rect2.h(), ImageType::RGBA_U8);
+                p.window->makeCurrent();
+                gl::OffscreenBufferBinding bufferBinding(p.buffer);
+                glPixelStorei(GL_PACK_ALIGNMENT, 1);
+#if defined(dtk_API_GL_4_1)
+                glPixelStorei(GL_PACK_SWAP_BYTES, 0);
+#endif // dtk_API_GL_4_1
+                glReadPixels(
+                    rect2.x(),
+                    rect2.y(),
+                    rect2.w(),
+                    rect2.h(),
+                    GL_RGBA,
+                    GL_UNSIGNED_BYTE,
+                    out->getData());
+            }
+        }
+        return out;
+    }
+
+    void Window::setGeometry(const Box2I& value)
+    {
+        IWindow::setGeometry(value);
+        for (const auto& child : getChildren())
+        {
+            child->setGeometry(value);
+        }
+    }
+
+    void Window::setVisible(bool value)
+    {
+        IWindow::setVisible(value);
+        DTK_P();
+        if (value)
+        {
+            p.window->show();
+        }
+        else
+        {
+            p.window->hide();
+        }
     }
 
     void Window::sizeHintEvent(const SizeHintEvent& event)

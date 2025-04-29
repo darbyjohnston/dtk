@@ -29,7 +29,7 @@ void DialogsWindow::_init(
     // Create the menus.
     auto menu = getMenuBar()->getMenu("File");
     menu->clear();
-    menu->addItem(Action::create(
+    menu->addAction(Action::create(
         "Open",
         Key::O,
         static_cast<int>(commandKeyModifier),
@@ -51,10 +51,10 @@ void DialogsWindow::_init(
         Key::E,
         static_cast<int>(commandKeyModifier),
         [] {});
-    menu->addItem(action);
-    menu->setItemEnabled(action, false);
+    menu->addAction(action);
+    menu->setEnabled(action, false);
     menu->addDivider();
-    menu->addItem(Action::create(
+    menu->addAction(Action::create(
         "Exit",
         Key::Q,
         static_cast<int>(commandKeyModifier),

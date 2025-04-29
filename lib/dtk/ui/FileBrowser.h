@@ -66,6 +66,7 @@ namespace dtk
         void _init(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            const std::filesystem::path&,
             FileBrowserMode,
             const std::shared_ptr<IWidget>& parent);
 
@@ -78,6 +79,7 @@ namespace dtk
         static std::shared_ptr<FileBrowserWidget> create(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            const std::filesystem::path& fileName = std::filesystem::path(),
             FileBrowserMode = FileBrowserMode::File,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -134,6 +136,7 @@ namespace dtk
         void _init(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            const std::filesystem::path&,
             FileBrowserMode,
             const std::shared_ptr<IWidget>& parent);
 
@@ -146,6 +149,7 @@ namespace dtk
         static std::shared_ptr<FileBrowser> create(
             const std::shared_ptr<Context>&,
             const std::filesystem::path&,
+            const std::filesystem::path& fileName = std::filesystem::path(),
             FileBrowserMode = FileBrowserMode::File,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
@@ -200,6 +204,7 @@ namespace dtk
         void open(
             const std::shared_ptr<IWindow>&,
             const std::function<void(const std::filesystem::path&)>&,
+            const std::filesystem::path& fileName = std::filesystem::path(),
             FileBrowserMode = FileBrowserMode::File);
 
         //! Get whether the native file dialog is used.

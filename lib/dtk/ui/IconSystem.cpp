@@ -255,9 +255,9 @@ namespace dtk
                                                 const uint8_t* bitmapP = bitmap.data() + (h - 1 - y) * w * 4;
                                                 for (int x = 0; x < w; ++x, imageP += 4, bitmapP += 4)
                                                 {
-                                                    imageP[0] = bitmapP[0];
+                                                    imageP[0] = bitmapP[2];
                                                     imageP[1] = bitmapP[1];
-                                                    imageP[2] = bitmapP[2];
+                                                    imageP[2] = bitmapP[0];
                                                     imageP[3] = bitmapP[3];
                                                 }
                                             }

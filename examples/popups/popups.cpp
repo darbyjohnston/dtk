@@ -35,21 +35,21 @@ DTK_MAIN()
 
         // Create the menus.
         auto menu = Menu::create(context);
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 1",
             [] { std::cout << "Action 1" << std::endl; }));
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 2",
             "FileOpen",
             [] { std::cout << "Action 2" << std::endl; }));
         menu->addDivider();
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 3",
             Key::_3,
             static_cast<int>(KeyModifier::Control),
             [] { std::cout << "Action 3" << std::endl; }));
         menu->addDivider();
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 4",
             "FileClose",
             Key::_4,
@@ -57,19 +57,19 @@ DTK_MAIN()
             [] { std::cout << "Action 4" << std::endl; }));
         window->getMenuBar()->addMenu("Menu 1", menu);
         menu = Menu::create(context);
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 5",
             [](bool value) { std::cout << "Action 5: " << value << std::endl; }));
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 6",
             "Next",
             [](bool value) { std::cout << "Action 6: " << value << std::endl; }));
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 7",
             Key::_7,
             static_cast<int>(KeyModifier::Control),
             [](bool value) { std::cout << "Action 7: " << value << std::endl; }));
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 8",
             "Prev",
             Key::_8,
@@ -78,32 +78,32 @@ DTK_MAIN()
         window->getMenuBar()->addMenu("Menu 2", menu);
 
         menu = Menu::create(context);
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 9",
             [] { std::cout << "Action 9" << std::endl; }));
         auto subMenu = menu->addSubMenu("Sub Menu 1");
-        subMenu->addItem(Action::create(
+        subMenu->addAction(Action::create(
             "Action 10",
             [] { std::cout << "Action 10" << std::endl; }));
         subMenu = menu->addSubMenu("Sub Menu 2");
-        subMenu->addItem(Action::create(
+        subMenu->addAction(Action::create(
             "Action 11",
             [] { std::cout << "Action 11" << std::endl; }));
-        subMenu->addItem(Action::create(
+        subMenu->addAction(Action::create(
             "Action 12",
             [] { std::cout << "Action 12" << std::endl; }));
         subMenu = menu->addSubMenu("Sub Menu 3");
-        subMenu->addItem(Action::create(
+        subMenu->addAction(Action::create(
             "Action 13",
             [] { std::cout << "Action 13" << std::endl; }));
-        subMenu->addItem(Action::create(
+        subMenu->addAction(Action::create(
             "Action 14",
             [] { std::cout << "Action 14" << std::endl; }));
-        subMenu->addItem(Action::create(
+        subMenu->addAction(Action::create(
             "Action 15",
             [] { std::cout << "Action 15" << std::endl; }));
         subMenu = menu->addSubMenu("Sub Menu 4");
-        menu->addItem(Action::create(
+        menu->addAction(Action::create(
             "Action 16",
             [] { std::cout << "Action 16" << std::endl; }));
         window->getMenuBar()->addMenu("Menu 3", menu);

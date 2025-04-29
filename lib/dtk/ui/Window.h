@@ -78,12 +78,13 @@ namespace dtk
         void setDisplayScale(float);
 
         //! Update the window.
-        void update(
+        virtual void update(
             const std::shared_ptr<FontSystem>&,
             const std::shared_ptr<IconSystem>&,
             const std::shared_ptr<Style>&);
 
         void setCloseCallback(const std::function<void(void)>&) override;
+        std::shared_ptr<Image> screenshot(const Box2I& = Box2I(0, 0, -1, -1)) override;
 
         void setGeometry(const Box2I&) override;
         void setVisible(bool) override;

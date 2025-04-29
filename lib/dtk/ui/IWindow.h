@@ -46,6 +46,9 @@ namespace dtk
         //! Set the window close callback.
         virtual void setCloseCallback(const std::function<void(void)>&);
 
+        //! Capture a screenshot.
+        virtual std::shared_ptr<Image> screenshot(const Box2I& = Box2I(0, 0, -1, -1));
+
         void setVisible(bool) override;
         void tickEvent(
             bool parentsVisible,

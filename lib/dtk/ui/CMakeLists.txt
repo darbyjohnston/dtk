@@ -37,6 +37,7 @@ set(HEADERS
     IWidgetInline.h
     IWidgetPopup.h
     IWindow.h
+    ImageWidget.h
     IncButtons.h
     IntEdit.h
     IntEditSlider.h
@@ -72,6 +73,7 @@ set(HEADERS
     Splitter.h
     StackLayout.h
     Style.h
+    SvgWidget.h
     TabBar.h
     TabWidget.h
     ToolBar.h
@@ -133,6 +135,7 @@ set(SOURCE
     IWidget.cpp
     IWidgetPopup.cpp
     IWindow.cpp
+    ImageWidget.cpp
     IncButtons.cpp
     IntEdit.cpp
     IntEditSlider.cpp
@@ -170,6 +173,7 @@ set(SOURCE
     Splitter.cpp
     StackLayout.cpp
     Style.cpp
+    SvgWidget.cpp
     TabBar.cpp
     TabBarButton.cpp
     TabWidget.cpp

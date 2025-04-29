@@ -45,7 +45,7 @@ namespace dtk
 
         p.menuBar = MenuBar::create(context);
         auto fileMenu = Menu::create(context);
-        fileMenu->addItem(Action::create(
+        fileMenu->addAction(Action::create(
             "Exit",
             Key::Q,
             static_cast<int>(commandKeyModifier),
@@ -59,7 +59,7 @@ namespace dtk
         p.menuBar->addMenu("File", fileMenu);
 
         p.menus["Window"] = Menu::create(context);
-        p.menus["Window"]->addItem(Action::create(
+        p.menus["Window"]->addAction(Action::create(
             "Full Screen",
             Key::U,
             static_cast<int>(commandKeyModifier),
@@ -81,7 +81,7 @@ namespace dtk
                     }
                 });
             p.colorStyleActions[colorStyle] = action;
-            p.menus["ColorStyle"]->addItem(action);
+            p.menus["ColorStyle"]->addAction(action);
         }
 
         p.menus["DisplayScale"] = p.menus["Window"]->addSubMenu("Display Scale");
@@ -98,7 +98,7 @@ namespace dtk
                     }
                 });
             p.displayScaleActions.push_back(action);
-            p.menus["DisplayScale"]->addItem(action);
+            p.menus["DisplayScale"]->addAction(action);
         }
 
         p.tooltipsAction = Action::create(
@@ -110,7 +110,7 @@ namespace dtk
                     app->setTooltipsEnabled(value);
                 }
             });
-        p.menus["Window"]->addItem(p.tooltipsAction);
+        p.menus["Window"]->addAction(p.tooltipsAction);
 
         p.menuBar->addMenu("Window", p.menus["Window"]);
 
@@ -131,7 +131,7 @@ namespace dtk
                 DTK_P();
                 for (auto colorStyle : getColorStyleEnums())
                 {
-                    p.menus["ColorStyle"]->setItemChecked(
+                    p.menus["ColorStyle"]->setChecked(
                         p.colorStyleActions[colorStyle],
                         colorStyle == value);
                 }
@@ -144,7 +144,7 @@ namespace dtk
                 DTK_P();
                 for (size_t i = 0; i < p.displayScales.size() && i < p.displayScaleActions.size(); ++i)
                 {
-                    p.menus["DisplayScale"]->setItemChecked(
+                    p.menus["DisplayScale"]->setChecked(
                         p.displayScaleActions[i],
                         p.displayScales[i] == value);
                 }
@@ -155,7 +155,7 @@ namespace dtk
             [this](bool value)
             {
                 DTK_P();
-                p.menus["Window"]->setItemChecked(p.tooltipsAction, value);
+                p.menus["Window"]->setChecked(p.tooltipsAction, value);
             });
     }
 

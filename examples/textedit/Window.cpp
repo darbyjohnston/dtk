@@ -53,7 +53,7 @@ namespace dtk
                             }
                         }
                     });
-                _menus["File"]->addItem(_actions["File/Open"]);
+                _menus["File"]->addAction(_actions["File/Open"]);
                 _actions["File/Close"] = Action::create(
                     "Close",
                     "FileClose",
@@ -63,7 +63,7 @@ namespace dtk
                     {
                         _textWidget->setText(std::string());
                     });
-                _menus["File"]->addItem(_actions["File/Close"]);
+                _menus["File"]->addAction(_actions["File/Close"]);
                 _menus["File"]->addDivider();
                 _actions["File/Exit"] = Action::create(
                     "Exit",
@@ -76,7 +76,7 @@ namespace dtk
                             app->exit();
                         }
                     });
-                _menus["File"]->addItem(_actions["File/Exit"]);
+                _menus["File"]->addAction(_actions["File/Exit"]);
 
                 _menus["Edit"] = Menu::create(context);
                 _menus["Edit/Font"] = _menus["Edit"]->addSubMenu("Font");
@@ -89,7 +89,7 @@ namespace dtk
                             app->setFont(FontRole::Mono);
                         }
                     });
-                _menus["Edit/Font"]->addItem(_actions["Edit/Font/Monospace"]);
+                _menus["Edit/Font"]->addAction(_actions["Edit/Font/Monospace"]);
                 _actions["Edit/Font/Regular"] = Action::create(
                     "Regular",
                     [appWeak]
@@ -99,7 +99,7 @@ namespace dtk
                             app->setFont(FontRole::Label);
                         }
                     });
-                _menus["Edit/Font"]->addItem(_actions["Edit/Font/Regular"]);
+                _menus["Edit/Font"]->addAction(_actions["Edit/Font/Regular"]);
 
                 auto menuBar = getMenuBar();
                 menuBar->clear();
@@ -119,10 +119,10 @@ namespace dtk
                     app->observeFont(),
                     [this](FontRole value)
                     {
-                        _menus["Edit/Font"]->setItemChecked(
+                        _menus["Edit/Font"]->setChecked(
                             _actions["Edit/Font/Monospace"],
                             FontRole::Mono == value);
-                        _menus["Edit/Font"]->setItemChecked(
+                        _menus["Edit/Font"]->setChecked(
                             _actions["Edit/Font/Regular"],
                             FontRole::Label == value);
                         _textWidget->setFontRole(value);

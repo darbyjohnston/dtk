@@ -58,7 +58,9 @@ set(RESOURCES
     etc/Icons/ViewZoomOut.svg
     etc/Icons/ViewZoomReset.svg
     etc/Icons/Volume.svg
-    etc/Icons/WindowFullScreen.svg)
+    etc/Icons/WindowFullScreen.svg
+    etc/Images/Charlie.png
+    etc/Images/TestDrawing.svg)
 foreach(RESOURCE ${RESOURCES})
     get_filename_component(RESOURCE_BASE ${RESOURCE} NAME_WE)
     add_custom_command(

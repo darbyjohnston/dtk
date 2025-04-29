@@ -6,6 +6,12 @@ dtk
 ===
 A toolkit for building DJV and other applications.
 
+Demo example with the dark style:
+![DemoDarkStyle](etc/Images/DemoDarkStyle.png)
+
+Demo example with the light style:
+![DemoLightStyle](etc/Images/DemoLightStyle.png)
+
 
 Building
 ========

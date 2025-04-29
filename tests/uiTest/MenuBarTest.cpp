@@ -53,25 +53,25 @@ namespace dtk
 
                 auto menu = Menu::create(context);
                 bool action1 = false;
-                menu->addItem(Action::create(
+                menu->addAction(Action::create(
                     "Action 1",
                     "FileOpen",
                     Key::O,
                     static_cast<int>(KeyModifier::Control),
                     [&action1] { action1 = true; }));
                 bool action2 = false;
-                auto item = Action::create(
+                auto action = Action::create(
                     "Action 2",
                     "Mute",
                     Key::M,
                     static_cast<int>(KeyModifier::Control),
                     [&action2](bool value) { action2 = value; });
-                menu->addItem(item);
-                menu->setItemChecked(item, true);
-                menu->setItemEnabled(item, false);
+                menu->addAction(action);
+                menu->setChecked(action, true);
+                menu->setEnabled(action, false);
                 auto subMenu = menu->addSubMenu("Sub Menu");
                 bool action3 = false;
-                subMenu->addItem(Action::create(
+                subMenu->addAction(Action::create(
                     "Action 3",
                     [&action3] { action3 = true; }));
                 menuBar->addMenu("Menu 1", menu);
@@ -79,13 +79,13 @@ namespace dtk
 
                 menu = Menu::create(context);
                 bool action4 = false;
-                menu->addItem(Action::create(
+                menu->addAction(Action::create(
                     "Action 4",
                     Key::_4,
                     static_cast<int>(KeyModifier::Control),
                     [&action4] { action4 = true; }));
                 bool action5 = false;
-                menu->addItem(Action::create(
+                menu->addAction(Action::create(
                     "Action 5",
                     Key::_5,
                     static_cast<int>(KeyModifier::Control),

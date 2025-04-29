@@ -20,19 +20,19 @@ namespace dtk
                 py::init(&Menu::create),
                 py::arg("context"),
                 py::arg("parent") = nullptr)
-            .def("getItems", &Menu::getItems)
+            .def("getActions", &Menu::getActions)
             .def(
-                "addItem",
-                &Menu::addItem,
+                "addAction",
+                &Menu::addAction,
                 py::arg("action"))
             .def(
-                "setItemChecked",
-                &Menu::setItemChecked,
+                "setChecked",
+                &Menu::setChecked,
                 py::arg("action"),
                 py::arg("checked"))
             .def(
-                "setItemEnabled",
-                &Menu::setItemEnabled,
+                "setEnabled",
+                &Menu::setEnabled,
                 py::arg("action"),
                 py::arg("enabled"))
             .def("getSubMenus", &Menu::getSubMenus)

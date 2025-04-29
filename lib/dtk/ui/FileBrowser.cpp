@@ -48,6 +48,7 @@ namespace dtk
     void FileBrowser::_init(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        const std::filesystem::path& fileName,
         FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
@@ -57,6 +58,7 @@ namespace dtk
         p.widget = FileBrowserWidget::create(
             context,
             path,
+            fileName,
             mode,
             shared_from_this());
 
@@ -77,11 +79,12 @@ namespace dtk
     std::shared_ptr<FileBrowser> FileBrowser::create(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        const std::filesystem::path& fileName,
         FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
-        out->_init(context, path, mode, parent);
+        out->_init(context, path, fileName, mode, parent);
         return out;
     }
 

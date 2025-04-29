@@ -1,6 +1,7 @@
 add_subdirectory(bellows)
 add_subdirectory(buttons)
 add_subdirectory(charts)
+add_subdirectory(demo)
 add_subdirectory(dialogs)
 add_subdirectory(dnd)
 add_subdirectory(icons)

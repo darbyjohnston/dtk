@@ -11,9 +11,9 @@ namespace dtk
 {
     struct Menu::Private
     {
-        std::vector<std::shared_ptr<Action> > items;
+        std::vector<std::shared_ptr<Action> > actions;
         std::vector<std::shared_ptr<MenuButton> > buttons;
-        std::map< std::shared_ptr<Action>, std::shared_ptr<MenuButton> > itemToButton;
+        std::map< std::shared_ptr<Action>, std::shared_ptr<MenuButton> > actionToButton;
         std::shared_ptr<MenuButton> current;
         std::weak_ptr<Menu> parentMenu;
         std::vector<std::shared_ptr<Menu> > subMenus;
@@ -50,21 +50,21 @@ namespace dtk
         return out;
     }
 
-    const std::vector<std::shared_ptr<Action> >& Menu::getItems() const
+    const std::vector<std::shared_ptr<Action> >& Menu::getActions() const
     {
-        return _p->items;
+        return _p->actions;
     }
 
-    void Menu::addItem(const std::shared_ptr<Action>& item)
+    void Menu::addAction(const std::shared_ptr<Action>& action)
     {
         DTK_P();
         if (auto context = getContext())
         {
-            p.items.push_back(item);
+            p.actions.push_back(action);
 
-            auto button = MenuButton::create(context, item, p.layout);
+            auto button = MenuButton::create(context, action, p.layout);
             p.buttons.push_back(button);
-            p.itemToButton[item] = button;
+            p.actionToButton[action] = button;
 
             auto buttonWeak = std::weak_ptr<MenuButton>(button);
             button->setHoveredCallback(
@@ -80,19 +80,19 @@ namespace dtk
                     }
                 });
             button->setClickedCallback(
-                [this, item, buttonWeak]
+                [this, action, buttonWeak]
                 {
                     _setCurrent(buttonWeak.lock());
                     _accept();
-                    item->doCallback();
+                    action->doCallback();
                 });
             button->setCheckedCallback(
-                [this, item, buttonWeak](bool value)
+                [this, action, buttonWeak](bool value)
                 {
-                    item->setChecked(value);
+                    action->setChecked(value);
                     _setCurrent(buttonWeak.lock());
                     _accept();
-                    item->doCheckedCallback(value);
+                    action->doCheckedCallback(value);
                 });
 
             if (!p.current)
@@ -103,22 +103,22 @@ namespace dtk
         }
     }
 
-    void Menu::setItemChecked(const std::shared_ptr<Action>& item, bool value)
+    void Menu::setChecked(const std::shared_ptr<Action>& action, bool value)
     {
         DTK_P();
-        const auto i = p.itemToButton.find(item);
-        if (i != p.itemToButton.end())
+        const auto i = p.actionToButton.find(action);
+        if (i != p.actionToButton.end())
         {
             i->first->setChecked(value);
             i->second->setChecked(value);
         }
     }
 
-    void Menu::setItemEnabled(const std::shared_ptr<Action>& item, bool value)
+    void Menu::setEnabled(const std::shared_ptr<Action>& action, bool value)
     {
         DTK_P();
-        const auto i = p.itemToButton.find(item);
-        if (i != p.itemToButton.end())
+        const auto i = p.actionToButton.find(action);
+        if (i != p.actionToButton.end())
         {
             i->second->setEnabled(value);
         }
@@ -223,13 +223,13 @@ namespace dtk
     void Menu::clear()
     {
         DTK_P();
-        p.items.clear();
+        p.actions.clear();
         for (const auto& button : p.buttons)
         {
             button->setParent(nullptr);
         }
         p.buttons.clear();
-        p.itemToButton.clear();
+        p.actionToButton.clear();
         p.current.reset();
         p.parentMenu.reset();
         p.subMenus.clear();
@@ -239,7 +239,7 @@ namespace dtk
 
     bool Menu::isEmpty() const
     {
-        return _p->items.empty();
+        return _p->actions.empty();
     }
 
     bool Menu::shortcut(Key shortcut, int modifiers)
@@ -248,14 +248,14 @@ namespace dtk
         bool out = false;
         if (shortcut != Key::Unknown)
         {
-            for (const auto& i : p.itemToButton)
+            for (const auto& i : p.actionToButton)
             {
                 if (shortcut == i.first->getShortcut() &&
                     modifiers == i.first->getShortcutModifiers())
                 {
                     if (i.first->isCheckable())
                     {
-                        setItemChecked(i.first, !i.first->isChecked());
+                        setChecked(i.first, !i.first->isChecked());
                         i.first->doCheckedCallback(i.first->isChecked());
                     }
                     else

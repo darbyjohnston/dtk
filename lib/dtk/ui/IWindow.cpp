@@ -169,6 +169,11 @@ namespace dtk
     void IWindow::setCloseCallback(const std::function<void(void)>& value)
     {}
 
+    std::shared_ptr<Image> IWindow::screenshot(const Box2I&)
+    {
+        return nullptr;
+    }
+
     void IWindow::setVisible(bool value)
     {
         const bool changed = value != isVisible(false);

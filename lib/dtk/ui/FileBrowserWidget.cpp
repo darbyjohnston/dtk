@@ -63,6 +63,7 @@ namespace dtk
     void FileBrowserWidget::_init(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        const std::filesystem::path& fileName,
         FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
@@ -120,6 +121,7 @@ namespace dtk
         p.viewScrollWidget->setVStretch(Stretch::Expanding);
 
         p.fileEdit = LineEdit::create(context);
+        p.fileEdit->setText(fileName.u8string());
 
         p.searchBox = SearchBox::create(context);
         p.searchBox->setTooltip("Filter");
@@ -257,7 +259,6 @@ namespace dtk
                 DTK_P();
                 if (std::filesystem::is_directory(value))
                 {
-                    p.fileEdit->setText(std::string());
                     _setPath(value);
                 }
                 else
@@ -278,7 +279,10 @@ namespace dtk
             [this](const std::filesystem::path& value)
             {
                 DTK_P();
-                p.fileEdit->setText(value.filename().u8string());
+                if (!value.empty())
+                {
+                    p.fileEdit->setText(value.filename().u8string());
+                }
             });
 
         p.searchBox->setCallback(
@@ -382,11 +386,12 @@ namespace dtk
     std::shared_ptr<FileBrowserWidget> FileBrowserWidget::create(
         const std::shared_ptr<Context>& context,
         const std::filesystem::path& path,
+        const std::filesystem::path& fileName,
         FileBrowserMode mode,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowserWidget>(new FileBrowserWidget);
-        out->_init(context, path, mode, parent);
+        out->_init(context, path, fileName, mode, parent);
         return out;
     }
 

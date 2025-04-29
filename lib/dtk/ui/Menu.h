@@ -32,17 +32,21 @@ namespace dtk
             const std::shared_ptr<Context>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
 
-        //! Get the items.
-        const std::vector<std::shared_ptr<Action> >& getItems() const;
+        //! Get the actions.
+        const std::vector<std::shared_ptr<Action> >& getActions() const;
 
-        //! Add a menu item.
-        void addItem(const std::shared_ptr<Action>&);
+        //! Add an action to the menu.
+        void addAction(const std::shared_ptr<Action>&);
 
         //! Set whether a menu item is checked.
-        void setItemChecked(const std::shared_ptr<Action>&, bool);
+        //! 
+        //! \todo Remove this function and replace it with an observer.
+        void setChecked(const std::shared_ptr<Action>&, bool);
 
         //! Set whether a menu item is enabled.
-        void setItemEnabled(const std::shared_ptr<Action>&, bool);
+        //! 
+        //! \todo Remove this function and replace it with an observer.
+        void setEnabled(const std::shared_ptr<Action>&, bool);
 
         //! Get the sub menus.
         const std::vector<std::shared_ptr<Menu> >& getSubMenus() const;

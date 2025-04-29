@@ -164,7 +164,12 @@ namespace dtk
                 app->tick();
 
                 std::filesystem::path path = std::filesystem::current_path();
-                auto fileBrowserWidget = FileBrowserWidget::create(context, path, FileBrowserMode::File, window);
+                auto fileBrowserWidget = FileBrowserWidget::create(
+                    context,
+                    path,
+                    std::filesystem::path(),
+                    FileBrowserMode::File,
+                    window);
                 DTK_ASSERT(path == fileBrowserWidget->getPath());
                 FileBrowserOptions options;
                 options.reverseSort = true;
