@@ -100,8 +100,26 @@ window = None
 Building
 ========
 
-Building on Linux
------------------
+## Building Dependencies
+
+A CMake super build script is provided to build all of the dependencies from
+source.
+
+Required dependencies:
+* [Freetype](https://freetype.org/)
+* [GLFW](https://www.glfw.org/)
+* [LunaSVG](https://github.com/sammycage/lunasvg)
+* [Native File Dialog Extended](https://github.com/btzy/nativefiledialog-extended)
+* [nlohmann JSON](https://github.com/nlohmann/json)
+* [PNG](http://www.libpng.org/pub/png/libpng.html)
+* [ZLIB](https://zlib.net/)
+
+Optional dependencies:
+* [pybind11](https://github.com/pybind/pybind11)
+
+
+## Building on Linux
+
 Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/dtk.git
@@ -119,8 +137,8 @@ Try running the `simple` example:
 Release/dtk/src/dtk-build/examples/simple/simple
 ```
 
-Building on macOS
------------------
+## Building on macOS
+
 Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/dtk.git
@@ -138,8 +156,8 @@ Try running the `simple` example:
 Release/dtk/src/dtk-build/examples/simple/simple
 ```
 
-Notes for building on macOS
----------------------------
+### Notes for building on macOS
+
 The CMake variable "CMAKE_OSX_ARCHITECTURES" can be used to specify the build
 architecture:
 ```
@@ -149,8 +167,8 @@ architecture:
 -DCMAKE_OSX_ARCHITECTURES=arm64
 ```
 
-Building on Windows
--------------------
+## Building on Windows
+
 Clone the repository:
 ```
 git clone https://github.com/darbyjohnston/dtk.git
