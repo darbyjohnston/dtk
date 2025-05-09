@@ -26,6 +26,7 @@ namespace dtk
             std::optional<float> displayScale;
             int hMargin = 0;
             int vMargin = 0;
+            FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
         };
@@ -223,10 +224,15 @@ namespace dtk
             p.size.vMargin = event.style->getSizeRole(p.vMarginRole, event.displayScale);
             if (p.fontRole != FontRole::None)
             {
-                p.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
+                p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
             }
-            p.size.fontMetrics = event.fontSystem->getMetrics(p.fontInfo);
-            p.size.textSize = event.fontSystem->getSize(p.text, p.fontInfo);
+            else
+            {
+                p.size.fontInfo = p.fontInfo;
+                p.size.fontInfo.size *= event.displayScale;
+            }
+            p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
+            p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
             p.draw.reset();
         }
 
@@ -259,7 +265,7 @@ namespace dtk
 
         if (!p.text.empty() && p.draw->glyphs.empty())
         {
-            p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.fontInfo);
+            p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
         }
         event.render->drawText(
             p.draw->glyphs,
