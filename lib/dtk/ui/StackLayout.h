@@ -35,6 +35,24 @@ namespace dtk
         //! Set the current index.
         void setCurrentIndex(int);
 
+        //! Go to the next index.
+        void nextIndex();
+
+        //! Observe whether there is a next index.
+        std::shared_ptr<IObservableValue<bool> > observeHasNextIndex() const;
+
+        //! Go to the previous index.
+        void prevIndex();
+
+        //! Observe whether there is a previous index.
+        std::shared_ptr<IObservableValue<bool> > observeHasPrevIndex() const;
+
+        //! Go to the first index.
+        void firstIndex();
+
+        //! Go to the last index.
+        void lastIndex();
+
         //! Set the current widget.
         void setCurrentWidget(const std::shared_ptr<IWidget>&);
 

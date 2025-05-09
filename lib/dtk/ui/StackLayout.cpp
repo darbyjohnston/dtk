@@ -12,6 +12,8 @@ namespace dtk
     {
         int currentIndex = 0;
         SizeRole marginRole = SizeRole::None;
+        std::shared_ptr<ObservableValue<bool> > hasNextIndex;
+        std::shared_ptr<ObservableValue<bool> > hasPrevIndex;
 
         struct SizeData
         {
@@ -26,6 +28,9 @@ namespace dtk
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "dtk::StackLayout", parent);
+        DTK_P();
+        p.hasNextIndex = ObservableValue<bool>::create(false);
+        p.hasPrevIndex = ObservableValue<bool>::create(false);
     }
 
     StackLayout::StackLayout() :
@@ -52,10 +57,41 @@ namespace dtk
     void StackLayout::setCurrentIndex(int value)
     {
         DTK_P();
-        if (value == p.currentIndex)
+        const int tmp = clamp(value, 0, static_cast<int>(getChildren().size()) - 1);
+        if (tmp == p.currentIndex)
             return;
-        p.currentIndex = value;
+        p.currentIndex = tmp;
         _widgetUpdate();
+    }
+
+    void StackLayout::nextIndex()
+    {
+        setCurrentIndex(_p->currentIndex + 1);
+    }
+
+    std::shared_ptr<IObservableValue<bool> > StackLayout::observeHasNextIndex() const
+    {
+        return _p->hasNextIndex;
+    }
+
+    void StackLayout::prevIndex()
+    {
+        setCurrentIndex(_p->currentIndex - 1);
+    }
+
+    std::shared_ptr<IObservableValue<bool> > StackLayout::observeHasPrevIndex() const
+    {
+        return _p->hasPrevIndex;
+    }
+
+    void StackLayout::firstIndex()
+    {
+        setCurrentIndex(0);
+    }
+
+    void StackLayout::lastIndex()
+    {
+        setCurrentIndex(static_cast<int>(getChildren().size()) - 1);
     }
 
     void StackLayout::setCurrentWidget(const std::shared_ptr<IWidget>& value)
@@ -165,6 +201,8 @@ namespace dtk
         {
             (*i)->setVisible(j == p.currentIndex);
         }
+        p.hasNextIndex->setIfChanged(p.currentIndex < (static_cast<int>(children.size()) - 1));
+        p.hasPrevIndex->setIfChanged(p.currentIndex > 0);
         _setSizeUpdate();
         _setDrawUpdate();
     }
