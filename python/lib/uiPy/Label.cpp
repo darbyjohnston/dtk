@@ -36,6 +36,7 @@ namespace dtk
             .def_property("hMarginRole", &Label::getHMarginRole, &Label::setHMarginRole)
             .def_property("vMarginRole", &Label::getVMarginRole, &Label::setVMarginRole)
             .def("setMarginRole", py::overload_cast<SizeRole, SizeRole>(&Label::setMarginRole))
-            .def_property("fontRole", &Label::getFontRole, &Label::setFontRole);
+            .def_property("fontRole", &Label::getFontRole, &Label::setFontRole)
+            .def_property("fontInfo", &Label::getFontInfo, &Label::setFontInfo);
     }
 }

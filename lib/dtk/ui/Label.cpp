@@ -19,13 +19,13 @@ namespace dtk
         SizeRole hMarginRole = SizeRole::None;
         SizeRole vMarginRole = SizeRole::None;
         FontRole fontRole = FontRole::Label;
+        FontInfo fontInfo;
 
         struct SizeData
         {
             std::optional<float> displayScale;
             int hMargin = 0;
             int vMargin = 0;
-            FontInfo fontInfo;
             FontMetrics fontMetrics;
             Size2I textSize;
         };
@@ -182,6 +182,23 @@ namespace dtk
         _setDrawUpdate();
     }
 
+    const FontInfo& Label::getFontInfo() const
+    {
+        return _p->fontInfo;
+    }
+
+    void Label::setFontInfo(const FontInfo& value)
+    {
+        DTK_P();
+        if (value == p.fontInfo)
+            return;
+        p.fontRole = FontRole::None;
+        p.fontInfo = value;
+        p.size.displayScale.reset();
+        _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
     void Label::setGeometry(const Box2I& value)
     {
         const bool changed = value != getGeometry();
@@ -204,9 +221,12 @@ namespace dtk
             p.size.displayScale = event.displayScale;
             p.size.hMargin = event.style->getSizeRole(p.hMarginRole, event.displayScale);
             p.size.vMargin = event.style->getSizeRole(p.vMarginRole, event.displayScale);
-            p.size.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
-            p.size.fontMetrics = event.fontSystem->getMetrics(p.size.fontInfo);
-            p.size.textSize = event.fontSystem->getSize(p.text, p.size.fontInfo);
+            if (p.fontRole != FontRole::None)
+            {
+                p.fontInfo = event.style->getFontRole(p.fontRole, event.displayScale);
+            }
+            p.size.fontMetrics = event.fontSystem->getMetrics(p.fontInfo);
+            p.size.textSize = event.fontSystem->getSize(p.text, p.fontInfo);
             p.draw.reset();
         }
 
@@ -239,7 +259,7 @@ namespace dtk
 
         if (!p.text.empty() && p.draw->glyphs.empty())
         {
-            p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.size.fontInfo);
+            p.draw->glyphs = event.fontSystem->getGlyphs(p.text, p.fontInfo);
         }
         event.render->drawText(
             p.draw->glyphs,

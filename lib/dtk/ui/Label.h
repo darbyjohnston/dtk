@@ -77,6 +77,12 @@ namespace dtk
         //! Set the font role.
         void setFontRole(FontRole);
 
+        //! Get the font information.
+        const FontInfo& getFontInfo() const;
+
+        //! Set the font information.
+        void setFontInfo(const FontInfo&);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void clipEvent(const Box2I&, bool) override;
