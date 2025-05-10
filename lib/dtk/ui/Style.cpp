@@ -151,9 +151,7 @@ namespace dtk
     {
         return
             brightness == other.brightness &&
-            contrast == other.contrast &&
-            saturation == other.saturation &&
-            tint == other.tint;
+            contrast == other.contrast;
     }
 
     bool ColorControls::operator != (const ColorControls& other) const
@@ -329,24 +327,18 @@ namespace dtk
         DTK_P();
         p.colorMatrix =
             brightness(V3F(p.colorControls.brightness, p.colorControls.brightness, p.colorControls.brightness)) *
-            contrast(V3F(p.colorControls.contrast, p.colorControls.contrast, p.colorControls.contrast)) *
-            saturation(V3F(p.colorControls.saturation, p.colorControls.saturation, p.colorControls.saturation)) *
-            tint(p.colorControls.tint);
+            contrast(V3F(p.colorControls.contrast, p.colorControls.contrast, p.colorControls.contrast));
     }
 
     void to_json(nlohmann::json& json, const ColorControls& value)
     {
         json["Brightness"] = value.brightness;
         json["Contrast"] = value.contrast;
-        json["Saturation"] = value.saturation;
-        json["Tint"] = value.tint;
     }
 
     void from_json(const nlohmann::json& json, ColorControls& out)
     {
         json.at("Brightness").get_to(out.brightness);
         json.at("Contrast").get_to(out.contrast);
-        json.at("Saturation").get_to(out.saturation);
-        json.at("Tint").get_to(out.tint);
     }
 }

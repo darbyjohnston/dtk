@@ -93,8 +93,6 @@ namespace dtk
     {
         float brightness = 1.F;
         float contrast = 1.F;
-        float saturation = 1.F;
-        float tint = 0.F;
 
         bool operator == (const ColorControls&) const;
         bool operator != (const ColorControls&) const;
