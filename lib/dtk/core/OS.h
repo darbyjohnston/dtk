@@ -65,5 +65,11 @@ namespace dtk
     //! - std::exception
     bool delEnv(const std::string& name);
 
+    //! Open the given URL in the default browser.
+    //!
+    //! Throws:
+    //! - std::exception
+    void openURL(const std::string&);
+
     ///@}
 }

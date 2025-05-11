@@ -4,6 +4,7 @@
 
 #include <dtk/core/OS.h>
 
+#include <dtk/core/Format.h>
 #include <dtk/core/Memory.h>
 
 #if defined(__APPLE__)
@@ -94,5 +95,26 @@ namespace dtk
     bool delEnv(const std::string& name)
     {
         return ::unsetenv(name.c_str()) == 0;
+    }
+
+    void openURL(const std::string& value)
+    {
+#if defined(DJV_PLATFORM_MACOS)
+        CFURLRef url = CFURLCreateWithBytes(
+            NULL,
+            (UInt8*)value.c_str(),
+            value.size(),
+            kCFStringEncodingASCII,
+            NULL);
+        LSOpenCFURLRef(url, 0);
+        CFRelease(url);
+#else // DJV_PLATFORM_MACOS
+        std::stringstream ss;
+        ss << "xdg-open" << " " << value;
+        if (system(ss.str().c_str()) != 0)
+        {
+            throw std::runtime_error(Format("Cannot open URL: {0}").arg(value));
+        }
+#endif // DJV_PLATFORM_MACOS
     }
 }

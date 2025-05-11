@@ -13,6 +13,7 @@
 #define NOMINMAX
 #endif // NOMINMAX
 #include <windows.h>
+#include <shellapi.h>
 #include <stdlib.h>
 #include <VersionHelpers.h>
 
@@ -105,8 +106,9 @@ namespace dtk
         return out;
     }
 
-    bool getEnv(const std::string& name, std::string& out)
+    bool getEnv(const std::string& name, std::string& value)
     {
+        bool out = false;
         size_t size = 0;
         wchar_t* p = 0;
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
@@ -114,16 +116,15 @@ namespace dtk
         {
             if (p)
             {
-                out = utf16.to_bytes(p);
-                free(p);
-                return true;
+                value = utf16.to_bytes(p);
+                out = true;
             }
         }
         if (p)
         {
             free(p);
         }
-        return false;
+        return out;
     }
 
     bool setEnv(const std::string& name, const std::string& value)
@@ -136,5 +137,10 @@ namespace dtk
     {
         std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
         return _wputenv_s(utf16.from_bytes(name).c_str(), utf16.from_bytes(std::string()).c_str()) == 0;
+    }
+
+    void openURL(const std::string& value)
+    {
+        ShellExecute(0, 0, value.c_str(), 0, 0, SW_SHOW);
     }
 }
