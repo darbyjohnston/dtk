@@ -225,6 +225,25 @@ namespace dtk
             glfwHideWindow(_p->glfwWindow);
         }
 
+        void Window::setIcons(const std::vector<std::shared_ptr<Image> >& images)
+        {
+            DTK_P();
+            std::vector<GLFWimage> glfwImages;
+            for (size_t i = 0; i < images.size(); ++i)
+            {
+                const ImageInfo& info = images[i]->getInfo();
+                if (ImageType::RGBA_U8 == info.type &&
+                    !info.layout.mirror.x &&
+                    !info.layout.mirror.y &&
+                    1 == info.layout.alignment &&
+                    Endian::LSB == info.layout.endian)
+                {
+                    glfwImages.push_back({ info.size.w, info.size.h, images[i]->getData() });
+                }
+            }
+            glfwSetWindowIcon(p.glfwWindow, glfwImages.size(), glfwImages.data());
+        }
+
         void Window::makeCurrent()
         {
             DTK_P();

@@ -83,8 +83,9 @@ namespace dtk
             const std::shared_ptr<IconSystem>&,
             const std::shared_ptr<Style>&);
 
-        void setCloseCallback(const std::function<void(void)>&) override;
+        void setIcons(const std::vector<std::shared_ptr<Image> >&) override;
         std::shared_ptr<Image> screenshot(const Box2I& = Box2I(0, 0, -1, -1)) override;
+        void setCloseCallback(const std::function<void(void)>&) override;
 
         void setGeometry(const Box2I&) override;
         void setVisible(bool) override;

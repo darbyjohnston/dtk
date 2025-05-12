@@ -638,9 +638,9 @@ namespace dtk
         }
     }
 
-    void Window::setCloseCallback(const std::function<void(void)>& value)
+    void Window::setIcons(const std::vector<std::shared_ptr<Image> >& images)
     {
-        _p->closeCallback = value;
+        _p->window->setIcons(images);
     }
 
     std::shared_ptr<Image> Window::screenshot(const Box2I& rect)
@@ -674,6 +674,11 @@ namespace dtk
             }
         }
         return out;
+    }
+
+    void Window::setCloseCallback(const std::function<void(void)>& value)
+    {
+        _p->closeCallback = value;
     }
 
     void Window::setGeometry(const Box2I& value)

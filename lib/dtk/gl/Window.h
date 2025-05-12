@@ -4,11 +4,7 @@
 
 #pragma once
 
-#include <dtk/core/Util.h>
-#include <dtk/core/Vector.h>
-
-#include <memory>
-#include <functional>
+#include <dtk/core/Image.h>
 
 struct GLFWwindow;
 
@@ -77,6 +73,12 @@ namespace dtk
 
             //! Hide the window.
             void hide();
+
+            //! Set the window icons.
+            //! 
+            //! Icon images should be of type ImageType::RGBA_U8, with no
+            //! mirroring, memory alignment of one, and LSB memory endian.
+            void setIcons(const std::vector<std::shared_ptr<Image> >&);
 
             //! Make the OpenGL context current.
             void makeCurrent();
