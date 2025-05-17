@@ -64,6 +64,7 @@ namespace dtk
             V2I pos;
             Size2I frameBufferSize;
             V2F contentScale = V2F(1.F, 1.F);
+            std::vector<std::shared_ptr<Image> > icons;
             bool fullScreen = false;
             Size2I restoreSize;
             bool floatOnTop = false;
@@ -225,20 +226,30 @@ namespace dtk
             glfwHideWindow(_p->glfwWindow);
         }
 
-        void Window::setIcons(const std::vector<std::shared_ptr<Image> >& images)
+        void Window::setIcons(const std::vector<std::shared_ptr<Image> >& icons)
         {
             DTK_P();
+            p.icons.clear();
             std::vector<GLFWimage> glfwImages;
-            for (size_t i = 0; i < images.size(); ++i)
+            for (size_t i = 0; i < icons.size(); ++i)
             {
-                const ImageInfo& info = images[i]->getInfo();
+                const ImageInfo& info = icons[i]->getInfo();
                 if (ImageType::RGBA_U8 == info.type &&
                     !info.layout.mirror.x &&
                     !info.layout.mirror.y &&
                     1 == info.layout.alignment &&
                     Endian::LSB == info.layout.endian)
                 {
-                    glfwImages.push_back({ info.size.w, info.size.h, images[i]->getData() });
+                    auto icon = Image::create(info);
+                    const uint8_t* p0 = icons[i]->getData();
+                    const size_t scanlineSize = info.size.w * 4;
+                    uint8_t* p1 = icon->getData() + info.getByteCount() - scanlineSize;
+                    for (int y = 0; y < info.size.h; ++y, p0 += scanlineSize, p1 -= scanlineSize)
+                    {
+                        memcpy(p1, p0, scanlineSize);
+                    }
+                    p.icons.push_back(icon);
+                    glfwImages.push_back({ info.size.w, info.size.h, icon->getData() });
                 }
             }
             glfwSetWindowIcon(p.glfwWindow, glfwImages.size(), glfwImages.data());
