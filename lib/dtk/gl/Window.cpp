@@ -229,6 +229,7 @@ namespace dtk
         void Window::setIcons(const std::vector<std::shared_ptr<Image> >& icons)
         {
             DTK_P();
+#if not defined(__APPLE__)
             p.icons.clear();
             std::vector<GLFWimage> glfwImages;
             for (size_t i = 0; i < icons.size(); ++i)
@@ -253,6 +254,7 @@ namespace dtk
                 }
             }
             glfwSetWindowIcon(p.glfwWindow, glfwImages.size(), glfwImages.data());
+#endif // __APPLE__
         }
 
         void Window::makeCurrent()

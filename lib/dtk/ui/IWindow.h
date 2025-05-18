@@ -47,6 +47,8 @@ namespace dtk
         //! 
         //! Icon images should be of type ImageType::RGBA_U8, with no
         //! mirroring, memory alignment of one, and LSB memory endian.
+        //!
+        //! Window icons are not supported on macOS.
         virtual void setIcons(const std::vector<std::shared_ptr<Image> >&);
 
         //! Capture a screenshot.
