@@ -78,6 +78,7 @@ namespace dtk
             case FileBrowserMode::Dir:
                 NFD::PickFolder(outPath);
                 break;
+            default: break;
             }
             if (outPath)
             {
