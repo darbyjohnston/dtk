@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 set(ZLIB_GIT_REPOSITORY "https://github.com/madler/zlib.git")
-set(ZLIB_GIT_TAG "v1.2.13")
+set(ZLIB_GIT_TAG "v1.3.1")
 
 set(ZLIB_ARGS
     ${dtk_DEPS_ARGS}
