@@ -15,7 +15,6 @@ namespace dtk
     {
         RGB,
         HSV,
-        Swatches,
 
         Count,
         First = RGB
@@ -24,7 +23,6 @@ namespace dtk
 
     //! Color widget.
     //!
-    //! \todo Add a palette for saving colors.
     //! \todo Add support for displaying pixel types like U8, U16, etc.?
     class ColorWidget : public IWidget
     {

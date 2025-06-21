@@ -26,8 +26,7 @@ namespace dtk
     DTK_ENUM_IMPL(
         ColorWidgetMode,
         "RGB",
-        "HSV",
-        "Swatches");
+        "HSV");
 
     struct ColorWidget::Private
     {
@@ -41,7 +40,6 @@ namespace dtk
         std::shared_ptr<TabWidget> tabWidget;
         std::shared_ptr<GridLayout> rgbLayout;
         std::shared_ptr<GridLayout> hsvLayout;
-        std::shared_ptr<GridLayout> swatchesLayout;
 
         std::function<void(const Color4F&)> callback;
     };
@@ -117,48 +115,6 @@ namespace dtk
         p.hsvLayout->setGridPos(label, 3, 0);
         p.sliders["HSV/A"]->setParent(p.hsvLayout);
         p.hsvLayout->setGridPos(p.sliders["HSV/A"], 3, 1);
-
-        p.swatchesLayout = GridLayout::create(context);
-        p.swatchesLayout->setMarginRole(SizeRole::MarginSmall);
-        p.swatchesLayout->setSpacingRole(SizeRole::SpacingSmall);
-        p.tabWidget->addTab("Swatches", p.swatchesLayout);
-        int rows = 4;
-        int columns = 9;
-        for (int y = 0; y < rows; ++y)
-        {
-            for (int x = 0; x < columns; ++x)
-            {
-                Color4F color;
-                if (x < columns - 1)
-                {
-                    float hsv[3] = { x / float(columns - 1), 1.F - (y / float(rows)), 1.F };
-                    float rgb[3] = { 0.F, 0.F, 0.F };
-                    hsvToRGB(hsv, rgb);
-                    color.r = rgb[0];
-                    color.g = rgb[1];
-                    color.b = rgb[2];
-                    color.a = 1.F;
-                }
-                else
-                {
-                    color.r = color.g = color.b = 1.F - (y / float(rows - 1));
-                    color.a = 1.F;
-                }
-                auto swatch = ColorSwatch::create(context, p.swatchesLayout);
-                swatch->setColor(color);
-                swatch->setPressedCallback(
-                    [this, color]
-                    {
-                        DTK_P();
-                        setColor(color);
-                        if (p.callback)
-                        {
-                            p.callback(color);
-                        }
-                    });
-                p.swatchesLayout->setGridPos(swatch, y, x);
-            }
-        }
 
         _modeUpdate();
         _colorUpdate();
