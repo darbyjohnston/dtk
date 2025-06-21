@@ -18,7 +18,7 @@ void ColorWidgets::_init(
     ColorWidget::create(context, _layout);
 
     auto colorWidget = ColorWidget::create(context, _layout);
-    colorWidget->setMode(ColorWidgetMode::Swatches);
+    colorWidget->setMode(ColorWidgetMode::HSV);
 }
 
 ColorWidgets::~ColorWidgets()
