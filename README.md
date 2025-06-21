@@ -2,8 +2,8 @@
 [![Build Status](https://github.com/darbyjohnston/dtk/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/darbyjohnston/dtk/actions/workflows/ci-workflow.yml)
 [![codecov](https://codecov.io/gh/codecov/example-cpp11-cmake/branch/master/graph/badge.svg)](https://codecov.io/gh/darbyjohnston/dtk)
 
-dtk
-===
+# dtk
+
 dtk is an open source library for building lightweight desktop applications.
 
 Features:
@@ -97,9 +97,6 @@ window = None
 ```
 
 
-Building
-========
-
 ## Building Dependencies
 
 A CMake super build script is provided to build all of the dependencies from
@@ -156,8 +153,6 @@ Try running the `simple` example:
 Release/dtk/src/dtk-build/examples/simple/simple
 ```
 
-### Notes for building on macOS
-
 The CMake variable "CMAKE_OSX_ARCHITECTURES" can be used to specify the build
 architecture:
 ```
@@ -166,6 +161,13 @@ architecture:
 ```
 -DCMAKE_OSX_ARCHITECTURES=arm64
 ```
+
+These aliases are convenient for switching between architectures:
+```
+alias arm="env /usr/bin/arch -arm64 /bin/zsh --login"
+alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
+```
+
 
 ## Building on Windows
 
