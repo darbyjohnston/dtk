@@ -197,8 +197,8 @@ if ("${dtk_API}" STREQUAL "GL_4_1" OR
 endif()
 list(APPEND LIBRARIES dtkCore)
 set(LIBRARIES_PRIVATE lunasvg::lunasvg)
-if(dtk_NFD)
-    list(APPEND LIBRARIES_PRIVATE NFD::NFD)
+if(dtk_nfd)
+    list(APPEND LIBRARIES_PRIVATE nfd::nfd)
 endif()
 
 add_library(dtkUI ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})

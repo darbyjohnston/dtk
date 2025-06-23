@@ -8,9 +8,9 @@
 
 #include <dtk/core/File.h>
 
-#if defined(dtk_NFD)
+#if defined(dtk_nfd)
 #include <nfd.hpp>
-#endif // dtk_NFD
+#endif // dtk_nfd
 
 #include <nlohmann/json.hpp>
 
@@ -39,17 +39,17 @@ namespace dtk
         p.path = std::filesystem::current_path();
         p.recentFilesModel = RecentFilesModel::create(context);
 
-#if defined(dtk_NFD)
+#if defined(dtk_nfd)
         NFD::Init();
-#endif // dtk_NFD
+#endif // dtk_nfd
     }
 
     FileBrowserSystem::~FileBrowserSystem()
     {
         DTK_P();
-#if defined(dtk_NFD)
+#if defined(dtk_nfd)
         NFD::Quit();
-#endif // dtk_NFD
+#endif // dtk_nfd
     }
 
     std::shared_ptr<FileBrowserSystem> FileBrowserSystem::create(
@@ -66,7 +66,7 @@ namespace dtk
     {
         DTK_P();
         bool native = p.native;
-#if defined(dtk_NFD)
+#if defined(dtk_nfd)
         if (native)
         {
             nfdu8char_t* outPath = nullptr;
@@ -86,9 +86,9 @@ namespace dtk
                 NFD::FreePath(outPath);
             }
         }
-#else  // dtk_NFD
+#else  // dtk_nfd
         native = false;
-#endif  // dtk_NFD
+#endif  // dtk_nfd
         if (!native)
         {
             if (auto context = _context.lock())
