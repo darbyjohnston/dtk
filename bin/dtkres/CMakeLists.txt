@@ -18,5 +18,5 @@ install(TARGETS dtkres
 install(
     EXPORT dtkresTargets
     FILE dtkresTargets.cmake
-    DESTINATION "lib/cmake/dtk"
+    DESTINATION "share/dtk"
     NAMESPACE dtk::)

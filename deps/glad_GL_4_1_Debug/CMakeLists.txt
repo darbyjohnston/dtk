@@ -18,7 +18,7 @@ install(
 install(
     EXPORT gladTargets
     FILE gladTargets.cmake
-    DESTINATION "lib/cmake/dtk"
+    DESTINATION "share/dtk"
     NAMESPACE dtk::)
 install(
     DIRECTORY

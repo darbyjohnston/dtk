@@ -136,5 +136,5 @@ install(
 install(
     EXPORT dtkCoreTargets
     FILE dtkCoreTargets.cmake
-    DESTINATION "lib/cmake/dtk"
+    DESTINATION "share/dtk"
     NAMESPACE dtk::)

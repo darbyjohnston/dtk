@@ -86,5 +86,5 @@ install(
 install(
     EXPORT dtkResourceLibTargets
     FILE dtkResourceLibTargets.cmake
-    DESTINATION "lib/cmake/dtk"
+    DESTINATION "share/dtk"
     NAMESPACE dtk::)

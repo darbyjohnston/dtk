@@ -216,5 +216,5 @@ install(
 install(
     EXPORT dtkUITargets
     FILE dtkUITargets.cmake
-    DESTINATION "lib/cmake/dtk"
+    DESTINATION "share/dtk"
     NAMESPACE dtk::)
