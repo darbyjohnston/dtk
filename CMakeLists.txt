@@ -22,13 +22,14 @@ else()
 endif()
 set(dtk_NFD ${dtk_NFD_DEFAULT} CACHE BOOL "Enable support for native file dialogs")
 set(dtk_PYTHON OFF CACHE BOOL "Enable support for Python")
-set(dtk_TOOLS_DESTINATION "bin" CACHE STRING "Destination where tools will be installed (e.g., dtkres)")
 set(dtk_TESTS ON CACHE BOOL "Enable tests")
 set(dtk_EXAMPLES ON CACHE BOOL "Enable examples")
 if(APPLE)
     set(dtk_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
 endif()
 set(dtk_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
+set(dtk_TOOLS_INSTALL "bin" CACHE STRING "Destination where tools will be installed")
+set(dtk_INSTALL_FIND_FILES ON CACHE BOOL "Install CMake find files for dependencies")
 set(dtk_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 
@@ -164,16 +165,18 @@ install(
     FILES LICENSE.txt
     DESTINATION share/dtk)
 
-install(
-    FILES cmake/Modules/FindZLIB.cmake
-    DESTINATION share/dtk)
-install(
-    FILES cmake/Modules/FindPNG.cmake
-    DESTINATION share/dtk)
-if(dtk_UI_LIB)
+if(dtk_INSTALL_FIND_FILES)
     install(
-        FILES cmake/Modules/FindNFD.cmake
+        FILES cmake/Modules/FindZLIB.cmake
         DESTINATION share/dtk)
+    install(
+        FILES cmake/Modules/FindPNG.cmake
+        DESTINATION share/dtk)
+    if(dtk_UI_LIB)
+        install(
+            FILES cmake/Modules/FindNFD.cmake
+            DESTINATION share/dtk)
+    endif()
 endif()
 include(CMakePackageConfigHelpers)
 set(INCLUDE_INSTALL_DIR include)

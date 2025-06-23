@@ -34,6 +34,7 @@ if(APPLE)
     set(dtk_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
 endif()
 set(dtk_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
+set(dtk_TOOLS_INSTALL "bin" CACHE STRING "Destination where tools will be installed")
 set(dtk_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 

@@ -6,7 +6,7 @@ set(dtk_ARGS
     -Ddtk_API=${dtk_API}
     -Ddtk_NFD=${dtk_NFD}
     -Ddtk_PYTHON=${dtk_PYTHON}
-    -Ddtk_TOOLS_DESTINATION=${dtk_TOOLS_DESTINATION}
+    -Ddtk_TOOLS_INSTALL=${dtk_TOOLS_INSTALL}
     -Ddtk_TESTS=${dtk_TESTS}
     -Ddtk_EXAMPLES=${dtk_EXAMPLES}
     -Ddtk_GCOV=${dtk_GCOV}
