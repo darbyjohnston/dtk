@@ -29,15 +29,16 @@ if(APPLE)
 endif()
 set(dtk_IGNORE_PREFIX_PATH ${dtk_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
 set(dtk_TOOLS_INSTALL "bin" CACHE STRING "Destination where tools will be installed")
-set(dtk_INSTALL_FIND_FILES ON CACHE BOOL "Install CMake find files for dependencies")
+set(dtk_CMAKE_FIND_FILES ON CACHE BOOL "Use built-in CMake find files for dependencies")
 set(dtk_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(dtk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 
 #-------------------------------------------------------------------------------
 # Configuration
 
-set(CMAKE_MODULE_PATH
-    ${PROJECT_SOURCE_DIR}/cmake/Modules)
+if(dtk_CMAKE_FIND_FILES)
+    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_FIND_FRAMEWORK LAST)
@@ -165,7 +166,7 @@ install(
     FILES LICENSE.txt
     DESTINATION share/dtk)
 
-if(dtk_INSTALL_FIND_FILES)
+if(dtk_CMAKE_FIND_FILES)
     install(
         FILES cmake/Modules/FindZLIB.cmake
         DESTINATION share/dtk)
