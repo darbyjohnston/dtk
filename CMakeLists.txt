@@ -41,6 +41,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_FIND_FRAMEWORK LAST)
 
 if(WIN32)
+    #if(NOT WINDOWS_EXPORT_ALL_SYMBOLS)
+    #    set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    #endif()
 elseif(APPLE)
     set(CMAKE_SKIP_BUILD_RPATH FALSE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
@@ -155,6 +158,10 @@ endif()
 if(dtk_UI_LIB AND dtk_EXAMPLES)
     add_subdirectory(examples)
 endif()
+
+install(
+    FILES LICENSE.txt
+    DESTINATION share/dtk)
 
 install(
     FILES cmake/Modules/FindZLIB.cmake
