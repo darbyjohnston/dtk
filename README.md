@@ -4,7 +4,7 @@
 
 # dtk
 
-dtk is an open source library for building lightweight desktop applications.
+dtk is a library for building cross-platform C++ applications.
 
 Features:
 * Support for Linux, macOS, and Windows
