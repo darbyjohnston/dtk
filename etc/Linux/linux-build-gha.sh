@@ -11,7 +11,7 @@ cmake ../etc/SuperBuild \
     -DCMAKE_INSTALL_PREFIX=$PWD/install \
     -DCMAKE_PREFIX_PATH=$PWD/install \
     -Ddtk_API=$DTK_API \
-    -Ddtk_NFD=$DTK_NFD \
+    -Ddtk_nfd=$DTK_NFD \
     -Ddtk_PYTHON=$DTK_PYTHON \
     -Ddtk_TESTS=$DTK_TESTS \
     -Ddtk_EXAMPLES=$DTK_EXAMPLES \
