@@ -12,9 +12,7 @@ set_target_properties(dtkres PROPERTIES FOLDER bin)
 
 install(TARGETS dtkres
     EXPORT dtkresTargets
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin)
+    RUNTIME DESTINATION ${dtk_TOOLS_DESTINATION})
 install(
     EXPORT dtkresTargets
     FILE dtkresTargets.cmake
