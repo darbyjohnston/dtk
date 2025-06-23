@@ -18,11 +18,6 @@
 
 namespace dtk
 {
-    namespace
-    {
-        const float hueMax = 359.F;
-    }
-
     DTK_ENUM_IMPL(
         ColorWidgetMode,
         "RGB",
@@ -60,9 +55,6 @@ namespace dtk
         p.sliders["RGB/A"] = FloatEditSlider::create(context);
 
         p.sliders["HSV/H"] = FloatEditSlider::create(context);
-        p.sliders["HSV/H"]->setRange(RangeF(0.F, hueMax));
-        p.sliders["HSV/H"]->setStep(10.F);
-        p.sliders["HSV/H"]->setLargeStep(60.F);
         p.sliders["HSV/S"] = FloatEditSlider::create(context);
         p.sliders["HSV/V"] = FloatEditSlider::create(context);
         p.sliders["HSV/A"] = FloatEditSlider::create(context);
@@ -194,7 +186,7 @@ namespace dtk
                 DTK_P();
                 if (p.hsvLayout == p.tabWidget->getCurrentWidget())
                 {
-                    p.hsv[0] = value / hueMax;
+                    p.hsv[0] = value;
                     float rgb[3] = { 0.F, 0.F, 0.F };
                     hsvToRGB(p.hsv, rgb);
                     p.color.r = rgb[0];
@@ -342,7 +334,7 @@ namespace dtk
         p.sliders["RGB/B"]->setValue(p.color.b);
         p.sliders["RGB/A"]->setValue(p.color.a);
 
-        p.sliders["HSV/H"]->setValue(p.hsv[0] * hueMax);
+        p.sliders["HSV/H"]->setValue(p.hsv[0]);
         p.sliders["HSV/S"]->setValue(p.hsv[1]);
         p.sliders["HSV/V"]->setValue(p.hsv[2]);
         p.sliders["HSV/A"]->setValue(p.color.a);

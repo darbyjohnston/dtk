@@ -15,9 +15,11 @@ void ColorWidgets::_init(
     _layout = HorizontalLayout::create(context, shared_from_this());
     _layout->setMarginRole(SizeRole::Margin);
 
-    ColorWidget::create(context, _layout);
-
     auto colorWidget = ColorWidget::create(context, _layout);
+    colorWidget->setColor(Color4F(1.F, .6F, 0.F));
+
+    colorWidget = ColorWidget::create(context, _layout);
+    colorWidget->setColor(Color4F(0.F, .6F, 1.F));
     colorWidget->setMode(ColorWidgetMode::HSV);
 }
 
