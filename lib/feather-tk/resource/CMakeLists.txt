@@ -78,13 +78,13 @@ add_dependencies(feather-tk-resource feather-tk-res)
 
 install(
     TARGETS feather-tk-resource
-    EXPORT feather-tk-resourceLibTargets
+    EXPORT feather-tk-resourceTargets
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
     PUBLIC_HEADER DESTINATION include/feather-tk/resource)
 install(
-    EXPORT feather-tk-resourceLibTargets
-    FILE feather-tk-resourceLibTargets.cmake
+    EXPORT feather-tk-resourceTargets
+    FILE feather-tk-resourceTargets.cmake
     DESTINATION "share/feather-tk"
     NAMESPACE feather_tk::)
