@@ -6,7 +6,7 @@
 
 #include <feather-tk/core/Format.h>
 
-namespace feather-tk
+namespace feather_tk
 {
     namespace gl
     {
