@@ -7,11 +7,11 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
 #include <testLib/ITest.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {

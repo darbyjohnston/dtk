@@ -2,22 +2,22 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/FormLayout.h>
-#include <dtk/ui/GridLayout.h>
-#include <dtk/ui/GroupBox.h>
-#include <dtk/ui/IntEdit.h>
-#include <dtk/ui/IntEditSlider.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/FormLayout.h>
+#include <feather-tk/ui/GridLayout.h>
+#include <feather-tk/ui/GroupBox.h>
+#include <feather-tk/ui/IntEdit.h>
+#include <feather-tk/ui/IntEditSlider.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

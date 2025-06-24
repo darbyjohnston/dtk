@@ -2,15 +2,15 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/PieChart.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/PieChart.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

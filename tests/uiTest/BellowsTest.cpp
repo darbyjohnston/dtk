@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/Bellows.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/Bellows.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         BellowsTest::BellowsTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::BellowsTest")
+            ITest(context, "feather_tk::ui_test::BellowsTest")
         {}
 
         BellowsTest::~BellowsTest()
@@ -51,28 +51,28 @@ namespace dtk
 
                 auto bellows = Bellows::create(context, "Bellows", layout);
                 bellows->setText("Test");
-                DTK_ASSERT("Test" == bellows->getText());
+                FEATHER_TK_ASSERT("Test" == bellows->getText());
                 auto label = Label::create(context, "Label");
                 bellows->setWidget(label);
                 bellows->setWidget(label);
-                DTK_ASSERT(label == bellows->getWidget());
+                FEATHER_TK_ASSERT(label == bellows->getWidget());
                 bellows->setOpen(true);
                 bellows->setOpen(true);
-                DTK_ASSERT(bellows->isOpen());
+                FEATHER_TK_ASSERT(bellows->isOpen());
                 bellows->setOpen(false);
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(bellows->isOpen());
+                FEATHER_TK_ASSERT(bellows->isOpen());
                 window->setKey(Key::Enter);
-                DTK_ASSERT(!bellows->isOpen());
+                FEATHER_TK_ASSERT(!bellows->isOpen());
                 window->setKey(Key::Escape);
                 window->setCursorPos(center(bellows->getGeometry()));
                 window->setButton(0);
-                DTK_ASSERT(bellows->isOpen());
+                FEATHER_TK_ASSERT(bellows->isOpen());
                 window->setButton(0);
-                DTK_ASSERT(!bellows->isOpen());
+                FEATHER_TK_ASSERT(!bellows->isOpen());
 
                 bellows->hide();
                 app->tick();

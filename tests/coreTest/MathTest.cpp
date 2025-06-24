@@ -4,16 +4,16 @@
 
 #include <coreTest/MathTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/Math.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/Math.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         MathTest::MathTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::MathTest")
+            ITest(context, "feather_tk::core_test::MathTest")
         {}
 
         MathTest::~MathTest()
@@ -30,17 +30,17 @@ namespace dtk
             for (float i = 0.F; i < 360.F; i += 90.F)
             {
                 const float r = deg2rad(i);
-                DTK_ASSERT(rad2deg(r) == i);
+                FEATHER_TK_ASSERT(rad2deg(r) == i);
             }
             {
-                DTK_ASSERT(0 == clamp(-1, 0, 1));
-                DTK_ASSERT(0 == clamp(0, 0, 1));
-                DTK_ASSERT(1 == clamp(1, 0, 1));
-                DTK_ASSERT(1 == clamp(2, 0, 1));
+                FEATHER_TK_ASSERT(0 == clamp(-1, 0, 1));
+                FEATHER_TK_ASSERT(0 == clamp(0, 0, 1));
+                FEATHER_TK_ASSERT(1 == clamp(1, 0, 1));
+                FEATHER_TK_ASSERT(1 == clamp(2, 0, 1));
             }
             {
-                DTK_ASSERT(0.F == lerp(0.F, 0.F, 9.F));
-                DTK_ASSERT(9.F == lerp(1.F, 0.F, 9.F));
+                FEATHER_TK_ASSERT(0.F == lerp(0.F, 0.F, 9.F));
+                FEATHER_TK_ASSERT(9.F == lerp(1.F, 0.F, 9.F));
             }
             for (float i = 0.F; i < 1.F; i += .1F)
             {
@@ -51,15 +51,15 @@ namespace dtk
                 _print(Format("smoothstep {0}: {1}").arg(i).arg(smoothStep(i, 0.0, 1.0)));
             }
             {
-                DTK_ASSERT(1 == digits(0));
-                DTK_ASSERT(2 == digits(10));
-                DTK_ASSERT(3 == digits(100));
-                DTK_ASSERT(4 == digits(1000));
-                DTK_ASSERT(4 == digits(-1000));
+                FEATHER_TK_ASSERT(1 == digits(0));
+                FEATHER_TK_ASSERT(2 == digits(10));
+                FEATHER_TK_ASSERT(3 == digits(100));
+                FEATHER_TK_ASSERT(4 == digits(1000));
+                FEATHER_TK_ASSERT(4 == digits(-1000));
             }
             {
-                DTK_ASSERT(fuzzyCompare(1.0, 1.00000000001));
-                DTK_ASSERT(fuzzyCompare(1.F, 1.00000001F));
+                FEATHER_TK_ASSERT(fuzzyCompare(1.0, 1.00000000001));
+                FEATHER_TK_ASSERT(fuzzyCompare(1.F, 1.00000001F));
             }
         }
     }

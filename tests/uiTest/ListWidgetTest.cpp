@@ -7,17 +7,17 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ListWidget.h>
+#include <feather-tk/ui/ListWidget.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ListWidgetTest::ListWidgetTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ListWidgetTest")
+            ITest(context, "feather_tk::ui_test::ListWidgetTest")
         {}
 
         ListWidgetTest::~ListWidgetTest()
@@ -67,17 +67,17 @@ namespace dtk
             };
             widget->setItems(items);
             widget->setItems(items);
-            DTK_ASSERT(items == widget->getItems());
+            FEATHER_TK_ASSERT(items == widget->getItems());
             app->tick();
             items.push_back(ListItem("Item 4"));
             widget->setItems(items);
             app->tick();
             widget->setSearch("4");
             widget->setSearch("4");
-            DTK_ASSERT("4" == widget->getSearch());
+            FEATHER_TK_ASSERT("4" == widget->getSearch());
             app->tick();
             widget->clearSearch();
-            DTK_ASSERT(widget->getSearch().empty());
+            FEATHER_TK_ASSERT(widget->getSearch().empty());
             app->tick();
 
             window->setCursorEnter(true);
@@ -88,7 +88,7 @@ namespace dtk
             case ButtonGroupType::Check:
             case ButtonGroupType::Radio:
             case ButtonGroupType::Toggle:
-                DTK_ASSERT(widget->getChecked(0));
+                FEATHER_TK_ASSERT(widget->getChecked(0));
                 break;
             default: break;
             }

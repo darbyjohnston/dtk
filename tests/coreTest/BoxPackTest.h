@@ -6,9 +6,9 @@
 
 #include <testLib/ITest.h>
 
-#include <dtk/core/BoxPack.h>
+#include <feather-tk/core/BoxPack.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {

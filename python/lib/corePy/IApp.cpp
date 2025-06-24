@@ -4,16 +4,16 @@
 
 #include <corePy/IApp.h>
 
-#include <dtk/core/CmdLine.h>
-#include <dtk/core/Context.h>
-#include <dtk/core/IApp.h>
+#include <feather-tk/core/CmdLine.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/IApp.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void iApp(py::module_& m)
     {

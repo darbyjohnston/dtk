@@ -7,20 +7,20 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/TabBar.h>
-#include <dtk/ui/TabWidget.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/TabBar.h>
+#include <feather-tk/ui/TabWidget.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         TabWidgetTest::TabWidgetTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::TabWidgetTest")
+            ITest(context, "feather_tk::ui_test::TabWidgetTest")
         {}
 
         TabWidgetTest::~TabWidgetTest()
@@ -64,14 +64,14 @@ namespace dtk
                 };
                 widget->setTabs(tabs);
                 widget->setTabs(tabs);
-                DTK_ASSERT(tabs == widget->getTabs());
+                FEATHER_TK_ASSERT(tabs == widget->getTabs());
                 app->tick();
                 widget->addTab("Tab 2");
                 tabs.push_back("Tab 2");
-                DTK_ASSERT(tabs == widget->getTabs());
+                FEATHER_TK_ASSERT(tabs == widget->getTabs());
                 app->tick();
                 widget->clearTabs();
-                DTK_ASSERT(widget->getTabs().empty());
+                FEATHER_TK_ASSERT(widget->getTabs().empty());
                 app->tick();
                 widget->setTabs(tabs);
                 int tab = 0;
@@ -82,7 +82,7 @@ namespace dtk
                     });
                 widget->setCurrentTab(2);
                 widget->setCurrentTab(2);
-                DTK_ASSERT(2 == widget->getCurrentTab());
+                FEATHER_TK_ASSERT(2 == widget->getCurrentTab());
                 app->tick();
             }
         }
@@ -115,10 +115,10 @@ namespace dtk
                 widget->addTab(tabs[0], label0);
                 auto label1 = Label::create(context, "Label 1");
                 widget->addTab(tabs[1], label1);
-                DTK_ASSERT(tabs == widget->getTabs());
+                FEATHER_TK_ASSERT(tabs == widget->getTabs());
                 app->tick();
                 widget->clearTabs();
-                DTK_ASSERT(widget->getTabs().empty());
+                FEATHER_TK_ASSERT(widget->getTabs().empty());
                 app->tick();
                 widget->addTab(tabs[0], label0);
                 widget->addTab(tabs[1], label1);
@@ -130,7 +130,7 @@ namespace dtk
                     });
                 widget->setCurrentTab(1);
                 widget->setCurrentTab(1);
-                DTK_ASSERT(1 == widget->getCurrentTab());
+                FEATHER_TK_ASSERT(1 == widget->getCurrentTab());
                 app->tick();
 
                 window->setCursorEnter(true);
@@ -140,7 +140,7 @@ namespace dtk
                 window->setKey(Key::End);
                 window->setKey(Key::Home);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(0 == widget->getCurrentTab());
+                FEATHER_TK_ASSERT(0 == widget->getCurrentTab());
                 window->setKey(Key::Escape);
             }
         }

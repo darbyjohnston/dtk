@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <dtk/ui/FormLayout.h>
+#include <feather-tk/ui/FormLayout.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
 class Editors : public IWidget
 {

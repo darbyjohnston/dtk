@@ -4,17 +4,17 @@
 
 #include <coreTest/AppTest.h>
 
-#include <dtk/core/IApp.h>
-#include <dtk/core/CmdLine.h>
+#include <feather-tk/core/IApp.h>
+#include <feather-tk/core/CmdLine.h>
 
-#include <dtk/core/Assert.h>
+#include <feather-tk/core/Assert.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         AppTest::AppTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::app_test::AppTest")
+            ITest(context, "feather_tk::app_test::AppTest")
         {}
 
         AppTest::~AppTest()
@@ -61,7 +61,7 @@ namespace dtk
                 IApp::_init(
                     context,
                     argv,
-                    "dtk::app_test::App",
+                    "feather_tk::app_test::App",
                     "Test application",
                     {
                         CmdLineValueArg<std::string>::create(
@@ -104,8 +104,8 @@ namespace dtk
                 argv[1][0] = 'b';
                 argv[1][1] = 0;
                 auto r = convert(2, argv);
-                DTK_ASSERT("a" == r[0]);
-                DTK_ASSERT("b" == r[1]);
+                FEATHER_TK_ASSERT("a" == r[0]);
+                FEATHER_TK_ASSERT("b" == r[1]);
                 delete [] argv[0];
                 delete [] argv[1];
             }
@@ -118,8 +118,8 @@ namespace dtk
                 argv[1][0] = L'b';
                 argv[1][1] = 0;
                 auto r = convert(2, argv);
-                DTK_ASSERT("a" == r[0]);
-                DTK_ASSERT("b" == r[1]);
+                FEATHER_TK_ASSERT("a" == r[0]);
+                FEATHER_TK_ASSERT("b" == r[1]);
                 delete [] argv[0];
                 delete [] argv[1];
             }
@@ -135,8 +135,8 @@ namespace dtk
                 std::vector<std::string> argv = { "app", "arg", "-option", "42" };
                 auto app = App::create(context, argv);
                 app->run();
-                DTK_ASSERT("arg" == app->getArg());
-                DTK_ASSERT(42 == app->getOption());
+                FEATHER_TK_ASSERT("arg" == app->getArg());
+                FEATHER_TK_ASSERT(42 == app->getOption());
             }
             if (auto context = _context.lock())
             {

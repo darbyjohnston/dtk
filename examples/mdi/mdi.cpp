@@ -2,19 +2,19 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/ColorWidget.h>
-#include <dtk/ui/MDICanvas.h>
-#include <dtk/ui/MDIWidget.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/ColorWidget.h>
+#include <feather-tk/ui/MDICanvas.h>
+#include <feather-tk/ui/MDIWidget.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
-#include <dtk/core/Format.h>
-#include <dtk/core/Random.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/Random.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

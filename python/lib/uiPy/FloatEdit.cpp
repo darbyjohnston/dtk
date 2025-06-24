@@ -4,7 +4,7 @@
 
 #include <uiPy/FloatEdit.h>
 
-#include <dtk/ui/FloatEdit.h>
+#include <feather-tk/ui/FloatEdit.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void floatEdit(py::module_& m)
     {

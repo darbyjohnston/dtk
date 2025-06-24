@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/Style.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/Style.h>
 
-#include <dtk/core/ObservableValue.h>
+#include <feather-tk/core/ObservableValue.h>
 
 #include <filesystem>
 
-namespace dtk
+namespace feather_tk
 {
     namespace examples
     {
@@ -19,7 +19,7 @@ namespace dtk
         {
             class Window;
 
-            class App : public dtk::App
+            class App : public feather_tk::App
             {
             protected:
                 void _init(

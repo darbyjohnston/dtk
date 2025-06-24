@@ -4,20 +4,20 @@
 
 #include <glTest/TextureAtlasTest.h>
 
-#include <dtk/gl/TextureAtlas.h>
-#include <dtk/gl/Window.h>
+#include <feather-tk/gl/TextureAtlas.h>
+#include <feather-tk/gl/Window.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-using namespace dtk::gl;
+using namespace feather_tk::gl;
 
-namespace dtk
+namespace feather_tk
 {
     namespace gl_test
     {
         TextureAtlasTest::TextureAtlasTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::gl_test::TextureAtlasTest")
+            ITest(context, "feather_tk::gl_test::TextureAtlasTest")
         {}
 
         TextureAtlasTest::~TextureAtlasTest()
@@ -64,16 +64,16 @@ namespace dtk
                     ImageType::L_U8,
                     ImageFilter::Linear,
                     0);
-                DTK_ASSERT(1024 == atlas->getSize());
-                DTK_ASSERT(ImageType::L_U8 == atlas->getType());
-                DTK_ASSERT(atlas->getTexture());
+                FEATHER_TK_ASSERT(1024 == atlas->getSize());
+                FEATHER_TK_ASSERT(ImageType::L_U8 == atlas->getType());
+                FEATHER_TK_ASSERT(atlas->getTexture());
                 
                 for (size_t i = 0; i < 10; ++i)
                 {
                     auto image = Image::create(512, 512, ImageType::L_U8);
                     TextureAtlasItem item;
-                    DTK_ASSERT(atlas->addItem(image, item));
-                    DTK_ASSERT(atlas->getItem(item.id, item));
+                    FEATHER_TK_ASSERT(atlas->addItem(image, item));
+                    FEATHER_TK_ASSERT(atlas->getItem(item.id, item));
                     _print(format(item));
                     _print(Format("Percentage: {0}").arg(atlas->getPercentageUsed()));
                 }

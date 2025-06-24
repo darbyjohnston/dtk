@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <dtk/ui/IWidget.h>
+#include <feather-tk/ui/IWidget.h>
 
-#include <dtk/gl/OffscreenBuffer.h>
-#include <dtk/gl/Shader.h>
+#include <feather-tk/gl/OffscreenBuffer.h>
+#include <feather-tk/gl/Shader.h>
 
-#include <dtk/core/Timer.h>
+#include <feather-tk/core/Timer.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
 class OffscreenWidget : public IWidget
 {

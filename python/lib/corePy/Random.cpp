@@ -4,13 +4,13 @@
 
 #include <corePy/Random.h>
 
-#include <dtk/core/Random.h>
+#include <feather-tk/core/Random.h>
 
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void random(py::module_& m)
     {

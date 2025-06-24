@@ -4,17 +4,17 @@
 
 #include <uiTest/EventTest.h>
 
-#include <dtk/ui/Event.h>
+#include <feather-tk/ui/Event.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         EventTest::EventTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::EventTest")
+            ITest(context, "feather_tk::ui_test::EventTest")
         {}
 
         EventTest::~EventTest()
@@ -33,7 +33,7 @@ namespace dtk
         
         void EventTest::_enums()
         {
-            DTK_TEST_ENUM(Key);
+            FEATHER_TK_TEST_ENUM(Key);
             _print(getKeyModifierLabel(static_cast<int>(KeyModifier::None)));
             _print(getKeyModifierLabel(static_cast<int>(KeyModifier::Shift)));
             _print(getKeyModifierLabel(static_cast<int>(KeyModifier::Control)));

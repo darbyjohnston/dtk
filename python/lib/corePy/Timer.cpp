@@ -4,8 +4,8 @@
 
 #include <corePy/Timer.h>
 
-#include <dtk/core/Context.h>
-#include <dtk/core/Timer.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/Timer.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/chrono.h>
@@ -15,7 +15,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void timer(py::module_& m)
     {

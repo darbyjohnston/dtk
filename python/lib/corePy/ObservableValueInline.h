@@ -2,9 +2,9 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/core/ObservableValue.h>
+#include <feather-tk/core/ObservableValue.h>
 
-namespace dtk
+namespace feather_tk
 {
     template<typename T>
     inline void observableValue(pybind11::module_& m, const std::string& type)

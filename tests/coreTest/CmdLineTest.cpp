@@ -4,16 +4,16 @@
 
 #include <coreTest/CmdLineTest.h>
 
-#include <dtk/core/CmdLine.h>
+#include <feather-tk/core/CmdLine.h>
 
-#include <dtk/core/Assert.h>
+#include <feather-tk/core/Assert.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         CmdLineTest::CmdLineTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::app_test::CmdLineTest")
+            ITest(context, "feather_tk::app_test::CmdLineTest")
         {}
 
         CmdLineTest::~CmdLineTest()
@@ -52,8 +52,8 @@ namespace dtk
                 "This is a flag option");
             _print(join(flagCmdLineOption->getHelp(), '\n'));
             flagCmdLineOption->parse(argv);
-            DTK_ASSERT(flag);
-            DTK_ASSERT(!flagCmdLineOption->getMatchedName().empty());
+            FEATHER_TK_ASSERT(flag);
+            FEATHER_TK_ASSERT(!flagCmdLineOption->getMatchedName().empty());
 
             auto boolCmdLineOption = CmdLineValueOption<bool>::create(
                 boolOption,
@@ -63,7 +63,7 @@ namespace dtk
                 join({ "0", "1" }, ", "));
             _print(join(boolCmdLineOption->getHelp(), '\n'));
             boolCmdLineOption->parse(argv);
-            DTK_ASSERT(boolOption);
+            FEATHER_TK_ASSERT(boolOption);
 
             auto intCmdLineOption = CmdLineValueOption<int>::create(
                 intOption,
@@ -72,52 +72,52 @@ namespace dtk
                 "0");
             _print(join(intCmdLineOption->getHelp(), '\n'));
             intCmdLineOption->parse(argv);
-            DTK_ASSERT(10 == intOption);
+            FEATHER_TK_ASSERT(10 == intOption);
 
             auto intCmdLineArg = CmdLineValueArg<int>::create(
                 intArg,
                 "int",
                 "This is an integer argument");
-            DTK_ASSERT(!intCmdLineArg->getName().empty());
-            DTK_ASSERT(!intCmdLineArg->isOptional());
+            FEATHER_TK_ASSERT(!intCmdLineArg->getName().empty());
+            FEATHER_TK_ASSERT(!intCmdLineArg->isOptional());
             _print(intCmdLineArg->getHelp());
             intCmdLineArg->parse(argv);
-            DTK_ASSERT(100 == intArg);
+            FEATHER_TK_ASSERT(100 == intArg);
 
             auto stringCmdLineArg = CmdLineValueArg<std::string>::create(
                 stringArg,
                 "string",
                 "This is a string argument");
-            DTK_ASSERT(!stringCmdLineArg->getName().empty());
-            DTK_ASSERT(!stringCmdLineArg->isOptional());
+            FEATHER_TK_ASSERT(!stringCmdLineArg->getName().empty());
+            FEATHER_TK_ASSERT(!stringCmdLineArg->isOptional());
             _print(stringCmdLineArg->getHelp());
             stringCmdLineArg->parse(argv);
-            DTK_ASSERT("string" == stringArg);
+            FEATHER_TK_ASSERT("string" == stringArg);
 
             auto listCmdLineArg = CmdLineListArg<std::string>::create(
                 listArg,
                 "list",
                 "This is a list argument");
-            DTK_ASSERT(!listCmdLineArg->getName().empty());
-            DTK_ASSERT(!listCmdLineArg->isOptional());
+            FEATHER_TK_ASSERT(!listCmdLineArg->getName().empty());
+            FEATHER_TK_ASSERT(!listCmdLineArg->isOptional());
             _print(listCmdLineArg->getHelp());
             listCmdLineArg->parse(argv);
-            DTK_ASSERT(3 == listArg.size());
-            DTK_ASSERT("list0" == listArg[0]);
-            DTK_ASSERT("list1" == listArg[1]);
-            DTK_ASSERT("list2" == listArg[2]);
+            FEATHER_TK_ASSERT(3 == listArg.size());
+            FEATHER_TK_ASSERT("list0" == listArg[0]);
+            FEATHER_TK_ASSERT("list1" == listArg[1]);
+            FEATHER_TK_ASSERT("list2" == listArg[2]);
 
             try
             {
                 intCmdLineArg->parse(argv);
-                DTK_ASSERT(false);
+                FEATHER_TK_ASSERT(false);
             }
             catch (const std::exception&)
             {}
             try
             {
                 stringCmdLineArg->parse(argv);
-                DTK_ASSERT(false);
+                FEATHER_TK_ASSERT(false);
             }
             catch (const std::exception&)
             {}
@@ -125,7 +125,7 @@ namespace dtk
             try
             {
                 intCmdLineOption->parse(argv);
-                DTK_ASSERT(false);
+                FEATHER_TK_ASSERT(false);
             }
             catch (const std::exception&)
             {}

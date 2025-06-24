@@ -4,15 +4,15 @@
 
 #include <coreTest/CommandTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Command.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Command.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         CommandTest::CommandTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::CommandTest")
+            ITest(context, "feather_tk::core_test::CommandTest")
         {}
 
         CommandTest::~CommandTest()
@@ -78,39 +78,39 @@ namespace dtk
                     {
                         hasRedo = value;
                     });
-                DTK_ASSERT(!hasUndo);
-                DTK_ASSERT(!hasRedo);
+                FEATHER_TK_ASSERT(!hasUndo);
+                FEATHER_TK_ASSERT(!hasRedo);
 
                 commandStack->push(std::make_shared<AddCommand>(1, data));
                 commandStack->push(std::make_shared<AddCommand>(2, data));
                 commandStack->push(std::make_shared<AddCommand>(3, data));
-                DTK_ASSERT(6 == data->value);
-                DTK_ASSERT(hasUndo);
+                FEATHER_TK_ASSERT(6 == data->value);
+                FEATHER_TK_ASSERT(hasUndo);
 
                 commandStack->undo();
-                DTK_ASSERT(3 == data->value);
-                DTK_ASSERT(hasRedo);
+                FEATHER_TK_ASSERT(3 == data->value);
+                FEATHER_TK_ASSERT(hasRedo);
                 commandStack->redo();
-                DTK_ASSERT(6 == data->value);
+                FEATHER_TK_ASSERT(6 == data->value);
                 commandStack->undo();
-                DTK_ASSERT(3 == data->value);
+                FEATHER_TK_ASSERT(3 == data->value);
 
                 commandStack->undo();
-                DTK_ASSERT(1 == data->value);
+                FEATHER_TK_ASSERT(1 == data->value);
                 commandStack->undo();
-                DTK_ASSERT(0 == data->value);
-                DTK_ASSERT(!hasUndo);
+                FEATHER_TK_ASSERT(0 == data->value);
+                FEATHER_TK_ASSERT(!hasUndo);
 
                 commandStack->redo();
-                DTK_ASSERT(1 == data->value);
+                FEATHER_TK_ASSERT(1 == data->value);
                 commandStack->redo();
-                DTK_ASSERT(3 == data->value);
+                FEATHER_TK_ASSERT(3 == data->value);
                 commandStack->redo();
-                DTK_ASSERT(6 == data->value);
+                FEATHER_TK_ASSERT(6 == data->value);
 
                 commandStack->clear();
-                DTK_ASSERT(!hasUndo);
-                DTK_ASSERT(!hasRedo);
+                FEATHER_TK_ASSERT(!hasUndo);
+                FEATHER_TK_ASSERT(!hasRedo);
             }
         }
     }

@@ -4,17 +4,17 @@
 
 #include <uiTest/ActionTest.h>
 
-#include <dtk/ui/Action.h>
+#include <feather-tk/ui/Action.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ActionTest::ActionTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ActionTest")
+            ITest(context, "feather_tk::ui_test::ActionTest")
         {}
 
         ActionTest::~ActionTest()
@@ -32,15 +32,15 @@ namespace dtk
                 auto a = Action::create(
                     "Test",
                     [] {});
-                DTK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT("Test" == a->getText());
             }
             {
                 auto a = Action::create(
                     "Test",
                     "Icon",
                     [] {});
-                DTK_ASSERT("Test" == a->getText());
-                DTK_ASSERT("Icon" == a->getIcon());
+                FEATHER_TK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT("Icon" == a->getIcon());
             }
             {
                 auto a = Action::create(
@@ -48,9 +48,9 @@ namespace dtk
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [] {});
-                DTK_ASSERT("Test" == a->getText());
-                DTK_ASSERT(Key::T == a->getShortcut());
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
+                FEATHER_TK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT(Key::T == a->getShortcut());
+                FEATHER_TK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
             {
                 auto a = Action::create(
@@ -59,24 +59,24 @@ namespace dtk
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [] {});
-                DTK_ASSERT("Test" == a->getText());
-                DTK_ASSERT("Icon" == a->getIcon());
-                DTK_ASSERT(Key::T == a->getShortcut());
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
+                FEATHER_TK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT("Icon" == a->getIcon());
+                FEATHER_TK_ASSERT(Key::T == a->getShortcut());
+                FEATHER_TK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
             {
                 auto a = Action::create(
                     "Test",
                     [](bool) {});
-                DTK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT("Test" == a->getText());
             }
             {
                 auto a = Action::create(
                     "Test",
                     "Icon",
                     [](bool) {});
-                DTK_ASSERT("Test" == a->getText());
-                DTK_ASSERT("Icon" == a->getIcon());
+                FEATHER_TK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT("Icon" == a->getIcon());
             }
             {
                 auto a = Action::create(
@@ -84,9 +84,9 @@ namespace dtk
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [](bool) {});
-                DTK_ASSERT("Test" == a->getText());
-                DTK_ASSERT(Key::T == a->getShortcut());
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
+                FEATHER_TK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT(Key::T == a->getShortcut());
+                FEATHER_TK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
             {
                 auto a = Action::create(
@@ -95,10 +95,10 @@ namespace dtk
                     Key::T,
                     static_cast<int>(KeyModifier::Control),
                     [](bool) {});
-                DTK_ASSERT("Test" == a->getText());
-                DTK_ASSERT("Icon" == a->getIcon());
-                DTK_ASSERT(Key::T == a->getShortcut());
-                DTK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
+                FEATHER_TK_ASSERT("Test" == a->getText());
+                FEATHER_TK_ASSERT("Icon" == a->getIcon());
+                FEATHER_TK_ASSERT(Key::T == a->getShortcut());
+                FEATHER_TK_ASSERT(static_cast<int>(KeyModifier::Control) == a->getShortcutModifiers());
             }
         }
     }

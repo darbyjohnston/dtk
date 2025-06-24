@@ -50,13 +50,13 @@ set(SOURCE
     Timer.cpp
     Vector.cpp)
 
-add_library(dtkCorePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(dtkCorePy dtkCore Python3::Python)
-set_target_properties(dtkCorePy PROPERTIES FOLDER python/lib)
-set_target_properties(dtkCorePy PROPERTIES PUBLIC_HEADER "${HEADERS}")
+add_library(feather-tk-corePy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(feather-tk-corePy feather-tk-core Python3::Python)
+set_target_properties(feather-tk-corePy PROPERTIES FOLDER python/lib)
+set_target_properties(feather-tk-corePy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkCorePy
+install(TARGETS feather-tk-corePy
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
-    PUBLIC_HEADER DESTINATION include/dtk/dtkCorePy)
+    PUBLIC_HEADER DESTINATION include/feather-tk/corePy)

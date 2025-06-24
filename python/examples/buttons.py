@@ -2,92 +2,92 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import dtk
+import feather_tk as ftk
 
 import sys
 
 # Create the context and application.
-context = dtk.Context()
-app = dtk.App(context, sys.argv, "buttons", "Buttons example")
+context = ftk.Context()
+app = ftk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create a window.
-window = dtk.MainWindow(context, app, "buttons", dtk.Size2I(1280, 960))
+window = ftk.MainWindow(context, app, "buttons", ftk.Size2I(1280, 960))
 
 # Create a layout.
-layout = dtk.VerticalLayout(context)
-layout.marginRole = dtk.SizeRole.Margin
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+layout = ftk.VerticalLayout(context)
+layout.marginRole = ftk.SizeRole.Margin
+scrollWidget = ftk.ScrollWidget(context, ftk.ScrollType.Both)
 scrollWidget.border = False
-scrollWidget.vStretch = dtk.Stretch.Expanding
+scrollWidget.vStretch = ftk.Stretch.Expanding
 scrollWidget.widget = layout
 window.setWidget(scrollWidget)
         
 # Create push buttons.
-groupBox = dtk.GroupBox(context, "Push Buttons", layout)
-hLayout = dtk.HorizontalLayout(context, groupBox)
-hLayout.spacingRole = dtk.SizeRole.SpacingSmall
-pushButton = dtk.PushButton(context, "Click", hLayout)
+groupBox = ftk.GroupBox(context, "Push Buttons", layout)
+hLayout = ftk.HorizontalLayout(context, groupBox)
+hLayout.spacingRole = ftk.SizeRole.SpacingSmall
+pushButton = ftk.PushButton(context, "Click", hLayout)
 pushButton.setClickedCallback(lambda: print("Click"))
-pushButton = dtk.PushButton(context, "Text", hLayout)
+pushButton = ftk.PushButton(context, "Text", hLayout)
 pushButton.icon = "Settings"
-pushButton = dtk.PushButton(context, "Disabled", hLayout)
+pushButton = ftk.PushButton(context, "Disabled", hLayout)
 pushButton.enabled = False
         
 # Create tool buttons.
-groupBox = dtk.GroupBox(context, "Tool Buttons", layout)
-hLayout = dtk.HorizontalLayout(context, groupBox)
-hLayout.spacingRole = dtk.SizeRole.SpacingSmall
-toolButtonGroup = dtk.ButtonGroup(context, dtk.ButtonGroupType.Radio)
+groupBox = ftk.GroupBox(context, "Tool Buttons", layout)
+hLayout = ftk.HorizontalLayout(context, groupBox)
+hLayout.spacingRole = ftk.SizeRole.SpacingSmall
+toolButtonGroup = ftk.ButtonGroup(context, ftk.ButtonGroupType.Radio)
 toolButtonGroup.setCheckedCallback(lambda index, checked: print("Tool:", index))
-hLayout = dtk.HorizontalLayout(context, groupBox)
-hLayout.spacingRole = dtk.SizeRole.SpacingSmall
+hLayout = ftk.HorizontalLayout(context, groupBox)
+hLayout.spacingRole = ftk.SizeRole.SpacingSmall
 toolIcons = [
     "PlaybackReverse",
     "PlaybackStop",
     "PlaybackForward"
 ]
-hLayout2 = dtk.HorizontalLayout(context, hLayout)
-hLayout2.spacingRole = dtk.SizeRole.SpacingTool
+hLayout2 = ftk.HorizontalLayout(context, hLayout)
+hLayout2.spacingRole = ftk.SizeRole.SpacingTool
 for i in range(0, 3):
-    toolButton = dtk.ToolButton(context, hLayout2)
+    toolButton = ftk.ToolButton(context, hLayout2)
     toolButton.checkable = True
     toolButton.checked = 0 == i
     toolButton.icon = toolIcons[i]
     toolButtonGroup.addButton(toolButton)
-playStopButton = dtk.ToolButton(context, hLayout)
+playStopButton = ftk.ToolButton(context, hLayout)
 playStopButton.icon = "PlaybackStop"
 playStopButton.checkedIcon = "PlaybackForward"
 playStopButton.checkable = True
-toolButton = dtk.ToolButton(context, "Text", hLayout)
-toolButton = dtk.ToolButton(context, "Text", hLayout)
+toolButton = ftk.ToolButton(context, "Text", hLayout)
+toolButton = ftk.ToolButton(context, "Text", hLayout)
 toolButton.icon = "Settings"
-toolButton = dtk.ToolButton(context, "Disabled", hLayout)
+toolButton = ftk.ToolButton(context, "Disabled", hLayout)
 toolButton.enabled = False
 toolButtonGroup.addButton(toolButton)
 
 # Create check boxes.
-groupBox = dtk.GroupBox(context, "Check Boxes", layout)
-vLayout = dtk.VerticalLayout(context, groupBox)
-vLayout.spacingRole = dtk.SizeRole.SpacingSmall
-checkBox = dtk.CheckBox(context, "Check", vLayout)
+groupBox = ftk.GroupBox(context, "Check Boxes", layout)
+vLayout = ftk.VerticalLayout(context, groupBox)
+vLayout.spacingRole = ftk.SizeRole.SpacingSmall
+checkBox = ftk.CheckBox(context, "Check", vLayout)
 checkBox.setCheckedCallback(lambda checked: print("Checked:", checked))
-checkBox = dtk.CheckBox(context, "Disabled", vLayout)
+checkBox = ftk.CheckBox(context, "Disabled", vLayout)
 checkBox.enabled = False
 
 # Create radio buttons.
-groupBox = dtk.GroupBox(context, "Radio Buttons", layout)
-vLayout = dtk.VerticalLayout(context, groupBox)
-vLayout.spacingRole = dtk.SizeRole.SpacingSmall
-radioButtonGroup = dtk.ButtonGroup(context, dtk.ButtonGroupType.Radio)
+groupBox = ftk.GroupBox(context, "Radio Buttons", layout)
+vLayout = ftk.VerticalLayout(context, groupBox)
+vLayout.spacingRole = ftk.SizeRole.SpacingSmall
+radioButtonGroup = ftk.ButtonGroup(context, ftk.ButtonGroupType.Radio)
 radioButtonGroup.setCheckedCallback(lambda index, checked: print("Radio:", index))
 for i in range(0, 3):
-    radioButton = dtk.RadioButton(context, "Radio {}".format(i), vLayout)
+    radioButton = ftk.RadioButton(context, "Radio {}".format(i), vLayout)
     radioButton.setCheckedCallback(lambda checked: print("Radio:", checked))
     radioButton.checked = 0 == i
     radioButtonGroup.addButton(radioButton)
-radioButton = dtk.RadioButton(context, "Disabled", vLayout)
+radioButton = ftk.RadioButton(context, "Disabled", vLayout)
 radioButton.enabled = False
 
 # Show the window and run the application.

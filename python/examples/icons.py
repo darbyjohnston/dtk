@@ -2,36 +2,36 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import dtk
+import feather_tk as ftk
 
 import sys
 
 # Create the context and application.
-context = dtk.Context()
-app = dtk.App(context, sys.argv, "icons", "Icons example")
+context = ftk.Context()
+app = ftk.App(context, sys.argv, "icons", "Icons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create a window.
-window = dtk.MainWindow(context, app, "icons", dtk.Size2I(1280, 960))
+window = ftk.MainWindow(context, app, "icons", ftk.Size2I(1280, 960))
 
 # Create a layout.
-layout = dtk.GridLayout(context)
-layout.rowBackgroundRole = dtk.ColorRole.Base
-layout.spacingRole = dtk.SizeRole.SizeRole_None
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+layout = ftk.GridLayout(context)
+layout.rowBackgroundRole = ftk.ColorRole.Base
+layout.spacingRole = ftk.SizeRole.SizeRole_None
+scrollWidget = ftk.ScrollWidget(context, ftk.ScrollType.Both)
 scrollWidget.border = False
-scrollWidget.vStretch = dtk.Stretch.Expanding
+scrollWidget.vStretch = ftk.Stretch.Expanding
 scrollWidget.widget = layout
 window.setWidget(scrollWidget)
 
 # Create icons.
 row = 0
-for name in context.getSystemByName("dtk::IconSystem").names:
-    icon = dtk.Icon(context, name, layout)
+for name in context.getSystemByName("ftk::IconSystem").names:
+    icon = ftk.Icon(context, name, layout)
     layout.setGridPos(icon, row, 0)
-    label = dtk.Label(context, name, layout)
-    label.marginRole = dtk.SizeRole.MarginSmall
+    label = ftk.Label(context, name, layout)
+    label.marginRole = ftk.SizeRole.MarginSmall
     layout.setGridPos(label, row, 1)
     row = row + 1
 

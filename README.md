@@ -1,10 +1,10 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Build Status](https://github.com/darbyjohnston/dtk/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/darbyjohnston/dtk/actions/workflows/ci-workflow.yml)
-[![codecov](https://codecov.io/gh/codecov/example-cpp11-cmake/branch/master/graph/badge.svg)](https://codecov.io/gh/darbyjohnston/dtk)
+[![Build Status](https://github.com/darbyjohnston/feather-tk/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/darbyjohnston/feather-tk/actions/workflows/ci-workflow.yml)
+[![codecov](https://codecov.io/gh/codecov/example-cpp11-cmake/branch/master/graph/badge.svg)](https://codecov.io/gh/darbyjohnston/feather-tk)
 
-# dtk
+# feather-tk
 
-dtk is a library for building cross-platform C++ applications.
+A lightweight toolkit for building cross-platform applications.
 
 Features:
 * Support for Linux, macOS, and Windows
@@ -21,7 +21,7 @@ Work in progress:
 * Multiple line text editor widget
 * Python bindings
 
-Projects using dtk:
+Projects using feather-tk:
 * https://github.com/darbyjohnston/tlRender
 * https://github.com/OpenTimelineIO/toucan
 
@@ -35,11 +35,11 @@ Demo example with light color style:
 
 Simple C++ example that shows a window with a text label:
 ```
-#include <dtk/ui/App.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/MainWindow.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/MainWindow.h>
 
-using namespace dtk;
+using namespace feather-tk;
 
 int main(int argc, char** argv)
 {
@@ -68,23 +68,23 @@ int main(int argc, char** argv)
 
 Simple Python exmple that shows a window with a text label:
 ```
-import dtk
+import feather-tk
 import sys
 
 # Create the context and application.
-context = dtk.Context()
-app = dtk.App(context, sys.argv, "simple", "Simple example")
+context = feather-tk.Context()
+app = feather-tk.App(context, sys.argv, "simple", "Simple example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create a window.
-window = dtk.MainWindow(context, app, "simple", dtk.Size2I(1280, 960))
+window = feather-tk.MainWindow(context, app, "simple", feather-tk.Size2I(1280, 960))
 
 # Create a label.
-label = dtk.Label(context, "Hello world")
-label.fontRole = dtk.FontRole.Title
-label.setAlign(dtk.HAlign.Center, dtk.VAlign.Center);
-label.setStretch(dtk.Stretch.Expanding);
+label = feather-tk.Label(context, "Hello world")
+label.fontRole = feather-tk.FontRole.Title
+label.setAlign(feather-tk.HAlign.Center, feather-tk.VAlign.Center);
+label.setStretch(feather-tk.Stretch.Expanding);
 window.setWidget(label)
 
 # Show the window and run the application.
@@ -119,11 +119,11 @@ Optional dependencies:
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/dtk.git
+git clone https://github.com/darbyjohnston/feather-tk.git
 ```
 Run CMake:
 ```
-cmake -S dtk/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
+cmake -S feather-tk/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
 ```
 Start the build:
 ```
@@ -131,18 +131,18 @@ cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-Release/dtk/src/dtk-build/examples/simple/simple
+Release/feather-tk/src/feather-tk-build/examples/simple/simple
 ```
 
 ## Building on macOS
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/dtk.git
+git clone https://github.com/darbyjohnston/feather-tk.git
 ```
 Run CMake:
 ```
-cmake -S dtk/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
+cmake -S feather-tk/etc/SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=$PWD/Release/install -DCMAKE_PREFIX_PATH=$PWD/Release/install -DCMAKE_BUILD_TYPE=Release
 ```
 Start the build:
 ```
@@ -150,7 +150,7 @@ cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-Release/dtk/src/dtk-build/examples/simple/simple
+Release/feather-tk/src/feather-tk-build/examples/simple/simple
 ```
 
 The CMake variable "CMAKE_OSX_ARCHITECTURES" can be used to specify the build
@@ -173,11 +173,11 @@ alias intel="env /usr/bin/arch -x86_64 /bin/zsh --login"
 
 Clone the repository:
 ```
-git clone https://github.com/darbyjohnston/dtk.git
+git clone https://github.com/darbyjohnston/feather-tk.git
 ```
 Run CMake:
 ```
-cmake -S dtk\etc\SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=%CD%\Release\install -DCMAKE_PREFIX_PATH=%CD%\Release\install -DCMAKE_BUILD_TYPE=Release
+cmake -S feather-tk\etc\SuperBuild -B Release -DCMAKE_INSTALL_PREFIX=%CD%\Release\install -DCMAKE_PREFIX_PATH=%CD%\Release\install -DCMAKE_BUILD_TYPE=Release
 ```
 Start the build:
 ```
@@ -185,6 +185,6 @@ cmake --build Release -j 4 --config Release
 ```
 Try running the `simple` example:
 ```
-Release\dtk\src\dtk-build\examples\simple\Release\simple
+Release\feather-tk\src\feather-tk-build\examples\simple\Release\simple
 ```
 

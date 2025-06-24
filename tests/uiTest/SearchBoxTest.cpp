@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/SearchBox.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/SearchBox.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         SearchBoxTest::SearchBoxTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::SearchBoxTest")
+            ITest(context, "feather_tk::ui_test::SearchBoxTest")
         {}
 
         SearchBoxTest::~SearchBoxTest()
@@ -57,17 +57,17 @@ namespace dtk
                     });
                 widget->setText("Search");
                 widget->setText("Search");
-                DTK_ASSERT("Search" == widget->getText());
+                FEATHER_TK_ASSERT("Search" == widget->getText());
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Delete);
                 window->setText("Filter");
-                DTK_ASSERT("Filter" == text);
+                FEATHER_TK_ASSERT("Filter" == text);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(text.empty());
+                FEATHER_TK_ASSERT(text.empty());
             }
         }
     }

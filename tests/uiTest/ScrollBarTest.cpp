@@ -7,17 +7,17 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ScrollBar.h>
+#include <feather-tk/ui/ScrollBar.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ScrollBarTest::ScrollBarTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ScrollBarTest")
+            ITest(context, "feather_tk::ui_test::ScrollBarTest")
         {}
 
         ScrollBarTest::~ScrollBarTest()
@@ -61,10 +61,10 @@ namespace dtk
             auto widget = ScrollBar::create(context, orientation, layout);
             widget->setScrollSize(10000);
             widget->setScrollSize(10000);
-            DTK_ASSERT(10000 == widget->getScrollSize());
+            FEATHER_TK_ASSERT(10000 == widget->getScrollSize());
             widget->setScrollPos(1000);
             widget->setScrollPos(1000);
-            DTK_ASSERT(1000 == widget->getScrollPos());
+            FEATHER_TK_ASSERT(1000 == widget->getScrollPos());
 
             window->setCursorEnter(true);
             Box2I g = widget->getGeometry();

@@ -4,20 +4,20 @@
 
 #include <glTest/TextureTest.h>
 
-#include <dtk/gl/Texture.h>
-#include <dtk/gl/Window.h>
+#include <feather-tk/gl/Texture.h>
+#include <feather-tk/gl/Window.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-using namespace dtk::gl;
+using namespace feather_tk::gl;
 
-namespace dtk
+namespace feather_tk
 {
     namespace gl_test
     {
         TextureTest::TextureTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::gl_test::TextureTest")
+            ITest(context, "feather_tk::gl_test::TextureTest")
         {}
 
         TextureTest::~TextureTest()
@@ -93,14 +93,14 @@ namespace dtk
                             arg(data.options.filters.magnify).
                             arg(data.options.pbo));
                         auto texture = Texture::create(data.info, data.options);
-                        DTK_ASSERT(data.info == texture->getInfo());
-                        DTK_ASSERT(data.info.size == texture->getSize());
-                        DTK_ASSERT(data.info.size.w == texture->getWidth());
-                        DTK_ASSERT(data.info.size.h == texture->getHeight());
-                        DTK_ASSERT(data.info.type == texture->getType());
+                        FEATHER_TK_ASSERT(data.info == texture->getInfo());
+                        FEATHER_TK_ASSERT(data.info.size == texture->getSize());
+                        FEATHER_TK_ASSERT(data.info.size.w == texture->getWidth());
+                        FEATHER_TK_ASSERT(data.info.size.h == texture->getHeight());
+                        FEATHER_TK_ASSERT(data.info.type == texture->getType());
                         if (data.info.type != ImageType::None)
                         {
-                            DTK_ASSERT(texture->getID());
+                            FEATHER_TK_ASSERT(texture->getID());
                             auto image = Image::create(data.info);
                             texture->copy(image);
                             texture->copy(image, 0, 0);
@@ -129,9 +129,9 @@ namespace dtk
             {
                 const TextureOptions a;
                 TextureOptions b;
-                DTK_ASSERT(a == b);
+                FEATHER_TK_ASSERT(a == b);
                 b.pbo = true;
-                DTK_ASSERT(a != b);
+                FEATHER_TK_ASSERT(a != b);
             }
         }
     }

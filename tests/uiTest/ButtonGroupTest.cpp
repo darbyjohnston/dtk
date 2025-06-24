@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ButtonGroup.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/PushButton.h>
+#include <feather-tk/ui/ButtonGroup.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/PushButton.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ButtonGroupTest::ButtonGroupTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ButtonGroupTest")
+            ITest(context, "feather_tk::ui_test::ButtonGroupTest")
         {}
 
         ButtonGroupTest::~ButtonGroupTest()
@@ -54,9 +54,9 @@ namespace dtk
                 auto button2 = PushButton::create(context, "Button 0", layout);
                 auto group = ButtonGroup::create(context, ButtonGroupType::Click);
                 group->addButton(button0);
-                DTK_ASSERT(!group->getButtons().empty());
+                FEATHER_TK_ASSERT(!group->getButtons().empty());
                 group->clearButtons();
-                DTK_ASSERT(group->getButtons().empty());
+                FEATHER_TK_ASSERT(group->getButtons().empty());
                 group->addButton(button0);
                 group->addButton(button1);
                 group->addButton(button2);
@@ -70,10 +70,10 @@ namespace dtk
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(0 == clicked);
+                FEATHER_TK_ASSERT(0 == clicked);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(1 == clicked);
+                FEATHER_TK_ASSERT(1 == clicked);
 
                 group = ButtonGroup::create(context, ButtonGroupType::Check);
                 group->addButton(button0);
@@ -89,10 +89,10 @@ namespace dtk
                     });
 
                 window->setKey(Key::Enter);
-                DTK_ASSERT(1 == clicked);
-                DTK_ASSERT(checked);
+                FEATHER_TK_ASSERT(1 == clicked);
+                FEATHER_TK_ASSERT(checked);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(!checked);
+                FEATHER_TK_ASSERT(!checked);
                 group->setChecked(0, true);
 
                 group = ButtonGroup::create(context, ButtonGroupType::Radio);
@@ -109,12 +109,12 @@ namespace dtk
                     });
 
                 window->setKey(Key::Enter);
-                DTK_ASSERT(1 == clicked);
-                DTK_ASSERT(checked);
+                FEATHER_TK_ASSERT(1 == clicked);
+                FEATHER_TK_ASSERT(checked);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(2 == clicked);
-                DTK_ASSERT(checked);
+                FEATHER_TK_ASSERT(2 == clicked);
+                FEATHER_TK_ASSERT(checked);
                 group->setChecked(0, true);
 
                 group = ButtonGroup::create(context, ButtonGroupType::Toggle);
@@ -131,12 +131,12 @@ namespace dtk
                     });
 
                 window->setKey(Key::Enter);
-                DTK_ASSERT(2 == clicked);
-                DTK_ASSERT(checked);
+                FEATHER_TK_ASSERT(2 == clicked);
+                FEATHER_TK_ASSERT(checked);
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(0 == clicked);
-                DTK_ASSERT(checked);
+                FEATHER_TK_ASSERT(0 == clicked);
+                FEATHER_TK_ASSERT(checked);
                 group->setChecked(0, true);
             }
         }

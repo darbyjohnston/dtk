@@ -4,13 +4,13 @@
 
 #include <corePy/OS.h>
 
-#include <dtk/core/OS.h>
+#include <feather-tk/core/OS.h>
 
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void os(py::module_& m)
     {

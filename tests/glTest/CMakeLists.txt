@@ -17,8 +17,8 @@ set(SOURCE
     TextureTest.cpp
     WindowTest.cpp)
 
-add_library(dtkGLTest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(dtkGLTest dtkGL dtkTestLib)
-set_target_properties(dtkGLTest PROPERTIES FOLDER tests)
-set_target_properties(dtkGLTest PROPERTIES PUBLIC_HEADER "${HEADERS}")
+add_library(feather-tk-glTest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+target_link_libraries(feather-tk-glTest feather-tk-gl feather-tk-testLib)
+set_target_properties(feather-tk-glTest PROPERTIES FOLDER tests)
+set_target_properties(feather-tk-glTest PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

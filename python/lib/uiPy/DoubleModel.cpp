@@ -4,16 +4,16 @@
 
 #include <uiPy/DoubleModel.h>
 
-#include <dtk/ui/DoubleModel.h>
+#include <feather-tk/ui/DoubleModel.h>
 
-#include <dtk/core/Context.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void doubleModel(py::module_& m)
     {

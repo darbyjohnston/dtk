@@ -6,7 +6,7 @@ sudo apt-get update
 cmake --version
 python --version
 
-if [[ $DTK_GCOV = "ON" ]]
+if [[ $FEATHER_TK_GCOV = "ON" ]]
 then
     sudo apt-get install lcov
 fi

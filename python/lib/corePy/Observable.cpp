@@ -4,7 +4,7 @@
 
 #include <corePy/Observable.h>
 
-#include <dtk/core/Observable.h>
+#include <feather-tk/core/Observable.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void observable(py::module_& m)
     {

@@ -4,14 +4,14 @@
 
 #include <corePy/Range.h>
 
-#include <dtk/core/Range.h>
+#include <feather-tk/core/Range.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void range(py::module_& m)
     {

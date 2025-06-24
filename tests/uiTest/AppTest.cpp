@@ -4,21 +4,21 @@
 
 #include <uiTest/AppTest.h>
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/Window.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/Window.h>
 
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         AppTest::AppTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::AppTest")
+            ITest(context, "feather_tk::ui_test::AppTest")
         {}
 
         AppTest::~AppTest()
@@ -41,19 +41,19 @@ namespace dtk
                     auto app = App::create(
                         context,
                         argv,
-                        "dtk::ui_test::App",
+                        "feather_tk::ui_test::App",
                         "Test UI application");
                     r = app->getExit();
                     if (0 == r)
                     {
                         auto window = Window::create(
                             context,
-                            "dtk::ui_test::App",
+                            "feather_tk::ui_test::App",
                             Size2I(1280, 960));
                         auto layout = VerticalLayout::create(context, window);
                         auto button = PushButton::create(context, "Button", layout);
                         app->addWindow(window);
-                        DTK_ASSERT(app->getWindows().front() == window);
+                        FEATHER_TK_ASSERT(app->getWindows().front() == window);
                         window->show();
                         window->setSize(Size2I(1920, 1080));
 
@@ -72,7 +72,7 @@ namespace dtk
                 catch (const std::exception&)
                 {}
             }
-            DTK_ASSERT(0 == r);
+            FEATHER_TK_ASSERT(0 == r);
         }
     }
 }

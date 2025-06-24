@@ -6,13 +6,13 @@
 
 #include <uiTest/App.h>
 
-#include <dtk/ui/IClipboard.h>
+#include <feather-tk/ui/IClipboard.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/LogSystem.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/LogSystem.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
@@ -60,7 +60,7 @@ namespace dtk
                         if (auto logSystem = context->getSystem<LogSystem>())
                         {
                             logSystem->print(
-                                "dtk::ui_test::Render",
+                                "feather_tk::ui_test::Render",
                                 Format(
                                     "\n"
                                     "    Render count: {0}\n"
@@ -271,7 +271,7 @@ namespace dtk
             const Size2I& size)
         {
             IWindow::_init(context, name, nullptr);
-            DTK_P();
+            FEATHER_TK_P();
 
             p.context = context;
             p.app = app;
@@ -279,7 +279,7 @@ namespace dtk
             p.render = Render::create(context);
 
             setClipboard(Clipboard::create(context));
-            DTK_ASSERT(getClipboard());
+            FEATHER_TK_ASSERT(getClipboard());
 
             _setSizeUpdate();
             _setDrawUpdate();
@@ -305,7 +305,7 @@ namespace dtk
 
         void Window::setDisplayScale(float value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (value == p.displayScale)
                 return;
             p.displayScale = value;
@@ -315,21 +315,21 @@ namespace dtk
 
         void Window::setCursorEnter(bool value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             _cursorEnter(value);
             if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setCursorPos(const V2I& pos)
         {
-            DTK_P();
+            FEATHER_TK_P();
             _cursorPos(pos);
             if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setButton(int button, int modifiers)
         {
-            DTK_P();
+            FEATHER_TK_P();
             p.modifiers = modifiers;
             _mouseButton(button, true, modifiers);
             if (auto app = p.app.lock()) { app->tick(); }
@@ -339,7 +339,7 @@ namespace dtk
 
         void Window::setButton(int button, bool press, int modifiers)
         {
-            DTK_P();
+            FEATHER_TK_P();
             p.modifiers = modifiers;
             _mouseButton(button, press, modifiers);
             if (auto app = p.app.lock()) { app->tick(); }
@@ -347,14 +347,14 @@ namespace dtk
 
         void Window::setScroll(const V2F& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             _scroll(value, p.modifiers);
             if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setKey(Key key, int modifiers)
         {
-            DTK_P();
+            FEATHER_TK_P();
             p.modifiers = modifiers;
             _key(key, true, modifiers);
             if (auto app = p.app.lock()) { app->tick(); }
@@ -364,7 +364,7 @@ namespace dtk
 
         void Window::setKey(Key key, bool press, int modifiers)
         {
-            DTK_P();
+            FEATHER_TK_P();
             p.modifiers = modifiers;
             _key(key, press, modifiers);
             if (auto app = p.app.lock()) { app->tick(); }
@@ -372,14 +372,14 @@ namespace dtk
 
         void Window::setText(const std::string& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             _text(value);
             if (auto app = p.app.lock()) { app->tick(); }
         }
 
         void Window::setDrop(const std::vector<std::string>& value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             _drop(value);
             if (auto app = p.app.lock()) { app->tick(); }
         }
@@ -389,7 +389,7 @@ namespace dtk
             const std::shared_ptr<IconSystem>& iconSystem,
             const std::shared_ptr<Style>& style)
         {
-            DTK_P();
+            FEATHER_TK_P();
 
             if (_hasSizeUpdate(shared_from_this()))
             {

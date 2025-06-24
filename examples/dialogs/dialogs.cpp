@@ -4,16 +4,16 @@
 
 #include "dialogs.h"
 
-#include <dtk/ui/DialogSystem.h>
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/FileBrowser.h>
-#include <dtk/ui/FileEdit.h>
-#include <dtk/ui/MenuBar.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RecentFilesModel.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/DialogSystem.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/FileBrowser.h>
+#include <feather-tk/ui/FileEdit.h>
+#include <feather-tk/ui/MenuBar.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RecentFilesModel.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Format.h>
 
 void DialogsWindow::_init(
     const std::shared_ptr<Context>& context,
@@ -24,7 +24,7 @@ void DialogsWindow::_init(
     MainWindow::_init(context, app, name, size);
 
     // Load the settings.
-    _settings = Settings::create(context, getSettingsPath("dtk", "dialogs.json"));
+    _settings = Settings::create(context, getSettingsPath("feather-tk", "dialogs.json"));
 
     // Create the menus.
     auto menu = getMenuBar()->getMenu("File");
@@ -206,7 +206,7 @@ std::shared_ptr<Window> DialogsWindow::create(
     return out;
 }
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {
@@ -217,7 +217,7 @@ DTK_MAIN()
             return app->getExit();
 
         // Disable the native file dialog.
-        context->getSystem<dtk::FileBrowserSystem>()->setNativeFileDialog(false);
+        context->getSystem<FileBrowserSystem>()->setNativeFileDialog(false);
 
         // Create tahe window.
         auto window = DialogsWindow::create(

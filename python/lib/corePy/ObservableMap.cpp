@@ -10,7 +10,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void observableMap(py::module_& m)
     {

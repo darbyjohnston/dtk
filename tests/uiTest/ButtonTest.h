@@ -9,10 +9,10 @@
 
 #include <testLib/ITest.h>
 
-#include <dtk/ui/IButton.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IButton.h>
+#include <feather-tk/ui/RowLayout.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {

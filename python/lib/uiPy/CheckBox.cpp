@@ -4,14 +4,14 @@
 
 #include <uiPy/CheckBox.h>
 
-#include <dtk/ui/CheckBox.h>
+#include <feather-tk/ui/CheckBox.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void checkBox(py::module_& m)
     {

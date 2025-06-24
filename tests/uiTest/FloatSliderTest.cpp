@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/FloatSlider.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/FloatSlider.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         FloatSliderTest::FloatSliderTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::FloatSliderTest")
+            ITest(context, "feather_tk::ui_test::FloatSliderTest")
         {}
 
         FloatSliderTest::~FloatSliderTest()
@@ -49,21 +49,21 @@ namespace dtk
                 app->tick();
 
                 auto slider = FloatSlider::create(context, layout);
-                DTK_ASSERT(slider->getModel());
+                FEATHER_TK_ASSERT(slider->getModel());
                 float value = 0.F;
                 slider->setCallback([&value](float v) { value = v; });
                 slider->setValue(.9F);
                 app->tick();
-                DTK_ASSERT(.9F == slider->getValue());
-                DTK_ASSERT(.9F == value);
+                FEATHER_TK_ASSERT(.9F == slider->getValue());
+                FEATHER_TK_ASSERT(.9F == value);
                 slider->setRange(RangeF(0.F, .5F));
                 app->tick();
-                DTK_ASSERT(RangeF(0.F, .5F) == slider->getRange());
-                DTK_ASSERT(.5F == value);
+                FEATHER_TK_ASSERT(RangeF(0.F, .5F) == slider->getRange());
+                FEATHER_TK_ASSERT(.5F == value);
                 slider->setStep(.2F);
-                DTK_ASSERT(.2F == slider->getStep());
+                FEATHER_TK_ASSERT(.2F == slider->getStep());
                 slider->setLargeStep(.3F);
-                DTK_ASSERT(.3F == slider->getLargeStep());
+                FEATHER_TK_ASSERT(.3F == slider->getLargeStep());
 
                 Box2I g = slider->getGeometry();
                 V2I c = center(g);
@@ -73,19 +73,19 @@ namespace dtk
                 window->setButton(0, false);
 
                 window->setKey(Key::Home);
-                DTK_ASSERT(value == 0.F);
+                FEATHER_TK_ASSERT(value == 0.F);
                 window->setKey(Key::Right);
-                DTK_ASSERT(fuzzyCompare(value, .2F));
+                FEATHER_TK_ASSERT(fuzzyCompare(value, .2F));
                 window->setKey(Key::PageUp);
-                DTK_ASSERT(fuzzyCompare(value, .5F));
+                FEATHER_TK_ASSERT(fuzzyCompare(value, .5F));
                 window->setKey(Key::Left);
-                DTK_ASSERT(fuzzyCompare(value, .3F));
+                FEATHER_TK_ASSERT(fuzzyCompare(value, .3F));
                 window->setKey(Key::PageDown);
-                DTK_ASSERT(fuzzyCompare(value, 0.F));
+                FEATHER_TK_ASSERT(fuzzyCompare(value, 0.F));
                 window->setKey(Key::End);
-                DTK_ASSERT(value == .5F);
+                FEATHER_TK_ASSERT(value == .5F);
                 window->setKey(Key::Escape);
-                DTK_ASSERT(!slider->hasKeyFocus());
+                FEATHER_TK_ASSERT(!slider->hasKeyFocus());
             }
         }
     }

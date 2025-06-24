@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/Style.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/Style.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         StyleTest::StyleTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::StyleTest")
+            ITest(context, "feather_tk::ui_test::StyleTest")
         {}
 
         StyleTest::~StyleTest()
@@ -39,9 +39,9 @@ namespace dtk
         
         void StyleTest::_enums()
         {
-            DTK_TEST_ENUM(SizeRole);
-            DTK_TEST_ENUM(ColorRole);
-            DTK_TEST_ENUM(FontRole);
+            FEATHER_TK_TEST_ENUM(SizeRole);
+            FEATHER_TK_TEST_ENUM(ColorRole);
+            FEATHER_TK_TEST_ENUM(FontRole);
         }
 
         void StyleTest::_widget()
@@ -74,8 +74,8 @@ namespace dtk
                 
                 style->setSizeRole(SizeRole::Border, 10);
                 style->setSizeRole(SizeRole::Border, 10);
-                DTK_ASSERT(10 == style->getSizeRole(SizeRole::Border, 1.F));
-                DTK_ASSERT(2 == changed);
+                FEATHER_TK_ASSERT(10 == style->getSizeRole(SizeRole::Border, 1.F));
+                FEATHER_TK_ASSERT(2 == changed);
                 app->tick();
                 std::map<SizeRole, int> sizeRoles =
                 {
@@ -85,14 +85,14 @@ namespace dtk
                 };
                 style->setSizeRoles(sizeRoles);
                 style->setSizeRoles(sizeRoles);
-                DTK_ASSERT(3 == changed);
+                FEATHER_TK_ASSERT(3 == changed);
                 app->tick();
 
                 Color4F color(1.F, 0.F, 0.F);
                 style->setColorRole(ColorRole::Window, color);
                 style->setColorRole(ColorRole::Window, color);
-                DTK_ASSERT(color == style->getColorRole(ColorRole::Window));
-                DTK_ASSERT(4 == changed);
+                FEATHER_TK_ASSERT(color == style->getColorRole(ColorRole::Window));
+                FEATHER_TK_ASSERT(4 == changed);
                 app->tick();
                 std::map<ColorRole, Color4F> colorRoles =
                 {
@@ -102,15 +102,15 @@ namespace dtk
                 };
                 style->setColorRoles(colorRoles);
                 style->setColorRoles(colorRoles);
-                DTK_ASSERT(5 == changed);
+                FEATHER_TK_ASSERT(5 == changed);
                 app->tick();
 
                 FontInfo fontInfo;
                 fontInfo.size = 32;
                 style->setFontRole(FontRole::Label, fontInfo);
                 style->setFontRole(FontRole::Label, fontInfo);
-                DTK_ASSERT(fontInfo == style->getFontRole(FontRole::Label, 1.F));
-                DTK_ASSERT(6 == changed);
+                FEATHER_TK_ASSERT(fontInfo == style->getFontRole(FontRole::Label, 1.F));
+                FEATHER_TK_ASSERT(6 == changed);
                 app->tick();
                 fontInfo.size = 16;
                 std::map<FontRole, FontInfo> fontRoles =
@@ -119,7 +119,7 @@ namespace dtk
                 };
                 style->setFontRoles(fontRoles);
                 style->setFontRoles(fontRoles);
-                DTK_ASSERT(7 == changed);
+                FEATHER_TK_ASSERT(7 == changed);
                 app->tick();
             }
         }

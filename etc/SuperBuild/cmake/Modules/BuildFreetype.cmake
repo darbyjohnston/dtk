@@ -4,12 +4,12 @@ set(Freetype_GIT_REPOSITORY "https://github.com/freetype/freetype.git")
 set(Freetype_GIT_TAG "VER-2-13-0")
 
 set(Freetype_DEPS)
-if(dtk_ZLIB)
+if(feather_tk_ZLIB)
     list(APPEND Freetype_DEPS ZLIB)
 endif()
 
 set(Freetype_ARGS
-    ${dtk_DEPS_ARGS}
+    ${feather_tk_DEPS_ARGS}
     -DCMAKE_INSTALL_LIBDIR=lib
     -DFT_REQUIRE_ZLIB=ON
     -DFT_DISABLE_BZIP2=ON

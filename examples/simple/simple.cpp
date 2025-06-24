@@ -2,13 +2,13 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/MainWindow.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/MainWindow.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

@@ -4,18 +4,18 @@
 
 #include <coreTest/PNGTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Context.h>
-#include <dtk/core/FileIO.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/ImageIO.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/FileIO.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/ImageIO.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         PNGTest::PNGTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::PNGTest")
+            ITest(context, "feather_tk::core_test::PNGTest")
         {}
 
         PNGTest::~PNGTest()
@@ -74,10 +74,10 @@ namespace dtk
 
                             auto read = io->read(path);
                             auto info2 = read->getInfo();
-                            DTK_ASSERT(info.size == info2.size);
-                            DTK_ASSERT(info.type == info2.type);
+                            FEATHER_TK_ASSERT(info.size == info2.size);
+                            FEATHER_TK_ASSERT(info.type == info2.type);
                             auto image2 = read->read();
-                            DTK_ASSERT(image2);
+                            FEATHER_TK_ASSERT(image2);
                             read.reset();
                             
                             auto fileIO = FileIO::create(path, FileMode::Read);
@@ -85,16 +85,16 @@ namespace dtk
                             InMemoryFile memory(fileIO->getMemoryStart(), size);
                             read = io->read(path, memory);
                             info2 = read->getInfo();
-                            DTK_ASSERT(info.size == info2.size);
-                            DTK_ASSERT(info.type == info2.type);
+                            FEATHER_TK_ASSERT(info.size == info2.size);
+                            FEATHER_TK_ASSERT(info.type == info2.type);
                             image2 = read->read();
-                            DTK_ASSERT(image2);
+                            FEATHER_TK_ASSERT(image2);
                             read.reset();
                             
                             truncateFile(path, 0);
                             read = io->read(path);
                             image2 = read->read();
-                            DTK_ASSERT(false);
+                            FEATHER_TK_ASSERT(false);
                         }
                         catch (const std::exception& e)
                         {

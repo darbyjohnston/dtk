@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <dtk/ui/Label.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/Menu.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/Menu.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace examples
     {
@@ -16,7 +16,7 @@ namespace dtk
         {
             class App;
 
-            class Window : public dtk::MainWindow
+            class Window : public feather_tk::MainWindow
             {
             protected:
                 void _init(

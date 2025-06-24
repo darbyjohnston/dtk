@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace examples
     {
@@ -15,7 +15,7 @@ namespace dtk
         {
             class DragWidget;
 
-            class DragAndDropData : public dtk::DragAndDropData
+            class DragAndDropData : public feather_tk::DragAndDropData
             {
             public:
                 DragAndDropData(const std::shared_ptr<DragWidget>&);

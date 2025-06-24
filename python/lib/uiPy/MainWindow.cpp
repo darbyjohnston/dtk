@@ -4,16 +4,16 @@
 
 #include <uiPy/Window.h>
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/MenuBar.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/MenuBar.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void mainWindow(py::module_& m)
     {

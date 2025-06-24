@@ -4,14 +4,14 @@
 
 #include <uiPy/Icon.h>
 
-#include <dtk/ui/Icon.h>
+#include <feather-tk/ui/Icon.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void icon(py::module_& m)
     {

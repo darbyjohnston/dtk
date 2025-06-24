@@ -26,13 +26,13 @@
 #include <corePy/Timer.h>
 #include <corePy/Vector.h>
 
-#include <dtk/core/Context.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void coreBind(py::module_& m)
     {

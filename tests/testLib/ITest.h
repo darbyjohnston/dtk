@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include <dtk/core/Util.h>
+#include <feather-tk/core/Util.h>
 
 #include <memory>
 #include <string>
 
-namespace dtk
+namespace feather_tk
 {
     class Context;
 
@@ -18,7 +18,7 @@ namespace dtk
         //! Base class for tests.
         class ITest : public std::enable_shared_from_this<ITest>
         {
-            DTK_NON_COPYABLE(ITest);
+            FEATHER_TK_NON_COPYABLE(ITest);
 
         protected:
             ITest(
@@ -42,7 +42,7 @@ namespace dtk
     }
 }
 
-#define DTK_TEST_ENUM(ENUM) \
+#define FEATHER_TK_TEST_ENUM(ENUM) \
     for (auto i : get##ENUM##Enums()) \
     { \
         _print(Format(#ENUM": {0}").arg(getLabel(i))); \
@@ -53,6 +53,6 @@ namespace dtk
         ss << v; \
         ENUM v2; \
         ss >> v2; \
-        DTK_ASSERT(v == v2); \
+        FEATHER_TK_ASSERT(v == v2); \
     }
 

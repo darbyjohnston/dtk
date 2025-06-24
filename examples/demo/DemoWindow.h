@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <dtk/ui/Action.h>
-#include <dtk/ui/App.h>
-#include <dtk/ui/MainWindow.h>
+#include <feather-tk/ui/Action.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/MainWindow.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
 class DemoWindow : public MainWindow
 {

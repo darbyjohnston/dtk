@@ -4,21 +4,21 @@
 
 #include <uiTest/ButtonTest.h>
 
-#include <dtk/ui/CheckBox.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/ToolButton.h>
-#include <dtk/ui/Tooltip.h>
+#include <feather-tk/ui/CheckBox.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/ToolButton.h>
+#include <feather-tk/ui/Tooltip.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/Time.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/Time.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ButtonTest::ButtonTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ButtonTest")
+            ITest(context, "feather_tk::ui_test::ButtonTest")
         {}
 
         ButtonTest::~ButtonTest()
@@ -68,7 +68,7 @@ namespace dtk
                 window->setCursorEnter(true);
                 std::string tooltip = "This is a tooltip";
                 button->setTooltip(tooltip);
-                DTK_ASSERT(tooltip == button->getTooltip());
+                FEATHER_TK_ASSERT(tooltip == button->getTooltip());
                 window->setCursorPos(center(button->getGeometry()));
                 sleep(tooltipTimeout * 2);
                 window->setCursorPos(center(button->getGeometry()));
@@ -86,51 +86,51 @@ namespace dtk
         {
             window->setCursorPos(V2I(0, 0));
 
-            DTK_ASSERT(button->getParent().lock());
-            DTK_ASSERT(button->getParentT<Window>());
-            DTK_ASSERT(button->getWindow());
+            FEATHER_TK_ASSERT(button->getParent().lock());
+            FEATHER_TK_ASSERT(button->getParentT<Window>());
+            FEATHER_TK_ASSERT(button->getWindow());
 
             std::string text = "Playback";
             button->setText(text);
             button->setText(text);
-            DTK_ASSERT(text == button->getText());
+            FEATHER_TK_ASSERT(text == button->getText());
 
             FontRole fontRole = FontRole::Mono;
             button->setFontRole(fontRole);
             button->setFontRole(fontRole);
-            DTK_ASSERT(fontRole == button->getFontRole());
+            FEATHER_TK_ASSERT(fontRole == button->getFontRole());
 
             button->setCheckable(true);
             button->setCheckable(true);
-            DTK_ASSERT(button->isCheckable());
+            FEATHER_TK_ASSERT(button->isCheckable());
             button->setChecked(true);
             button->setChecked(true);
-            DTK_ASSERT(button->isChecked());
+            FEATHER_TK_ASSERT(button->isChecked());
             button->setCheckable(false);
-            DTK_ASSERT(!button->isChecked());
+            FEATHER_TK_ASSERT(!button->isChecked());
             button->setCheckable(true);
 
             std::string icon = "PlaybackForward";
             button->setIcon(icon);
             button->setIcon(icon);
-            DTK_ASSERT(icon == button->getIcon());
+            FEATHER_TK_ASSERT(icon == button->getIcon());
             icon = "PlaybackStop";
             button->setCheckedIcon(icon);
             button->setCheckedIcon(icon);
-            DTK_ASSERT(icon == button->getCheckedIcon());
+            FEATHER_TK_ASSERT(icon == button->getCheckedIcon());
 
             ColorRole colorRole = ColorRole::Red;
             button->setBackgroundRole(colorRole);
             button->setBackgroundRole(colorRole);
-            DTK_ASSERT(colorRole == button->getBackgroundRole());
+            FEATHER_TK_ASSERT(colorRole == button->getBackgroundRole());
             colorRole = ColorRole::Green;
             button->setButtonRole(colorRole);
             button->setButtonRole(colorRole);
-            DTK_ASSERT(colorRole == button->getButtonRole());
+            FEATHER_TK_ASSERT(colorRole == button->getButtonRole());
             colorRole = ColorRole::Blue;
             button->setCheckedRole(colorRole);
             button->setCheckedRole(colorRole);
-            DTK_ASSERT(colorRole == button->getCheckedRole());
+            FEATHER_TK_ASSERT(colorRole == button->getCheckedRole());
 
             button->hide();
             button->hide();
@@ -150,25 +150,25 @@ namespace dtk
             button->setPressedCallback([&pressed] { pressed = true; });
             int clicks = 0;
             button->setRepeatClick(true);
-            DTK_ASSERT(button->hasRepeatClick());
+            FEATHER_TK_ASSERT(button->hasRepeatClick());
             button->setClickedCallback([&clicks] { ++clicks; });
             bool checked = false;
             button->setCheckedCallback([&checked](bool value) { checked = value; });
 
             window->setCursorEnter(true);
             window->setCursorPos(center(button->getGeometry()));
-            DTK_ASSERT(hovered);
+            FEATHER_TK_ASSERT(hovered);
             window->setButton(0, true);
-            DTK_ASSERT(pressed);
+            FEATHER_TK_ASSERT(pressed);
             window->setButton(0, false);
-            DTK_ASSERT(clicks);
-            DTK_ASSERT(checked);
+            FEATHER_TK_ASSERT(clicks);
+            FEATHER_TK_ASSERT(checked);
             if (button->acceptsKeyFocus())
             {
-                DTK_ASSERT(button->hasKeyFocus());
+                FEATHER_TK_ASSERT(button->hasKeyFocus());
             }
             window->setCursorPos(V2I(0, 0));
-            DTK_ASSERT(!hovered);
+            FEATHER_TK_ASSERT(!hovered);
             window->setCursorPos(center(button->getGeometry()));
             window->setCursorEnter(false);
 
@@ -177,32 +177,32 @@ namespace dtk
             window->setCursorEnter(true);
             window->setCursorPos(center(button->getGeometry()));
             window->setKey(Key::Enter);
-            DTK_ASSERT(clicks);
-            DTK_ASSERT(!checked);
+            FEATHER_TK_ASSERT(clicks);
+            FEATHER_TK_ASSERT(!checked);
 
             window->setKey(Key::Escape);
             if (button->acceptsKeyFocus())
             {
-                DTK_ASSERT(!button->hasKeyFocus());
+                FEATHER_TK_ASSERT(!button->hasKeyFocus());
             }
 
             window->setKey(Key::Tab);
             window->setKey(Key::Tab);
             if (button->acceptsKeyFocus())
             {
-                DTK_ASSERT(button->hasKeyFocus());
+                FEATHER_TK_ASSERT(button->hasKeyFocus());
             }
             window->hide();
             window->show();
             if (button->acceptsKeyFocus())
             {
-                DTK_ASSERT(!button->hasKeyFocus());
+                FEATHER_TK_ASSERT(!button->hasKeyFocus());
             }
             window->setCursorEnter(true);
             window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
             if (button->acceptsKeyFocus())
             {
-                DTK_ASSERT(button->hasKeyFocus());
+                FEATHER_TK_ASSERT(button->hasKeyFocus());
             }
 
             window->setCursorPos(center(button->getGeometry()));

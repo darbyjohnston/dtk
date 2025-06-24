@@ -4,14 +4,14 @@
 
 #include <uiPy/RowLayout.h>
 
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/RowLayout.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void rowLayout(py::module_& m)
     {

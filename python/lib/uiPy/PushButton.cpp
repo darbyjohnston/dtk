@@ -4,14 +4,14 @@
 
 #include <uiPy/PushButton.h>
 
-#include <dtk/ui/PushButton.h>
+#include <feather-tk/ui/PushButton.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void pushButton(py::module_& m)
     {

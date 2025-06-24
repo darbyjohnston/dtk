@@ -2,62 +2,62 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import dtk
+import feather_tk as ftk
 
 import sys
 
 # Create the context and application.
-context = dtk.Context()
-app = dtk.App(context, sys.argv, "buttons", "Buttons example")
+context = ftk.Context()
+app = ftk.App(context, sys.argv, "buttons", "Buttons example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create a window.
-window = dtk.MainWindow(context, app, "buttons", dtk.Size2I(1280, 960))
+window = ftk.MainWindow(context, app, "buttons", ftk.Size2I(1280, 960))
 
 # Create a layout.
-layout = dtk.VerticalLayout(context)
-layout.marginRole = dtk.SizeRole.Margin
-scrollWidget = dtk.ScrollWidget(context, dtk.ScrollType.Both)
+layout = ftk.VerticalLayout(context)
+layout.marginRole = ftk.SizeRole.Margin
+scrollWidget = ftk.ScrollWidget(context, ftk.ScrollType.Both)
 scrollWidget.border = False
-scrollWidget.vStretch = dtk.Stretch.Expanding
+scrollWidget.vStretch = ftk.Stretch.Expanding
 scrollWidget.widget = layout
 window.setWidget(scrollWidget)
 
 # Create integer sliders.
-groupBox = dtk.GroupBox(context, "Integer sliders", layout)
-vLayout = dtk.VerticalLayout(context, groupBox)
-intEditSlider = dtk.IntEditSlider(context, vLayout)
+groupBox = ftk.GroupBox(context, "Integer sliders", layout)
+vLayout = ftk.VerticalLayout(context, groupBox)
+intEditSlider = ftk.IntEditSlider(context, vLayout)
 intEditSlider.setCallback(lambda value: print("Int:", value))
-intEditSlider = dtk.IntEditSlider(context, vLayout)
-intEditSlider.range = dtk.RangeI(100, 200)
+intEditSlider = ftk.IntEditSlider(context, vLayout)
+intEditSlider.range = ftk.RangeI(100, 200)
 intEditSlider.setCallback(lambda value: print("Int:", value))
-intEditSlider = dtk.IntEditSlider(context, vLayout)
-intEditSlider.range = dtk.RangeI(-100, 100)
+intEditSlider = ftk.IntEditSlider(context, vLayout)
+intEditSlider.range = ftk.RangeI(-100, 100)
 intEditSlider.setCallback(lambda value: print("Int:", value))
         
 # Create float sliders.
-groupBox = dtk.GroupBox(context, "Float sliders", layout)
-vLayout = dtk.VerticalLayout(context, groupBox)
-floatEditSlider = dtk.FloatEditSlider(context, vLayout)
+groupBox = ftk.GroupBox(context, "Float sliders", layout)
+vLayout = ftk.VerticalLayout(context, groupBox)
+floatEditSlider = ftk.FloatEditSlider(context, vLayout)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
-floatEditSlider = dtk.FloatEditSlider(context, vLayout)
-floatEditSlider.range = dtk.RangeF(100, 200)
+floatEditSlider = ftk.FloatEditSlider(context, vLayout)
+floatEditSlider.range = ftk.RangeF(100, 200)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
-floatEditSlider = dtk.FloatEditSlider(context, vLayout)
-floatEditSlider.range = dtk.RangeF(-100, 100)
+floatEditSlider = ftk.FloatEditSlider(context, vLayout)
+floatEditSlider.range = ftk.RangeF(-100, 100)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
         
 # Create double sliders.
-groupBox = dtk.GroupBox(context, "Double sliders", layout)
-vLayout = dtk.VerticalLayout(context, groupBox)
-doubleEditSlider = dtk.DoubleEditSlider(context, vLayout)
+groupBox = ftk.GroupBox(context, "Double sliders", layout)
+vLayout = ftk.VerticalLayout(context, groupBox)
+doubleEditSlider = ftk.DoubleEditSlider(context, vLayout)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
-doubleEditSlider = dtk.DoubleEditSlider(context, vLayout)
-doubleEditSlider.range = dtk.RangeD(100, 200)
+doubleEditSlider = ftk.DoubleEditSlider(context, vLayout)
+doubleEditSlider.range = ftk.RangeD(100, 200)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
-doubleEditSlider = dtk.DoubleEditSlider(context, vLayout)
-doubleEditSlider.range = dtk.RangeD(-100, 100)
+doubleEditSlider = ftk.DoubleEditSlider(context, vLayout)
+doubleEditSlider.range = ftk.RangeD(-100, 100)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
 
 # Show the window and run the application.

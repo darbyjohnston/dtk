@@ -4,12 +4,12 @@
 
 #include <coreTest/SystemTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Context.h>
-#include <dtk/core/ISystem.h>
-#include <dtk/core/LogSystem.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/ISystem.h>
+#include <feather-tk/core/LogSystem.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
@@ -19,7 +19,7 @@ namespace dtk
             {
             protected:
                 System1(const std::shared_ptr<Context>& context) :
-                    ISystem(context, "dtk::core_test::System1")
+                    ISystem(context, "feather_tk::core_test::System1")
                 {}
 
             public:
@@ -37,7 +37,7 @@ namespace dtk
             {
             protected:
                 System2(const std::shared_ptr<Context>& context) :
-                    ISystem(context, "dtk::core_test::System2")
+                    ISystem(context, "feather_tk::core_test::System2")
                 {}
 
             public:
@@ -58,11 +58,11 @@ namespace dtk
         }
         
         SystemTest::SystemTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::SystemTest")
+            ITest(context, "feather_tk::core_test::SystemTest")
         {
             auto system = System1::create(context);
-            DTK_ASSERT(system->getContext().lock());
-            DTK_ASSERT(!system->getName().empty());
+            FEATHER_TK_ASSERT(system->getContext().lock());
+            FEATHER_TK_ASSERT(!system->getName().empty());
             context->addSystem(system);
             context->addSystem(System2::create(context));
         }
@@ -81,23 +81,23 @@ namespace dtk
             {
                 LogItem a;
                 LogItem b;
-                DTK_ASSERT(a == b);
+                FEATHER_TK_ASSERT(a == b);
                 b.time = 1.F;
-                DTK_ASSERT(a != b);
+                FEATHER_TK_ASSERT(a != b);
             }
             if (auto context = _context.lock())
             {
                 auto logSystem = context->getSystem<LogSystem>();
                 logSystem->print(
-                    "dtk::core_test::SystemTest",
+                    "feather_tk::core_test::SystemTest",
                     "This is a message",
                     LogType::Message);
                 logSystem->print(
-                    "dtk::core_test::SystemTest",
+                    "feather_tk::core_test::SystemTest",
                     "This is a warning!",
                     LogType::Warning);
                 logSystem->print(
-                    "dtk::core_test::SystemTest",
+                    "feather_tk::core_test::SystemTest",
                     "This is an error!",
                     LogType::Error);
             }

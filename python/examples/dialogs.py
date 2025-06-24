@@ -2,43 +2,43 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import dtk
+import feather_tk as ftk
 
 import sys
 
-class DialogsWindow(dtk.MainWindow):
+class DialogsWindow(ftk.MainWindow):
     def __init__(self, context, app, name, size):
-        dtk.MainWindow.__init__(self, context, app, name, size)
+        ftk.MainWindow.__init__(self, context, app, name, size)
         
         # Create a layout.
-        layout = dtk.VerticalLayout(context)
-        layout.marginRole = dtk.SizeRole.Margin
+        layout = ftk.VerticalLayout(context)
+        layout.marginRole = ftk.SizeRole.Margin
         self.setWidget(layout)
 
         # Message dialog.
-        button = dtk.PushButton(context, "Message Dialog", layout)
+        button = ftk.PushButton(context, "Message Dialog", layout)
         button.setClickedCallback(
-            lambda: context.getSystemByName("dtk::DialogSystem").message("Message", "Hello world!", window))
+            lambda: context.getSystemByName("ftk::DialogSystem").message("Message", "Hello world!", window))
 
         # Confirmation dialog.
-        button = dtk.PushButton(context, "Confirmation Dialog", layout)
-        button.setClickedCallback(lambda: context.getSystemByName("dtk::DialogSystem").
+        button = ftk.PushButton(context, "Confirmation Dialog", layout)
+        button.setClickedCallback(lambda: context.getSystemByName("ftk::DialogSystem").
             confirm("Confirm", "Hello world?", window, lambda ok: print("Hellow world:", ok)))
 
         # Progress dialog.
-        self.progressTimer = dtk.Timer(context)
+        self.progressTimer = ftk.Timer(context)
         self.progressTimer.repeating = True
-        button = dtk.PushButton(context, "Progress Dialog", layout)
+        button = ftk.PushButton(context, "Progress Dialog", layout)
         button.setClickedCallback(self._progressDialog)
 
         # File browsers.
-        fileEdit = dtk.FileEdit(context, layout)
+        fileEdit = ftk.FileEdit(context, layout)
         fileEdit.path = "File Browser"
-        dirEdit = dtk.FileEdit(context, dtk.FileBrowserMode.Dir, layout)
+        dirEdit = ftk.FileEdit(context, ftk.FileBrowserMode.Dir, layout)
         dirEdit.path = "Directory Browser"
 
     def _progressDialog(self):
-        self.progressDialog = dtk.ProgressDialog(self.context, "Progress", "In progress:", self)
+        self.progressDialog = ftk.ProgressDialog(self.context, "Progress", "In progress:", self)
         self.progressDialog.setCloseCallback(self._progressDialogClose)
         self.progressDialog.show()
         self.progressTimer.start(0.5, self._progressTimerCallback)
@@ -56,16 +56,16 @@ class DialogsWindow(dtk.MainWindow):
             self.progressDialog.close()
 
 # Create the context and application.
-context = dtk.Context()
-app = dtk.App(context, sys.argv, "dialogs", "Dialogs example")
+context = ftk.Context()
+app = ftk.App(context, sys.argv, "dialogs", "Dialogs example")
 if app.getExit() != 0:
     sys.exit(1)
 
 # Disable the native file dialog.
-context.getSystemByName("dtk::FileBrowserSystem").nativeFileDialog = False
+context.getSystemByName("ftk::FileBrowserSystem").nativeFileDialog = False
 
 # Create a window.
-window = DialogsWindow(context, app, "dialogs", dtk.Size2I(1280, 960))
+window = DialogsWindow(context, app, "dialogs", ftk.Size2I(1280, 960))
 
 # Show the window and run the application.
 window.show()

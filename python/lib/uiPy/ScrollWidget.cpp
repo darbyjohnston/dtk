@@ -4,14 +4,14 @@
 
 #include <uiPy/ScrollWidget.h>
 
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void scrollWidget(py::module_& m)
     {

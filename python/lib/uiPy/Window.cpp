@@ -4,14 +4,14 @@
 
 #include <uiPy/Window.h>
 
-#include <dtk/ui/Window.h>
+#include <feather-tk/ui/Window.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     class PyWindow : public Window
     {

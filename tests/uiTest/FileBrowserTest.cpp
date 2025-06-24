@@ -10,20 +10,20 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/FileBrowserPrivate.h>
-#include <dtk/ui/RecentFilesModel.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/FileBrowserPrivate.h>
+#include <feather-tk/ui/RecentFilesModel.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/Time.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/Time.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         FileBrowserTest::FileBrowserTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::FileBrowserTest")
+            ITest(context, "feather_tk::ui_test::FileBrowserTest")
         {}
 
         FileBrowserTest::~FileBrowserTest()
@@ -46,7 +46,7 @@ namespace dtk
 
         void FileBrowserTest::_enums()
         {
-            DTK_TEST_ENUM(FileBrowserSort);
+            FEATHER_TK_TEST_ENUM(FileBrowserSort);
         }
 
         void FileBrowserTest::_shortcuts()
@@ -112,13 +112,13 @@ namespace dtk
                 std::filesystem::path path = std::filesystem::current_path();
                 view->setPath(path);
                 view->setPath(path);
-                DTK_ASSERT(path == view->getPath());
+                FEATHER_TK_ASSERT(path == view->getPath());
                 view->reload();
                 FileBrowserOptions options;
                 options.reverseSort = true;
                 view->setOptions(options);
                 view->setOptions(options);
-                DTK_ASSERT(options == view->getOptions());
+                FEATHER_TK_ASSERT(options == view->getOptions());
                 view->setCallback(
                     [&path](const std::filesystem::path& value)
                     {
@@ -170,12 +170,12 @@ namespace dtk
                     std::filesystem::path(),
                     FileBrowserMode::File,
                     window);
-                DTK_ASSERT(path == fileBrowserWidget->getPath());
+                FEATHER_TK_ASSERT(path == fileBrowserWidget->getPath());
                 FileBrowserOptions options;
                 options.reverseSort = true;
                 fileBrowserWidget->setOptions(options);
                 fileBrowserWidget->setOptions(options);
-                DTK_ASSERT(options == fileBrowserWidget->getOptions());
+                FEATHER_TK_ASSERT(options == fileBrowserWidget->getOptions());
                 auto recentFilesModel = RecentFilesModel::create(context);
                 fileBrowserWidget->setRecentFilesModel(recentFilesModel);
                 fileBrowserWidget->setCallback(
@@ -251,14 +251,14 @@ namespace dtk
 
                 std::filesystem::path path = std::filesystem::current_path();
                 auto fileBrowser = FileBrowser::create(context, path);
-                DTK_ASSERT(path == fileBrowser->getPath());
+                FEATHER_TK_ASSERT(path == fileBrowser->getPath());
                 FileBrowserOptions options;
                 options.reverseSort = true;
                 fileBrowser->setOptions(options);
-                DTK_ASSERT(fileBrowser->getOptions() == options);
+                FEATHER_TK_ASSERT(fileBrowser->getOptions() == options);
                 auto recentFilesModel = RecentFilesModel::create(context);
                 fileBrowser->setRecentFilesModel(recentFilesModel);
-                DTK_ASSERT(recentFilesModel == fileBrowser->getRecentFilesModel());
+                FEATHER_TK_ASSERT(recentFilesModel == fileBrowser->getRecentFilesModel());
                 fileBrowser->setCallback(
                     [&path](const std::filesystem::path& value)
                     {
@@ -273,24 +273,24 @@ namespace dtk
 
                 fileBrowser->open(window);
                 app->tick();
-                DTK_ASSERT(fileBrowser->isOpen());
+                FEATHER_TK_ASSERT(fileBrowser->isOpen());
                 fileBrowser->close();
                 app->tick();
-                DTK_ASSERT(!fileBrowser->isOpen());
+                FEATHER_TK_ASSERT(!fileBrowser->isOpen());
 
                 fileBrowser->open(window);
                 app->tick();
-                DTK_ASSERT(fileBrowser->isOpen());
+                FEATHER_TK_ASSERT(fileBrowser->isOpen());
                 window->setKey(Key::Escape);
                 window->setKey(Key::Escape);
-                DTK_ASSERT(!fileBrowser->isOpen());
+                FEATHER_TK_ASSERT(!fileBrowser->isOpen());
 
                 fileBrowser->open(window);
                 app->tick();
-                DTK_ASSERT(fileBrowser->isOpen());
+                FEATHER_TK_ASSERT(fileBrowser->isOpen());
                 window->setKey(Key::Tab, static_cast<int>(KeyModifier::Shift));
                 window->setKey(Key::Enter);
-                DTK_ASSERT(!fileBrowser->isOpen());
+                FEATHER_TK_ASSERT(!fileBrowser->isOpen());
 
                 fileBrowser->open(window);
                 app->tick();

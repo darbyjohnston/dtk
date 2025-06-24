@@ -4,7 +4,7 @@
 
 #include <uiPy/ColorPopup.h>
 
-#include <dtk/ui/ColorPopup.h>
+#include <feather-tk/ui/ColorPopup.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void colorPopup(py::module_& m)
     {

@@ -4,7 +4,7 @@
 
 #include <corePy/Image.h>
 
-#include <dtk/core/Image.h>
+#include <feather-tk/core/Image.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void image(py::module_& m)
     {

@@ -4,9 +4,9 @@
 
 #include "DemoWindow.h"
 
-#include <dtk/ui/App.h>
+#include <feather-tk/ui/App.h>
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

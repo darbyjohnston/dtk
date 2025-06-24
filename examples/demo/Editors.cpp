@@ -4,10 +4,10 @@
 
 #include "Editors.h"
 
-#include <dtk/ui/DoubleEdit.h>
-#include <dtk/ui/FloatEdit.h>
-#include <dtk/ui/IntEdit.h>
-#include <dtk/ui/LineEdit.h>
+#include <feather-tk/ui/DoubleEdit.h>
+#include <feather-tk/ui/FloatEdit.h>
+#include <feather-tk/ui/IntEdit.h>
+#include <feather-tk/ui/LineEdit.h>
 
 void Editors::_init(
     const std::shared_ptr<Context>& context,

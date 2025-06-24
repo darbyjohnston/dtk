@@ -4,8 +4,8 @@
 
 #include <corePy/FontSystem.h>
 
-#include <dtk/core/Context.h>
-#include <dtk/core/FontSystem.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/FontSystem.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
@@ -13,7 +13,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void fontSystem(py::module_& m)
     {

@@ -4,18 +4,18 @@
 
 #include <coreTest/RenderUtilTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/IRender.h>
-#include <dtk/core/RenderUtil.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/IRender.h>
+#include <feather-tk/core/RenderUtil.h>
 
 #include <iostream>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         RenderUtilTest::RenderUtilTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::RenderUtilTest")
+            ITest(context, "feather_tk::core_test::RenderUtilTest")
         {}
 
         RenderUtilTest::~RenderUtilTest()
@@ -189,9 +189,9 @@ namespace dtk
                         RenderSizeState state(render);
                         const Size2I b(1920, 1080);
                         render->setRenderSize(b);
-                        DTK_ASSERT(b == render->getRenderSize());
+                        FEATHER_TK_ASSERT(b == render->getRenderSize());
                     }
-                    DTK_ASSERT(a == render->getRenderSize());
+                    FEATHER_TK_ASSERT(a == render->getRenderSize());
                 }
                 {
                     auto render = Render::create(context);
@@ -201,9 +201,9 @@ namespace dtk
                         ViewportState state(render);
                         const Box2I b(0, 0, 640, 480);
                         render->setViewport(b);
-                        DTK_ASSERT(b == render->getViewport());
+                        FEATHER_TK_ASSERT(b == render->getViewport());
                     }
-                    DTK_ASSERT(a == render->getViewport());
+                    FEATHER_TK_ASSERT(a == render->getViewport());
                 }
                 {
                     auto render = Render::create(context);
@@ -211,9 +211,9 @@ namespace dtk
                     {
                         ClipRectEnabledState state(render);
                         render->setClipRectEnabled(false);
-                        DTK_ASSERT(!render->getClipRectEnabled());
+                        FEATHER_TK_ASSERT(!render->getClipRectEnabled());
                     }
-                    DTK_ASSERT(render->getClipRectEnabled());
+                    FEATHER_TK_ASSERT(render->getClipRectEnabled());
                 }
                 {
                     auto render = Render::create(context);
@@ -223,9 +223,9 @@ namespace dtk
                         ClipRectState state(render);
                         const Box2I b(0, 0, 640, 480);
                         render->setClipRect(b);
-                        DTK_ASSERT(b == render->getClipRect());
+                        FEATHER_TK_ASSERT(b == render->getClipRect());
                     }
-                    DTK_ASSERT(a == render->getClipRect());
+                    FEATHER_TK_ASSERT(a == render->getClipRect());
                 }
                 {
                     auto render = Render::create(context);
@@ -235,9 +235,9 @@ namespace dtk
                         TransformState state(render);
                         const M44F b = scale(V3F(2.F, 2.F, 2.F));
                         render->setTransform(b);
-                        DTK_ASSERT(b == render->getTransform());
+                        FEATHER_TK_ASSERT(b == render->getTransform());
                     }
-                    DTK_ASSERT(a == render->getTransform());
+                    FEATHER_TK_ASSERT(a == render->getTransform());
                 }
             }
         }

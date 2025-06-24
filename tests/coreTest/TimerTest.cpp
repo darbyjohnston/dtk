@@ -4,33 +4,33 @@
 
 #include <coreTest/TimerTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Context.h>
-#include <dtk/core/Time.h>
-#include <dtk/core/Timer.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/Time.h>
+#include <feather-tk/core/Timer.h>
 
 #include <iostream>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         TimerTest::TimerTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::TimerTest")
+            ITest(context, "feather_tk::core_test::TimerTest")
         {
             auto timer = Timer::create(context);
-            DTK_ASSERT(!timer->isRepeating());
+            FEATHER_TK_ASSERT(!timer->isRepeating());
             
             auto repeatTimer = Timer::create(context);
             repeatTimer->setRepeating(true);
-            DTK_ASSERT(repeatTimer->isRepeating());
+            FEATHER_TK_ASSERT(repeatTimer->isRepeating());
 
             const std::chrono::milliseconds timeout(5);
             timer->start(timeout, [] {});
-            DTK_ASSERT(timer->isActive());
-            DTK_ASSERT(timeout == timer->getTimeout());
+            FEATHER_TK_ASSERT(timer->isActive());
+            FEATHER_TK_ASSERT(timeout == timer->getTimeout());
             timer->stop();
-            DTK_ASSERT(!timer->isActive());
+            FEATHER_TK_ASSERT(!timer->isActive());
 
             bool timedout = false;
             timer->start(

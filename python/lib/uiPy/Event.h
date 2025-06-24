@@ -6,7 +6,7 @@
 
 #include <pybind11/pybind11.h>
 
-namespace dtk
+namespace feather_tk
 {
     void event(pybind11::module_&);
 }

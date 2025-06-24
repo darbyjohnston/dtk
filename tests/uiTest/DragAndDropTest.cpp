@@ -7,13 +7,13 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/Spacer.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/Spacer.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
@@ -56,7 +56,7 @@ namespace dtk
                 const std::string& text,
                 const std::shared_ptr<IWidget>& parent)
             {
-                IWidget::_init(context, "dtk::examples::dnd::DragAndDropWidget", parent);
+                IWidget::_init(context, "feather_tk::examples::dnd::DragAndDropWidget", parent);
                 setStretch(Stretch::Expanding);
                 _setMouseHoverEnabled(true);
                 _setMousePressEnabled(true);
@@ -93,7 +93,7 @@ namespace dtk
                 IWidget::mouseMoveEvent(event);
                 if (_isMousePressed())
                 {
-                    const float length = dtk::length(event.pos - _getMousePressPos());
+                    const float length = feather_tk::length(event.pos - _getMousePressPos());
                     if (length > _dragLength)
                     {
                         event.dndData = std::make_shared<TextDragAndDropData>(_text);
@@ -141,7 +141,7 @@ namespace dtk
         }
 
         DragAndDropTest::DragAndDropTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::DragAndDropTest")
+            ITest(context, "feather_tk::ui_test::DragAndDropTest")
         {}
 
         DragAndDropTest::~DragAndDropTest()
@@ -180,7 +180,7 @@ namespace dtk
                 window->setCursorPos(center(dndWidget1->getGeometry()));
                 window->setCursorPos(center(dndWidget1->getGeometry()));
                 window->setButton(0, false);
-                DTK_ASSERT("Drag 0" == dndWidget1->getText());
+                FEATHER_TK_ASSERT("Drag 0" == dndWidget1->getText());
 
                 window->setCursorPos(center(dndWidget0->getGeometry()));
                 window->setButton(0, true);

@@ -4,8 +4,8 @@
 
 #include <uiPy/IDialog.h>
 
-#include <dtk/ui/IDialog.h>
-#include <dtk/ui/Window.h>
+#include <feather-tk/ui/IDialog.h>
+#include <feather-tk/ui/Window.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -13,7 +13,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void iDialog(py::module_& m)
     {

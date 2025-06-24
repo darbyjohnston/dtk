@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IClipboard.h>
-#include <dtk/ui/Label.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IClipboard.h>
+#include <feather-tk/ui/Label.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         LabelTest::LabelTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::LabelTest")
+            ITest(context, "feather_tk::ui_test::LabelTest")
         {}
 
         LabelTest::~LabelTest()
@@ -52,27 +52,27 @@ namespace dtk
                 auto label = Label::create(context, layout);
                 label->setText("Test");
                 label->setText("Test");
-                DTK_ASSERT("Test" == label->getText());
+                FEATHER_TK_ASSERT("Test" == label->getText());
                 label->setTextRole(ColorRole::Red);
                 label->setTextRole(ColorRole::Red);
-                DTK_ASSERT(ColorRole::Red == label->getTextRole());
+                FEATHER_TK_ASSERT(ColorRole::Red == label->getTextRole());
                 label->setMarginRole(SizeRole::Margin);
                 label->setMarginRole(SizeRole::Margin);
-                DTK_ASSERT(SizeRole::Margin == label->getHMarginRole());
-                DTK_ASSERT(SizeRole::Margin == label->getVMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::Margin == label->getHMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::Margin == label->getVMarginRole());
                 label->setMarginRole(SizeRole::Margin, SizeRole::None);
                 label->setMarginRole(SizeRole::Margin, SizeRole::None);
-                DTK_ASSERT(SizeRole::Margin == label->getHMarginRole());
-                DTK_ASSERT(SizeRole::None == label->getVMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::Margin == label->getHMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::None == label->getVMarginRole());
                 label->setHMarginRole(SizeRole::None);
                 label->setHMarginRole(SizeRole::None);
-                DTK_ASSERT(SizeRole::None == label->getHMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::None == label->getHMarginRole());
                 label->setVMarginRole(SizeRole::Margin);
                 label->setVMarginRole(SizeRole::Margin);
-                DTK_ASSERT(SizeRole::Margin == label->getVMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::Margin == label->getVMarginRole());
                 label->setFontRole(FontRole::Mono);
                 label->setFontRole(FontRole::Mono);
-                DTK_ASSERT(FontRole::Mono == label->getFontRole());
+                FEATHER_TK_ASSERT(FontRole::Mono == label->getFontRole());
 
                 label->setEnabled(false);
                 app->tick();

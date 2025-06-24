@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/FileBrowser.h>
-#include <dtk/ui/FileEdit.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/FileBrowser.h>
+#include <feather-tk/ui/FileEdit.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         FileEditTest::FileEditTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::FileEditTest")
+            ITest(context, "feather_tk::ui_test::FileEditTest")
         {}
 
         FileEditTest::~FileEditTest()
@@ -53,7 +53,7 @@ namespace dtk
                 std::filesystem::path path = std::filesystem::current_path();
                 edit->setPath(path);
                 edit->setPath(path);
-                DTK_ASSERT(path == edit->getPath());
+                FEATHER_TK_ASSERT(path == edit->getPath());
                 edit->setCallback(
                     [&path](const std::filesystem::path& value)
                     {
@@ -62,13 +62,13 @@ namespace dtk
 
                 auto system = context->getSystem<FileBrowserSystem>();
                 system->setNativeFileDialog(false);
-                DTK_ASSERT(!system->isNativeFileDialog());
+                FEATHER_TK_ASSERT(!system->isNativeFileDialog());
                 system->setPath(path);
-                DTK_ASSERT(path == system->getPath());
+                FEATHER_TK_ASSERT(path == system->getPath());
                 FileBrowserOptions options;
                 options.reverseSort = true;
                 system->setOptions(options);
-                DTK_ASSERT(options == system->getOptions());
+                FEATHER_TK_ASSERT(options == system->getOptions());
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);

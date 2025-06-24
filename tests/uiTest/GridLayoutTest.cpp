@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/GridLayout.h>
-#include <dtk/ui/Spacer.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/GridLayout.h>
+#include <feather-tk/ui/Spacer.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         GridLayoutTest::GridLayoutTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::GridLayoutTest")
+            ITest(context, "feather_tk::ui_test::GridLayoutTest")
         {}
 
         GridLayoutTest::~GridLayoutTest()
@@ -51,11 +51,11 @@ namespace dtk
                 layout->setSpacingRole(SizeRole::None);
                 layout->setSpacingRole(SizeRole::None);
                 layout->setSpacingRole(SizeRole::Spacing);
-                DTK_ASSERT(SizeRole::Spacing == layout->getSpacingRole());
+                FEATHER_TK_ASSERT(SizeRole::Spacing == layout->getSpacingRole());
                 layout->setMarginRole(SizeRole::Margin);
                 layout->setMarginRole(SizeRole::Margin);
                 layout->setMarginRole(SizeRole::None);
-                DTK_ASSERT(SizeRole::None == layout->getMarginRole());
+                FEATHER_TK_ASSERT(SizeRole::None == layout->getMarginRole());
 
                 auto spacer0 = Spacer::create(context, Orientation::Horizontal, layout);
                 auto spacer1 = Spacer::create(context, Orientation::Horizontal, layout);

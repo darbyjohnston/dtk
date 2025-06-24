@@ -7,12 +7,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DTK_API: GL_4_1
-      DTK_NFD: OFF
-      DTK_PYTHON: ON
-      DTK_TESTS: ON
-      DTK_EXAMPLES: ON
-      DTK_GCOV: ON
+      FEATHER_TK_API: GL_4_1
+      FEATHER_TK_NFD: OFF
+      FEATHER_TK_PYTHON: ON
+      FEATHER_TK_TESTS: ON
+      FEATHER_TK_EXAMPLES: ON
+      FEATHER_TK_GCOV: ON
 
     steps:
     - uses: actions/checkout@v4
@@ -35,19 +35,19 @@ jobs:
     - name: Run tests
       run: |
         cd build
-        cd dtk/src/dtk-build
+        cd feather-tk/src/feather-tk-build
         xvfb-run ctest --verbose -C Debug
     
     - name: Code coverage
-      if: env.DTK_GCOV == 'ON'
+      if: env.FEATHER_TK_GCOV == 'ON'
       run: |
-        cd build/dtk/src/dtk-build
+        cd build/feather-tk/src/feather-tk-build
         bash ../../../../etc/Linux/lcov.sh
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
-        files: ${{ github.workspace }}/build/dtk/src/dtk-build/coverage_filtered.info
+        files: ${{ github.workspace }}/build/feather-tk/src/feather-tk-build/coverage_filtered.info
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -55,12 +55,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DTK_API: GLES_2
-      DTK_NFD: OFF
-      DTK_PYTHON: ON
-      DTK_TESTS: ON
-      DTK_EXAMPLES: ON
-      DTK_GCOV: OFF
+      FEATHER_TK_API: GLES_2
+      FEATHER_TK_NFD: OFF
+      FEATHER_TK_PYTHON: ON
+      FEATHER_TK_TESTS: ON
+      FEATHER_TK_EXAMPLES: ON
+      FEATHER_TK_GCOV: OFF
 
     steps:
     - uses: actions/checkout@v4
@@ -83,19 +83,19 @@ jobs:
     - name: Run tests
       run: |
         cd build
-        cd dtk/src/dtk-build
+        cd feather-tk/src/feather-tk-build
         xvfb-run ctest --verbose -C Debug
 
   macos-13-build:
     runs-on: macos-13
 
     env:
-      DTK_API: GL_4_1
-      DTK_NFD: OFF
-      DTK_PYTHON: ON
-      DTK_TESTS: ON
-      DTK_EXAMPLES: OFF
-      DTK_GCOV: OFF
+      FEATHER_TK_API: GL_4_1
+      FEATHER_TK_NFD: OFF
+      FEATHER_TK_PYTHON: ON
+      FEATHER_TK_TESTS: ON
+      FEATHER_TK_EXAMPLES: OFF
+      FEATHER_TK_GCOV: OFF
       CMAKE_OSX_DEPLOYMENT_TARGET: 10.15
       CMAKE_OSX_ARCHITECTURES: x86_64
 
@@ -125,19 +125,19 @@ jobs:
       run: |
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
-        cd dtk/src/dtk-build
+        cd feather-tk/src/feather-tk-build
         ctest --verbose -C Debug
 
   macos-build:
     runs-on: macos-latest
 
     env:
-      DTK_API: GL_4_1
-      DTK_NFD: OFF
-      DTK_PYTHON: ON
-      DTK_TESTS: ON
-      DTK_EXAMPLES: OFF
-      DTK_GCOV: OFF
+      FEATHER_TK_API: GL_4_1
+      FEATHER_TK_NFD: OFF
+      FEATHER_TK_PYTHON: ON
+      FEATHER_TK_TESTS: ON
+      FEATHER_TK_EXAMPLES: OFF
+      FEATHER_TK_GCOV: OFF
       CMAKE_OSX_DEPLOYMENT_TARGET: 14
       CMAKE_OSX_ARCHITECTURES: arm64
 
@@ -167,19 +167,19 @@ jobs:
       run: |
         export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
         cd build
-        cd dtk/src/dtk-build
+        cd feather-tk/src/feather-tk-build
         ctest --verbose -C Debug
 
   windows-build:
     runs-on: windows-latest
 
     env:
-      DTK_API: GL_4_1
-      DTK_NFD: OFF
-      DTK_PYTHON: ON
-      DTK_TESTS: ON
-      DTK_EXAMPLES: OFF
-      DTK_GCOV: OFF
+      FEATHER_TK_API: GL_4_1
+      FEATHER_TK_NFD: OFF
+      FEATHER_TK_PYTHON: ON
+      FEATHER_TK_TESTS: ON
+      FEATHER_TK_EXAMPLES: OFF
+      FEATHER_TK_GCOV: OFF
 
     steps:
     - uses: actions/checkout@v4
@@ -208,6 +208,6 @@ jobs:
       shell: cmd
       run: |
         cd build
-        cd dtk\src\dtk-build
+        cd feather-tk\src\feather-tk-build
         ctest --verbose -C Debug
 

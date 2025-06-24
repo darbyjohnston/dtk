@@ -4,19 +4,19 @@
 
 #include <glTest/WindowTest.h>
 
-#include <dtk/gl/Window.h>
+#include <feather-tk/gl/Window.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-using namespace dtk::gl;
+using namespace feather_tk::gl;
 
-namespace dtk
+namespace feather_tk
 {
     namespace gl_test
     {
         WindowTest::WindowTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::gl_test::WindowTest")
+            ITest(context, "feather_tk::gl_test::WindowTest")
         {}
 
         WindowTest::~WindowTest()
@@ -34,8 +34,8 @@ namespace dtk
             {
                 Size2I size(1024, 1024);
                 auto window = Window::create(context, "WindowTest", size);
-                DTK_ASSERT(window->getGLFW());
-                DTK_ASSERT(size == window->getSize());                
+                FEATHER_TK_ASSERT(window->getGLFW());
+                FEATHER_TK_ASSERT(size == window->getSize());                
                 _print(Format("Frame buffer size: {0}").arg(window->getFrameBufferSize()));
                 _print(Format("Content scale: {0}").arg(window->getContentScale()));
                 _print(Format("Screen: {0}").arg(window->getScreen()));
@@ -73,7 +73,7 @@ namespace dtk
                 try
                 {
                     auto window = Window::create(context, "WindowTest", Size2I(0, 0));
-                    DTK_ASSERT(false);
+                    FEATHER_TK_ASSERT(false);
                 }
                 catch (const std::exception&)
                 {}

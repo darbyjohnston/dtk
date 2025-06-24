@@ -4,12 +4,12 @@
 
 #include "ImageWidgets.h"
 
-#include <dtk/ui/ImageWidget.h>
-#include <dtk/ui/SvgWidget.h>
+#include <feather-tk/ui/ImageWidget.h>
+#include <feather-tk/ui/SvgWidget.h>
 
-#include <dtk/core/ImageIO.h>
+#include <feather-tk/core/ImageIO.h>
 
-namespace dtk_resource
+namespace feather_tk_resource
 {
     extern std::vector<uint8_t> Charlie;
     extern std::vector<uint8_t> TestDrawing;
@@ -26,14 +26,14 @@ void ImageWidgets::_init(
 
     auto imageWidget = ImageWidget::create(context, _layout);
     auto imageIO = context->getSystem<ImageIO>();
-    InMemoryFile memory(dtk_resource::Charlie.data(), dtk_resource::Charlie.size());
+    InMemoryFile memory(feather_tk_resource::Charlie.data(), feather_tk_resource::Charlie.size());
     if (auto read = imageIO->read("Charlie.png", memory))
     {
         imageWidget->setImage(read->read());
     }
 
     auto svgWidget = SvgWidget::create(context, _layout);
-    svgWidget->setSVGData(dtk_resource::TestDrawing);
+    svgWidget->setSVGData(feather_tk_resource::TestDrawing);
     svgWidget->setSVGWidth(300);
 }
 

@@ -4,17 +4,17 @@
 
 #include <uiTest/WidgetOptionsTest.h>
 
-#include <dtk/ui/WidgetOptions.h>
+#include <feather-tk/ui/WidgetOptions.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         WidgetOptionsTest::WidgetOptionsTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::WidgetOptionsTest")
+            ITest(context, "feather_tk::ui_test::WidgetOptionsTest")
         {}
 
         WidgetOptionsTest::~WidgetOptionsTest()
@@ -33,10 +33,10 @@ namespace dtk
         
         void WidgetOptionsTest::_enums()
         {
-            DTK_TEST_ENUM(Orientation);
-            DTK_TEST_ENUM(Stretch);
-            DTK_TEST_ENUM(HAlign);
-            DTK_TEST_ENUM(VAlign);
+            FEATHER_TK_TEST_ENUM(Orientation);
+            FEATHER_TK_TEST_ENUM(Stretch);
+            FEATHER_TK_TEST_ENUM(HAlign);
+            FEATHER_TK_TEST_ENUM(VAlign);
         }
     }
 }

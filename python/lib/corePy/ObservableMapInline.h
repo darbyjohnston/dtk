@@ -2,9 +2,9 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/core/ObservableMap.h>
+#include <feather-tk/core/ObservableMap.h>
 
-namespace dtk
+namespace feather_tk
 {
     template<typename T, typename U>
     inline void observableMap(pybind11::module_& m, const std::string& type)

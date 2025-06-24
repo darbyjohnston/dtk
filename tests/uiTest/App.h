@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <dtk/core/IApp.h>
+#include <feather-tk/core/IApp.h>
 
 #include <list>
 
-namespace dtk
+namespace feather_tk
 {
     class FontSystem;
     class IWidget;
@@ -67,7 +67,7 @@ namespace dtk
             
             void _log();
 
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

@@ -4,17 +4,17 @@
 
 #include <coreTest/BoxPackTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
 #include <sstream>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         BoxPackTest::BoxPackTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::BoxPackTest")
+            ITest(context, "feather_tk::core_test::BoxPackTest")
         {}
 
         BoxPackTest::~BoxPackTest()
@@ -31,17 +31,17 @@ namespace dtk
             {
                 auto pack = BoxPack::create(Size2I(100, 100));
                 auto node = pack->insert(Size2I(100, 100));
-                DTK_ASSERT(node);
+                FEATHER_TK_ASSERT(node);
                 node = pack->insert(Size2I(100, 100));
-                DTK_ASSERT(node);
+                FEATHER_TK_ASSERT(node);
                 _printPack(pack);
             }
             {
                 auto pack = BoxPack::create(Size2I(100, 100));
                 auto node = pack->insert(Size2I(50, 100));
-                DTK_ASSERT(node);
+                FEATHER_TK_ASSERT(node);
                 node = pack->insert(Size2I(50, 100));
-                DTK_ASSERT(node);
+                FEATHER_TK_ASSERT(node);
                 _printPack(pack);
             }
             {
@@ -49,7 +49,7 @@ namespace dtk
                 for (size_t i = 0; i < 5; ++i)
                 {
                     auto node = pack->insert(Size2I(50, 50));
-                    DTK_ASSERT(node);
+                    FEATHER_TK_ASSERT(node);
                 }
                 _printPack(pack);
             }
@@ -58,7 +58,7 @@ namespace dtk
                 for (size_t i = 0; i < 5; ++i)
                 {
                     auto node = pack->insert(Size2I(50, 50));
-                    DTK_ASSERT(node);
+                    FEATHER_TK_ASSERT(node);
                 }
                 _printPack(pack);
             }

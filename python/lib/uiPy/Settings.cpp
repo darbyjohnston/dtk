@@ -4,9 +4,9 @@
 
 #include <uiPy/Settings.h>
 
-#include <dtk/ui/Settings.h>
+#include <feather-tk/ui/Settings.h>
 
-#include <dtk/core/Context.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -14,7 +14,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void settings(py::module_& m)
     {

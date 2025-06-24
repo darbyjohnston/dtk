@@ -4,14 +4,14 @@
 
 #include <corePy/CmdLine.h>
 
-#include <dtk/core/CmdLine.h>
+#include <feather-tk/core/CmdLine.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void cmdLine(py::module_& m)
     {

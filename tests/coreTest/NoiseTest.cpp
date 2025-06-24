@@ -4,18 +4,18 @@
 
 #include <coreTest/NoiseTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Math.h>
-#include <dtk/core/Noise.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Math.h>
+#include <feather-tk/core/Noise.h>
 
 #include <iostream>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         NoiseTest::NoiseTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::NoiseTest")
+            ITest(context, "feather_tk::core_test::NoiseTest")
         {}
 
         NoiseTest::~NoiseTest()

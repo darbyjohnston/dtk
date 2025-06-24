@@ -4,7 +4,7 @@
 
 #include <uiPy/TabWidget.h>
 
-#include <dtk/ui/TabWidget.h>
+#include <feather-tk/ui/TabWidget.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void tabWidget(py::module_& m)
     {

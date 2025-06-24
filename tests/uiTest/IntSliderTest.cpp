@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IntSlider.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IntSlider.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         IntSliderTest::IntSliderTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::IntSliderTest")
+            ITest(context, "feather_tk::ui_test::IntSliderTest")
         {}
 
         IntSliderTest::~IntSliderTest()
@@ -49,21 +49,21 @@ namespace dtk
                 app->tick();
 
                 auto slider = IntSlider::create(context, layout);
-                DTK_ASSERT(slider->getModel());
+                FEATHER_TK_ASSERT(slider->getModel());
                 int value = 0;
                 slider->setCallback([&value](int v) { value = v; });
                 slider->setValue(11);
                 app->tick();
-                DTK_ASSERT(11 == slider->getValue());
-                DTK_ASSERT(11 == value);
+                FEATHER_TK_ASSERT(11 == slider->getValue());
+                FEATHER_TK_ASSERT(11 == value);
                 slider->setRange(RangeI(0, 10));
                 app->tick();
-                DTK_ASSERT(RangeI(0, 10) == slider->getRange());
-                DTK_ASSERT(10 == value);
+                FEATHER_TK_ASSERT(RangeI(0, 10) == slider->getRange());
+                FEATHER_TK_ASSERT(10 == value);
                 slider->setStep(2);
-                DTK_ASSERT(2 == slider->getStep());
+                FEATHER_TK_ASSERT(2 == slider->getStep());
                 slider->setLargeStep(3);
-                DTK_ASSERT(3 == slider->getLargeStep());
+                FEATHER_TK_ASSERT(3 == slider->getLargeStep());
 
                 Box2I g = slider->getGeometry();
                 V2I c = center(g);
@@ -73,19 +73,19 @@ namespace dtk
                 window->setButton(0, false);
 
                 window->setKey(Key::Home);
-                DTK_ASSERT(value == 0);
+                FEATHER_TK_ASSERT(value == 0);
                 window->setKey(Key::Right);
-                DTK_ASSERT(value == 2);
+                FEATHER_TK_ASSERT(value == 2);
                 window->setKey(Key::PageUp);
-                DTK_ASSERT(value == 5);
+                FEATHER_TK_ASSERT(value == 5);
                 window->setKey(Key::Left);
-                DTK_ASSERT(value == 3);
+                FEATHER_TK_ASSERT(value == 3);
                 window->setKey(Key::PageDown);
-                DTK_ASSERT(value == 0);
+                FEATHER_TK_ASSERT(value == 0);
                 window->setKey(Key::End);
-                DTK_ASSERT(value == 10);
+                FEATHER_TK_ASSERT(value == 10);
                 window->setKey(Key::Escape);
-                DTK_ASSERT(!slider->hasKeyFocus());
+                FEATHER_TK_ASSERT(!slider->hasKeyFocus());
             }
         }
     }

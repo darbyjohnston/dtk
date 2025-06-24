@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/ProgressDialog.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/Settings.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/ProgressDialog.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/Settings.h>
 
-#include <dtk/core/Timer.h>
+#include <feather-tk/core/Timer.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
 class DialogsWindow : public MainWindow
 {

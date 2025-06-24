@@ -4,14 +4,14 @@
 
 #include <uiPy/ToolButton.h>
 
-#include <dtk/ui/ToolButton.h>
+#include <feather-tk/ui/ToolButton.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void toolButton(py::module_& m)
     {

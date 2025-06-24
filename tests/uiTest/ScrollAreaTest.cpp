@@ -4,17 +4,17 @@
 
 #include <uiTest/ScrollAreaTest.h>
 
-#include <dtk/ui/ScrollArea.h>
+#include <feather-tk/ui/ScrollArea.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ScrollAreaTest::ScrollAreaTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ScrollAreaTest")
+            ITest(context, "feather_tk::ui_test::ScrollAreaTest")
         {}
 
         ScrollAreaTest::~ScrollAreaTest()
@@ -33,7 +33,7 @@ namespace dtk
         
         void ScrollAreaTest::_enums()
         {
-            DTK_TEST_ENUM(ScrollType);
+            FEATHER_TK_TEST_ENUM(ScrollType);
         }
     }
 }

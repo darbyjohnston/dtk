@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/GroupBox.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/GroupBox.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         GroupBoxTest::GroupBoxTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::GroupBoxTest")
+            ITest(context, "feather_tk::ui_test::GroupBoxTest")
         {}
 
         GroupBoxTest::~GroupBoxTest()
@@ -51,10 +51,10 @@ namespace dtk
                 auto widget = GroupBox::create(context, "Test", layout);
                 widget->setText("Group");
                 widget->setText("Group");
-                DTK_ASSERT("Group" == widget->getText());
+                FEATHER_TK_ASSERT("Group" == widget->getText());
                 widget->setFontRole(FontRole::Mono);
                 widget->setFontRole(FontRole::Mono);
-                DTK_ASSERT(FontRole::Mono == widget->getFontRole());
+                FEATHER_TK_ASSERT(FontRole::Mono == widget->getFontRole());
                 widget->setFontRole(FontRole::Label);
                 app->tick();
             }

@@ -2,29 +2,29 @@
 # Copyright (c) 2024 Darby Johnston
 # All rights reserved.
 
-import dtk
+import feather_tk as ftk
 
 import sys
 
 # Create the context and application.
-context = dtk.Context()
-app = dtk.App(context, sys.argv, "tabs", "Tabs example")
+context = ftk.Context()
+app = ftk.App(context, sys.argv, "tabs", "Tabs example")
 if app.getExit() != 0:
     sys.exit(1)
 
 # Create a window.
-window = dtk.MainWindow(context, app, "tabs", dtk.Size2I(1280, 960))
+window = ftk.MainWindow(context, app, "tabs", ftk.Size2I(1280, 960))
 
 # Create a tab widget.
-tabWidget = dtk.TabWidget(context)
-tabWidget.vStretch = dtk.Stretch.Expanding
+tabWidget = ftk.TabWidget(context)
+tabWidget.vStretch = ftk.Stretch.Expanding
 window.setWidget(tabWidget)
 
 # Add tabs.
 for i in range(0, 10):
-    label = dtk.Label(context, dtk.getLoremIpsum(100))
-    label.marginRole = dtk.SizeRole.MarginSmall
-    scrollWidget = dtk.ScrollWidget(context)
+    label = ftk.Label(context, ftk.getLoremIpsum(100))
+    label.marginRole = ftk.SizeRole.MarginSmall
+    scrollWidget = ftk.ScrollWidget(context)
     scrollWidget.border = False
     scrollWidget.widget = label
     tabWidget.addTab("Tab {}".format(i), scrollWidget)

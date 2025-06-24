@@ -7,11 +7,11 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/RowLayout.h>
 
 #include <testLib/ITest.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {

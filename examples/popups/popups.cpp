@@ -2,20 +2,20 @@
 // Copyright (c) 2024-2025 Darby Johnston
 // All rights reserved.
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/Action.h>
-#include <dtk/ui/ComboBox.h>
-#include <dtk/ui/ColorSwatch.h>
-#include <dtk/ui/Divider.h>
-#include <dtk/ui/GroupBox.h>
-#include <dtk/ui/MainWindow.h>
-#include <dtk/ui/MenuBar.h>
-#include <dtk/ui/RowLayout.h>
-#include <dtk/ui/ScrollWidget.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/Action.h>
+#include <feather-tk/ui/ComboBox.h>
+#include <feather-tk/ui/ColorSwatch.h>
+#include <feather-tk/ui/Divider.h>
+#include <feather-tk/ui/GroupBox.h>
+#include <feather-tk/ui/MainWindow.h>
+#include <feather-tk/ui/MenuBar.h>
+#include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ScrollWidget.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

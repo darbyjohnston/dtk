@@ -116,13 +116,13 @@ set(SOURCE
     WidgetOptions.cpp
     Window.cpp)
 
-add_library(dtkUIPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
-target_link_libraries(dtkUIPy dtkUI Python3::Python)
-set_target_properties(dtkUIPy PROPERTIES FOLDER python/lib)
-set_target_properties(dtkUIPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
+add_library(feather-tk-uiPy ${HEADERS} ${HEADERS_PRIVATE} ${SOURCE})
+target_link_libraries(feather-tk-uiPy feather-tk-ui Python3::Python)
+set_target_properties(feather-tk-uiPy PROPERTIES FOLDER python/lib)
+set_target_properties(feather-tk-uiPy PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
-install(TARGETS dtkUIPy
+install(TARGETS feather-tk-uiPy
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
-    PUBLIC_HEADER DESTINATION include/dtk/dtkUIPy)
+    PUBLIC_HEADER DESTINATION include/feather-tk/uiPy)

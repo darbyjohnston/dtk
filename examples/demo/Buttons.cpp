@@ -4,12 +4,12 @@
 
 #include "Buttons.h"
 
-#include <dtk/ui/CheckBox.h>
-#include <dtk/ui/GridLayout.h>
-#include <dtk/ui/GroupBox.h>
-#include <dtk/ui/PushButton.h>
-#include <dtk/ui/RadioButton.h>
-#include <dtk/ui/ToolButton.h>
+#include <feather-tk/ui/CheckBox.h>
+#include <feather-tk/ui/GridLayout.h>
+#include <feather-tk/ui/GroupBox.h>
+#include <feather-tk/ui/PushButton.h>
+#include <feather-tk/ui/RadioButton.h>
+#include <feather-tk/ui/ToolButton.h>
 
 void Buttons::_init(
     const std::shared_ptr<Context>& context,

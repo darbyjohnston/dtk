@@ -6,15 +6,15 @@
 
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IconSystem.h>
-#include <dtk/ui/Init.h>
-#include <dtk/ui/Style.h>
+#include <feather-tk/ui/IconSystem.h>
+#include <feather-tk/ui/Init.h>
+#include <feather-tk/ui/Style.h>
 
-#include <dtk/core/LogSystem.h>
-#include <dtk/core/Time.h>
-#include <dtk/core/Timer.h>
+#include <feather-tk/core/LogSystem.h>
+#include <feather-tk/core/Time.h>
+#include <feather-tk/core/Timer.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
@@ -49,7 +49,7 @@ namespace dtk
                 summary,
                 cmdLineArgs,
                 cmdLineOptions);
-            DTK_P();
+            FEATHER_TK_P();
             uiInit(context);
 
             p.fontSystem = context->getSystem<FontSystem>();
@@ -92,13 +92,13 @@ namespace dtk
 
         void App::addWindow(const std::shared_ptr<Window>& window)
         {
-            DTK_P();
+            FEATHER_TK_P();
             p.windows.push_back(window);
         }
 
         void App::removeWindow(const std::shared_ptr<Window>& window)
         {
-            DTK_P();
+            FEATHER_TK_P();
             const auto i = std::find(p.windows.begin(), p.windows.end(), window);
             if (i != p.windows.end())
             {
@@ -128,7 +128,7 @@ namespace dtk
 
         void App::setDisplayScale(float value)
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (value == p.displayScale)
                 return;
             p.displayScale = value;
@@ -140,7 +140,7 @@ namespace dtk
 
         void App::tick(size_t count)
         {
-            DTK_P();
+            FEATHER_TK_P();
             for (size_t i = 0; i < count; ++i)
             {
                 _context->tick();
@@ -160,7 +160,7 @@ namespace dtk
 
         void App::run()
         {
-            DTK_P();
+            FEATHER_TK_P();
             if (p.running && !p.windows.empty())
             {
                 tick();
@@ -173,7 +173,7 @@ namespace dtk
             bool enabled,
             const TickEvent& event)
         {
-            DTK_P();
+            FEATHER_TK_P();
             const bool parentsVisible = visible && widget->isVisible(false);
             const bool parentsEnabled = enabled && widget->isEnabled(false);
             for (const auto& child : widget->getChildren())

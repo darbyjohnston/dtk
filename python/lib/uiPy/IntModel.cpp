@@ -4,16 +4,16 @@
 
 #include <uiPy/IntModel.h>
 
-#include <dtk/ui/IntModel.h>
+#include <feather-tk/ui/IntModel.h>
 
-#include <dtk/core/Context.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void intModel(py::module_& m)
     {

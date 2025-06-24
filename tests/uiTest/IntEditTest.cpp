@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IntEdit.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IntEdit.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         IntEditTest::IntEditTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::IntEditTest")
+            ITest(context, "feather_tk::ui_test::IntEditTest")
         {}
 
         IntEditTest::~IntEditTest()
@@ -49,23 +49,23 @@ namespace dtk
                 app->tick();
 
                 auto edit = IntEdit::create(context, layout);
-                DTK_ASSERT(edit->getModel());
+                FEATHER_TK_ASSERT(edit->getModel());
                 int value = 0;
                 edit->setCallback([&value](int v) { value = v; });
                 edit->setValue(11);
                 app->tick();
-                DTK_ASSERT(11 == edit->getValue());
-                DTK_ASSERT(11 == value);
+                FEATHER_TK_ASSERT(11 == edit->getValue());
+                FEATHER_TK_ASSERT(11 == value);
                 edit->setRange(RangeI(0, 10));
                 app->tick();
-                DTK_ASSERT(RangeI(0, 10) == edit->getRange());
-                DTK_ASSERT(10 == value);
+                FEATHER_TK_ASSERT(RangeI(0, 10) == edit->getRange());
+                FEATHER_TK_ASSERT(10 == value);
                 edit->setStep(2);
-                DTK_ASSERT(2 == edit->getStep());
+                FEATHER_TK_ASSERT(2 == edit->getStep());
                 edit->setLargeStep(3);
-                DTK_ASSERT(3 == edit->getLargeStep());
+                FEATHER_TK_ASSERT(3 == edit->getLargeStep());
                 edit->setFontRole(FontRole::Label);
-                DTK_ASSERT(FontRole::Label == edit->getFontRole());
+                FEATHER_TK_ASSERT(FontRole::Label == edit->getFontRole());
                 edit->setFontRole(FontRole::Mono);
 
                 window->setCursorEnter(true);
@@ -75,16 +75,16 @@ namespace dtk
                 window->setKey(Key::Delete);
                 window->setText("1");
                 window->setKey(Key::Enter);
-                DTK_ASSERT(1 == value);
+                FEATHER_TK_ASSERT(1 == value);
 
                 window->setKey(Key::Up);
-                DTK_ASSERT(3 == value);
+                FEATHER_TK_ASSERT(3 == value);
                 window->setKey(Key::PageUp);
-                DTK_ASSERT(6 == value);
+                FEATHER_TK_ASSERT(6 == value);
                 window->setKey(Key::PageDown);
-                DTK_ASSERT(3 == value);
+                FEATHER_TK_ASSERT(3 == value);
                 window->setKey(Key::Down);
-                DTK_ASSERT(1 == value);
+                FEATHER_TK_ASSERT(1 == value);
                 window->setKey(Key::Escape);
             }
         }

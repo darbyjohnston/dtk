@@ -61,16 +61,16 @@
 #include <uiPy/WidgetOptions.h>
 #include <uiPy/Window.h>
 
-#include <dtk/ui/Init.h>
+#include <feather-tk/ui/Init.h>
 
-#include <dtk/core/Context.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void uiBind(py::module_& m)
     {

@@ -4,7 +4,7 @@
 
 #include <uiPy/IntEdit.h>
 
-#include <dtk/ui/IntEdit.h>
+#include <feather-tk/ui/IntEdit.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void intEdit(py::module_& m)
     {

@@ -4,7 +4,7 @@
 
 #include <uiPy/DoubleEdit.h>
 
-#include <dtk/ui/DoubleEdit.h>
+#include <feather-tk/ui/DoubleEdit.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void doubleEdit(py::module_& m)
     {

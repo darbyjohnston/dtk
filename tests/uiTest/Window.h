@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <dtk/ui/IWindow.h>
+#include <feather-tk/ui/IWindow.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
@@ -52,7 +52,7 @@ namespace dtk
             void sizeHintEvent(const SizeHintEvent&) override;
 
         private:
-            DTK_PRIVATE();
+            FEATHER_TK_PRIVATE();
         };
     }
 }

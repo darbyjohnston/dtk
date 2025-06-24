@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/RowLayout.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
 class ImageWidgets : public IWidget
 {

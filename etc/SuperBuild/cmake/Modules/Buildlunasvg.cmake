@@ -5,7 +5,7 @@ set(lunasvg_GIT_REPOSITORY "https://github.com/sammycage/lunasvg.git")
 set(lunasvg_GIT_TAG "v3.2.1")
 
 set(lunasvg_ARGS
-    ${dtk_DEPS_ARGS}
+    ${feather_tk_DEPS_ARGS}
     -DLUNASVG_BUILD_EXAMPLES=OFF)
 
 ExternalProject_Add(

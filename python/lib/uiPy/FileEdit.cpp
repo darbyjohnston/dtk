@@ -4,8 +4,8 @@
 
 #include <uiPy/FileEdit.h>
 
-#include <dtk/ui/FileEdit.h>
-#include <dtk/ui/RecentFilesModel.h>
+#include <feather-tk/ui/FileEdit.h>
+#include <feather-tk/ui/RecentFilesModel.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -13,7 +13,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void fileEdit(py::module_& m)
     {

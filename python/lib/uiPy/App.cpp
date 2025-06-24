@@ -4,12 +4,12 @@
 
 #include <uiPy/App.h>
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/Settings.h>
-#include <dtk/ui/Window.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/Settings.h>
+#include <feather-tk/ui/Window.h>
 
-#include <dtk/core/CmdLine.h>
-#include <dtk/core/Context.h>
+#include <feather-tk/core/CmdLine.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -17,7 +17,7 @@
 using namespace pybind11::literals;
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void app(py::module_& m)
     {

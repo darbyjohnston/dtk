@@ -6,16 +6,16 @@
 
 #include "Window.h"
 
-#include <dtk/ui/DialogSystem.h>
-#include <dtk/ui/FileBrowser.h>
+#include <feather-tk/ui/DialogSystem.h>
+#include <feather-tk/ui/FileBrowser.h>
 
-#include <dtk/core/CmdLine.h>
+#include <feather-tk/core/CmdLine.h>
 
-#include <dtk/core/FileIO.h>
+#include <feather-tk/core/FileIO.h>
 
-using namespace dtk;
+using namespace feather_tk;
 
-namespace dtk
+namespace feather_tk
 {
     namespace examples
     {
@@ -25,7 +25,7 @@ namespace dtk
                 const std::shared_ptr<Context>& context,
                 const std::vector<std::string>& argv)
             {
-                dtk::App::_init(
+                feather_tk::App::_init(
                     context,
                     argv,
                     "textedit",

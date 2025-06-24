@@ -7,17 +7,17 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ProgressDialog.h>
+#include <feather-tk/ui/ProgressDialog.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ProgressDialogTest::ProgressDialogTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ProgressDialogTest")
+            ITest(context, "feather_tk::ui_test::ProgressDialogTest")
         {}
 
         ProgressDialogTest::~ProgressDialogTest()

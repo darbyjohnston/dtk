@@ -105,7 +105,7 @@ set(SOURCE
     WidgetOptionsTest.cpp
     Window.cpp)
 
-add_library(dtkUITest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(dtkUITest dtkUI dtkTestLib)
-set_target_properties(dtkUITest PROPERTIES FOLDER tests)
-set_target_properties(dtkUITest PROPERTIES PUBLIC_HEADER "${HEADERS}")
+add_library(feather-tk-uiTest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+target_link_libraries(feather-tk-uiTest feather-tk-ui feather-tk-testLib)
+set_target_properties(feather-tk-uiTest PROPERTIES FOLDER tests)
+set_target_properties(feather-tk-uiTest PROPERTIES PUBLIC_HEADER "${HEADERS}")

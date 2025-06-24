@@ -7,11 +7,11 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ButtonGroup.h>
+#include <feather-tk/ui/ButtonGroup.h>
 
 #include <testLib/ITest.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {

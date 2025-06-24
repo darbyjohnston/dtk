@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IntEditSlider.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IntEditSlider.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         IntEditSliderTest::IntEditSliderTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::IntEditSliderTest")
+            ITest(context, "feather_tk::ui_test::IntEditSliderTest")
         {}
 
         IntEditSliderTest::~IntEditSliderTest()
@@ -49,25 +49,25 @@ namespace dtk
                 app->tick();
 
                 auto slider = IntEditSlider::create(context, layout);
-                DTK_ASSERT(slider->getModel());
+                FEATHER_TK_ASSERT(slider->getModel());
                 int value = 0;
                 slider->setCallback([&value](int v) { value = v; });
                 slider->setValue(11);
                 app->tick();
-                DTK_ASSERT(11 == slider->getValue());
-                DTK_ASSERT(11 == value);
+                FEATHER_TK_ASSERT(11 == slider->getValue());
+                FEATHER_TK_ASSERT(11 == value);
                 slider->setRange(RangeI(0, 10));
                 app->tick();
-                DTK_ASSERT(RangeI(0, 10) == slider->getRange());
-                DTK_ASSERT(10 == value);
+                FEATHER_TK_ASSERT(RangeI(0, 10) == slider->getRange());
+                FEATHER_TK_ASSERT(10 == value);
                 slider->setStep(2);
-                DTK_ASSERT(2 == slider->getStep());
+                FEATHER_TK_ASSERT(2 == slider->getStep());
                 slider->setLargeStep(3);
-                DTK_ASSERT(3 == slider->getLargeStep());
+                FEATHER_TK_ASSERT(3 == slider->getLargeStep());
                 slider->setDefaultValue(0);
-                DTK_ASSERT(0 == slider->getDefaultValue());
+                FEATHER_TK_ASSERT(0 == slider->getDefaultValue());
                 slider->setFontRole(FontRole::Label);
-                DTK_ASSERT(FontRole::Label == slider->getFontRole());
+                FEATHER_TK_ASSERT(FontRole::Label == slider->getFontRole());
                 slider->setFontRole(FontRole::Mono);
 
                 Box2I g = slider->getGeometry();

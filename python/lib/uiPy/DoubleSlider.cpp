@@ -4,7 +4,7 @@
 
 #include <uiPy/DoubleSlider.h>
 
-#include <dtk/ui/DoubleSlider.h>
+#include <feather-tk/ui/DoubleSlider.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void doubleSlider(py::module_& m)
     {

@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/FloatEdit.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/FloatEdit.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         FloatEditTest::FloatEditTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::FloatEditTest")
+            ITest(context, "feather_tk::ui_test::FloatEditTest")
         {}
 
         FloatEditTest::~FloatEditTest()
@@ -49,27 +49,27 @@ namespace dtk
                 app->tick();
 
                 auto edit = FloatEdit::create(context, layout);
-                DTK_ASSERT(edit->getModel());
+                FEATHER_TK_ASSERT(edit->getModel());
                 float value = 0.F;
                 edit->setCallback([&value](float v) { value = v; });
                 edit->setValue(.9F);
                 app->tick();
-                DTK_ASSERT(.9F == edit->getValue());
-                DTK_ASSERT(.9F == value);
+                FEATHER_TK_ASSERT(.9F == edit->getValue());
+                FEATHER_TK_ASSERT(.9F == value);
                 edit->setRange(RangeF(0.F, .5F));
                 app->tick();
-                DTK_ASSERT(RangeF(0.F, .5F) == edit->getRange());
-                DTK_ASSERT(.5F == value);
+                FEATHER_TK_ASSERT(RangeF(0.F, .5F) == edit->getRange());
+                FEATHER_TK_ASSERT(.5F == value);
                 edit->setStep(.2F);
-                DTK_ASSERT(.2F == edit->getStep());
+                FEATHER_TK_ASSERT(.2F == edit->getStep());
                 edit->setLargeStep(.3F);
-                DTK_ASSERT(.3F == edit->getLargeStep());
+                FEATHER_TK_ASSERT(.3F == edit->getLargeStep());
                 edit->setPrecision(3);
                 edit->setPrecision(3);
-                DTK_ASSERT(3 == edit->getPrecision());
+                FEATHER_TK_ASSERT(3 == edit->getPrecision());
                 edit->setPrecision(2);
                 edit->setFontRole(FontRole::Label);
-                DTK_ASSERT(FontRole::Label == edit->getFontRole());
+                FEATHER_TK_ASSERT(FontRole::Label == edit->getFontRole());
                 edit->setFontRole(FontRole::Mono);
 
                 window->setCursorEnter(true);
@@ -79,16 +79,16 @@ namespace dtk
                 window->setKey(Key::Delete);
                 window->setText("0.1");
                 window->setKey(Key::Enter);
-                DTK_ASSERT(.1F == value);
+                FEATHER_TK_ASSERT(.1F == value);
 
                 window->setKey(Key::Up);
-                DTK_ASSERT(fuzzyCompare(.3F, value));
+                FEATHER_TK_ASSERT(fuzzyCompare(.3F, value));
                 window->setKey(Key::PageUp);
-                DTK_ASSERT(fuzzyCompare(.5F, value));
+                FEATHER_TK_ASSERT(fuzzyCompare(.5F, value));
                 window->setKey(Key::PageDown);
-                DTK_ASSERT(fuzzyCompare(.2F, value));
+                FEATHER_TK_ASSERT(fuzzyCompare(.2F, value));
                 window->setKey(Key::Down);
-                DTK_ASSERT(fuzzyCompare(.0F, value));
+                FEATHER_TK_ASSERT(fuzzyCompare(.0F, value));
                 window->setKey(Key::Escape);
             }
         }

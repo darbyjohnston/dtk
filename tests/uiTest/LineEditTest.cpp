@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/IClipboard.h>
-#include <dtk/ui/LineEdit.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/IClipboard.h>
+#include <feather-tk/ui/LineEdit.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         LineEditTest::LineEditTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::LineEditTest")
+            ITest(context, "feather_tk::ui_test::LineEditTest")
         {}
 
         LineEditTest::~LineEditTest()
@@ -64,60 +64,60 @@ namespace dtk
                     });
                 edit->setText("Test");
                 edit->setText("Test");
-                DTK_ASSERT("Test" == edit->getText());
+                FEATHER_TK_ASSERT("Test" == edit->getText());
                 edit->clearText();
-                DTK_ASSERT(edit->getText().empty());
+                FEATHER_TK_ASSERT(edit->getText().empty());
                 edit->setFormat("00.00");
                 edit->setFormat("00.00");
-                DTK_ASSERT("00.00" == edit->getFormat());
+                FEATHER_TK_ASSERT("00.00" == edit->getFormat());
                 edit->setFormat("");
                 edit->setFontRole(FontRole::Mono);
                 edit->setFontRole(FontRole::Mono);
-                DTK_ASSERT(FontRole::Mono == edit->getFontRole());
+                FEATHER_TK_ASSERT(FontRole::Mono == edit->getFontRole());
                 edit->setFontRole(FontRole::Label);
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);
                 window->setText("T");
-                DTK_ASSERT("T" == textChanged);
+                FEATHER_TK_ASSERT("T" == textChanged);
                 window->setText("e");
-                DTK_ASSERT("Te" == textChanged);
+                FEATHER_TK_ASSERT("Te" == textChanged);
                 window->setText("s");
-                DTK_ASSERT("Tes" == textChanged);
+                FEATHER_TK_ASSERT("Tes" == textChanged);
                 window->setText("t");
-                DTK_ASSERT("Test" == textChanged);
+                FEATHER_TK_ASSERT("Test" == textChanged);
                 window->setKey(Key::Enter);
-                DTK_ASSERT("Test" == text);
+                FEATHER_TK_ASSERT("Test" == text);
 
                 window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::C, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT("Test" == window->getClipboard()->getText());
+                FEATHER_TK_ASSERT("Test" == window->getClipboard()->getText());
                 window->setKey(Key::X, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT(textChanged.empty());
+                FEATHER_TK_ASSERT(textChanged.empty());
                 window->setKey(Key::V, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT("Test" == textChanged);
+                FEATHER_TK_ASSERT("Test" == textChanged);
                 window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::V, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT("Test" == textChanged);
+                FEATHER_TK_ASSERT("Test" == textChanged);
 
                 window->setKey(Key::Left, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Right, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Home, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Delete, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT("est" == textChanged);
+                FEATHER_TK_ASSERT("est" == textChanged);
                 window->setKey(Key::End, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Backspace, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT("es" == textChanged);
+                FEATHER_TK_ASSERT("es" == textChanged);
                 window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
                 window->setKey(Key::Backspace, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT(textChanged.empty());
+                FEATHER_TK_ASSERT(textChanged.empty());
                 window->setText("T");
                 window->setKey(Key::A, static_cast<int>(KeyModifier::Control));
                 window->setText("t");
-                DTK_ASSERT("t" == textChanged);
+                FEATHER_TK_ASSERT("t" == textChanged);
 
                 window->setKey(Key::Escape, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT(!edit->hasKeyFocus());
+                FEATHER_TK_ASSERT(!edit->hasKeyFocus());
 
                 Box2I g = edit->getGeometry();
                 const V2I c = center(g);
@@ -132,7 +132,7 @@ namespace dtk
                 app->tick();
                 edit->show();
                 app->tick();
-                DTK_ASSERT(!edit->hasKeyFocus());
+                FEATHER_TK_ASSERT(!edit->hasKeyFocus());
 
                 edit->takeKeyFocus();
                 app->tick();
@@ -140,7 +140,7 @@ namespace dtk
                 app->tick();
                 edit->setEnabled(true);
                 app->tick();
-                DTK_ASSERT(!edit->hasKeyFocus());
+                FEATHER_TK_ASSERT(!edit->hasKeyFocus());
             }
         }
     }

@@ -4,16 +4,16 @@
 
 #include <coreTest/OSTest.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/OS.h>
-#include <dtk/core/String.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/OS.h>
+#include <feather-tk/core/String.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {
         OSTest::OSTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::core_test::OSTest")
+            ITest(context, "feather_tk::core_test::OSTest")
         {}
 
         OSTest::~OSTest()
@@ -32,22 +32,22 @@ namespace dtk
         
         void OSTest::_env()
         {
-            setEnv("DTK_OSTEST_ENV", "ABC");
+            setEnv("FEATHER_TK_OSTEST_ENV", "ABC");
             std::string s;
-            DTK_ASSERT(getEnv("DTK_OSTEST_ENV", s));
-            DTK_ASSERT("ABC" == s);
-            setEnv("DTK_OSTEST_ENV", "123");
+            FEATHER_TK_ASSERT(getEnv("FEATHER_TK_OSTEST_ENV", s));
+            FEATHER_TK_ASSERT("ABC" == s);
+            setEnv("FEATHER_TK_OSTEST_ENV", "123");
             int i = 0;
-            DTK_ASSERT(getEnv("DTK_OSTEST_ENV", i));
-            DTK_ASSERT(123 == i);
-            setEnv("DTK_OSTEST_ENV", join({ "A", "B", "C" }, envListSeparator));
+            FEATHER_TK_ASSERT(getEnv("FEATHER_TK_OSTEST_ENV", i));
+            FEATHER_TK_ASSERT(123 == i);
+            setEnv("FEATHER_TK_OSTEST_ENV", join({ "A", "B", "C" }, envListSeparator));
             std::vector<std::string> l;
-            DTK_ASSERT(getEnv("DTK_OSTEST_ENV", l));
-            DTK_ASSERT(std::vector<std::string>({ "A", "B", "C" }) == l);
-            delEnv("DTK_OSTEST_ENV");
-            DTK_ASSERT(!getEnv("DTK_OSTEST_ENV", s));
-            DTK_ASSERT(!getEnv("DTK_OSTEST_ENV", i));
-            DTK_ASSERT(!getEnv("DTK_OSTEST_ENV", l));
+            FEATHER_TK_ASSERT(getEnv("FEATHER_TK_OSTEST_ENV", l));
+            FEATHER_TK_ASSERT(std::vector<std::string>({ "A", "B", "C" }) == l);
+            delEnv("FEATHER_TK_OSTEST_ENV");
+            FEATHER_TK_ASSERT(!getEnv("FEATHER_TK_OSTEST_ENV", s));
+            FEATHER_TK_ASSERT(!getEnv("FEATHER_TK_OSTEST_ENV", i));
+            FEATHER_TK_ASSERT(!getEnv("FEATHER_TK_OSTEST_ENV", l));
         }
     }
 }

@@ -4,15 +4,15 @@
 
 #include "offscreen.h"
 
-#include <dtk/ui/App.h>
-#include <dtk/ui/MainWindow.h>
+#include <feather-tk/ui/App.h>
+#include <feather-tk/ui/MainWindow.h>
 
-#include <dtk/gl/GL.h>
-#include <dtk/gl/Mesh.h>
+#include <feather-tk/gl/GL.h>
+#include <feather-tk/gl/Mesh.h>
 
-#include <dtk/core/Format.h>
-#include <dtk/core/Matrix.h>
-#include <dtk/core/RenderUtil.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/Matrix.h>
+#include <feather-tk/core/RenderUtil.h>
 
 void OffscreenWidget::_init(
     const std::shared_ptr<Context>& context,
@@ -102,12 +102,12 @@ void OffscreenWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
         const Size2I size = g.size();
         gl::OffscreenBufferOptions offscreenBufferOptions;
         offscreenBufferOptions.color = ImageType::RGBA_F32;
-#if defined(dtk_API_GL_4_1)
+#if defined(FEATHER_TK_API_GL_4_1)
         offscreenBufferOptions.depth = gl::OffscreenDepth::_24;
         offscreenBufferOptions.stencil = gl::OffscreenStencil::_8;
-#elif defined(dtk_API_GLES_2)
+#elif defined(FEATHER_TK_API_GLES_2)
         offscreenBufferOptions.stencil = gl::OffscreenStencil::_8;
-#endif // dtk_API_GL_4_1
+#endif // FEATHER_TK_API_GL_4_1
         if (gl::doCreate(_buffer, size, offscreenBufferOptions))
         {
             _buffer = gl::OffscreenBuffer::create(size, offscreenBufferOptions);
@@ -131,7 +131,7 @@ void OffscreenWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
 
             const float aspect = aspectRatio(size);
             const auto pm = perspective(60.F, aspect, .1F, 10000.F);
-            dtk::M44F vm;
+            M44F vm;
             vm = vm * translate(V3F(0.F, 0.F, -10.F));
             vm = vm * rotateZ(_rotation);
 
@@ -186,7 +186,7 @@ void OffscreenWidget::drawEvent(const Box2I& drawRect, const DrawEvent& event)
     }
 }
 
-DTK_MAIN()
+FEATHER_TK_MAIN()
 {
     try
     {

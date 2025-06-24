@@ -4,7 +4,7 @@
 
 #include <uiPy/ColorWidget.h>
 
-#include <dtk/ui/ColorWidget.h>
+#include <feather-tk/ui/ColorWidget.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void colorWidget(py::module_& m)
     {

@@ -6,7 +6,7 @@
 
 #include <pybind11/pybind11.h>
 
-namespace dtk
+namespace feather_tk
 {
     template<typename T>
     void observableValue(pybind11::module_&, const std::string& type);

@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/GridLayout.h>
-#include <dtk/ui/Label.h>
+#include <feather-tk/ui/GridLayout.h>
+#include <feather-tk/ui/Label.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ScrollWidgetTest::ScrollWidgetTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ScrollWidgetTest")
+            ITest(context, "feather_tk::ui_test::ScrollWidgetTest")
         {}
 
         ScrollWidgetTest::~ScrollWidgetTest()
@@ -75,7 +75,7 @@ namespace dtk
             }
             scrollWidget->setWidget(layout);
             scrollWidget->setWidget(layout);
-            DTK_ASSERT(layout == scrollWidget->getWidget());
+            FEATHER_TK_ASSERT(layout == scrollWidget->getWidget());
             app->tick();
 
             _print(Format("Scroll type: {0}").arg(scrollType));
@@ -85,7 +85,7 @@ namespace dtk
 
             V2I scroll(100, 100);
             scrollWidget->setScrollPos(scroll);
-            DTK_ASSERT(scrollWidget->getScrollPos() == scroll);
+            FEATHER_TK_ASSERT(scrollWidget->getScrollPos() == scroll);
             scrollWidget->setScrollPosCallback(
                 [&scroll](const V2I& value)
                 {
@@ -93,19 +93,19 @@ namespace dtk
                 });
             scrollWidget->setScrollBarsVisible(false);
             scrollWidget->setScrollBarsVisible(false);
-            DTK_ASSERT(!scrollWidget->areScrollBarsVisible());
+            FEATHER_TK_ASSERT(!scrollWidget->areScrollBarsVisible());
             scrollWidget->setScrollBarsVisible(true);
             scrollWidget->setScrollEventsEnabled(false);
             scrollWidget->setScrollEventsEnabled(false);
-            DTK_ASSERT(!scrollWidget->areScrollEventsEnabled());
+            FEATHER_TK_ASSERT(!scrollWidget->areScrollEventsEnabled());
             scrollWidget->setScrollEventsEnabled(true);
             scrollWidget->setBorder(false);
             scrollWidget->setBorder(false);
-            DTK_ASSERT(!scrollWidget->hasBorder());
+            FEATHER_TK_ASSERT(!scrollWidget->hasBorder());
             scrollWidget->setBorder(true);
             scrollWidget->setMarginRole(SizeRole::Margin);
             scrollWidget->setMarginRole(SizeRole::Margin);
-            DTK_ASSERT(SizeRole::Margin == scrollWidget->getMarginRole());
+            FEATHER_TK_ASSERT(SizeRole::Margin == scrollWidget->getMarginRole());
             scrollWidget->setMarginRole(SizeRole::None);
 
             window->setCursorEnter(true);

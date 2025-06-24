@@ -7,18 +7,18 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/DialogSystem.h>
-#include <dtk/ui/ConfirmDialog.h>
+#include <feather-tk/ui/DialogSystem.h>
+#include <feather-tk/ui/ConfirmDialog.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ConfirmDialogTest::ConfirmDialogTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ConfirmDialogTest")
+            ITest(context, "feather_tk::ui_test::ConfirmDialogTest")
         {}
 
         ConfirmDialogTest::~ConfirmDialogTest()
@@ -55,7 +55,7 @@ namespace dtk
                     [&confirmed](bool value) { confirmed = value; });
                 app->tick();
                 window->setKey(Key::Enter);
-                DTK_ASSERT(confirmed);
+                FEATHER_TK_ASSERT(confirmed);
             }
         }
     }

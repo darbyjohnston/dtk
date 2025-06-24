@@ -7,19 +7,19 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/MenuBar.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/MenuBar.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
-#include <dtk/core/Time.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
+#include <feather-tk/core/Time.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         MenuBarTest::MenuBarTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::MenuBarTest")
+            ITest(context, "feather_tk::ui_test::MenuBarTest")
         {}
 
         MenuBarTest::~MenuBarTest()
@@ -109,7 +109,7 @@ namespace dtk
                 window->setKey(Key::Home);
                 window->setKey(Key::Enter);
                 window->setKey(Key::Enter);
-                DTK_ASSERT(action1);
+                FEATHER_TK_ASSERT(action1);
 
                 window->setKey(Key::Enter);
                 window->setKey(Key::Down);
@@ -135,11 +135,11 @@ namespace dtk
                 window->setKey(Key::Escape);
 
                 menuBar->shortcut(Key::_4, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT(action4);
+                FEATHER_TK_ASSERT(action4);
                 menuBar->shortcut(Key::_5, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT(action5);
+                FEATHER_TK_ASSERT(action5);
                 menuBar->shortcut(Key::_5, static_cast<int>(KeyModifier::Control));
-                DTK_ASSERT(!action5);
+                FEATHER_TK_ASSERT(!action5);
 
                 window->setKey(Key::Tab);
                 window->setKey(Key::Enter);

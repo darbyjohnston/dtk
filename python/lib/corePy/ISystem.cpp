@@ -4,8 +4,8 @@
 
 #include <corePy/ISystem.h>
 
-#include <dtk/core/Context.h>
-#include <dtk/core/ISystem.h>
+#include <feather-tk/core/Context.h>
+#include <feather-tk/core/ISystem.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/chrono.h>
@@ -13,7 +13,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void iSystem(py::module_& m)
     {

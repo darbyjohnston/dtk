@@ -4,7 +4,7 @@
 
 #include <uiPy/TabBar.h>
 
-#include <dtk/ui/TabBar.h>
+#include <feather-tk/ui/TabBar.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void tabBar(py::module_& m)
     {

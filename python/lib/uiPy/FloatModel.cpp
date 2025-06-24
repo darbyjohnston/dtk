@@ -4,16 +4,16 @@
 
 #include <uiPy/FloatModel.h>
 
-#include <dtk/ui/FloatModel.h>
+#include <feather-tk/ui/FloatModel.h>
 
-#include <dtk/core/Context.h>
+#include <feather-tk/core/Context.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void floatModel(py::module_& m)
     {

@@ -67,8 +67,8 @@ set(SOURCE
     TimerTest.cpp
     VectorTest.cpp)
 
-add_library(dtkCoreTest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
-target_link_libraries(dtkCoreTest dtkTestLib)
-set_target_properties(dtkCoreTest PROPERTIES FOLDER tests)
-set_target_properties(dtkCoreTest PROPERTIES PUBLIC_HEADER "${HEADERS}")
+add_library(feather-tk-coreTest ${HEADERS} ${PRIVATE_HEADERS} ${SOURCE})
+target_link_libraries(feather-tk-coreTest feather-tk-testLib)
+set_target_properties(feather-tk-coreTest PROPERTIES FOLDER tests)
+set_target_properties(feather-tk-coreTest PROPERTIES PUBLIC_HEADER "${HEADERS}")
 

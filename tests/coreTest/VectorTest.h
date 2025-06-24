@@ -6,7 +6,7 @@
 
 #include <testLib/ITest.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace core_test
     {

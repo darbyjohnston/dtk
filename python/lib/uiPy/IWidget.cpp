@@ -4,15 +4,15 @@
 
 #include <uiPy/IWidget.h>
 
-#include <dtk/ui/IWidget.h>
-#include <dtk/ui/IWindow.h>
+#include <feather-tk/ui/IWidget.h>
+#include <feather-tk/ui/IWindow.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     class PyIWidget : public IWidget
     {

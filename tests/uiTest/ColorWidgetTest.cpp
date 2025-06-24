@@ -7,20 +7,20 @@
 #include <uiTest/App.h>
 #include <uiTest/Window.h>
 
-#include <dtk/ui/ColorPopup.h>
-#include <dtk/ui/ColorSwatch.h>
-#include <dtk/ui/ColorWidget.h>
-#include <dtk/ui/RowLayout.h>
+#include <feather-tk/ui/ColorPopup.h>
+#include <feather-tk/ui/ColorSwatch.h>
+#include <feather-tk/ui/ColorWidget.h>
+#include <feather-tk/ui/RowLayout.h>
 
-#include <dtk/core/Assert.h>
-#include <dtk/core/Format.h>
+#include <feather-tk/core/Assert.h>
+#include <feather-tk/core/Format.h>
 
-namespace dtk
+namespace feather_tk
 {
     namespace ui_test
     {
         ColorWidgetTest::ColorWidgetTest(const std::shared_ptr<Context>& context) :
-            ITest(context, "dtk::ui_test::ColorWidgetTest")
+            ITest(context, "feather_tk::ui_test::ColorWidgetTest")
         {}
 
         ColorWidgetTest::~ColorWidgetTest()
@@ -54,11 +54,11 @@ namespace dtk
                 Color4F color(1.F, 1.F, 1.F, 1.F);
                 widget->setColor(color);
                 widget->setColor(color);
-                DTK_ASSERT(color == widget->getColor());
-                DTK_ASSERT(!widget->isEditable());
+                FEATHER_TK_ASSERT(color == widget->getColor());
+                FEATHER_TK_ASSERT(!widget->isEditable());
                 widget->setEditable(true);
                 widget->setEditable(true);
-                DTK_ASSERT(widget->isEditable());
+                FEATHER_TK_ASSERT(widget->isEditable());
                 widget->setColorCallback(
                     [&color](const Color4F& value)
                     {
@@ -66,7 +66,7 @@ namespace dtk
                     });
                 widget->setSizeRole(SizeRole::Margin);
                 widget->setSizeRole(SizeRole::Margin);
-                DTK_ASSERT(SizeRole::Margin == widget->getSizeRole());
+                FEATHER_TK_ASSERT(SizeRole::Margin == widget->getSizeRole());
                 widget->setSizeRole(SizeRole::Swatch);
 
                 window->setCursorEnter(true);
@@ -89,35 +89,35 @@ namespace dtk
                 window->setKey(Key::Home);
                 window->setKey(Key::Escape);
                 window->setKey(Key::Escape);
-                DTK_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
+                FEATHER_TK_ASSERT(Color4F(0.F, 0.F, 0.F, 0.F) == color);
 
                 auto popup = ColorPopup::create(context, color);
                 popup->setPopupRole(ColorRole::Red);
                 popup->setPopupRole(ColorRole::Red);
-                DTK_ASSERT(ColorRole::Red == popup->getPopupRole());
+                FEATHER_TK_ASSERT(ColorRole::Red == popup->getPopupRole());
                 popup->open(window, widget->getGeometry());
                 app->tick();
-                DTK_ASSERT(popup->isOpen());
+                FEATHER_TK_ASSERT(popup->isOpen());
                 popup->close();
                 app->tick();
-                DTK_ASSERT(!popup->isOpen());
+                FEATHER_TK_ASSERT(!popup->isOpen());
 
                 popup->open(window, widget->getGeometry());
                 app->tick();
-                DTK_ASSERT(popup->isOpen());
+                FEATHER_TK_ASSERT(popup->isOpen());
                 window->setKey(Key::Escape);
                 window->setKey(Key::Escape);
-                DTK_ASSERT(!popup->isOpen());
+                FEATHER_TK_ASSERT(!popup->isOpen());
 
                 popup->open(window, widget->getGeometry());
                 app->tick();
-                DTK_ASSERT(popup->isOpen());
+                FEATHER_TK_ASSERT(popup->isOpen());
                 g = window->getGeometry();
                 window->setCursorPos(V2I(g.w() - 1, g.h() - 1));
                 window->setButton(0);
                 popup->open(window, widget->getGeometry());
                 app->tick();
-                DTK_ASSERT(popup->isOpen());
+                FEATHER_TK_ASSERT(popup->isOpen());
             }
         }
     }

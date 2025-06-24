@@ -4,7 +4,7 @@
 
 #include <corePy/Color.h>
 
-#include <dtk/core/Color.h>
+#include <feather-tk/core/Color.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
@@ -14,7 +14,7 @@
 
 namespace py = pybind11;
 
-namespace dtk
+namespace feather_tk
 {
     void color(py::module_& m)
     {
