@@ -65,7 +65,7 @@ if(MSVC)
 endif()
 
 if(feather_tk_UI_LIB)
-    add_definitions(-Dfeather_tk_UI_LIB)
+    add_definitions(-DFEATHER_TK_UI_LIB)
 endif()
 
 if(feather_tk_IGNORE_PREFIX_PATH)
