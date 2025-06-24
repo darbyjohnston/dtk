@@ -68,23 +68,23 @@ int main(int argc, char** argv)
 
 Simple Python exmple that shows a window with a text label:
 ```
-import feather-tk
+import feather-tk as ftk
 import sys
 
 # Create the context and application.
-context = feather-tk.Context()
-app = feather-tk.App(context, sys.argv, "simple", "Simple example")
+context = ftk.Context()
+app = ftk.App(context, sys.argv, "simple", "Simple example")
 if app.getExit() != 0:
     sys.exit(app.getExit())
 
 # Create a window.
-window = feather-tk.MainWindow(context, app, "simple", feather-tk.Size2I(1280, 960))
+window = ftk.MainWindow(context, app, "simple", ftk.Size2I(1280, 960))
 
 # Create a label.
-label = feather-tk.Label(context, "Hello world")
-label.fontRole = feather-tk.FontRole.Title
-label.setAlign(feather-tk.HAlign.Center, feather-tk.VAlign.Center);
-label.setStretch(feather-tk.Stretch.Expanding);
+label = ftk.Label(context, "Hello world")
+label.fontRole = ftk.FontRole.Title
+label.setAlign(ftk.HAlign.Center, ftk.VAlign.Center);
+label.setStretch(ftk.Stretch.Expanding);
 window.setWidget(label)
 
 # Show the window and run the application.
@@ -133,6 +133,14 @@ Try running the `simple` example:
 ```
 Release/feather-tk/src/feather-tk-build/examples/simple/simple
 ```
+For debug builds:
+```
+cmake -S feather-tk/etc/SuperBuild -B Debug -DCMAKE_INSTALL_PREFIX=$PWD/Debug/install -DCMAKE_PREFIX_PATH=$PWD/Debug/install -DCMAKE_BUILD_TYPE=Debug
+```
+```
+cmake --build Debug -j 4 --config Debug
+```
+
 
 ## Building on macOS
 
@@ -151,6 +159,13 @@ cmake --build Release -j 4 --config Release
 Try running the `simple` example:
 ```
 Release/feather-tk/src/feather-tk-build/examples/simple/simple
+```
+For debug builds:
+```
+cmake -S feather-tk/etc/SuperBuild -B Debug -DCMAKE_INSTALL_PREFIX=$PWD/Debug/install -DCMAKE_PREFIX_PATH=$PWD/Debug/install -DCMAKE_BUILD_TYPE=Debug
+```
+```
+cmake --build Debug -j 4 --config Debug
 ```
 
 The CMake variable "CMAKE_OSX_ARCHITECTURES" can be used to specify the build
@@ -186,5 +201,12 @@ cmake --build Release -j 4 --config Release
 Try running the `simple` example:
 ```
 Release\feather-tk\src\feather-tk-build\examples\simple\Release\simple
+```
+For debug builds:
+```
+cmake -S feather-tk\etc\SuperBuild -B Debug -DCMAKE_INSTALL_PREFIX=%CD%\Debug\install -DCMAKE_PREFIX_PATH=%CD%\Debug\install -DCMAKE_BUILD_TYPE=Debug
+```
+```
+cmake --build Debug -j 4 --config Debug
 ```
 
