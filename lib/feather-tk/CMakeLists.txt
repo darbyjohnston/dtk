@@ -1,9 +1,9 @@
 add_subdirectory(core)
 add_subdirectory(resource)
-if(ftk_UI_LIB)
-    if ("${ftk_API}" STREQUAL "GL_4_1" OR
-        "${ftk_API}" STREQUAL "GL_4_1_Debug" OR
-        "${ftk_API}" STREQUAL "GLES_2")
+if(feather_tk_UI_LIB)
+    if ("${feather_tk_API}" STREQUAL "GL_4_1" OR
+        "${feather_tk_API}" STREQUAL "GL_4_1_Debug" OR
+        "${feather_tk_API}" STREQUAL "GLES_2")
         add_subdirectory(gl)
     endif()
     add_subdirectory(ui)

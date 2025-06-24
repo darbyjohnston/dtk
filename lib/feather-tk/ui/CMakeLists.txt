@@ -181,23 +181,23 @@ set(SOURCE
     ToolButton.cpp
     Tooltip.cpp
     WidgetOptions.cpp)
-if ("${ftk_API}" STREQUAL "GL_4_1" OR
-    "${ftk_API}" STREQUAL "GL_4_1_Debug" OR
-    "${ftk_API}" STREQUAL "GLES_2")
+if ("${feather_tk_API}" STREQUAL "GL_4_1" OR
+    "${feather_tk_API}" STREQUAL "GL_4_1_Debug" OR
+    "${feather_tk_API}" STREQUAL "GLES_2")
     list(APPEND SOURCE
         AppGL.cpp
         WindowGL.cpp)
 endif()
 
 set(LIBRARIES)
-if ("${ftk_API}" STREQUAL "GL_4_1" OR
-    "${ftk_API}" STREQUAL "GL_4_1_Debug" OR
-    "${ftk_API}" STREQUAL "GLES_2")
+if ("${feather_tk_API}" STREQUAL "GL_4_1" OR
+    "${feather_tk_API}" STREQUAL "GL_4_1_Debug" OR
+    "${feather_tk_API}" STREQUAL "GLES_2")
     list(APPEND LIBRARIES feather-tk-gl)
 endif()
 list(APPEND LIBRARIES feather-tk-core)
 set(LIBRARIES_PRIVATE lunasvg::lunasvg)
-if(ftk_nfd)
+if(feather_tk_nfd)
     list(APPEND LIBRARIES_PRIVATE nfd::nfd)
 endif()
 
