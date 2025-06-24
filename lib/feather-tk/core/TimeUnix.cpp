@@ -6,7 +6,7 @@
 
 #include <thread>
 
-namespace feather-tk
+namespace feather_tk
 {
     void sleep(const std::chrono::microseconds& value)
     {

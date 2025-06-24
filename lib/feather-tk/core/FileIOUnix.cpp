@@ -17,7 +17,7 @@
 #include <string.h>
 #include <unistd.h>
 
-namespace feather-tk
+namespace feather_tk
 {
     namespace
     {

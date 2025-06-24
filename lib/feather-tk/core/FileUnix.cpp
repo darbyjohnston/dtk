@@ -17,7 +17,7 @@
 #include <pwd.h>
 #include <unistd.h>
 
-namespace feather-tk
+namespace feather_tk
 {
     std::filesystem::path getUserPath(UserPath value)
     {
