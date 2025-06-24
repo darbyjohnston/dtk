@@ -137,4 +137,4 @@ install(
     EXPORT feather-tk-coreTargets
     FILE feather-tk-coreTargets.cmake
     DESTINATION "share/feather-tk"
-    NAMESPACE feather_tk::)
+    NAMESPACE feather-tk::)

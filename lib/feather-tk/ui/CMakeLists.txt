@@ -217,4 +217,4 @@ install(
     EXPORT feather-tk-uiTargets
     FILE feather-tk-uiTargets.cmake
     DESTINATION "share/feather-tk"
-    NAMESPACE feather_tk::)
+    NAMESPACE feather-tk::)

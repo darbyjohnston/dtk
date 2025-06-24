@@ -87,4 +87,4 @@ install(
     EXPORT feather-tk-resourceTargets
     FILE feather-tk-resourceTargets.cmake
     DESTINATION "share/feather-tk"
-    NAMESPACE feather_tk::)
+    NAMESPACE feather-tk::)

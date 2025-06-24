@@ -49,4 +49,4 @@ install(
     EXPORT feather-tk-glTargets
     FILE feather-tk-glTargets.cmake
     DESTINATION "share/feather-tk"
-    NAMESPACE feather_tk::)
+    NAMESPACE feather-tk::)
