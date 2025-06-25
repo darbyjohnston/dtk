@@ -9,6 +9,8 @@ set(feather_tk_ARGS
     -Dfeather_tk_TOOLS_INSTALL=${feather_tk_TOOLS_INSTALL}
     -Dfeather_tk_TESTS=${feather_tk_TESTS}
     -Dfeather_tk_EXAMPLES=${feather_tk_EXAMPLES}
+    -Dfeather_tk_IGNORE_PREFIX_PATH=${feather_tk_IGNORE_PREFIX_PATH}
+    -Dfeather_tk_BUILD=SuperBuild
     -Dfeather_tk_GCOV=${feather_tk_GCOV}
     -Dfeather_tk_GPROF=${feather_tk_GPROF})
 

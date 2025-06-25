@@ -28,15 +28,14 @@ if(APPLE)
     set(feather_tk_IGNORE_PREFIX_PATH_DEFAULT /opt/homebrew)
 endif()
 set(feather_tk_IGNORE_PREFIX_PATH ${feather_tk_IGNORE_PREFIX_PATH_DEFAULT} CACHE STRING "Ignore the given prefix path")
-set(feather_tk_TOOLS_INSTALL "bin" CACHE STRING "Destination where tools will be installed")
-set(feather_tk_CMAKE_FIND_FILES ON CACHE BOOL "Use built-in CMake find files for dependencies")
+set(feather_tk_BUILD "default" CACHE STRING "Build configuration: 'default', 'SuperBuild', 'vcpkg'")
 set(feather_tk_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 set(feather_tk_GPROF FALSE CACHE BOOL "Enable gprof code profiling")
 
 #-------------------------------------------------------------------------------
 # Configuration
 
-if(feather_tk_CMAKE_FIND_FILES)
+if(feather_tk_BUILD STREQUAL "SuperBuild")
     set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 endif()
 
@@ -166,7 +165,7 @@ install(
     FILES LICENSE.txt
     DESTINATION share/feather-tk)
 
-if(feather_tk_CMAKE_FIND_FILES)
+if(feather_tk_BUILD STREQUAL "SuperBuild")
     install(
         FILES cmake/Modules/FindZLIB.cmake
         DESTINATION share/feather-tk)
