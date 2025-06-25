@@ -5,8 +5,8 @@ set(nfd_GIT_TAG "v1.2.1")
 
 set(nfd_ARGS
     ${feather_tk_DEPS_ARGS}
-    -Dnfd_USE_ALLOWEDCONTENTTYPES_IF_AVAILABLE=OFF
-    -Dnfd_BUILD_TESTS=OFF)
+    -DNFD_USE_ALLOWEDCONTENTTYPES_IF_AVAILABLE=OFF
+    -DNFD_BUILD_TESTS=OFF)
 
 ExternalProject_Add(
     nfd
