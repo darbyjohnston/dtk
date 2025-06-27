@@ -15,10 +15,9 @@ project(
 
 set(feather_tk_UI_LIB ON CACHE BOOL "Build the user interface library")
 set(feather_tk_API "GL_4_1" CACHE STRING "Graphics API (GL_4_1, GL_4_1_Debug, GLES_2)")
+set(feather_tk_nfd_DEFAULT OFF)
 if(WIN32 OR APPLE)
-    set(feather_tk_nfd_DEFAULT TRUE)
-else()
-    set(feather_tk_nfd_DEFAULT FALSE)
+    set(feather_tk_nfd_DEFAULT ON)
 endif()
 set(feather_tk_nfd ${feather_tk_nfd_DEFAULT} CACHE BOOL "Enable support for native file dialogs")
 set(feather_tk_PYTHON OFF CACHE BOOL "Enable support for Python")
