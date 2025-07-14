@@ -7,7 +7,7 @@
 A lightweight toolkit for building cross-platform applications.
 
 Features:
-* Support for Linux, macOS, and Windows
+* Available for Linux, macOS, and Windows
 * Collection of widgets including buttons, editors, sliders, and menus
 * Collection of layouts including horizontal, vertical, grid, and tabs
 * Keyboard navigation
@@ -22,6 +22,7 @@ Work in progress:
 * Python bindings
 
 Projects using feather-tk:
+* https://github.com/darbyjohnston/DJV
 * https://github.com/darbyjohnston/tlRender
 * https://github.com/OpenTimelineIO/toucan
 
