@@ -21,6 +21,7 @@ namespace feather_tk
         {
             std::optional<float> displayScale;
             int handle = 0;
+            int border = 0;
         };
         SizeData size;
 
@@ -106,6 +107,7 @@ namespace feather_tk
         {
             p.size.displayScale = event.displayScale;
             p.size.handle = event.style->getSizeRole(SizeRole::Handle, event.displayScale);
+            p.size.border = event.style->getSizeRole(SizeRole::Border, event.displayScale);
         }
 
         Size2I sizeHint(p.size.handle, p.size.handle);
@@ -132,7 +134,7 @@ namespace feather_tk
         const int scrollPosMax = _getScrollPosMax();
         if (scrollPosMax > 0)
         {
-            const Box2I g = _getHandleGeometry();
+            const Box2I g = margin(_getHandleGeometry(), -p.size.border);
             event.render->drawRect(
                 g,
                 event.style->getColorRole(ColorRole::Button));
