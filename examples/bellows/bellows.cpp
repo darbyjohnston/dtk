@@ -43,7 +43,7 @@ FEATHER_TK_MAIN()
 
         // Add a bellows.
         auto vLayout = VerticalLayout::create(context);
-        vLayout->setMarginRole(SizeRole::MarginSmall);
+        vLayout->setMarginRole(SizeRole::Margin);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
         for (size_t i = 0; i < 10; ++i)
         {
@@ -54,7 +54,7 @@ FEATHER_TK_MAIN()
 
         // Add a bellows.
         vLayout = VerticalLayout::create(context);
-        vLayout->setMarginRole(SizeRole::MarginSmall);
+        vLayout->setMarginRole(SizeRole::Margin);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
         const std::vector<std::string> icons =
         {
@@ -82,7 +82,7 @@ FEATHER_TK_MAIN()
 
         // Add a bellows.
         vLayout = VerticalLayout::create(context);
-        vLayout->setMarginRole(SizeRole::MarginSmall);
+        vLayout->setMarginRole(SizeRole::Margin);
         vLayout->setSpacingRole(SizeRole::SpacingSmall);
         for (size_t i = 0; i < 10; ++i)
         {

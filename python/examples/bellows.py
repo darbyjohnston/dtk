@@ -26,7 +26,7 @@ window.setWidget(scrollWidget)
 
 # Add a bellows.
 vLayout = ftk.VerticalLayout(context)
-vLayout.marginRole = ftk.SizeRole.MarginSmall
+vLayout.marginRole = ftk.SizeRole.Margin
 vLayout.spacingRole = ftk.SizeRole.SpacingSmall
 for i in range(0, 10):
     ftk.PushButton(context, "Push Button {}".format(i), vLayout)
@@ -35,7 +35,7 @@ bellows.widget = vLayout
 
 # Add a bellows.
 vLayout = ftk.VerticalLayout(context)
-vLayout.marginRole = ftk.SizeRole.MarginSmall
+vLayout.marginRole = ftk.SizeRole.Margin
 vLayout.spacingRole = ftk.SizeRole.SpacingSmall
 icons = [
     "Audio",
@@ -58,7 +58,7 @@ bellows.widget = vLayout
 
 # Add a bellows.
 vLayout = ftk.VerticalLayout(context)
-vLayout.marginRole = ftk.SizeRole.MarginSmall
+vLayout.marginRole = ftk.SizeRole.Margin
 vLayout.spacingRole = ftk.SizeRole.SpacingSmall
 for i in range(0, 10):
     ftk.CheckBox(context, "Check Box {}".format(i), vLayout)

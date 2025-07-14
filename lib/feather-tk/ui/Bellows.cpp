@@ -30,8 +30,6 @@ namespace feather_tk
         p.button->setCheckable(true);
         p.button->setIcon("BellowsClosed");
         p.button->setCheckedIcon("BellowsOpen");
-        p.button->setButtonRole(ColorRole::None);
-        p.button->setCheckedRole(ColorRole::None);
         p.button->setHStretch(Stretch::Expanding);
 
         p.buttonLayout = HorizontalLayout::create(context);
