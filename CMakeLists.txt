@@ -71,7 +71,7 @@ if(feather_tk_IGNORE_PREFIX_PATH)
 endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    add_definitions(-Dfeather_tk_ASSERT)
+    add_definitions(-DFEATHER_TK_ASSERT)
 endif()
 
 if(feather_tk_TESTS)
