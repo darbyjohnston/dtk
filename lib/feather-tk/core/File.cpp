@@ -21,6 +21,11 @@ namespace feather_tk
         "Documents",
         "Downloads");
 
+    bool isDotFile(const std::string& fileName)
+    {
+        return !fileName.empty() && '.' == fileName[0];
+    }
+
     std::vector<std::string> split(std::filesystem::path path)
     {
         std::list<std::string> out;

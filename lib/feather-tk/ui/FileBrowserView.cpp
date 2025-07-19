@@ -6,6 +6,7 @@
 
 #include <feather-tk/ui/DrawUtil.h>
 
+#include <feather-tk/core/File.h>
 #include <feather-tk/core/Format.h>
 #include <feather-tk/core/String.h>
 
@@ -30,15 +31,17 @@ namespace feather_tk
     struct FileBrowserView::Private
     {
         FileBrowserMode mode = FileBrowserMode::File;
-        std::filesystem::path path;
-        FileBrowserOptions options;
-        std::string extension;
+        std::shared_ptr<FileBrowserModel> model;
         std::string search;
         std::vector<FileBrowserInfo> info;
         std::shared_ptr<ObservableValue<int> > current;
         std::vector<FileBrowserItem> items;
         std::function<void(const std::filesystem::path&)> callback;
         std::function<void(const std::filesystem::path&)> selectCallback;
+
+        std::shared_ptr<ValueObserver<std::filesystem::path> > pathObserver;
+        std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
+        std::shared_ptr<ValueObserver<std::string> > extensionObserver;
 
         float iconScale = 1.F;
         std::shared_ptr<Image> directoryImage;
@@ -68,6 +71,7 @@ namespace feather_tk
     void FileBrowserView::_init(
         const std::shared_ptr<Context>& context,
         FileBrowserMode mode,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "feather_tk::FileBrowserView", parent);
@@ -79,7 +83,29 @@ namespace feather_tk
         _setMousePressEnabled(true);
 
         p.mode = mode;
+        p.model = model;
         p.current = ObservableValue<int>::create(-1);
+
+        p.pathObserver = ValueObserver<std::filesystem::path>::create(
+            model->observePath(),
+            [this](const std::filesystem::path&)
+            {
+                _directoryUpdate();
+            });
+
+        p.optionsObserver = ValueObserver<FileBrowserOptions>::create(
+            model->observeOptions(),
+            [this](const FileBrowserOptions&)
+            {
+                _directoryUpdate();
+            });
+
+        p.extensionObserver = ValueObserver<std::string>::create(
+            model->observeExtension(),
+            [this](const std::string&)
+            {
+                _directoryUpdate();
+            });
     }
 
     FileBrowserView::FileBrowserView() :
@@ -92,25 +118,12 @@ namespace feather_tk
     std::shared_ptr<FileBrowserView> FileBrowserView::create(
         const std::shared_ptr<Context>& context,
         FileBrowserMode mode,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowserView>(new FileBrowserView);
-        out->_init(context, mode, parent);
+        out->_init(context, mode, model, parent);
         return out;
-    }
-
-    const std::filesystem::path& FileBrowserView::getPath() const
-    {
-        return _p->path;
-    }
-
-    void FileBrowserView::setPath(const std::filesystem::path& path)
-    {
-        FEATHER_TK_P();
-        if (path == p.path)
-            return;
-        p.path = path;
-        _directoryUpdate();
     }
 
     void FileBrowserView::reload()
@@ -126,29 +139,6 @@ namespace feather_tk
     void FileBrowserView::setSelectCallback(const std::function<void(const std::filesystem::path&)>& value)
     {
         _p->selectCallback = value;
-    }
-
-    const FileBrowserOptions& FileBrowserView::getOptions() const
-    {
-        return _p->options;
-    }
-
-    void FileBrowserView::setOptions(const FileBrowserOptions& value)
-    {
-        FEATHER_TK_P();
-        if (value == p.options)
-            return;
-        p.options = value;
-        _directoryUpdate();
-    }
-
-    void FileBrowserView::setExtension(const std::string& value)
-    {
-        FEATHER_TK_P();
-        if (value == p.extension)
-            return;
-        p.extension = value;
-        _directoryUpdate();
     }
 
     void FileBrowserView::setSearch(const std::string& value)
@@ -499,15 +489,13 @@ namespace feather_tk
             {
                 for (const auto& i : std::filesystem::directory_iterator(path))
                 {
-                    const auto& path = i.path();
+                    const std::filesystem::path& path = i.path();
                     const std::string fileName = path.filename().u8string();
+
                     bool keep = true;
-                    if (!search.empty())
+                    if (keep && !options.hidden && isDotFile(fileName))
                     {
-                        keep = contains(
-                            fileName,
-                            search,
-                            CaseCompare::Insensitive);
+                        keep = false;
                     }
                     const bool isDir = std::filesystem::is_directory(path);
                     if (keep && !isDir && !extension.empty())
@@ -517,10 +505,18 @@ namespace feather_tk
                             path.extension().u8string(),
                             CaseCompare::Insensitive);
                     }
+                    if (keep && !search.empty())
+                    {
+                        keep = contains(
+                            fileName,
+                            search,
+                            CaseCompare::Insensitive);
+                    }
                     if (keep && FileBrowserMode::Dir == mode && !isDir)
                     {
                         keep = false;
                     }
+
                     if (keep)
                     {
                         out.push_back({
@@ -589,7 +585,13 @@ namespace feather_tk
         FEATHER_TK_P();
         p.info.clear();
         p.items.clear();
-        list(p.mode, p.path, p.options, p.extension, p.search, p.info);
+        list(
+            p.mode,
+            p.model->getPath(),
+            p.model->getOptions(),
+            p.model->getExtension(),
+            p.search,
+            p.info);
         if (auto context = getContext())
         {
             for (size_t i = 0; i < p.info.size(); ++i)
@@ -675,14 +677,25 @@ namespace feather_tk
         if (index >= 0 && index < p.info.size())
         {
             const FileBrowserInfo info = p.info[index];
-            if (p.callback)
+            switch (p.mode)
             {
-                p.callback(info.path);
-            }
-            if (info.isDir)
-            {
-                p.path = info.path;
-                _directoryUpdate();
+            case FileBrowserMode::File:
+                if (!info.isDir && p.callback)
+                {
+                    p.callback(info.path);
+                }
+                else if (info.isDir)
+                {
+                    p.model->setPath(info.path);
+                }
+                break;
+            case FileBrowserMode::Dir:
+                if (info.isDir)
+                {
+                    p.model->setPath(info.path);
+                }
+                break;
+            default: break;
             }
         }
     }

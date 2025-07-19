@@ -43,11 +43,39 @@ namespace feather_tk
         FEATHER_TK_PRIVATE();
     };
 
+    class FileBrowserDrives : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        FileBrowserDrives();
+
+    public:
+        virtual ~FileBrowserDrives();
+
+        static std::shared_ptr<FileBrowserDrives> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        FEATHER_TK_PRIVATE();
+    };
+
     class FileBrowserShortcuts : public IWidget
     {
     protected:
         void _init(
             const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
             const std::shared_ptr<IWidget>& parent);
 
         FileBrowserShortcuts();
@@ -57,15 +85,8 @@ namespace feather_tk
 
         static std::shared_ptr<FileBrowserShortcuts> create(
             const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
-
-        void setCallback(const std::function<void(const std::filesystem::path&)>&);
-
-        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
-
-        void setBellows(const std::map<std::string, bool>&);
-
-        void setBellowsCallback(const std::function<void(const std::map<std::string, bool>&)>&);
 
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
@@ -73,6 +94,89 @@ namespace feather_tk
     private:
         void _widgetUpdate();
 
+        FEATHER_TK_PRIVATE();
+    };
+
+    class FileBrowserRecent : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        FileBrowserRecent();
+
+    public:
+        virtual ~FileBrowserRecent();
+
+        static std::shared_ptr<FileBrowserRecent> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        FEATHER_TK_PRIVATE();
+    };
+
+    class FileBrowserSettings : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        FileBrowserSettings();
+
+    public:
+        virtual ~FileBrowserSettings();
+
+        static std::shared_ptr<FileBrowserSettings> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        FEATHER_TK_PRIVATE();
+    };
+
+    class FileBrowserPanel : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        FileBrowserPanel();
+
+    public:
+        virtual ~FileBrowserPanel();
+
+        static std::shared_ptr<FileBrowserPanel> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FileBrowserModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setRecentFilesModel(const std::shared_ptr<RecentFilesModel>&);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
         FEATHER_TK_PRIVATE();
     };
 
@@ -90,6 +194,7 @@ namespace feather_tk
         void _init(
             const std::shared_ptr<Context>&,
             FileBrowserMode,
+            const std::shared_ptr<FileBrowserModel>&,
             const std::shared_ptr<IWidget>& parent);
 
         FileBrowserView();
@@ -100,23 +205,14 @@ namespace feather_tk
         static std::shared_ptr<FileBrowserView> create(
             const std::shared_ptr<Context>&,
             FileBrowserMode,
+            const std::shared_ptr<FileBrowserModel>&,
             const std::shared_ptr<IWidget>& parent = nullptr);
-
-        const std::filesystem::path& getPath() const;
-
-        void setPath(const std::filesystem::path&);
 
         void reload();
 
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
         void setSelectCallback(const std::function<void(const std::filesystem::path&)>&);
-
-        const FileBrowserOptions& getOptions() const;
-
-        void setOptions(const FileBrowserOptions&);
-
-        void setExtension(const std::string&);
 
         void setSearch(const std::string&);
 

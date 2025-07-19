@@ -28,10 +28,11 @@ namespace feather_tk
     bool FileBrowserOptions::operator == (const FileBrowserOptions& other) const
     {
         return
-            leftPanel == other.leftPanel &&
+            panel == other.panel &&
             pathEdit == other.pathEdit &&
             sort == other.sort &&
             reverseSort == other.reverseSort &&
+            hidden == other.hidden &&
             bellows == other.bellows;
     }
 
@@ -47,9 +48,9 @@ namespace feather_tk
 
     void FileBrowser::_init(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& path,
         const std::filesystem::path& fileName,
         FileBrowserMode mode,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         IDialog::_init(context, "feather_tk::FileBrowser", parent);
@@ -57,9 +58,9 @@ namespace feather_tk
 
         p.widget = FileBrowserWidget::create(
             context,
-            path,
             fileName,
             mode,
+            model,
             shared_from_this());
 
         p.widget->setCancelCallback(
@@ -78,13 +79,13 @@ namespace feather_tk
 
     std::shared_ptr<FileBrowser> FileBrowser::create(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& path,
         const std::filesystem::path& fileName,
         FileBrowserMode mode,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
-        out->_init(context, path, fileName, mode, parent);
+        out->_init(context, fileName, mode, model, parent);
         return out;
     }
 
@@ -93,39 +94,9 @@ namespace feather_tk
         _p->widget->setCallback(value);
     }
 
-    std::filesystem::path FileBrowser::getPath() const
+    const std::shared_ptr<FileBrowserModel>& FileBrowser::getModel() const
     {
-        return _p->widget->getPath();
-    }
-
-    const FileBrowserOptions& FileBrowser::getOptions() const
-    {
-        return _p->widget->getOptions();
-    }
-
-    void FileBrowser::setOptions(const FileBrowserOptions& value)
-    {
-        _p->widget->setOptions(value);
-    }
-
-    const std::vector<std::string>& FileBrowser::getExtensions() const
-    {
-        return _p->widget->getExtensions();
-    }
-
-    void FileBrowser::setExtensions(const std::vector<std::string>& value)
-    {
-        _p->widget->setExtensions(value);
-    }
-
-    const std::string& FileBrowser::getExtension() const
-    {
-        return _p->widget->getExtension();
-    }
-
-    void FileBrowser::setExtension(const std::string& value)
-    {
-        _p->widget->setExtension(value);
+        return _p->widget->getModel();
     }
 
     const std::shared_ptr<RecentFilesModel>& FileBrowser::getRecentFilesModel() const
@@ -140,10 +111,11 @@ namespace feather_tk
 
     void to_json(nlohmann::json& json, const FileBrowserOptions& value)
     {
-        json["LeftPanel"] = value.leftPanel;
+        json["Panel"] = value.panel;
         json["PathEdit"] = value.pathEdit;
         json["Sort"] = to_string(value.sort);
         json["ReverseSort"] = value.reverseSort;
+        json["Hidden"] = value.hidden;
         for (const auto& i : value.bellows)
         {
             json["Bellows"][i.first] = i.second;
@@ -152,10 +124,11 @@ namespace feather_tk
 
     void from_json(const nlohmann::json& json, FileBrowserOptions& value)
     {
-        json.at("LeftPanel").get_to(value.leftPanel);
+        json.at("Panel").get_to(value.panel);
         json.at("PathEdit").get_to(value.pathEdit);
         from_string(json.at("Sort").get<std::string>(), value.sort);
         json.at("ReverseSort").get_to(value.reverseSort);
+        json.at("Hidden").get_to(value.hidden);
         for (auto i = json.at("Bellows").begin(); i != json.at("Bellows").end(); ++i)
         {
             if (i->is_boolean())

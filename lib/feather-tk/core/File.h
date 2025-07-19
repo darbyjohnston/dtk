@@ -15,6 +15,9 @@ namespace feather_tk
     //! \name Files
     ///@{
 
+    //! Does the file name start with a dot?
+    bool isDotFile(const std::string&);
+
     //! Split a path.
     std::vector<std::string> split(std::filesystem::path);
 

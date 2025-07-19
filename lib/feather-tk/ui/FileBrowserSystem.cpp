@@ -21,10 +21,7 @@ namespace feather_tk
     struct FileBrowserSystem::Private
     {
         bool native = true;
-        std::filesystem::path path;
-        FileBrowserOptions options;
-        std::vector<std::string> extensions;
-        std::string extension;
+        std::shared_ptr<FileBrowserModel> model;
         std::shared_ptr<RecentFilesModel> recentFilesModel;
 
         std::shared_ptr<FileBrowser> fileBrowser;
@@ -36,7 +33,7 @@ namespace feather_tk
     {
         FEATHER_TK_P();
 
-        p.path = std::filesystem::current_path();
+        p.model = FileBrowserModel::create(context);
         p.recentFilesModel = RecentFilesModel::create(context);
 
 #if defined(FEATHER_TK_NFD)
@@ -95,11 +92,12 @@ namespace feather_tk
             {
                 if (!p.fileBrowser)
                 {
-                    p.fileBrowser = FileBrowser::create(context, p.path, fileName, mode);
+                    p.fileBrowser = FileBrowser::create(
+                        context,
+                        fileName,
+                        mode,
+                        p.model);
                 }
-                p.fileBrowser->setOptions(p.options);
-                p.fileBrowser->setExtensions(p.extensions);
-                p.fileBrowser->setExtension(p.extension);
                 p.fileBrowser->setRecentFilesModel(p.recentFilesModel);
 
                 p.fileBrowser->open(window);
@@ -113,11 +111,7 @@ namespace feather_tk
                 p.fileBrowser->setCloseCallback(
                     [this]
                     {
-                        FEATHER_TK_P();
-                        p.path = p.fileBrowser->getPath();
-                        p.options = p.fileBrowser->getOptions();
-                        p.extension = p.fileBrowser->getExtension();
-                        p.fileBrowser.reset();
+                        _p->fileBrowser.reset();
                     });
             }
         }
@@ -133,44 +127,9 @@ namespace feather_tk
         _p->native = value;
     }
 
-    const std::filesystem::path& FileBrowserSystem::getPath() const
+    const std::shared_ptr<FileBrowserModel>& FileBrowserSystem::getModel() const
     {
-        return _p->path;
-    }
-
-    void FileBrowserSystem::setPath(const std::filesystem::path& value)
-    {
-        _p->path = value;
-    }
-
-    const FileBrowserOptions& FileBrowserSystem::getOptions() const
-    {
-        return _p->options;
-    }
-
-    void FileBrowserSystem::setOptions(const FileBrowserOptions& options)
-    {
-        _p->options = options;
-    }
-
-    const std::vector<std::string>& FileBrowserSystem::getExtensions() const
-    {
-        return _p->extensions;
-    }
-
-    void FileBrowserSystem::setExtensions(const std::vector<std::string>& value)
-    {
-        _p->extensions = value;
-    }
-
-    const std::string& FileBrowserSystem::getExtension() const
-    {
-        return _p->extension;
-    }
-
-    void FileBrowserSystem::setExtension(const std::string& value)
-    {
-        _p->extension = value;
+        return _p->model;
     }
 
     const std::shared_ptr<RecentFilesModel>& FileBrowserSystem::getRecentFilesModel() const

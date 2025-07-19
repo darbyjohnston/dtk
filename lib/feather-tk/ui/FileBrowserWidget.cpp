@@ -26,22 +26,18 @@ namespace feather_tk
     struct FileBrowserWidget::Private
     {
         FileBrowserMode mode = FileBrowserMode::File;
-        std::vector<std::filesystem::path> paths;
-        int currentPath = -1;
-        FileBrowserOptions options;
-        std::vector<std::string> extensions;
-        std::string extension;
+        std::shared_ptr<FileBrowserModel> model;
         std::shared_ptr<RecentFilesModel> recentFilesModel;
 
         std::shared_ptr<Label> titleLabel;
-        std::shared_ptr<ToolButton> leftPanelButton;
+        std::shared_ptr<ToolButton> panelButton;
         std::shared_ptr<ToolButton> upButton;
         std::shared_ptr<ToolButton> forwardButton;
         std::shared_ptr<ToolButton> backButton;
         std::shared_ptr<ToolButton> reloadButton;
         std::shared_ptr<FileBrowserPath> pathWidget;
-        std::shared_ptr<FileBrowserShortcuts> shortcutsWidget;
-        std::shared_ptr<ScrollWidget> shortcutsScrollWidget;
+        std::shared_ptr<FileBrowserPanel> panelWidget;
+        std::shared_ptr<ScrollWidget> panelScrollWidget;
         std::shared_ptr<FileBrowserView> view;
         std::shared_ptr<ScrollWidget> viewScrollWidget;
         std::shared_ptr<LineEdit> fileEdit;
@@ -58,13 +54,18 @@ namespace feather_tk
         std::function<void(void)> cancelCallback;
 
         std::shared_ptr<ValueObserver<int> > currentObserver;
+        std::shared_ptr<ValueObserver<std::filesystem::path> > pathObserver;
+        std::shared_ptr<ValueObserver<bool> > forwardObserver;
+        std::shared_ptr<ValueObserver<bool> > backObserver;
+        std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
+        std::shared_ptr<ListObserver<std::string> > extensionsObserver;
     };
 
     void FileBrowserWidget::_init(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& path,
         const std::filesystem::path& fileName,
         FileBrowserMode mode,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         IWidget::_init(context, "feather_tk::FileBrowserWidget", parent);
@@ -76,17 +77,16 @@ namespace feather_tk
         _setMousePressEnabled(true);
 
         p.mode = mode;
-        p.paths.push_back(path);
-        p.currentPath = 0;
+        p.model = model;
 
         p.titleLabel = Label::create(context, "File Browser");
         p.titleLabel->setMarginRole(SizeRole::MarginSmall);
         p.titleLabel->setBackgroundRole(ColorRole::Button);
 
-        p.leftPanelButton = ToolButton::create(context);
-        p.leftPanelButton->setCheckable(true);
-        p.leftPanelButton->setIcon("PanelLeft");
-        p.leftPanelButton->setTooltip("Toggle the left panel");
+        p.panelButton = ToolButton::create(context);
+        p.panelButton->setCheckable(true);
+        p.panelButton->setIcon("PanelLeft");
+        p.panelButton->setTooltip("Toggle the panel");
 
         p.upButton = ToolButton::create(context);
         p.upButton->setIcon("DirectoryUp");
@@ -110,12 +110,12 @@ namespace feather_tk
         p.pathWidget = FileBrowserPath::create(context);
         p.pathWidget->setTooltip("Current directory");
 
-        p.shortcutsWidget = FileBrowserShortcuts::create(context);
-        p.shortcutsScrollWidget = ScrollWidget::create(context);
-        p.shortcutsScrollWidget->setWidget(p.shortcutsWidget);
-        p.shortcutsScrollWidget->setVStretch(Stretch::Expanding);
+        p.panelWidget = FileBrowserPanel::create(context, model);
+        p.panelScrollWidget = ScrollWidget::create(context);
+        p.panelScrollWidget->setWidget(p.panelWidget);
+        p.panelScrollWidget->setVStretch(Stretch::Expanding);
 
-        p.view = FileBrowserView::create(context, mode);
+        p.view = FileBrowserView::create(context, mode, model);
         p.viewScrollWidget = ScrollWidget::create(context);
         p.viewScrollWidget->setWidget(p.view);
         p.viewScrollWidget->setVStretch(Stretch::Expanding);
@@ -155,7 +155,7 @@ namespace feather_tk
         auto hLayout = HorizontalLayout::create(context, vLayout);
         hLayout->setSpacingRole(SizeRole::SpacingTool);
         hLayout->setVAlign(VAlign::Center);
-        p.leftPanelButton->setParent(hLayout);
+        p.panelButton->setParent(hLayout);
         p.upButton->setParent(hLayout);
         p.backButton->setParent(hLayout);
         p.forwardButton->setParent(hLayout);
@@ -163,7 +163,7 @@ namespace feather_tk
         p.pathWidget->setParent(hLayout);
         p.splitter = Splitter::create(context, Orientation::Horizontal, vLayout);
         p.splitter->setSplit(.2F);
-        p.shortcutsScrollWidget->setParent(p.splitter);
+        p.panelScrollWidget->setParent(p.splitter);
         p.viewScrollWidget->setParent(p.splitter);
         p.fileEdit->setParent(vLayout);
         hLayout = HorizontalLayout::create(context, vLayout);
@@ -176,50 +176,40 @@ namespace feather_tk
         p.okButton->setParent(hLayout);
         p.cancelButton->setParent(hLayout);
 
-        _pathUpdate();
         _optionsUpdate();
         _extensionsUpdate();
 
-        p.leftPanelButton->setCheckedCallback(
+        p.panelButton->setCheckedCallback(
             [this](bool value)
             {
-                _p->options.leftPanel = value;
-                _optionsUpdate();
+                FEATHER_TK_P();
+                FileBrowserOptions options = p.model->getOptions();
+                options.panel = value;
+                p.model->setOptions(options);
             });
 
         p.upButton->setClickedCallback(
             [this]
             {
-                if (_p->currentPath >= 0 && _p->currentPath < _p->paths.size())
+                FEATHER_TK_P();
+                const std::filesystem::path path(p.model->getPath());
+                const std::filesystem::path parentPath(path.parent_path());
+                if (parentPath != path)
                 {
-
-                    const std::filesystem::path path(_p->paths[_p->currentPath]);
-                    const std::filesystem::path parentPath(path.parent_path());
-                    if (parentPath != path)
-                    {
-                        _setPath(parentPath.u8string());
-                    }
+                    p.model->setPath(parentPath.u8string());
                 }
             });
 
         p.backButton->setClickedCallback(
             [this]
             {
-                if (_p->currentPath >= 1)
-                {
-                    --_p->currentPath;
-                    _pathUpdate();
-                }
+                _p->model->back();
             });
 
         p.forwardButton->setClickedCallback(
             [this]
             {
-                if (_p->currentPath < static_cast<int>(_p->paths.size()) - 1)
-                {
-                    ++_p->currentPath;
-                    _pathUpdate();
-                }
+                _p->model->forward();
             });
 
         p.reloadButton->setClickedCallback(
@@ -231,48 +221,30 @@ namespace feather_tk
         p.pathWidget->setCallback(
             [this](const std::filesystem::path& value)
             {
-                _setPath(value);
+                _p->model->setPath(value);
             });
         p.pathWidget->setEditCallback(
             [this](bool value)
             {
-                _p->options.pathEdit = value;
-                _optionsUpdate();
-            });
-
-        p.shortcutsWidget->setCallback(
-            [this](const std::filesystem::path& value)
-            {
-                _setPath(value);
-            });
-        p.shortcutsWidget->setBellowsCallback(
-            [this](const std::map<std::string, bool>& value)
-            {
                 FEATHER_TK_P();
-                _p->options.bellows = value;
-                _optionsUpdate();
+                FileBrowserOptions options = p.model->getOptions();
+                options.pathEdit = value;
+                p.model->setOptions(options);
             });
 
         p.view->setCallback(
             [this](const std::filesystem::path& value)
             {
                 FEATHER_TK_P();
-                if (std::filesystem::is_directory(value))
+                if (p.recentFilesModel)
                 {
-                    _setPath(value);
+                    p.recentFilesModel->addRecent(value);
                 }
-                else
+                if (p.callback)
                 {
-                    if (p.recentFilesModel)
-                    {
-                        p.recentFilesModel->addRecent(value);
-                    }
-                    if (p.callback)
-                    {
-                        std::filesystem::path tmp = value;
-                        tmp.replace_filename(std::filesystem::u8path(p.fileEdit->getText()));
-                        p.callback(tmp);
-                    }
+                    std::filesystem::path tmp = value;
+                    tmp.replace_filename(std::filesystem::u8path(p.fileEdit->getText()));
+                    p.callback(tmp);
                 }
             });
         p.view->setSelectCallback(
@@ -295,60 +267,62 @@ namespace feather_tk
             [this](int value)
             {
                 FEATHER_TK_P();
-                if (value >= 0 && value <= p.extensions.size())
+                const std::vector<std::string>& extensions = p.model->getExtensions();
+                if (value >= 0 && value <= extensions.size())
                 {
-                    p.extension = value > 0 ? p.extensions[value - 1] : "";
-                    _extensionsUpdate();
+                    const std::string extension = value > 0 ? extensions[value - 1] : "";
+                    p.model->setExtension(extension);
                 }
             });
 
         p.sortComboBox->setIndexCallback(
             [this](int value)
             {
-                _p->options.sort = static_cast<FileBrowserSort>(value);
-                _optionsUpdate();
+                FEATHER_TK_P();
+                FileBrowserOptions options = p.model->getOptions();
+                options.sort = static_cast<FileBrowserSort>(value);
+                p.model->setOptions(options);
             });
 
         p.reverseSortButton->setCheckedCallback(
             [this](bool value)
             {
-                _p->options.reverseSort = value;
-                _optionsUpdate();
+                FEATHER_TK_P();
+                FileBrowserOptions options = p.model->getOptions();
+                options.reverseSort = value;
+                p.model->setOptions(options);
             });
 
         p.okButton->setClickedCallback(
             [this]
             {
                 FEATHER_TK_P();
-                if (p.currentPath >= 0 && p.currentPath < p.paths.size())
+                std::filesystem::path path;
+                const std::string& text = p.fileEdit->getText();
+                switch (p.mode)
                 {
-                    std::filesystem::path path;
-                    const std::string& text = p.fileEdit->getText();
-                    switch (p.mode)
+                case FileBrowserMode::File:
+                    if (!text.empty())
                     {
-                    case FileBrowserMode::File:
-                        if (!text.empty())
-                        {
-                            path = p.paths[p.currentPath] / std::filesystem::u8path(text);
-                        }
-                        break;
-                    case FileBrowserMode::Dir:
-                        path = p.paths[p.currentPath];
-                        if (!text.empty())
-                        {
-                            path = path / std::filesystem::u8path(text);
-                        }
-                        break;
-                    default: break;
+                        path = p.model->getPath() / std::filesystem::u8path(text);
                     }
-                    if (!path.empty() && p.recentFilesModel)
+                    break;
+                case FileBrowserMode::Dir:
+                    path = p.model->getPath();
+                    if (!text.empty())
                     {
-                        p.recentFilesModel->addRecent(path);
+                        path = path / std::filesystem::u8path(text);
                     }
-                    if (p.callback)
-                    {
-                        p.callback(path);
-                    }
+                    break;
+                default: break;
+                }
+                if (!path.empty() && p.recentFilesModel)
+                {
+                    p.recentFilesModel->addRecent(path);
+                }
+                if (p.callback)
+                {
+                    p.callback(path);
                 }
             });
 
@@ -372,6 +346,43 @@ namespace feather_tk
                     _p->viewScrollWidget->scrollTo(r);
                 }
             });
+
+        p.pathObserver = ValueObserver<std::filesystem::path>::create(
+            model->observePath(),
+            [this](const std::filesystem::path& value)
+            {
+                FEATHER_TK_P();
+                p.pathWidget->setPath(value);
+                p.viewScrollWidget->setScrollPos(V2I());
+            });
+
+        p.forwardObserver = ValueObserver<bool>::create(
+            model->observeHasForward(),
+            [this](bool value)
+            {
+                _p->forwardButton->setEnabled(value);
+            });
+
+        p.backObserver = ValueObserver<bool>::create(
+            model->observeHasBack(),
+            [this](bool value)
+            {
+                _p->backButton->setEnabled(value);
+            });
+
+        p.optionsObserver = ValueObserver<FileBrowserOptions>::create(
+            model->observeOptions(),
+            [this](const FileBrowserOptions&)
+            {
+                _optionsUpdate();
+            });
+
+        p.extensionsObserver = ListObserver<std::string>::create(
+            model->observeExtensions(),
+            [this](const std::vector<std::string>&)
+            {
+                _extensionsUpdate();
+            });
     }
 
     FileBrowserWidget::FileBrowserWidget() :
@@ -385,13 +396,13 @@ namespace feather_tk
 
     std::shared_ptr<FileBrowserWidget> FileBrowserWidget::create(
         const std::shared_ptr<Context>& context,
-        const std::filesystem::path& path,
         const std::filesystem::path& fileName,
         FileBrowserMode mode,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowserWidget>(new FileBrowserWidget);
-        out->_init(context, path, fileName, mode, parent);
+        out->_init(context,  fileName, mode, model, parent);
         return out;
     }
 
@@ -405,54 +416,9 @@ namespace feather_tk
         _p->cancelCallback = value;
     }
 
-    std::filesystem::path FileBrowserWidget::getPath() const
+    const std::shared_ptr<FileBrowserModel>& FileBrowserWidget::getModel() const
     {
-        FEATHER_TK_P();
-        return p.currentPath >= 0 && p.currentPath < p.paths.size() ?
-            p.paths[p.currentPath] :
-            std::filesystem::path();
-    }
-
-    const FileBrowserOptions& FileBrowserWidget::getOptions() const
-    {
-        return _p->options;
-    }
-
-    void FileBrowserWidget::setOptions(const FileBrowserOptions& value)
-    {
-        FEATHER_TK_P();
-        if (value == p.options)
-            return;
-        p.options = value;
-        _optionsUpdate();
-    }
-
-    const std::vector<std::string>& FileBrowserWidget::getExtensions() const
-    {
-        return _p->extensions;
-    }
-
-    void FileBrowserWidget::setExtensions(const std::vector<std::string>& value)
-    {
-        FEATHER_TK_P();
-        if (value == p.extensions)
-            return;
-        p.extensions = value;
-        _extensionsUpdate();
-    }
-
-    const std::string& FileBrowserWidget::getExtension() const
-    {
-        return _p->extension;
-    }
-
-    void FileBrowserWidget::setExtension(const std::string& value)
-    {
-        FEATHER_TK_P();
-        if (value == p.extension)
-            return;
-        p.extension = value;
-        _extensionsUpdate();
+        return _p->model;
     }
 
     const std::shared_ptr<RecentFilesModel>& FileBrowserWidget::getRecentFilesModel() const
@@ -464,7 +430,7 @@ namespace feather_tk
     {
         FEATHER_TK_P();
         p.recentFilesModel = value;
-        p.shortcutsWidget->setRecentFilesModel(value);
+        p.panelWidget->setRecentFilesModel(value);
     }
 
     void FileBrowserWidget::setGeometry(const Box2I& value)
@@ -479,69 +445,41 @@ namespace feather_tk
         _setSizeHint(_p->layout->getSizeHint());
     }
 
-    void FileBrowserWidget::_setPath(const std::filesystem::path& value)
-    {
-        FEATHER_TK_P();
-        while (p.currentPath < static_cast<int>(p.paths.size()) - 1)
-        {
-            p.paths.pop_back();
-        }
-        if (p.paths.empty() ||
-            (!p.paths.empty() && value != p.paths[p.paths.size() - 1]))
-        {
-            p.paths.push_back(value);
-            p.currentPath++;
-            _pathUpdate();
-        }
-    }
-
-    void FileBrowserWidget::_pathUpdate()
-    {
-        FEATHER_TK_P();
-        p.backButton->setEnabled(p.currentPath > 0);
-        p.forwardButton->setEnabled(p.currentPath < static_cast<int>(p.paths.size()) - 1);
-        const std::filesystem::path path = getPath();
-        p.pathWidget->setPath(path);
-        p.view->setPath(path);
-        p.viewScrollWidget->setScrollPos(V2I());
-    }
-
     void FileBrowserWidget::_optionsUpdate()
     {
         FEATHER_TK_P();
-        p.leftPanelButton->setChecked(p.options.leftPanel);
-        p.shortcutsScrollWidget->setVisible(p.options.leftPanel);
+        const FileBrowserOptions& options = p.model->getOptions();
 
-        p.pathWidget->setEdit(p.options.pathEdit);
+        p.panelButton->setChecked(options.panel);
 
-        p.shortcutsWidget->setBellows(p.options.bellows);
+        p.pathWidget->setEdit(options.pathEdit);
 
-        p.view->setOptions(p.options);
+        p.panelScrollWidget->setVisible(options.panel);
 
-        p.sortComboBox->setCurrentIndex(static_cast<int>(p.options.sort));
-        p.reverseSortButton->setChecked(p.options.reverseSort);
+        p.sortComboBox->setCurrentIndex(static_cast<int>(options.sort));
+        p.reverseSortButton->setChecked(options.reverseSort);
     }
 
     void FileBrowserWidget::_extensionsUpdate()
     {
         FEATHER_TK_P();
+        const std::vector<std::string>& extensions = p.model->getExtensions();
+        const std::string& extension = p.model->getExtension();
 
         std::vector<std::string> extensionsLabels;
         extensionsLabels.push_back("*.*");
-        for (const auto& extension : p.extensions)
+        for (const auto& ext : extensions)
         {
-            extensionsLabels.push_back("*" + extension);
+            extensionsLabels.push_back("*" + ext);
         }
         p.extensionsComboBox->setItems(extensionsLabels);
         const auto i = std::find(
-            p.extensions.begin(),
-            p.extensions.end(),
-            p.extension);
-        if (i != p.extensions.end())
+            extensions.begin(),
+            extensions.end(),
+            extension);
+        if (i != extensions.end())
         {
-            p.extensionsComboBox->setCurrentIndex(i - p.extensions.begin() + 1);
+            p.extensionsComboBox->setCurrentIndex(i - extensions.begin() + 1);
         }
-
-        p.view->setExtension(p.extension);
     }
 }

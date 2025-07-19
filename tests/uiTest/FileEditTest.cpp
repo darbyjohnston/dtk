@@ -63,12 +63,6 @@ namespace feather_tk
                 auto system = context->getSystem<FileBrowserSystem>();
                 system->setNativeFileDialog(false);
                 FEATHER_TK_ASSERT(!system->isNativeFileDialog());
-                system->setPath(path);
-                FEATHER_TK_ASSERT(path == system->getPath());
-                FileBrowserOptions options;
-                options.reverseSort = true;
-                system->setOptions(options);
-                FEATHER_TK_ASSERT(options == system->getOptions());
 
                 window->setCursorEnter(true);
                 window->setKey(Key::Tab);

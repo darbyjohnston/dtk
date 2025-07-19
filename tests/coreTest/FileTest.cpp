@@ -27,9 +27,19 @@ namespace feather_tk
         
         void FileTest::run()
         {
+            _util();
             _split();
             _drives();
             _userPaths();
+        }
+
+        void FileTest::_util()
+        {
+            FEATHER_TK_ASSERT(!isDotFile(""));
+            FEATHER_TK_ASSERT(!isDotFile("login"));
+            FEATHER_TK_ASSERT(isDotFile(".login"));
+            FEATHER_TK_ASSERT(isDotFile("."));
+            FEATHER_TK_ASSERT(isDotFile(".."));
         }
 
         void FileTest::_split()

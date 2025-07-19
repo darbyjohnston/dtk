@@ -6,7 +6,9 @@
 
 #include <feather-tk/ui/Bellows.h>
 #include <feather-tk/ui/ButtonGroup.h>
+#include <feather-tk/ui/CheckBox.h>
 #include <feather-tk/ui/DrivesModel.h>
+#include <feather-tk/ui/FormLayout.h>
 #include <feather-tk/ui/ListItemsWidget.h>
 #include <feather-tk/ui/RecentFilesModel.h>
 #include <feather-tk/ui/RowLayout.h>
@@ -17,111 +19,38 @@
 
 namespace feather_tk
 {
-    struct FileBrowserShortcuts::Private
+    struct FileBrowserDrives::Private
     {
         std::shared_ptr<DrivesModel> drivesModel;
         std::vector<std::filesystem::path> drives;
-        std::vector<std::filesystem::path> shortcuts;
-        std::shared_ptr<RecentFilesModel> recentFilesModel;
-        std::vector<std::filesystem::path> recent;
-        std::map<std::string, std::shared_ptr<ListItemsWidget> > listWidgets;
-        std::map<std::string, bool> bellowsOpen;
-        std::map<std::string, std::shared_ptr<Bellows> > bellows;
-        std::shared_ptr<VerticalLayout> layout;
-        std::function<void(const std::filesystem::path&)> callback;
-        std::function<void(const std::map<std::string, bool>&)> bellowsCallback;
+        std::shared_ptr<ListItemsWidget> listWidget;
         std::shared_ptr<ListObserver<std::filesystem::path> > drivesObserver;
-        std::shared_ptr<ListObserver<std::filesystem::path> > recentObserver;
     };
 
-    void FileBrowserShortcuts::_init(
+    void FileBrowserDrives::_init(
         const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
-        IWidget::_init(context, "feather_tk::FileBrowserShortcuts", parent);
+        IWidget::_init(context, "feather_tk::FileBrowserDrives", parent);
         FEATHER_TK_P();
 
         setBackgroundRole(ColorRole::Base);
 
         p.drivesModel = DrivesModel::create(context);
 
-        p.layout = VerticalLayout::create(context, shared_from_this());
-        p.layout->setSpacingRole(SizeRole::None);
+        p.listWidget = ListItemsWidget::create(
+            context,
+            ButtonGroupType::Click,
+            shared_from_this());
 
-        p.listWidgets["Drives"] = ListItemsWidget::create(context, ButtonGroupType::Click);
-        p.bellows["Drives"] = Bellows::create(context, "Drives", p.layout);
-        p.bellows["Drives"]->setWidget(p.listWidgets["Drives"]);
-
-        p.listWidgets["Shortcuts"] = ListItemsWidget::create(context, ButtonGroupType::Click);
-        p.bellows["Shortcuts"] = Bellows::create(context, "Shortcuts", p.layout);
-        p.bellows["Shortcuts"]->setWidget(p.listWidgets["Shortcuts"]);
-
-        p.listWidgets["Recent"] = ListItemsWidget::create(context, ButtonGroupType::Click);
-        p.bellows["Recent"] = Bellows::create(context, "Recent", p.layout);
-        p.bellows["Recent"]->setWidget(p.listWidgets["Recent"]);
-
-        _widgetUpdate();
-
-        p.listWidgets["Drives"]->setCallback(
-            [this](int index, bool)
+        p.listWidget->setCallback(
+            [this, model](int index, bool)
             {
                 FEATHER_TK_P();
-                if (index >= 0 && index < p.drives.size() && p.callback)
+                if (index >= 0 && index < p.drives.size())
                 {
-                    p.callback(p.drives[index]);
-                }
-            });
-
-        p.bellows["Drives"]->setOpenCallback(
-            [this](bool value)
-            {
-                FEATHER_TK_P();
-                p.bellowsOpen["Drives"] = value;
-                if (p.bellowsCallback)
-                {
-                    p.bellowsCallback(p.bellowsOpen);
-                }
-            });
-
-        p.listWidgets["Shortcuts"]->setCallback(
-            [this](int index, bool)
-            {
-                FEATHER_TK_P();
-                if (index >= 0 && index < p.shortcuts.size() && p.callback)
-                {
-                    p.callback(p.shortcuts[index]);
-                }
-            });
-
-        p.bellows["Shortcuts"]->setOpenCallback(
-            [this](bool value)
-            {
-                FEATHER_TK_P();
-                p.bellowsOpen["Shortcuts"] = value;
-                if (p.bellowsCallback)
-                {
-                    p.bellowsCallback(p.bellowsOpen);
-                }
-            });
-
-        p.listWidgets["Recent"]->setCallback(
-            [this](int index, bool)
-            {
-                FEATHER_TK_P();
-                if (index >= 0 && index < p.recent.size() && p.callback)
-                {
-                    p.callback(p.recent[index]);
-                }
-            });
-
-        p.bellows["Recent"]->setOpenCallback(
-            [this](bool value)
-            {
-                FEATHER_TK_P();
-                p.bellowsOpen["Recent"] = value;
-                if (p.bellowsCallback)
-                {
-                    p.bellowsCallback(p.bellowsOpen);
+                    model->setPath(p.drives[index]);
                 }
             });
 
@@ -129,8 +58,77 @@ namespace feather_tk
             p.drivesModel->observeDrives(),
             [this](const std::vector<std::filesystem::path>& value)
             {
-                _p->drives = value;
-                _widgetUpdate();
+                FEATHER_TK_P();
+                p.drives = value;
+                std::vector<ListItem> items;
+                for (const auto& drive : p.drives)
+                {
+                    items.push_back(ListItem(drive.u8string(), drive.u8string()));
+                }
+                p.listWidget->setItems(items);
+            });
+    }
+
+    FileBrowserDrives::FileBrowserDrives() :
+        _p(new Private)
+    {}
+
+    FileBrowserDrives::~FileBrowserDrives()
+    {}
+
+    std::shared_ptr<FileBrowserDrives> FileBrowserDrives::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FileBrowserDrives>(new FileBrowserDrives);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void FileBrowserDrives::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        _p->listWidget->setGeometry(value);
+    }
+
+    void FileBrowserDrives::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->listWidget->getSizeHint());
+    }
+
+    struct FileBrowserShortcuts::Private
+    {
+        std::vector<std::filesystem::path> shortcuts;
+        std::shared_ptr<ListItemsWidget> listWidget;
+    };
+
+    void FileBrowserShortcuts::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::FileBrowserShortcuts", parent);
+        FEATHER_TK_P();
+
+        setBackgroundRole(ColorRole::Base);
+
+        p.listWidget = ListItemsWidget::create(
+            context,
+            ButtonGroupType::Click,
+            shared_from_this());
+
+        _widgetUpdate();
+
+        p.listWidget->setCallback(
+            [this, model](int index, bool)
+            {
+                FEATHER_TK_P();
+                if (index >= 0 && index < p.shortcuts.size())
+                {
+                    model->setPath(p.shortcuts[index]);
+                }
             });
     }
 
@@ -143,19 +141,97 @@ namespace feather_tk
 
     std::shared_ptr<FileBrowserShortcuts> FileBrowserShortcuts::create(
         const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
         const std::shared_ptr<IWidget>& parent)
     {
         auto out = std::shared_ptr<FileBrowserShortcuts>(new FileBrowserShortcuts);
-        out->_init(context, parent);
+        out->_init(context, model, parent);
         return out;
     }
 
-    void FileBrowserShortcuts::setCallback(const std::function<void(const std::filesystem::path&)>& value)
+    void FileBrowserShortcuts::setGeometry(const Box2I& value)
     {
-        _p->callback = value;
+        IWidget::setGeometry(value);
+        _p->listWidget->setGeometry(value);
     }
 
-    void FileBrowserShortcuts::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
+    void FileBrowserShortcuts::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->listWidget->getSizeHint());
+    }
+
+    void FileBrowserShortcuts::_widgetUpdate()
+    {
+        FEATHER_TK_P();
+        p.shortcuts.clear();
+        std::filesystem::path path = std::filesystem::current_path();
+        p.shortcuts.push_back(path);
+        std::vector<ListItem> items;
+        items.push_back(ListItem("Current", path.u8string()));
+        for (auto userPath : getUserPathEnums())
+        {
+            path = getUserPath(userPath);
+            p.shortcuts.push_back(path);
+            items.push_back(ListItem(path.filename().u8string(), path.u8string()));
+        }
+        p.listWidget->setItems(items);
+    }
+
+    struct FileBrowserRecent::Private
+    {
+        std::shared_ptr<RecentFilesModel> recentFilesModel;
+        std::vector<std::filesystem::path> recent;
+        std::shared_ptr<ListItemsWidget> listWidget;
+        std::shared_ptr<ListObserver<std::filesystem::path> > recentObserver;
+    };
+
+    void FileBrowserRecent::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::FileBrowserRecent", parent);
+        FEATHER_TK_P();
+
+        setBackgroundRole(ColorRole::Base);
+
+        p.listWidget = ListItemsWidget::create(
+            context,
+            ButtonGroupType::Click,
+            shared_from_this());
+
+        _widgetUpdate();
+
+        p.listWidget->setCallback(
+            [this, model](int index, bool)
+            {
+                FEATHER_TK_P();
+                if (index >= 0 && index < p.recent.size())
+                {
+                    model->setPath(p.recent[index]);
+                }
+            });
+    }
+
+    FileBrowserRecent::FileBrowserRecent() :
+        _p(new Private)
+    {}
+
+    FileBrowserRecent::~FileBrowserRecent()
+    {}
+
+    std::shared_ptr<FileBrowserRecent> FileBrowserRecent::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FileBrowserRecent>(new FileBrowserRecent);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void FileBrowserRecent::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
     {
         FEATHER_TK_P();
         p.recentObserver.reset();
@@ -185,57 +261,22 @@ namespace feather_tk
         }
     }
 
-    void FileBrowserShortcuts::setBellows(const std::map<std::string, bool>& value)
-    {
-        FEATHER_TK_P();
-        if (value == p.bellowsOpen)
-            return;
-        p.bellowsOpen = value;
-        _widgetUpdate();
-    }
-
-    void FileBrowserShortcuts::setBellowsCallback(const std::function<void(const std::map<std::string, bool>&)>& value)
-    {
-        _p->bellowsCallback = value;
-    }
-
-    void FileBrowserShortcuts::setGeometry(const Box2I& value)
+    void FileBrowserRecent::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);
-        _p->layout->setGeometry(value);
+        _p->listWidget->setGeometry(value);
     }
 
-    void FileBrowserShortcuts::sizeHintEvent(const SizeHintEvent& event)
+    void FileBrowserRecent::sizeHintEvent(const SizeHintEvent& event)
     {
         IWidget::sizeHintEvent(event);
-        _setSizeHint(_p->layout->getSizeHint());
+        _setSizeHint(_p->listWidget->getSizeHint());
     }
 
-    void FileBrowserShortcuts::_widgetUpdate()
+    void FileBrowserRecent::_widgetUpdate()
     {
         FEATHER_TK_P();
-
         std::vector<ListItem> items;
-        for (const auto& drive : p.drives)
-        {
-            items.push_back(ListItem(drive.u8string(), drive.u8string()));
-        }
-        p.listWidgets["Drives"]->setItems(items);
-
-        p.shortcuts.clear();
-        items.clear();
-        std::filesystem::path path = std::filesystem::current_path();
-        p.shortcuts.push_back(path);
-        items.push_back(ListItem("Current", path.u8string()));
-        for (auto userPath : getUserPathEnums())
-        {
-            path = getUserPath(userPath);
-            p.shortcuts.push_back(path);
-            items.push_back(ListItem(path.filename().u8string(), path.u8string()));
-        }
-        p.listWidgets["Shortcuts"]->setItems(items);
-
-        items.clear();
         for (const auto& recent : p.recent)
         {
             std::filesystem::path tmp = recent.filename();
@@ -249,15 +290,177 @@ namespace feather_tk
             }
             items.push_back(ListItem(tmp.u8string(), recent.u8string()));
         }
-        p.listWidgets["Recent"]->setItems(items);
+        p.listWidget->setItems(items);
+    }
 
-        for (const auto& i : p.bellowsOpen)
-        {
-            const auto j = p.bellows.find(i.first);
-            if (j != p.bellows.end())
+    struct FileBrowserSettings::Private
+    {
+        FileBrowserOptions options;
+        std::shared_ptr<feather_tk::CheckBox> hiddenCheckBox;
+        std::shared_ptr<FormLayout> layout;
+        std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
+    };
+
+    void FileBrowserSettings::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::FileBrowserSettings", parent);
+        FEATHER_TK_P();
+
+        p.hiddenCheckBox = feather_tk::CheckBox::create(context);
+        p.hiddenCheckBox->setHStretch(feather_tk::Stretch::Expanding);
+
+        p.layout = FormLayout::create(context, shared_from_this());
+        p.layout->setMarginRole(feather_tk::SizeRole::MarginSmall);
+        p.layout->addRow("Show hidden:", p.hiddenCheckBox);
+
+        p.hiddenCheckBox->setCheckedCallback(
+            [model](bool value)
             {
-                j->second->setOpen(i.second);
-            }
+                FileBrowserOptions options = model->getOptions();
+                options.hidden = value;
+                model->setOptions(options);
+            });
+
+        p.optionsObserver = ValueObserver<FileBrowserOptions>::create(
+            model->observeOptions(),
+            [this](const FileBrowserOptions& value)
+            {
+                _p->hiddenCheckBox->setChecked(value.hidden);
+            });
+    }
+
+    FileBrowserSettings::FileBrowserSettings() :
+        _p(new Private)
+    {}
+
+    FileBrowserSettings::~FileBrowserSettings()
+    {}
+
+    std::shared_ptr<FileBrowserSettings> FileBrowserSettings::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FileBrowserSettings>(new FileBrowserSettings);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void FileBrowserSettings::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        _p->layout->setGeometry(value);
+    }
+
+    void FileBrowserSettings::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->layout->getSizeHint());
+    }
+
+    void FileBrowserSettings::_widgetUpdate()
+    {
+        FEATHER_TK_P();
+        p.hiddenCheckBox->setChecked(p.options.hidden);
+    }
+
+    struct FileBrowserPanel::Private
+    {
+        std::shared_ptr<FileBrowserDrives> drivesWidget;
+        std::shared_ptr<FileBrowserShortcuts> shortcutsWidget;
+        std::shared_ptr<FileBrowserRecent> recentWidget;
+        std::shared_ptr<FileBrowserSettings> settingsWidget;
+        std::map<std::string, std::shared_ptr<Bellows> > bellows;
+        std::shared_ptr<VerticalLayout> layout;
+        std::shared_ptr<ValueObserver<FileBrowserOptions> > optionsObserver;
+    };
+
+    void FileBrowserPanel::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::FileBrowserPanel", parent);
+        FEATHER_TK_P();
+
+        p.drivesWidget = FileBrowserDrives::create(context, model);
+        p.shortcutsWidget = FileBrowserShortcuts::create(context, model);
+        p.recentWidget = FileBrowserRecent::create(context, model);
+        p.settingsWidget = FileBrowserSettings::create(context, model);
+
+        p.layout = VerticalLayout::create(context, shared_from_this());
+        p.layout->setSpacingRole(SizeRole::None);
+        p.bellows["Drives"] = Bellows::create(context, "Drives", p.layout);
+        p.bellows["Drives"]->setWidget(p.drivesWidget);
+        p.bellows["Shortcuts"] = Bellows::create(context, "Shortcuts", p.layout);
+        p.bellows["Shortcuts"]->setWidget(p.shortcutsWidget);
+        p.bellows["Recent"] = Bellows::create(context, "Recent", p.layout);
+        p.bellows["Recent"]->setWidget(p.recentWidget);
+        p.bellows["Settings"] = Bellows::create(context, "Settings", p.layout);
+        p.bellows["Settings"]->setWidget(p.settingsWidget);
+
+        for (const auto& bellows : p.bellows)
+        {
+            const std::string name = bellows.first;
+            bellows.second->setOpenCallback(
+                [model, name](bool value)
+                {
+                    auto options = model->getOptions();
+                    options.bellows[name] = value;
+                    model->setOptions(options);
+                });
         }
+
+        p.optionsObserver = ValueObserver<FileBrowserOptions>::create(
+            model->observeOptions(),
+            [this](const FileBrowserOptions& value)
+            {
+                FEATHER_TK_P();
+                for (const auto& i : value.bellows)
+                {
+                    auto j = p.bellows.find(i.first);
+                    if (j != p.bellows.end())
+                    {
+                        j->second->setOpen(i.second);
+                    }
+                }
+            });
+    }
+
+    FileBrowserPanel::FileBrowserPanel() :
+        _p(new Private)
+    {}
+
+    FileBrowserPanel::~FileBrowserPanel()
+    {}
+
+    std::shared_ptr<FileBrowserPanel> FileBrowserPanel::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FileBrowserModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FileBrowserPanel>(new FileBrowserPanel);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void FileBrowserPanel::setRecentFilesModel(const std::shared_ptr<RecentFilesModel>& value)
+    {
+        _p->recentWidget->setRecentFilesModel(value);
+    }
+
+    void FileBrowserPanel::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        _p->layout->setGeometry(value);
+    }
+
+    void FileBrowserPanel::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->layout->getSizeHint());
     }
 }

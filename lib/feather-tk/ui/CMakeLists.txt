@@ -114,8 +114,9 @@ set(SOURCE
     DrivesModel.cpp
     Event.cpp
     FileBrowser.cpp
+    FileBrowserModel.cpp
+    FileBrowserPanel.cpp
     FileBrowserPath.cpp
-    FileBrowserShortcuts.cpp
     FileBrowserSystem.cpp
     FileBrowserView.cpp
     FileBrowserWidget.cpp

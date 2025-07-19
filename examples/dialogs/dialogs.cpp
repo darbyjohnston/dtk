@@ -147,11 +147,11 @@ void DialogsWindow::_init(
     FileBrowserOptions fileBrowserOptions;
     _settings->getT("/FileBrowser/Options", fileBrowserOptions);
     auto fileBrowserSystem = context->getSystem<FileBrowserSystem>();
-    fileBrowserSystem->setOptions(fileBrowserOptions);
-    fileBrowserSystem->setExtensions({ ".h", ".cpp" });
+    fileBrowserSystem->getModel()->setOptions(fileBrowserOptions);
+    fileBrowserSystem->getModel()->setExtensions({ ".h", ".cpp" });
     std::string extension;
     _settings->get("/FileBrowser/Extension", extension);
-    fileBrowserSystem->setExtension(extension);
+    fileBrowserSystem->getModel()->setExtension(extension);
 
     auto recentFilesModel = RecentFilesModel::create(context);
     size_t recentFilesMax = 10;
@@ -182,8 +182,9 @@ void DialogsWindow::_init(
 DialogsWindow::~DialogsWindow()
 {
     auto fileBrowserSystem = getContext()->getSystem<FileBrowserSystem>();
-    _settings->setT("/FileBrowser/Options", fileBrowserSystem->getOptions());
-    _settings->set("/FileBrowser/Extension", fileBrowserSystem->getExtension());
+    auto fileBrowserOptions = fileBrowserSystem->getModel()->getOptions();
+    _settings->setT("/FileBrowser/Options", fileBrowserOptions);
+    _settings->set("/FileBrowser/Extension", fileBrowserSystem->getModel()->getExtension());
 
     auto recentFilesModel = fileBrowserSystem->getRecentFilesModel();
     _settings->set("/FileBrowser/RecentFilesMax", static_cast<int>(recentFilesModel->getRecentMax()));
