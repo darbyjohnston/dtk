@@ -67,6 +67,12 @@ namespace feather_tk
         //! Set the large step.
         void setLargeStep(int);
 
+        //! Get the default value.
+        int getDefaultValue() const;
+
+        //! Set the default value.
+        void setDefaultValue(int);
+
         //! Get the model.
         const std::shared_ptr<IntModel>& getModel() const;
 

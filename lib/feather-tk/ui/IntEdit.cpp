@@ -170,6 +170,16 @@ namespace feather_tk
         _p->model->setLargeStep(value);
     }
 
+    int IntEdit::getDefaultValue() const
+    {
+        return _p->model->getDefaultValue();
+    }
+
+    void IntEdit::setDefaultValue(int value)
+    {
+        _p->model->setDefaultValue(value);
+    }
+
     const std::shared_ptr<IntModel>& IntEdit::getModel() const
     {
         return _p->model;

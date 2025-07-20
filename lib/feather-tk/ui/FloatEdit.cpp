@@ -171,6 +171,16 @@ namespace feather_tk
         _p->model->setLargeStep(value);
     }
 
+    float FloatEdit::getDefaultValue() const
+    {
+        return _p->model->getDefaultValue();
+    }
+
+    void FloatEdit::setDefaultValue(float value)
+    {
+        _p->model->setDefaultValue(value);
+    }
+
     const std::shared_ptr<FloatModel>& FloatEdit::getModel() const
     {
         return _p->model;

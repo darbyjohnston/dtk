@@ -173,6 +173,16 @@ namespace feather_tk
         _p->model->setLargeStep(value);
     }
 
+    double DoubleEdit::getDefaultValue() const
+    {
+        return _p->model->getDefaultValue();
+    }
+
+    void DoubleEdit::setDefaultValue(double value)
+    {
+        _p->model->setDefaultValue(value);
+    }
+
     const std::shared_ptr<DoubleModel>& DoubleEdit::getModel() const
     {
         return _p->model;

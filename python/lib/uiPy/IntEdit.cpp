@@ -37,6 +37,7 @@ namespace feather_tk
             .def("setRange", py::overload_cast<int, int>(&IntEdit::setRange))
             .def_property("step", &IntEdit::getStep, &IntEdit::setStep)
             .def_property("largeStep", &IntEdit::getLargeStep, &IntEdit::setLargeStep)
+            .def_property("defaultValue", &IntEdit::getDefaultValue, &IntEdit::setDefaultValue)
             .def("getModel", &IntEdit::getModel)
             .def_property("fontRole", &IntEdit::getFontRole, &IntEdit::setFontRole);
     }

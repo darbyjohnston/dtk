@@ -37,6 +37,7 @@ namespace feather_tk
             .def("setRange", py::overload_cast<double, double>(&DoubleSlider::setRange))
             .def_property("step", &DoubleSlider::getStep, &DoubleSlider::setStep)
             .def_property("largeStep", &DoubleSlider::getLargeStep, &DoubleSlider::setLargeStep)
+            .def_property("defaultValue", &DoubleSlider::getDefaultValue, &DoubleSlider::setDefaultValue)
             .def("getModel", &DoubleSlider::getModel);
     }
 }

@@ -149,6 +149,16 @@ namespace feather_tk
         _p->model->setLargeStep(value);
     }
 
+    float FloatSlider::getDefaultValue() const
+    {
+        return _p->model->getDefaultValue();
+    }
+
+    void FloatSlider::setDefaultValue(float value)
+    {
+        _p->model->setDefaultValue(value);
+    }
+
     const std::shared_ptr<FloatModel>& FloatSlider::getModel() const
     {
         return _p->model;

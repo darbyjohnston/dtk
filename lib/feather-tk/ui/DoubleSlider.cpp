@@ -149,6 +149,16 @@ namespace feather_tk
         _p->model->setLargeStep(value);
     }
 
+    double DoubleSlider::getDefaultValue() const
+    {
+        return _p->model->getDefaultValue();
+    }
+
+    void DoubleSlider::setDefaultValue(double value)
+    {
+        _p->model->setDefaultValue(value);
+    }
+
     const std::shared_ptr<DoubleModel>& DoubleSlider::getModel() const
     {
         return _p->model;
