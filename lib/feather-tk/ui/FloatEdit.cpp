@@ -7,6 +7,7 @@
 #include <feather-tk/ui/IncButtons.h>
 #include <feather-tk/ui/LineEdit.h>
 #include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ToolButton.h>
 
 #include <feather-tk/core/Format.h>
 
@@ -270,5 +271,94 @@ namespace feather_tk
         }
         p.lineEdit->setText(text);
         p.lineEdit->setFormat(format);
+    }
+
+    struct FloatResetButton::Private
+    {
+        std::shared_ptr<FloatModel> model;
+
+        std::shared_ptr<ToolButton> resetButton;
+
+        std::shared_ptr<ValueObserver<float> > valueObserver;
+        std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
+        std::shared_ptr<ValueObserver<float> > defaultValueObserver;
+    };
+
+    void FloatResetButton::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FloatModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::FloatResetButton", parent);
+        FEATHER_TK_P();
+
+        p.model = model;
+
+        p.resetButton = ToolButton::create(context, shared_from_this());
+        p.resetButton->setIcon("Reset");
+        p.resetButton->setTooltip("Reset to the default value");
+
+        p.resetButton->setClickedCallback(
+            [this]
+            {
+                _p->model->setDefaultValue();
+            });
+
+        p.valueObserver = ValueObserver<float>::create(
+            p.model->observeValue(),
+            [this](float)
+            {
+                _widgetUpdate();
+            });
+
+        p.hasDefaultObserver = ValueObserver<bool>::create(
+            p.model->observeHasDefaultValue(),
+            [this](bool)
+            {
+                _widgetUpdate();
+            });
+
+        p.defaultValueObserver = ValueObserver<float>::create(
+            p.model->observeDefaultValue(),
+            [this](float)
+            {
+                _widgetUpdate();
+            });
+    }
+
+    FloatResetButton::FloatResetButton() :
+        _p(new Private)
+    {}
+
+    FloatResetButton::~FloatResetButton()
+    {}
+
+    std::shared_ptr<FloatResetButton> FloatResetButton::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<FloatModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<FloatResetButton>(new FloatResetButton);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void FloatResetButton::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        _p->resetButton->setGeometry(value);
+    }
+
+    void FloatResetButton::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->resetButton->getSizeHint());
+    }
+
+    void FloatResetButton::_widgetUpdate()
+    {
+        FEATHER_TK_P();
+        setVisible(p.model->hasDefaultValue());
+        setEnabled(p.model->getValue() != p.model->getDefaultValue());
     }
 }

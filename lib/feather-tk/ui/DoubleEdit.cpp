@@ -7,6 +7,7 @@
 #include <feather-tk/ui/IncButtons.h>
 #include <feather-tk/ui/LineEdit.h>
 #include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ToolButton.h>
 
 #include <feather-tk/core/Format.h>
 
@@ -17,9 +18,11 @@ namespace feather_tk
         std::shared_ptr<DoubleModel> model;
         int digits = 3;
         int precision = 2;
+
         std::shared_ptr<LineEdit> lineEdit;
         std::shared_ptr<IncButtons> incButtons;
         std::shared_ptr<HorizontalLayout> layout;
+
         std::function<void(double)> callback;
         std::shared_ptr<ValueObserver<double> > valueObserver;
         std::shared_ptr<ValueObserver<RangeD> > rangeObserver;
@@ -270,5 +273,94 @@ namespace feather_tk
         }
         p.lineEdit->setText(text);
         p.lineEdit->setFormat(format);
+    }
+
+    struct DoubleResetButton::Private
+    {
+        std::shared_ptr<DoubleModel> model;
+
+        std::shared_ptr<ToolButton> resetButton;
+
+        std::shared_ptr<ValueObserver<double> > valueObserver;
+        std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
+        std::shared_ptr<ValueObserver<double> > defaultValueObserver;
+    };
+
+    void DoubleResetButton::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<DoubleModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::DoubleResetButton", parent);
+        FEATHER_TK_P();
+
+        p.model = model;
+
+        p.resetButton = ToolButton::create(context, shared_from_this());
+        p.resetButton->setIcon("Reset");
+        p.resetButton->setTooltip("Reset to the default value");
+
+        p.resetButton->setClickedCallback(
+            [this]
+            {
+                _p->model->setDefaultValue();
+            });
+
+        p.valueObserver = ValueObserver<double>::create(
+            p.model->observeValue(),
+            [this](double)
+            {
+                _widgetUpdate();
+            });
+
+        p.hasDefaultObserver = ValueObserver<bool>::create(
+            p.model->observeHasDefaultValue(),
+            [this](bool)
+            {
+                _widgetUpdate();
+            });
+
+        p.defaultValueObserver = ValueObserver<double>::create(
+            p.model->observeDefaultValue(),
+            [this](double)
+            {
+                _widgetUpdate();
+            });
+    }
+
+    DoubleResetButton::DoubleResetButton() :
+        _p(new Private)
+    {}
+
+    DoubleResetButton::~DoubleResetButton()
+    {}
+
+    std::shared_ptr<DoubleResetButton> DoubleResetButton::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<DoubleModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<DoubleResetButton>(new DoubleResetButton);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void DoubleResetButton::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        _p->resetButton->setGeometry(value);
+    }
+
+    void DoubleResetButton::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->resetButton->getSizeHint());
+    }
+
+    void DoubleResetButton::_widgetUpdate()
+    {
+        FEATHER_TK_P();
+        setVisible(p.model->hasDefaultValue());
+        setEnabled(p.model->getValue() != p.model->getDefaultValue());
     }
 }

@@ -7,6 +7,7 @@
 #include <feather-tk/ui/IncButtons.h>
 #include <feather-tk/ui/LineEdit.h>
 #include <feather-tk/ui/RowLayout.h>
+#include <feather-tk/ui/ToolButton.h>
 
 #include <feather-tk/core/Format.h>
 
@@ -255,5 +256,94 @@ namespace feather_tk
         }
         p.lineEdit->setText(text);
         p.lineEdit->setFormat(format);
+    }
+
+    struct IntResetButton::Private
+    {
+        std::shared_ptr<IntModel> model;
+
+        std::shared_ptr<ToolButton> resetButton;
+
+        std::shared_ptr<ValueObserver<int> > valueObserver;
+        std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
+        std::shared_ptr<ValueObserver<int> > defaultValueObserver;
+    };
+
+    void IntResetButton::_init(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IntModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        IWidget::_init(context, "feather_tk::IntResetButton", parent);
+        FEATHER_TK_P();
+
+        p.model = model;
+
+        p.resetButton = ToolButton::create(context, shared_from_this());
+        p.resetButton->setIcon("Reset");
+        p.resetButton->setTooltip("Reset to the default value");
+
+        p.resetButton->setClickedCallback(
+            [this]
+            {
+                _p->model->setDefaultValue();
+            });
+
+        p.valueObserver = ValueObserver<int>::create(
+            p.model->observeValue(),
+            [this](int)
+            {
+                _widgetUpdate();
+            });
+
+        p.hasDefaultObserver = ValueObserver<bool>::create(
+            p.model->observeHasDefaultValue(),
+            [this](bool)
+            {
+                _widgetUpdate();
+            });
+
+        p.defaultValueObserver = ValueObserver<int>::create(
+            p.model->observeDefaultValue(),
+            [this](int)
+            {
+                _widgetUpdate();
+            });
+    }
+
+    IntResetButton::IntResetButton() :
+        _p(new Private)
+    {}
+
+    IntResetButton::~IntResetButton()
+    {}
+
+    std::shared_ptr<IntResetButton> IntResetButton::create(
+        const std::shared_ptr<Context>& context,
+        const std::shared_ptr<IntModel>& model,
+        const std::shared_ptr<IWidget>& parent)
+    {
+        auto out = std::shared_ptr<IntResetButton>(new IntResetButton);
+        out->_init(context, model, parent);
+        return out;
+    }
+
+    void IntResetButton::setGeometry(const Box2I& value)
+    {
+        IWidget::setGeometry(value);
+        _p->resetButton->setGeometry(value);
+    }
+
+    void IntResetButton::sizeHintEvent(const SizeHintEvent& event)
+    {
+        IWidget::sizeHintEvent(event);
+        _setSizeHint(_p->resetButton->getSizeHint());
+    }
+
+    void IntResetButton::_widgetUpdate()
+    {
+        FEATHER_TK_P();
+        setVisible(p.model->hasDefaultValue());
+        setEnabled(p.model->getValue() != p.model->getDefaultValue());
     }
 }

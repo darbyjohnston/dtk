@@ -15,7 +15,7 @@ namespace feather_tk
         double step = 0.1;
         double largeStep = 1.0;
         std::shared_ptr<ObservableValue<bool> > hasDefaultValue;
-        double defaultValue = 0.0;
+        std::shared_ptr<ObservableValue<double> > defaultValue;
     };
 
     void DoubleModel::_init(const std::shared_ptr<Context>&)
@@ -24,6 +24,7 @@ namespace feather_tk
         p.value = ObservableValue<double>::create(0.0);
         p.range = ObservableValue<RangeD>::create(RangeD(0.0, 1.0));
         p.hasDefaultValue = ObservableValue<bool>::create(false);
+        p.defaultValue = ObservableValue<double>::create(0.0);
     }
 
     DoubleModel::DoubleModel() :
@@ -134,18 +135,23 @@ namespace feather_tk
 
     double DoubleModel::getDefaultValue() const
     {
+        return _p->defaultValue->get();
+    }
+
+    std::shared_ptr<IObservableValue<double> > DoubleModel::observeDefaultValue() const
+    {
         return _p->defaultValue;
     }
 
     void DoubleModel::setDefaultValue(double value)
     {
+        _p->defaultValue->setIfChanged(value);
         _p->hasDefaultValue->setIfChanged(true);
-        _p->defaultValue = value;
     }
 
     void DoubleModel::setDefaultValue()
     {
-        setValue(_p->defaultValue);
+        setValue(_p->defaultValue->get());
     }
 
     void DoubleModel::clearDefaultValue()

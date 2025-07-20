@@ -94,8 +94,11 @@ namespace feather_tk
         //! Get whether there is a default value.
         bool hasDefaultValue() const;
 
-        //! Observe the default value.
+        //! Observe whether there is a default value.
         std::shared_ptr<IObservableValue<bool> > observeHasDefaultValue() const;
+
+        //! Observe the default value.
+        std::shared_ptr<IObservableValue<int> > observeDefaultValue() const;
 
         //! Get the default value.
         int getDefaultValue() const;

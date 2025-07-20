@@ -52,6 +52,7 @@ FEATHER_TK_MAIN()
             });
         intEditSlider = IntEditSlider::create(context, vLayout);
         intEditSlider->setRange(100, 200);
+        intEditSlider->setDefaultValue(100);
         intEditSlider->setCallback(
             [](int value)
             {
@@ -59,6 +60,7 @@ FEATHER_TK_MAIN()
             });
         intEditSlider = IntEditSlider::create(context, vLayout);
         intEditSlider->setRange(-100, 100);
+        intEditSlider->setDefaultValue(-100);
         intEditSlider->setCallback(
             [](int value)
             {
@@ -76,6 +78,9 @@ FEATHER_TK_MAIN()
             });
         floatEditSlider = FloatEditSlider::create(context, vLayout);
         floatEditSlider->setRange(100.F, 200.F);
+        floatEditSlider->setDefaultValue(100.F);
+        floatEditSlider->setStep(1.F);
+        floatEditSlider->setLargeStep(10.F);
         floatEditSlider->setCallback(
             [](float value)
             {
@@ -83,6 +88,9 @@ FEATHER_TK_MAIN()
             });
         floatEditSlider = FloatEditSlider::create(context, vLayout);
         floatEditSlider->setRange(-100.F, 100.F);
+        floatEditSlider->setDefaultValue(-100.F);
+        floatEditSlider->setStep(1.F);
+        floatEditSlider->setLargeStep(10.F);
         floatEditSlider->setCallback(
             [](float value)
             {
@@ -100,6 +108,9 @@ FEATHER_TK_MAIN()
             });
         doubleEditSlider = DoubleEditSlider::create(context, vLayout);
         doubleEditSlider->setRange(100.0, 200.0);
+        doubleEditSlider->setDefaultValue(100.0);
+        doubleEditSlider->setStep(1.F);
+        doubleEditSlider->setLargeStep(10.F);
         doubleEditSlider->setCallback(
             [](double value)
             {
@@ -107,6 +118,9 @@ FEATHER_TK_MAIN()
             });
         doubleEditSlider = DoubleEditSlider::create(context, vLayout);
         doubleEditSlider->setRange(-100.0, 100.0);
+        doubleEditSlider->setDefaultValue(-100.0);
+        doubleEditSlider->setStep(1.F);
+        doubleEditSlider->setLargeStep(10.F);
         doubleEditSlider->setCallback(
             [](double value)
             {

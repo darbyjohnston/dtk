@@ -15,7 +15,7 @@ namespace feather_tk
         int step = 1;
         int largeStep = 10;
         std::shared_ptr<ObservableValue<bool> > hasDefaultValue;
-        int defaultValue = 0;
+        std::shared_ptr<ObservableValue<int> > defaultValue;
     };
 
     void IntModel::_init(const std::shared_ptr<Context>&)
@@ -24,6 +24,7 @@ namespace feather_tk
         p.value = ObservableValue<int>::create(0);
         p.range = ObservableValue<RangeI>::create(RangeI(0, 100));
         p.hasDefaultValue = ObservableValue<bool>::create(false);
+        p.defaultValue = ObservableValue<int>::create(0);
     }
 
     IntModel::IntModel() :
@@ -134,18 +135,23 @@ namespace feather_tk
 
     int IntModel::getDefaultValue() const
     {
+        return _p->defaultValue->get();
+    }
+
+    std::shared_ptr<IObservableValue<int> > IntModel::observeDefaultValue() const
+    {
         return _p->defaultValue;
     }
 
     void IntModel::setDefaultValue(int value)
     {
+        _p->defaultValue->setIfChanged(value);
         _p->hasDefaultValue->setIfChanged(true);
-        _p->defaultValue = value;
     }
 
     void IntModel::setDefaultValue()
     {
-        setValue(_p->defaultValue);
+        setValue(_p->defaultValue->get());
     }
 
     void IntModel::clearDefaultValue()

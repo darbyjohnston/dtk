@@ -7,20 +7,20 @@
 #include <feather-tk/ui/IntEdit.h>
 #include <feather-tk/ui/IntSlider.h>
 #include <feather-tk/ui/RowLayout.h>
-#include <feather-tk/ui/ToolButton.h>
 
 namespace feather_tk
 {
     struct IntEditSlider::Private
     {
         std::shared_ptr<IntModel> model;
+
         std::shared_ptr<IntEdit> edit;
         std::shared_ptr<IntSlider> slider;
-        std::shared_ptr<ToolButton> resetButton;
+        std::shared_ptr<IntResetButton> resetButton;
         std::shared_ptr<HorizontalLayout> layout;
+
         std::function<void(int)> callback;
         std::shared_ptr<ValueObserver<int> > valueObserver;
-        std::shared_ptr<ValueObserver<bool> > hasDefaultObserver;
     };
 
     void IntEditSlider::_init(
@@ -39,9 +39,7 @@ namespace feather_tk
 
         p.slider = IntSlider::create(context, p.model);
 
-        p.resetButton = ToolButton::create(context);
-        p.resetButton->setIcon("Reset");
-        p.resetButton->setTooltip("Reset to the default value");
+        p.resetButton = IntResetButton::create(context, p.model);
 
         p.layout = HorizontalLayout::create(context, shared_from_this());
         p.layout->setSpacingRole(SizeRole::SpacingTool);
@@ -50,28 +48,14 @@ namespace feather_tk
         p.slider->setHStretch(Stretch::Expanding);
         p.resetButton->setParent(p.layout);
 
-        p.resetButton->setClickedCallback(
-            [this]
-            {
-                _p->model->setDefaultValue();
-            });
-
         p.valueObserver = ValueObserver<int>::create(
             p.model->observeValue(),
             [this](int value)
             {
-                _p->resetButton->setEnabled(value != _p->model->getDefaultValue());
                 if (_p->callback)
                 {
                     _p->callback(value);
                 }
-            });
-
-        p.hasDefaultObserver = ValueObserver<bool>::create(
-            p.model->observeHasDefaultValue(),
-            [this](bool value)
-            {
-                _p->resetButton->setVisible(value);
             });
     }
 

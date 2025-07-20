@@ -86,6 +86,35 @@ namespace feather_tk
 
         FEATHER_TK_PRIVATE();
     };
+
+    //! Integer reset button.
+    class IntResetButton : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IntModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        IntResetButton();
+
+    public:
+        virtual ~IntResetButton();
+
+        //! Create a new widget.
+        static std::shared_ptr<IntResetButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<IntModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        FEATHER_TK_PRIVATE();
+    };
         
     ///@}
 }

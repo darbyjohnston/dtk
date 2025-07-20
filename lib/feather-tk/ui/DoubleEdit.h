@@ -92,6 +92,35 @@ namespace feather_tk
 
         FEATHER_TK_PRIVATE();
     };
+
+    //! Double precision floating point reset button.
+    class DoubleResetButton : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<DoubleModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        DoubleResetButton();
+
+    public:
+        virtual ~DoubleResetButton();
+
+        //! Create a new widget.
+        static std::shared_ptr<DoubleResetButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<DoubleModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        FEATHER_TK_PRIVATE();
+    };
         
     ///@}
 }

@@ -15,7 +15,7 @@ namespace feather_tk
         float step = .1F;
         float largeStep = 1.F;
         std::shared_ptr<ObservableValue<bool> > hasDefaultValue;
-        float defaultValue = 0.F;
+        std::shared_ptr<ObservableValue<float> > defaultValue;
     };
 
     void FloatModel::_init(const std::shared_ptr<Context>&)
@@ -24,6 +24,7 @@ namespace feather_tk
         p.value = ObservableValue<float>::create(0.F);
         p.range = ObservableValue<RangeF>::create(RangeF(0.F, 1.F));
         p.hasDefaultValue = ObservableValue<bool>::create(false);
+        p.defaultValue = ObservableValue<float>::create(0.F);
     }
 
     FloatModel::FloatModel() :
@@ -134,18 +135,23 @@ namespace feather_tk
 
     float FloatModel::getDefaultValue() const
     {
+        return _p->defaultValue->get();
+    }
+
+    std::shared_ptr<IObservableValue<float> > FloatModel::observeDefaultValue() const
+    {
         return _p->defaultValue;
     }
 
     void FloatModel::setDefaultValue(float value)
     {
+        _p->defaultValue->setIfChanged(value);
         _p->hasDefaultValue->setIfChanged(true);
-        _p->defaultValue = value;
     }
 
     void FloatModel::setDefaultValue()
     {
-        setValue(_p->defaultValue);
+        setValue(_p->defaultValue->get());
     }
 
     void FloatModel::clearDefaultValue()

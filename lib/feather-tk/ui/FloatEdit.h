@@ -92,6 +92,35 @@ namespace feather_tk
 
         FEATHER_TK_PRIVATE();
     };
+
+    //! Floating point reset button.
+    class FloatResetButton : public IWidget
+    {
+    protected:
+        void _init(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FloatModel>&,
+            const std::shared_ptr<IWidget>& parent);
+
+        FloatResetButton();
+
+    public:
+        virtual ~FloatResetButton();
+
+        //! Create a new widget.
+        static std::shared_ptr<FloatResetButton> create(
+            const std::shared_ptr<Context>&,
+            const std::shared_ptr<FloatModel>&,
+            const std::shared_ptr<IWidget>& parent = nullptr);
+
+        void setGeometry(const Box2I&) override;
+        void sizeHintEvent(const SizeHintEvent&) override;
+
+    private:
+        void _widgetUpdate();
+
+        FEATHER_TK_PRIVATE();
+    };
         
     ///@}
 }

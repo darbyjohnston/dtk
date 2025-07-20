@@ -31,9 +31,11 @@ intEditSlider = ftk.IntEditSlider(context, vLayout)
 intEditSlider.setCallback(lambda value: print("Int:", value))
 intEditSlider = ftk.IntEditSlider(context, vLayout)
 intEditSlider.range = ftk.RangeI(100, 200)
+intEditSlider.defaultValue = 100
 intEditSlider.setCallback(lambda value: print("Int:", value))
 intEditSlider = ftk.IntEditSlider(context, vLayout)
 intEditSlider.range = ftk.RangeI(-100, 100)
+intEditSlider.defaultValue = -100
 intEditSlider.setCallback(lambda value: print("Int:", value))
         
 # Create float sliders.
@@ -43,9 +45,15 @@ floatEditSlider = ftk.FloatEditSlider(context, vLayout)
 floatEditSlider.setCallback(lambda value: print("Float:", value))
 floatEditSlider = ftk.FloatEditSlider(context, vLayout)
 floatEditSlider.range = ftk.RangeF(100, 200)
+floatEditSlider.defaultValue = 100
+floatEditSlider.step = 1
+floatEditSlider.largeStep = 10
 floatEditSlider.setCallback(lambda value: print("Float:", value))
 floatEditSlider = ftk.FloatEditSlider(context, vLayout)
 floatEditSlider.range = ftk.RangeF(-100, 100)
+floatEditSlider.defaultValue = -100
+floatEditSlider.step = 1
+floatEditSlider.largeStep = 10
 floatEditSlider.setCallback(lambda value: print("Float:", value))
         
 # Create double sliders.
@@ -55,9 +63,15 @@ doubleEditSlider = ftk.DoubleEditSlider(context, vLayout)
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
 doubleEditSlider = ftk.DoubleEditSlider(context, vLayout)
 doubleEditSlider.range = ftk.RangeD(100, 200)
+doubleEditSlider.defaultValue = 100
+doubleEditSlider.step = 1
+doubleEditSlider.largeStep = 10
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
 doubleEditSlider = ftk.DoubleEditSlider(context, vLayout)
 doubleEditSlider.range = ftk.RangeD(-100, 100)
+doubleEditSlider.defaultValue = -100
+doubleEditSlider.step = 1
+doubleEditSlider.largeStep = 10
 doubleEditSlider.setCallback(lambda value: print("Double:", value))
 
 # Show the window and run the application.
