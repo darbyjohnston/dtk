@@ -229,7 +229,7 @@ namespace feather_tk
         void Window::setIcons(const std::vector<std::shared_ptr<Image> >& icons)
         {
             FEATHER_TK_P();
-#if not defined(__APPLE__)
+#if !defined(__APPLE__)
             p.icons.clear();
             std::vector<GLFWimage> glfwImages;
             for (size_t i = 0; i < icons.size(); ++i)
