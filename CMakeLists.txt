@@ -5,9 +5,18 @@ if(POLICY CMP0135)
     cmake_policy(SET CMP0135 NEW)
 endif()
 
+set(feather_tk_VERSION_MAJOR "0")
+set(feather_tk_VERSION_MINOR "4")
+set(feather_tk_VERSION_PATCH "0")
+set(feather_tk_VERSION ${feather_tk_VERSION_MAJOR}.${feather_tk_VERSION_MINOR}.${feather_tk_VERSION_PATCH})
+add_definitions(-Dfeather_tk_VERSION_MAJOR=${feather_tk_VERSION_MAJOR})
+add_definitions(-Dfeather_tk_VERSION_MINOR=${feather_tk_VERSION_MINOR})
+add_definitions(-Dfeather_tk_VERSION_PATCH=${feather_tk_VERSION_PATCH})
+add_definitions(-Dfeather_tk_VERSION="${feather_tk_VERSION}")
+
 project(
     feather-tk
-    VERSION 0.4.0
+    VERSION ${feather_tk_VERSION}
     LANGUAGES CXX C)
 
 #-------------------------------------------------------------------------------
