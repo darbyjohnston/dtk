@@ -145,6 +145,11 @@ namespace feather_tk
         _p->model->setRange(value);
     }
 
+    void DoubleEdit::setRange(double min, double max)
+    {
+        _p->model->setRange(RangeD(min, max));
+    }
+
     double DoubleEdit::getStep() const
     {
         return _p->model->getStep();

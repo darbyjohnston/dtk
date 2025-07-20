@@ -145,6 +145,11 @@ namespace feather_tk
         _p->model->setRange(value);
     }
 
+    void FloatEdit::setRange(float min, float max)
+    {
+        _p->model->setRange(RangeF(min, max));
+    }
+
     float FloatEdit::getStep() const
     {
         return _p->model->getStep();

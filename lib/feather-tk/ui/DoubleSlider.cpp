@@ -124,6 +124,11 @@ namespace feather_tk
         _p->model->setRange(value);
     }
 
+    void DoubleSlider::setRange(double min, double max)
+    {
+        _p->model->setRange(RangeD(min, max));
+    }
+
     double DoubleSlider::getStep() const
     {
         return _p->model->getStep();

@@ -52,6 +52,9 @@ namespace feather_tk
         //! Set the range.
         void setRange(const RangeF&);
 
+        //! Set the range.
+        void setRange(float, float);
+
         //! Get the step.
         float getStep() const;
 

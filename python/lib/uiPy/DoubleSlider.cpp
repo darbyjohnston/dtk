@@ -33,7 +33,8 @@ namespace feather_tk
                 py::arg("parent") = nullptr)
             .def_property("value", &DoubleSlider::getValue, &DoubleSlider::setValue)
             .def("setCallback", &DoubleSlider::setCallback)
-            .def_property("range", &DoubleSlider::getRange, &DoubleSlider::setRange)
+            .def_property("range", &DoubleSlider::getRange, py::overload_cast<const RangeD&>(&DoubleSlider::setRange))
+            .def("setRange", py::overload_cast<double, double>(&DoubleSlider::setRange))
             .def_property("step", &DoubleSlider::getStep, &DoubleSlider::setStep)
             .def_property("largeStep", &DoubleSlider::getLargeStep, &DoubleSlider::setLargeStep)
             .def("getModel", &DoubleSlider::getModel);

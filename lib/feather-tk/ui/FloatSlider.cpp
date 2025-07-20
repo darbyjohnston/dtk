@@ -124,6 +124,11 @@ namespace feather_tk
         _p->model->setRange(value);
     }
 
+    void FloatSlider::setRange(float min, float max)
+    {
+        _p->model->setRange(RangeF(min, max));
+    }
+
     float FloatSlider::getStep() const
     {
         return _p->model->getStep();

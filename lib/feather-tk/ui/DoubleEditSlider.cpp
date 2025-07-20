@@ -126,6 +126,11 @@ namespace feather_tk
         _p->model->setRange(value);
     }
 
+    void DoubleEditSlider::setRange(double min, double max)
+    {
+        _p->model->setRange(RangeD(min, max));
+    }
+
     double DoubleEditSlider::getStep() const
     {
         return _p->model->getStep();
