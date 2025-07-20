@@ -156,7 +156,7 @@ namespace feather_tk
         //! Set the cancel callback.
         void setCancelCallback(const std::function<void(void)>&);
 
-        //! Get the model.
+        //! Get the file browser model.
         const std::shared_ptr<FileBrowserModel>& getModel() const;
 
         //! Get the recent files model.
@@ -202,7 +202,7 @@ namespace feather_tk
         //! Set the callback.
         void setCallback(const std::function<void(const std::filesystem::path&)>&);
 
-        //! Get the model.
+        //! Get the file browser model.
         const std::shared_ptr<FileBrowserModel>& getModel() const;
 
         //! Get the recent files model.
@@ -241,7 +241,7 @@ namespace feather_tk
         //! Set whether the native file dialog is used.
         void setNativeFileDialog(bool);
 
-        //! Get the model.
+        //! Get the file browser model.
         const std::shared_ptr<FileBrowserModel>& getModel() const;
 
         //! Get the recent files model.
