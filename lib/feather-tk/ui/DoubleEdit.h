@@ -88,6 +88,12 @@ namespace feather_tk
         //! Set the font role.
         void setFontRole(FontRole);
 
+        //! Get the border role.
+        ColorRole getBorderRole() const;
+
+        //! Set the border role.
+        void setBorderRole(ColorRole);
+
         void setGeometry(const Box2I&) override;
         void sizeHintEvent(const SizeHintEvent&) override;
         void keyPressEvent(KeyEvent&) override;

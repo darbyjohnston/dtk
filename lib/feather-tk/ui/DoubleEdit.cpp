@@ -212,6 +212,16 @@ namespace feather_tk
         _p->lineEdit->setFontRole(value);
     }
 
+    ColorRole DoubleEdit::getBorderRole() const
+    {
+        return _p->lineEdit->getBorderRole();
+    }
+
+    void DoubleEdit::setBorderRole(ColorRole value)
+    {
+        _p->lineEdit->setBorderRole(value);
+    }
+
     void DoubleEdit::setGeometry(const Box2I& value)
     {
         IWidget::setGeometry(value);

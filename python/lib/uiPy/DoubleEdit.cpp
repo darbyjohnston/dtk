@@ -40,6 +40,7 @@ namespace feather_tk
             .def_property("defaultValue", &DoubleEdit::getDefaultValue, &DoubleEdit::setDefaultValue)
             .def("getModel", &DoubleEdit::getModel)
             .def_property("precision", &DoubleEdit::getPrecision, &DoubleEdit::setPrecision)
-            .def_property("fontRole", &DoubleEdit::getFontRole, &DoubleEdit::setFontRole);
+            .def_property("fontRole", &DoubleEdit::getFontRole, &DoubleEdit::setFontRole)
+            .def_property("borderRole", &DoubleEdit::getBorderRole, &DoubleEdit::setBorderRole);
     }
 }

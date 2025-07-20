@@ -98,6 +98,7 @@ namespace feather_tk
         std::string format = "                    ";
         std::function<void(bool)> focusCallback;
         FontRole fontRole = FontRole::Label;
+        ColorRole borderRole = ColorRole::Border;
         int cursorPos = 0;
         bool cursorVisible = false;
         std::chrono::steady_clock::time_point cursorTimer;
@@ -216,6 +217,20 @@ namespace feather_tk
             return;
         p.fontRole = value;
         _setSizeUpdate();
+        _setDrawUpdate();
+    }
+
+    ColorRole LineEdit::getBorderRole() const
+    {
+        return _p->borderRole;
+    }
+
+    void LineEdit::setBorderRole(ColorRole value)
+    {
+        FEATHER_TK_P();
+        if (value == p.borderRole)
+            return;
+        p.borderRole = value;
         _setDrawUpdate();
     }
 
@@ -345,7 +360,7 @@ namespace feather_tk
         // Draw the focus and border.
         event.render->drawMesh(
             p.draw->border,
-            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : ColorRole::Border));
+            event.style->getColorRole(hasKeyFocus() ? ColorRole::KeyFocus : p.borderRole));
 
         // Draw the background.
         event.render->drawRect(
