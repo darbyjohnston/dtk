@@ -22,12 +22,12 @@ void Sliders::_init(
     _layout->addRow("Integer slider:", intSlider);
 
     auto floatSlider = FloatEditSlider::create(context);
-    floatSlider->setRange(RangeF(0.F, 100.F));
+    floatSlider->setRange(0.F, 100.F);
     floatSlider->setValue(42.F);
     _layout->addRow("Float slider:", floatSlider);
 
     auto doubleSlider = DoubleEditSlider::create(context);
-    doubleSlider->setRange(RangeD(0.F, 100.F));
+    doubleSlider->setRange(0.F, 100.F);
     doubleSlider->setValue(11.11);
     _layout->addRow("Double slider:", doubleSlider);
 }

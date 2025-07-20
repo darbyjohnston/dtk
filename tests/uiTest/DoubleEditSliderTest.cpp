@@ -56,7 +56,7 @@ namespace feather_tk
                 app->tick();
                 FEATHER_TK_ASSERT(0.9 == slider->getValue());
                 FEATHER_TK_ASSERT(0.9 == value);
-                slider->setRange(RangeD(0.0, 0.5));
+                slider->setRange(0.0, 0.5);
                 app->tick();
                 FEATHER_TK_ASSERT(RangeD(0.0, 0.5) == slider->getRange());
                 FEATHER_TK_ASSERT(0.5 == value);

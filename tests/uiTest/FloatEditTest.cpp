@@ -56,7 +56,7 @@ namespace feather_tk
                 app->tick();
                 FEATHER_TK_ASSERT(.9F == edit->getValue());
                 FEATHER_TK_ASSERT(.9F == value);
-                edit->setRange(RangeF(0.F, .5F));
+                edit->setRange(0.F, .5F);
                 app->tick();
                 FEATHER_TK_ASSERT(RangeF(0.F, .5F) == edit->getRange());
                 FEATHER_TK_ASSERT(.5F == value);

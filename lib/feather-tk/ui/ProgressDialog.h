@@ -53,6 +53,9 @@ namespace feather_tk
         //! Set the range.
         void setRange(const RangeD&);
 
+        //! Set the range.
+        void setRange(double, double);
+
         //! Get the value.
         double getValue() const;
 

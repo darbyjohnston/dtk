@@ -397,6 +397,11 @@ namespace feather_tk
         _p->widget->setRange(range);
     }
 
+    void ProgressDialog::setRange(double min, double max)
+    {
+        _p->widget->setRange(RangeD(min, max));
+    }
+
     double ProgressDialog::getValue() const
     {
         return _p->widget->getValue();

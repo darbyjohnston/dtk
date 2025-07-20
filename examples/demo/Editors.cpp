@@ -27,12 +27,12 @@ void Editors::_init(
     _layout->addRow("Integer edit:", intEdit);
 
     auto floatEdit = FloatEdit::create(context);
-    floatEdit->setRange(RangeF(0.F, 100.F));
+    floatEdit->setRange(0.F, 100.F);
     floatEdit->setValue(42.F);
     _layout->addRow("Float edit:", floatEdit);
 
     auto doubleEdit = DoubleEdit::create(context);
-    doubleEdit->setRange(RangeD(0.F, 100.F));
+    doubleEdit->setRange(0.F, 100.F);
     doubleEdit->setValue(11.11);
     _layout->addRow("Double edit:", doubleEdit);
 }

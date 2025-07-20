@@ -51,14 +51,14 @@ FEATHER_TK_MAIN()
                 std::cout << Format("Int: {0}").arg(value) << std::endl;
             });
         intEditSlider = IntEditSlider::create(context, vLayout);
-        intEditSlider->setRange(RangeI(100, 200));
+        intEditSlider->setRange(100, 200);
         intEditSlider->setCallback(
             [](int value)
             {
                 std::cout << Format("Int: {0}").arg(value) << std::endl;
             });
         intEditSlider = IntEditSlider::create(context, vLayout);
-        intEditSlider->setRange(RangeI(-100, 100));
+        intEditSlider->setRange(-100, 100);
         intEditSlider->setCallback(
             [](int value)
             {
@@ -75,14 +75,14 @@ FEATHER_TK_MAIN()
                 std::cout << Format("Float: {0}").arg(value) << std::endl;
             });
         floatEditSlider = FloatEditSlider::create(context, vLayout);
-        floatEditSlider->setRange(RangeF(100.F, 200.F));
+        floatEditSlider->setRange(100.F, 200.F);
         floatEditSlider->setCallback(
             [](float value)
             {
                 std::cout << Format("Float: {0}").arg(value) << std::endl;
             });
         floatEditSlider = FloatEditSlider::create(context, vLayout);
-        floatEditSlider->setRange(RangeF(-100.F, 100.F));
+        floatEditSlider->setRange(-100.F, 100.F);
         floatEditSlider->setCallback(
             [](float value)
             {
@@ -99,14 +99,14 @@ FEATHER_TK_MAIN()
                 std::cout << Format("Double: {0}").arg(value) << std::endl;
             });
         doubleEditSlider = DoubleEditSlider::create(context, vLayout);
-        doubleEditSlider->setRange(RangeD(100.0, 200.0));
+        doubleEditSlider->setRange(100.0, 200.0);
         doubleEditSlider->setCallback(
             [](double value)
             {
                 std::cout << Format("Double: {0}").arg(value) << std::endl;
             });
         doubleEditSlider = DoubleEditSlider::create(context, vLayout);
-        doubleEditSlider->setRange(RangeD(-100.0, 100.0));
+        doubleEditSlider->setRange(-100.0, 100.0);
         doubleEditSlider->setCallback(
             [](double value)
             {
