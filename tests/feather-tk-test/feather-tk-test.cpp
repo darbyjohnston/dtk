@@ -122,7 +122,7 @@ namespace feather_tk
     {
         struct App::Private
         {
-            std::string testName;
+            std::shared_ptr<CmdLineValueArg<std::string> > testName;
             std::vector<std::shared_ptr<test::ITest> > tests;
             std::chrono::steady_clock::time_point startTime;
         };
@@ -131,19 +131,17 @@ namespace feather_tk
             const std::shared_ptr<Context>& context,
             std::vector<std::string>& argv)
         {
+            FEATHER_TK_P();
+            p.testName = CmdLineValueArg<std::string>::create(
+                "Test",
+                "Name of the test to run.",
+                true);
             IApp::_init(
                 context,
                 argv,
                 "feather-tk-test",
                 "Test application",
-                {
-                    CmdLineValueArg<std::string>::create(
-                        _p->testName,
-                        "Test",
-                        "Name of the test to run.",
-                        true)
-                });
-            FEATHER_TK_P();
+                { p.testName });
             p.startTime = std::chrono::steady_clock::now();                
 #if defined(FEATHER_TK_UI_LIB)
 #if defined(FEATHER_TK_API_GL_4_1) || defined(FEATHER_TK_API_GLES_2)
@@ -273,13 +271,14 @@ namespace feather_tk
             std::vector<std::shared_ptr<test::ITest> > runTests;
             for (const auto& test : p.tests)
             {
-                if (p.testName.empty() ||
-                    (!p.testName.empty() && contains(test->getName(), p.testName)))
+                if (!p.testName->getValue().has_value() ||
+                    (p.testName->getValue().has_value() &&
+                        contains(test->getName(), p.testName->getValue().value())))
                 {
                     runTests.push_back(test);
                 }
-            }                
-            
+            }     
+
             // Run the tests.
             for (const auto& test : runTests)
             {

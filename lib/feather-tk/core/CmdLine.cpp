@@ -19,19 +19,16 @@ namespace feather_tk
     {}
 
     CmdLineFlagOption::CmdLineFlagOption(
-        bool& value,
         const std::vector<std::string>& names,
         const std::string& help) :
-        ICmdLineOption(names, help),
-        _value(value)
+        ICmdLineOption(names, help)
     {}
 
     std::shared_ptr<CmdLineFlagOption> CmdLineFlagOption::create(
-        bool& value,
         const std::vector<std::string>& names,
         const std::string& help)
     {
-        return std::shared_ptr<CmdLineFlagOption>(new CmdLineFlagOption(value, names, help));
+        return std::shared_ptr<CmdLineFlagOption>(new CmdLineFlagOption(names, help));
     }
 
     void CmdLineFlagOption::parse(std::vector<std::string>& args)
@@ -43,7 +40,6 @@ namespace feather_tk
             {
                 _found = true;
                 _matchedName = name;
-                _value = true;
                 i = args.erase(i);
             }
         }

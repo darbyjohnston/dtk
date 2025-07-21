@@ -39,8 +39,9 @@ namespace feather_tk
         std::string exeName;
         std::string name;
         std::string summary;
-        Options options;
         std::vector<std::shared_ptr<ICmdLineArg> > cmdLineArgs;
+        std::shared_ptr<CmdLineFlagOption> logFlag;
+        std::shared_ptr<CmdLineFlagOption> helpFlag;
         std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptions;
         std::shared_ptr<ListObserver<LogItem> > logObserver;
         int exit = 0;
@@ -68,14 +69,14 @@ namespace feather_tk
 
         p.cmdLineArgs = cmdLineArgs;
         p.cmdLineOptions = cmdLineOptions;
-        p.cmdLineOptions.push_back(CmdLineFlagOption::create(
-            p.options.log,
+        p.logFlag = CmdLineFlagOption::create(
             { "-log" },
-            "Print the log to the console."));
-        p.cmdLineOptions.push_back(CmdLineFlagOption::create(
-            p.options.help,
+            "Print the log to the console.");
+        p.cmdLineOptions.push_back(p.logFlag);
+        p.helpFlag = CmdLineFlagOption::create(
             { "-help", "-h", "--help", "--h" },
-            "Show this message."));
+            "Show this message.");
+        p.cmdLineOptions.push_back(p.helpFlag);
         p.exit = _parseCmdLine();
 
         auto logSystem = context->getSystem<LogSystem>();
@@ -155,7 +156,7 @@ namespace feather_tk
             }
         }
         if (p.argv.size() < requiredArgs ||
-            p.options.help)
+            p.helpFlag->found())
         {
             _printCmdLineHelp();
             return 1;
@@ -239,7 +240,7 @@ namespace feather_tk
     void IApp::_print(const std::vector<LogItem>& value)
     {
         FEATHER_TK_P();
-        if (_p->options.log)
+        if (p.logFlag->found())
         {
             for (const auto& item : value)
             {

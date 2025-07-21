@@ -44,37 +44,33 @@ namespace feather_tk
                     const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
                 
-                const std::string& getArg() const { return _arg; }
-                int getOption() const { return _option; }
+                const std::optional<std::string>& getArg() const { return _arg->getValue(); }
+                const std::optional<int>& getOption() const { return _option->getValue(); }
 
                 void run() override;
                 
             private:
-                std::string _arg;
-                int _option = 0;
+                std::shared_ptr<CmdLineValueArg<std::string> > _arg;
+                std::shared_ptr<CmdLineValueOption<int> > _option;
             };
 
             void App::_init(
                 const std::shared_ptr<Context>& context,
                 std::vector<std::string>& argv)
             {
+                _arg = CmdLineValueArg<std::string>::create(
+                    "arg",
+                    "This is an argument");
+                _option = CmdLineValueOption<int>::create(
+                    { "-option" },
+                    "This is an option");
                 IApp::_init(
                     context,
                     argv,
                     "feather_tk::app_test::App",
                     "Test application",
-                    {
-                        CmdLineValueArg<std::string>::create(
-                            _arg,
-                            "arg",
-                            "This is an argument")
-                    },
-                    {
-                        CmdLineValueOption<int>::create(
-                            _option,
-                            { "-option" },
-                            "This is an option")
-                    });
+                    { _arg },
+                    { _option });
             }
 
             App::~App()

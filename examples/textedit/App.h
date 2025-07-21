@@ -7,6 +7,7 @@
 #include <feather-tk/ui/App.h>
 #include <feather-tk/ui/Style.h>
 
+#include <feather-tk/core/CmdLine.h>
 #include <feather-tk/core/ObservableValue.h>
 
 #include <filesystem>
@@ -44,7 +45,11 @@ namespace feather_tk
                 void open(const std::filesystem::path&);
 
             private:
-                std::string _path;
+                struct CmdLine
+                {
+                    std::shared_ptr<CmdLineValueArg<std::string> > path;
+                };
+                CmdLine _cmdLine;
                 std::shared_ptr<ObservableValue<FontRole> > _font;
                 std::shared_ptr<ObservableValue<std::string> > _text;
                 std::shared_ptr<Window> _window;

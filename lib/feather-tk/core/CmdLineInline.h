@@ -9,43 +9,45 @@
 
 namespace feather_tk
 {
-    inline bool ICmdLineOption::found() const
-    {
-        return _found;
-    }
-
     inline const std::string& ICmdLineOption::getMatchedName() const
     {
         return _matchedName;
     }
 
+    inline bool CmdLineFlagOption::found() const
+    {
+        return _found;
+    }
+
     template<typename T>
     inline CmdLineValueOption<T>::CmdLineValueOption(
-        T& value,
         const std::vector<std::string>& names,
         const std::string& help,
         const std::string& defaultValue,
         const std::string& possibleValues) :
         ICmdLineOption(names, help),
-        _value(value),
         _defaultValue(defaultValue),
         _possibleValues(possibleValues)
     {}
         
     template<typename T>
     inline std::shared_ptr<CmdLineValueOption<T> > CmdLineValueOption<T>::create(
-        T& value,
         const std::vector<std::string>& names,
         const std::string& help,
         const std::string& defaultValue,
         const std::string& possibleValues)
     {
         return std::shared_ptr<CmdLineValueOption<T> >(new CmdLineValueOption<T>(
-            value,
             names,
             help,
             defaultValue,
             possibleValues));
+    }
+
+    template<typename T>
+    const std::optional<T>& CmdLineValueOption<T>::getValue() const
+    {
+        return _value;
     }
 
     template<typename T>
@@ -56,10 +58,10 @@ namespace feather_tk
             auto i = std::find(args.begin(), args.end(), name);
             if (i != args.end())
             {
-                _found = true;
                 _matchedName = name;
                 i = args.erase(i);
-                if (!cmdLineParse(args, i, _value))
+                _value = T();
+                if (!cmdLineParse(args, i, *_value))
                 {
                     throw ParseError();
                 }
@@ -75,7 +77,6 @@ namespace feather_tk
             auto i = std::find(args.begin(), args.end(), name);
             if (i != args.end())
             {
-                _found = true;
                 _matchedName = name;
                 i = args.erase(i);
                 if (i != args.end())
@@ -137,29 +138,33 @@ namespace feather_tk
 
     template<typename T>
     inline CmdLineValueArg<T>::CmdLineValueArg(
-        T& value,
         const std::string& name,
         const std::string& help,
         bool optional) :
-        ICmdLineArg(name, help, optional),
-        _value(value)
+        ICmdLineArg(name, help, optional)
     {}
 
     template<typename T>
     inline std::shared_ptr<CmdLineValueArg<T> > CmdLineValueArg<T>::create(
-        T& value,
         const std::string& name,
         const std::string& help,
         bool optional)
     {
-        return std::shared_ptr<CmdLineValueArg<T> >(new CmdLineValueArg<T>(value, name, help, optional));
+        return std::shared_ptr<CmdLineValueArg<T> >(new CmdLineValueArg<T>(name, help, optional));
+    }
+
+    template<typename T>
+    const std::optional<T>& CmdLineValueArg<T>::getValue() const
+    {
+        return _value;
     }
 
     template<typename T>
     inline void CmdLineValueArg<T>::parse(std::vector<std::string>& args)
     {
         auto i = args.begin();
-        if (!cmdLineParse(args, i, _value))
+        _value = T();
+        if (!cmdLineParse(args, i, *_value))
         {
             throw ParseError();
         }
@@ -182,22 +187,25 @@ namespace feather_tk
 
     template<typename T>
     inline CmdLineListArg<T>::CmdLineListArg(
-        std::vector<T>& list,
         const std::string& name,
         const std::string& help,
         bool optional) :
-        ICmdLineArg(name, help, optional),
-        _list(list)
+        ICmdLineArg(name, help, optional)
     { }
 
     template<typename T>
     inline std::shared_ptr<CmdLineListArg<T> > CmdLineListArg<T>::create(
-        std::vector<T>& list,
         const std::string& name,
         const std::string& help,
         bool optional)
     {
-        return std::shared_ptr<CmdLineListArg<T> >(new CmdLineListArg<T>(list, name, help, optional));
+        return std::shared_ptr<CmdLineListArg<T> >(new CmdLineListArg<T>(name, help, optional));
+    }
+
+    template<typename T>
+    inline const std::vector<T>& CmdLineListArg<T>::getList() const
+    {
+        return _list;
     }
 
     template<typename T>

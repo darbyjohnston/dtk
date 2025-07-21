@@ -9,8 +9,6 @@
 #include <feather-tk/ui/DialogSystem.h>
 #include <feather-tk/ui/FileBrowser.h>
 
-#include <feather-tk/core/CmdLine.h>
-
 #include <feather-tk/core/FileIO.h>
 
 using namespace feather_tk;
@@ -25,18 +23,17 @@ namespace feather_tk
                 const std::shared_ptr<Context>& context,
                 const std::vector<std::string>& argv)
             {
+                _cmdLine.path = CmdLineValueArg<std::string>::create(
+                    "input",
+                    "Input path.",
+                    true);
+
                 feather_tk::App::_init(
                     context,
                     argv,
                     "textedit",
                     "Text edit example",
-                    {
-                        CmdLineValueArg<std::string>::create(
-                            _path,
-                            "input",
-                            "Input path.",
-                            true)
-                    });
+                    { _cmdLine.path });
 
                 _font = ObservableValue<FontRole>::create(FontRole::Mono);
                 _text = ObservableValue<std::string>::create();
@@ -49,9 +46,9 @@ namespace feather_tk
                     "textedit",
                     Size2I(1280, 960));
 
-                if (!_path.empty())
+                if (_cmdLine.path->getValue().has_value())
                 {
-                    open(_path);
+                    open(_cmdLine.path->getValue().value());
                 }
 
                 _window->show();

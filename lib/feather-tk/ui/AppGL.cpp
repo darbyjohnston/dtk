@@ -48,7 +48,14 @@ namespace feather_tk
 
     struct App::Private
     {
-        bool exit = false;
+        struct CmdLine
+        {
+            std::shared_ptr<CmdLineFlagOption> exit;
+            std::shared_ptr<CmdLineValueOption<float> > displayScale;
+            std::shared_ptr<CmdLineValueOption<ColorStyle> > colorStyle;
+        };
+        CmdLine cmdLine;
+
         std::shared_ptr<FontSystem> fontSystem;
         std::shared_ptr<IconSystem> iconSystem;
         std::shared_ptr<Style> style;
@@ -70,23 +77,24 @@ namespace feather_tk
         const std::vector<std::shared_ptr<ICmdLineArg> >& cmdLineArgs,
         const std::vector<std::shared_ptr<ICmdLineOption> >& cmdLineOptions)
     {
+        FEATHER_TK_P();
+
         std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp;
-        cmdLineOptionsTmp.push_back(CmdLineFlagOption::create(
-            _p->exit,
+        p.cmdLine.exit = CmdLineFlagOption::create(
             { "-exit" },
-            "Start the user interface and then exit."));
-        float displayScale = 0.F;
-        cmdLineOptionsTmp.push_back(CmdLineValueOption<float>::create(
-            displayScale,
+            "Start the user interface and then exit.");
+        cmdLineOptionsTmp.push_back(p.cmdLine.exit);
+        p.cmdLine.displayScale = CmdLineValueOption<float>::create(
             { "-displayScale", "-ds" },
-            "Set the display scale. A value of 0.0 sets the scale automatically."));
+            "Set the display scale. A value of 0.0 sets the scale automatically.");
+        cmdLineOptionsTmp.push_back(p.cmdLine.displayScale);
         ColorStyle colorStyle = ColorStyle::Dark;
-        cmdLineOptionsTmp.push_back(CmdLineValueOption<ColorStyle>::create(
-            colorStyle,
+        p.cmdLine.colorStyle = CmdLineValueOption<ColorStyle>::create(
             { "-colorStyle", "-cs" },
             "Set the color style.",
             getLabel(colorStyle),
-            join(getColorStyleLabels(), ", ")));
+            join(getColorStyleLabels(), ", "));
+        cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);
         cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
         IApp::_init(
             context,
@@ -95,7 +103,6 @@ namespace feather_tk
             summary,
             cmdLineArgs,
             cmdLineOptionsTmp);
-        FEATHER_TK_P();
         uiInit(context);
         gl::init(context);
 
@@ -103,8 +110,16 @@ namespace feather_tk
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
         p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
+        if (p.cmdLine.colorStyle->getValue().has_value())
+        {
+            p.colorStyle->setIfChanged(p.cmdLine.colorStyle->getValue().value());
+        }
         p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(feather_tk::getCustomColorRoles());
-        p.displayScale = ObservableValue<float>::create(displayScale);
+        p.displayScale = ObservableValue<float>::create(0.0);
+        if (p.cmdLine.displayScale->getValue().has_value())
+        {
+            p.displayScale->setIfChanged(p.cmdLine.displayScale->getValue().value());
+        }
         p.tooltipsEnabled = ObservableValue<bool>::create(true);
 
         _styleUpdate();
@@ -340,7 +355,7 @@ namespace feather_tk
             }
             t0 = t1;
 
-            if (p.exit || 0 == visibleWindows)
+            if (p.cmdLine.exit->found() || 0 == visibleWindows)
             {
                 break;
             }

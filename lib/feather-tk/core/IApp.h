@@ -23,13 +23,6 @@ namespace feather_tk
     class Context;
     class ICmdLineArg;
     class ICmdLineOption;
-
-    //! Application options.
-    struct Options
-    {
-        bool log = false;
-        bool help = false;
-    };
         
     //! Convert command line arguments.
     std::vector<std::string> convert(int argc, char** argv);
