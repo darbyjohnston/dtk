@@ -234,6 +234,16 @@ namespace feather_tk
         _setSizeHint(_p->layout->getSizeHint());
     }
 
+    void DoubleEdit::scrollEvent(ScrollEvent& event)
+    {
+        FEATHER_TK_P();
+        event.accept = true;
+        const double step = event.modifiers & static_cast<int>(KeyModifier::Shift) ?
+            p.model->getLargeStep() :
+            p.model->getStep();
+        p.model->setValue(p.model->getValue() + step * event.value.y);
+    }
+
     void DoubleEdit::keyPressEvent(KeyEvent& event)
     {
         FEATHER_TK_P();

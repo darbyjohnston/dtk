@@ -85,6 +85,7 @@ namespace feather_tk
         void mouseMoveEvent(MouseMoveEvent&) override;
         void mousePressEvent(MouseClickEvent&) override;
         void mouseReleaseEvent(MouseClickEvent&) override;
+        void scrollEvent(ScrollEvent&) override;
         void keyPressEvent(KeyEvent&) override;
         void keyReleaseEvent(KeyEvent&) override;
 

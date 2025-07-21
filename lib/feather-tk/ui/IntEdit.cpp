@@ -207,6 +207,16 @@ namespace feather_tk
         _setSizeHint(_p->layout->getSizeHint());
     }
 
+    void IntEdit::scrollEvent(ScrollEvent& event)
+    {
+        FEATHER_TK_P();
+        event.accept = true;
+        const int step = event.modifiers & static_cast<int>(KeyModifier::Shift) ?
+            p.model->getLargeStep() :
+            p.model->getStep();
+        p.model->setValue(p.model->getValue() + step * event.value.y);
+    }
+
     void IntEdit::keyPressEvent(KeyEvent& event)
     {
         FEATHER_TK_P();

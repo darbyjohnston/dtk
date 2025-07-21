@@ -306,6 +306,16 @@ namespace feather_tk
         _setDrawUpdate();
     }
 
+    void DoubleSlider::scrollEvent(ScrollEvent& event)
+    {
+        FEATHER_TK_P();
+        event.accept = true;
+        const double step = event.modifiers & static_cast<int>(KeyModifier::Shift) ?
+            p.model->getLargeStep() :
+            p.model->getStep();
+        p.model->setValue(p.model->getValue() + step * event.value.y);
+    }
+
     void DoubleSlider::keyPressEvent(KeyEvent& event)
     {
         FEATHER_TK_P();
