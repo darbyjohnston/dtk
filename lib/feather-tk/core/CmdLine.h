@@ -29,16 +29,20 @@ namespace feather_tk
         //! Parse the option.
         virtual void parse(std::vector<std::string>& args) = 0;
 
-        //! Get the option name that was matched.
-        const std::string& getMatchedName() const;
-
         //! Get the help.
         virtual std::vector<std::string> getHelp() const = 0;
 
+        //! Get whether the option was found.
+        bool found() const;
+
+        //! Get the option name that was matched.
+        const std::string& getMatchedName() const;
+
     protected:
         std::vector<std::string> _names;
-        std::string _matchedName;
         std::string _help;
+        bool _found = false;
+        std::string _matchedName;
     };
 
     //! Command line flag option.

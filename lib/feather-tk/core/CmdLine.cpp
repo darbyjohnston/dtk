@@ -41,6 +41,7 @@ namespace feather_tk
             auto i = std::find(args.begin(), args.end(), name);
             if (i != args.end())
             {
+                _found = true;
                 _matchedName = name;
                 _value = true;
                 i = args.erase(i);

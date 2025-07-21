@@ -9,6 +9,11 @@
 
 namespace feather_tk
 {
+    inline bool ICmdLineOption::found() const
+    {
+        return _found;
+    }
+
     inline const std::string& ICmdLineOption::getMatchedName() const
     {
         return _matchedName;
@@ -51,6 +56,7 @@ namespace feather_tk
             auto i = std::find(args.begin(), args.end(), name);
             if (i != args.end())
             {
+                _found = true;
                 _matchedName = name;
                 i = args.erase(i);
                 if (!cmdLineParse(args, i, _value))
@@ -69,6 +75,7 @@ namespace feather_tk
             auto i = std::find(args.begin(), args.end(), name);
             if (i != args.end())
             {
+                _found = true;
                 _matchedName = name;
                 i = args.erase(i);
                 if (i != args.end())
