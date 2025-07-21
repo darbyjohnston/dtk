@@ -7,7 +7,7 @@
    viewBox="0 0 5.2916665 5.2916666"
    version="1.1"
    id="svg8"
-   inkscape:version="1.4-rc1 (61ec3f2, 2024-09-26)"
+   inkscape:version="1.4.2 (ebf0e94, 2025-05-08)"
    sodipodi:docname="FileReload.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -84,6 +84,34 @@
          style="fill:#f0f0f0;fill-opacity:1;stroke-width:3.18444"
          d="m 2.3812499,294.48644 -0.9198404,-0.66146 v 1.32291 z"
          id="path2" />
+      <rect
+         style="fill:#3c3c3c;fill-opacity:1;stroke:none;stroke-width:1.39209"
+         id="rect1"
+         width="1.5875"
+         height="0.26458332"
+         x="3.175"
+         y="293.82495" />
+      <rect
+         style="fill:#3c3c3c;fill-opacity:1;stroke:none;stroke-width:1.39209"
+         id="rect2"
+         width="1.5875"
+         height="0.26458332"
+         x="3.175"
+         y="294.35413" />
+      <rect
+         style="fill:#3c3c3c;fill-opacity:1;stroke:none;stroke-width:1.39209"
+         id="rect3"
+         width="1.5875"
+         height="0.26458332"
+         x="3.175"
+         y="293.29581" />
+      <rect
+         style="fill:#3c3c3c;fill-opacity:1;stroke:none;stroke-width:1.39209"
+         id="rect4"
+         width="1.5875"
+         height="0.26458332"
+         x="3.175"
+         y="292.76663" />
     </g>
   </g>
 </svg>
