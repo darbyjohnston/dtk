@@ -23,9 +23,10 @@ namespace feather_tk
     inline CmdLineValueOption<T>::CmdLineValueOption(
         const std::vector<std::string>& names,
         const std::string& help,
-        const std::string& defaultValue,
+        const std::optional<T>& defaultValue,
         const std::string& possibleValues) :
         ICmdLineOption(names, help),
+        _value(defaultValue),
         _defaultValue(defaultValue),
         _possibleValues(possibleValues)
     {}
@@ -34,7 +35,7 @@ namespace feather_tk
     inline std::shared_ptr<CmdLineValueOption<T> > CmdLineValueOption<T>::create(
         const std::vector<std::string>& names,
         const std::string& help,
-        const std::string& defaultValue,
+        const std::optional<T>& defaultValue,
         const std::string& possibleValues)
     {
         return std::shared_ptr<CmdLineValueOption<T> >(new CmdLineValueOption<T>(
@@ -98,9 +99,11 @@ namespace feather_tk
         std::vector<std::string> out;
         out.push_back(join(_names, ", ") + " (value)");
         out.push_back(_help);
-        if (!_defaultValue.empty())
+        if (_defaultValue.has_value())
         {
-            out.push_back("Default value: " + _defaultValue);
+            std::stringstream ss;
+            ss << _defaultValue.value();
+            out.push_back("Default value: " + ss.str());
         }
         if (!_possibleValues.empty())
         {

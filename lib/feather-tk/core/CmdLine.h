@@ -56,10 +56,11 @@ namespace feather_tk
             const std::vector<std::string>& names,
             const std::string& help);
 
+        //! Get whether the flag was found.
+        bool found() const;
+
         void parse(std::vector<std::string>& args) override;
         std::vector<std::string> getHelp() const override;
-
-        bool found() const;
 
     private:
         bool _found = false;
@@ -73,7 +74,7 @@ namespace feather_tk
         CmdLineValueOption(
             const std::vector<std::string>& names,
             const std::string& help,
-            const std::string& defaultValue,
+            const std::optional<T>& defaultValue,
             const std::string& possibleValues);
 
     public:
@@ -81,9 +82,10 @@ namespace feather_tk
         static std::shared_ptr<CmdLineValueOption<T> > create(
             const std::vector<std::string>& names,
             const std::string& help,
-            const std::string& defaultValue = std::string(),
+            const std::optional<T>& defaultValue = std::optional<T>(),
             const std::string& possibleValues = std::string());
 
+        //! Get the value.
         const std::optional<T>& getValue() const;
 
         void parse(std::vector<std::string>& args) override;
@@ -91,7 +93,7 @@ namespace feather_tk
 
     private:
         std::optional<T> _value;
-        std::string _defaultValue;
+        std::optional<T> _defaultValue;
         std::string _possibleValues;
     };
 
@@ -142,9 +144,10 @@ namespace feather_tk
             const std::string& help,
             bool optional = false);
 
-        void parse(std::vector<std::string>& args) override;
-
+        //! Get the value.
         const std::optional<T>& getValue() const;
+
+        void parse(std::vector<std::string>& args) override;
 
     private:
         std::optional<T> _value;
@@ -168,6 +171,7 @@ namespace feather_tk
             const std::string& help,
             bool optional = false);
 
+        //! Get the list.
         const std::vector<T>& getList() const;
 
         void parse(std::vector<std::string>& args) override;

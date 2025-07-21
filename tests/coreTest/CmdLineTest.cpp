@@ -59,7 +59,7 @@ namespace feather_tk
             auto intCmdLineOption = CmdLineValueOption<int>::create(
                 { "-intOption" },
                 "This is an integer option",
-                "0");
+                0);
             _print(join(intCmdLineOption->getHelp(), '\n'));
             intCmdLineOption->parse(argv);
             FEATHER_TK_ASSERT(10 == intCmdLineOption->getValue().value());

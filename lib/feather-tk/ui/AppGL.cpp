@@ -86,13 +86,13 @@ namespace feather_tk
         cmdLineOptionsTmp.push_back(p.cmdLine.exit);
         p.cmdLine.displayScale = CmdLineValueOption<float>::create(
             { "-displayScale", "-ds" },
-            "Set the display scale. A value of 0.0 sets the scale automatically.");
+            "Set the display scale. A value of 0.0 sets the scale automatically.",
+            0.F);
         cmdLineOptionsTmp.push_back(p.cmdLine.displayScale);
-        ColorStyle colorStyle = ColorStyle::Dark;
         p.cmdLine.colorStyle = CmdLineValueOption<ColorStyle>::create(
             { "-colorStyle", "-cs" },
             "Set the color style.",
-            getLabel(colorStyle),
+            ColorStyle::Dark,
             join(getColorStyleLabels(), ", "));
         cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);
         cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
@@ -109,17 +109,9 @@ namespace feather_tk
         p.fontSystem = context->getSystem<FontSystem>();
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
-        p.colorStyle = ObservableValue<ColorStyle>::create(colorStyle);
-        if (p.cmdLine.colorStyle->getValue().has_value())
-        {
-            p.colorStyle->setIfChanged(p.cmdLine.colorStyle->getValue().value());
-        }
+        p.colorStyle = ObservableValue<ColorStyle>::create(p.cmdLine.colorStyle->getValue().value());
         p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(feather_tk::getCustomColorRoles());
-        p.displayScale = ObservableValue<float>::create(0.0);
-        if (p.cmdLine.displayScale->getValue().has_value())
-        {
-            p.displayScale->setIfChanged(p.cmdLine.displayScale->getValue().value());
-        }
+        p.displayScale = ObservableValue<float>::create(p.cmdLine.displayScale->getValue().value());
         p.tooltipsEnabled = ObservableValue<bool>::create(true);
 
         _styleUpdate();
