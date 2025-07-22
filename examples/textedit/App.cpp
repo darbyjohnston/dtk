@@ -46,9 +46,9 @@ namespace feather_tk
                     "textedit",
                     Size2I(1280, 960));
 
-                if (_cmdLine.path->getValue().has_value())
+                if (_cmdLine.path->hasValue())
                 {
-                    open(_cmdLine.path->getValue().value());
+                    open(_cmdLine.path->getValue());
                 }
 
                 _window->show();

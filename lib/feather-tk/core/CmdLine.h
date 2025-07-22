@@ -85,8 +85,12 @@ namespace feather_tk
             const std::optional<T>& defaultValue = std::optional<T>(),
             const std::string& possibleValues = std::string());
 
+        //! Get whether there is a value. The value is either from the command
+        //! line or the default value.
+        bool hasValue() const;
+
         //! Get the value.
-        const std::optional<T>& getValue() const;
+        const T& getValue() const;
 
         void parse(std::vector<std::string>& args) override;
         std::vector<std::string> getHelp() const override;
@@ -144,8 +148,11 @@ namespace feather_tk
             const std::string& help,
             bool optional = false);
 
+        //! Get whether there is a value.
+        bool hasValue() const;
+
         //! Get the value.
-        const std::optional<T>& getValue() const;
+        const T& getValue() const;
 
         void parse(std::vector<std::string>& args) override;
 

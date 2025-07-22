@@ -54,7 +54,7 @@ namespace feather_tk
                 join({ "0", "1" }, ", "));
             _print(join(boolCmdLineOption->getHelp(), '\n'));
             boolCmdLineOption->parse(argv);
-            FEATHER_TK_ASSERT(boolCmdLineOption->getValue().value());
+            FEATHER_TK_ASSERT(boolCmdLineOption->getValue());
 
             auto intCmdLineOption = CmdLineValueOption<int>::create(
                 { "-intOption" },
@@ -62,7 +62,7 @@ namespace feather_tk
                 0);
             _print(join(intCmdLineOption->getHelp(), '\n'));
             intCmdLineOption->parse(argv);
-            FEATHER_TK_ASSERT(10 == intCmdLineOption->getValue().value());
+            FEATHER_TK_ASSERT(10 == intCmdLineOption->getValue());
 
             auto intCmdLineArg = CmdLineValueArg<int>::create(
                 "int",
@@ -71,7 +71,7 @@ namespace feather_tk
             FEATHER_TK_ASSERT(!intCmdLineArg->isOptional());
             _print(intCmdLineArg->getHelp());
             intCmdLineArg->parse(argv);
-            FEATHER_TK_ASSERT(100 == intCmdLineArg->getValue().value());
+            FEATHER_TK_ASSERT(100 == intCmdLineArg->getValue());
 
             auto stringCmdLineArg = CmdLineValueArg<std::string>::create(
                 "string",
@@ -80,7 +80,7 @@ namespace feather_tk
             FEATHER_TK_ASSERT(!stringCmdLineArg->isOptional());
             _print(stringCmdLineArg->getHelp());
             stringCmdLineArg->parse(argv);
-            FEATHER_TK_ASSERT("string" == stringCmdLineArg->getValue().value());
+            FEATHER_TK_ASSERT("string" == stringCmdLineArg->getValue());
 
             auto listCmdLineArg = CmdLineListArg<std::string>::create(
                 "list",

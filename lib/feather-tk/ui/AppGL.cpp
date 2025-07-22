@@ -96,6 +96,7 @@ namespace feather_tk
             join(getColorStyleLabels(), ", "));
         cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);
         cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
+
         IApp::_init(
             context,
             argv,
@@ -109,9 +110,9 @@ namespace feather_tk
         p.fontSystem = context->getSystem<FontSystem>();
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
-        p.colorStyle = ObservableValue<ColorStyle>::create(p.cmdLine.colorStyle->getValue().value());
+        p.colorStyle = ObservableValue<ColorStyle>::create(p.cmdLine.colorStyle->getValue());
         p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(feather_tk::getCustomColorRoles());
-        p.displayScale = ObservableValue<float>::create(p.cmdLine.displayScale->getValue().value());
+        p.displayScale = ObservableValue<float>::create(p.cmdLine.displayScale->getValue());
         p.tooltipsEnabled = ObservableValue<bool>::create(true);
 
         _styleUpdate();

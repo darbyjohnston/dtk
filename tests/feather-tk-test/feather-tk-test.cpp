@@ -271,9 +271,9 @@ namespace feather_tk
             std::vector<std::shared_ptr<test::ITest> > runTests;
             for (const auto& test : p.tests)
             {
-                if (!p.testName->getValue().has_value() ||
-                    (p.testName->getValue().has_value() &&
-                        contains(test->getName(), p.testName->getValue().value())))
+                if (!p.testName->hasValue() ||
+                    (p.testName->hasValue() &&
+                        contains(test->getName(), p.testName->getValue())))
                 {
                     runTests.push_back(test);
                 }

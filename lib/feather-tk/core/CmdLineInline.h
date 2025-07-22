@@ -46,9 +46,15 @@ namespace feather_tk
     }
 
     template<typename T>
-    const std::optional<T>& CmdLineValueOption<T>::getValue() const
+    bool CmdLineValueOption<T>::hasValue() const
     {
-        return _value;
+        return _value.has_value();
+    }
+
+    template<typename T>
+    const T& CmdLineValueOption<T>::getValue() const
+    {
+        return _value.value();
     }
 
     template<typename T>
@@ -157,9 +163,15 @@ namespace feather_tk
     }
 
     template<typename T>
-    const std::optional<T>& CmdLineValueArg<T>::getValue() const
+    bool CmdLineValueArg<T>::hasValue() const
     {
-        return _value;
+        return _value.has_value();
+    }
+
+    template<typename T>
+    const T& CmdLineValueArg<T>::getValue() const
+    {
+        return _value.value();
     }
 
     template<typename T>

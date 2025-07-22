@@ -43,9 +43,12 @@ namespace feather_tk
                 static std::shared_ptr<App> create(
                     const std::shared_ptr<Context>&,
                     std::vector<std::string>& argv);
-                
-                const std::optional<std::string>& getArg() const { return _arg->getValue(); }
-                const std::optional<int>& getOption() const { return _option->getValue(); }
+
+                bool hasArg() const { return _arg->hasValue(); }
+                const std::string& getArg() const { return _arg->getValue(); }
+
+                bool hasOption() const { return _option->hasValue(); }
+                int getOption() const { return _option->getValue(); }
 
                 void run() override;
                 
