@@ -46,14 +46,14 @@ namespace feather_tk
         {
             std::stringstream ss;
             ss << _defaultValue.value();
-            _help += " Default: " + ss.str() + ".";
+            _help += " Default: \"" + ss.str() + "\".";
         }
         if (!_possibleValues.empty())
         {
             _help += " Options: " + _possibleValues + ".";
         }
     }
-        
+
     template<typename T>
     inline std::shared_ptr<CmdLineValueOption<T> > CmdLineValueOption<T>::create(
         const std::vector<std::string>& names,

@@ -124,6 +124,16 @@ namespace feather_tk
         return out;
     }
 
+    std::string quotes(const std::vector<std::string>& values)
+    {
+        std::vector<std::string> tmp;
+        for (const auto& value : values)
+        {
+            tmp.push_back("\"" + value + "\"");
+        }
+        return join(tmp, ' ');
+    }
+
     std::string toUpper(const std::string& value)
     {
         std::string out;

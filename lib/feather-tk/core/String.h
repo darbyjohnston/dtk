@@ -40,6 +40,9 @@ namespace feather_tk
     //! Join a list of strings.
     std::string join(const std::vector<std::string>&, const std::string& delimeter);
 
+    //! Join a list of strings with quotes.
+    std::string quotes(const std::vector<std::string>&);
+
     //! Convert to upper case.
     std::string toUpper(const std::string&);
 
