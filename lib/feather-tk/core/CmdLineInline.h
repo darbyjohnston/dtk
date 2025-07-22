@@ -103,17 +103,18 @@ namespace feather_tk
     inline std::vector<std::string> CmdLineValueOption<T>::getHelp() const
     {
         std::vector<std::string> out;
-        out.push_back(join(_names, ", ") + " (value) - " + _help);
+        std::string help = join(_names, ", ") + " (value) - " + _help;
         if (_defaultValue.has_value())
         {
             std::stringstream ss;
             ss << _defaultValue.value();
-            out.push_back("* Default: " + ss.str());
+            help += " Default: " + ss.str() + ".";
         }
         if (!_possibleValues.empty())
         {
-            out.push_back("* Options: " + _possibleValues);
+            help += " Options: " + _possibleValues + ".";
         }
+        out.push_back(help);
         return out;
     }
 
