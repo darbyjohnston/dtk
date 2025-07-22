@@ -79,7 +79,7 @@ namespace feather_tk
     {
         FEATHER_TK_P();
 
-        std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp;
+        std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp = cmdLineOptions;
         p.cmdLine.exit = CmdLineFlagOption::create(
             { "-exit" },
             "Start the user interface and then exit.");
@@ -95,7 +95,6 @@ namespace feather_tk
             ColorStyle::Dark,
             join(getColorStyleLabels(), ", "));
         cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);
-        cmdLineOptionsTmp.insert(cmdLineOptionsTmp.end(), cmdLineOptions.begin(), cmdLineOptions.end());
 
         IApp::_init(
             context,
