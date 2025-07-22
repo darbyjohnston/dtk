@@ -131,7 +131,7 @@ namespace feather_tk
         {
             tmp.push_back("\"" + value + "\"");
         }
-        return join(tmp, ' ');
+        return join(tmp, ", ");
     }
 
     std::string toUpper(const std::string& value)
