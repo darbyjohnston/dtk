@@ -96,7 +96,7 @@ namespace feather_tk
             "Set the color style.",
             "Style",
             ColorStyle::Dark,
-            join(getColorStyleLabels(), ", "));
+            quotes(getColorStyleLabels()));
         cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);
 
         IApp::_init(
