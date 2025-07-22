@@ -6,6 +6,7 @@
 
 #include <feather-tk/ui/Style.h>
 
+#include <feather-tk/core/CmdLine.h>
 #include <feather-tk/core/IApp.h>
 #include <feather-tk/core/ObservableMap.h>
 #include <feather-tk/core/ObservableValue.h>
@@ -118,6 +119,9 @@ namespace feather_tk
         //! Set the custom color roles.
         void setCustomColorRoles(const std::map<ColorRole, Color4F>&);
 
+        //! Get the color style command line option.
+        const std::shared_ptr<CmdLineValueOption<ColorStyle> >& getColorStyleCmdLineOption() const;
+
         //! Get the display scale.
         float getDisplayScale() const;
 
@@ -126,6 +130,9 @@ namespace feather_tk
 
         //! Set the display scale.
         void setDisplayScale(float);
+
+        //! Get the display scale command line option.
+        const std::shared_ptr<CmdLineValueOption<float> >& getDisplayScaleCmdLineOption() const;
 
         //! Get whether tooltips are enabled.
         bool areTooltipsEnabled() const;

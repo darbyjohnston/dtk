@@ -10,7 +10,6 @@
 
 #include <feather-tk/gl/Init.h>
 
-#include <feather-tk/core/CmdLine.h>
 #include <feather-tk/core/Context.h>
 #include <feather-tk/core/Error.h>
 #include <feather-tk/core/Format.h>
@@ -265,6 +264,11 @@ namespace feather_tk
         }
     }
 
+    const std::shared_ptr<CmdLineValueOption<ColorStyle> >& App::getColorStyleCmdLineOption() const
+    {
+        return _p->cmdLine.colorStyle;
+    }
+
     float App::getDisplayScale() const
     {
         return _p->displayScale->get();
@@ -283,6 +287,11 @@ namespace feather_tk
         {
             window->setDisplayScale(value);
         }
+    }
+
+    const std::shared_ptr<CmdLineValueOption<float> >& App::getDisplayScaleCmdLineOption() const
+    {
+        return _p->cmdLine.displayScale;
     }
 
     bool App::areTooltipsEnabled() const
