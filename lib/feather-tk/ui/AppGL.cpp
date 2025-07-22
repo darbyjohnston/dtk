@@ -87,14 +87,13 @@ namespace feather_tk
         p.cmdLine.displayScale = CmdLineValueOption<float>::create(
             { "-displayScale", "-ds" },
             "Set the display scale. A value of 0 sets the scale automatically.",
-            "Style",
-            0.F);
+            "Style");
         cmdLineOptionsTmp.push_back(p.cmdLine.displayScale);
         p.cmdLine.colorStyle = CmdLineValueOption<ColorStyle>::create(
             { "-colorStyle", "-cs" },
             "Set the color style.",
             "Style",
-            ColorStyle::Dark,
+            std::optional<ColorStyle>(),
             quotes(getColorStyleLabels()));
         cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);
 
