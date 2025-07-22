@@ -9,6 +9,16 @@
 
 namespace feather_tk
 {
+    inline const std::string& ICmdLineOption::getHelp() const
+    {
+        return _help;
+    }
+
+    inline const std::string& ICmdLineOption::getGroup() const
+    {
+        return _group;
+    }
+
     inline const std::string& ICmdLineOption::getMatchedName() const
     {
         return _matchedName;
@@ -23,24 +33,39 @@ namespace feather_tk
     inline CmdLineValueOption<T>::CmdLineValueOption(
         const std::vector<std::string>& names,
         const std::string& help,
+        const std::string& group,
         const std::optional<T>& defaultValue,
         const std::string& possibleValues) :
-        ICmdLineOption(names, help),
+        ICmdLineOption(names, help, group),
         _value(defaultValue),
         _defaultValue(defaultValue),
         _possibleValues(possibleValues)
-    {}
+    {
+        _help = join(_names, ", ") + " (value) - " + help;
+        if (_defaultValue.has_value())
+        {
+            std::stringstream ss;
+            ss << _defaultValue.value();
+            _help += " Default: " + ss.str() + ".";
+        }
+        if (!_possibleValues.empty())
+        {
+            _help += " Options: " + _possibleValues + ".";
+        }
+    }
         
     template<typename T>
     inline std::shared_ptr<CmdLineValueOption<T> > CmdLineValueOption<T>::create(
         const std::vector<std::string>& names,
         const std::string& help,
+        const std::string& group,
         const std::optional<T>& defaultValue,
         const std::string& possibleValues)
     {
         return std::shared_ptr<CmdLineValueOption<T> >(new CmdLineValueOption<T>(
             names,
             help,
+            group,
             defaultValue,
             possibleValues));
     }
@@ -97,25 +122,6 @@ namespace feather_tk
                 }
             }
         }
-    }
-
-    template<typename T>
-    inline std::vector<std::string> CmdLineValueOption<T>::getHelp() const
-    {
-        std::vector<std::string> out;
-        std::string help = join(_names, ", ") + " (value) - " + _help;
-        if (_defaultValue.has_value())
-        {
-            std::stringstream ss;
-            ss << _defaultValue.value();
-            help += " Default: " + ss.str() + ".";
-        }
-        if (!_possibleValues.empty())
-        {
-            help += " Options: " + _possibleValues + ".";
-        }
-        out.push_back(help);
-        return out;
     }
 
     inline ICmdLineArg::ICmdLineArg(

@@ -42,7 +42,7 @@ namespace feather_tk
             auto flagCmdLineOption = CmdLineFlagOption::create(
                 { "-flag" },
                 "This is a flag option");
-            _print(join(flagCmdLineOption->getHelp(), '\n'));
+            _print(flagCmdLineOption->getHelp());
             flagCmdLineOption->parse(argv);
             FEATHER_TK_ASSERT(flagCmdLineOption->found());
             FEATHER_TK_ASSERT(!flagCmdLineOption->getMatchedName().empty());
@@ -50,17 +50,19 @@ namespace feather_tk
             auto boolCmdLineOption = CmdLineValueOption<bool>::create(
                 { "-boolOption" },
                 "This is a boolean option",
+                std::string(),
                 "0",
                 join({ "0", "1" }, ", "));
-            _print(join(boolCmdLineOption->getHelp(), '\n'));
+            _print(boolCmdLineOption->getHelp());
             boolCmdLineOption->parse(argv);
             FEATHER_TK_ASSERT(boolCmdLineOption->getValue());
 
             auto intCmdLineOption = CmdLineValueOption<int>::create(
                 { "-intOption" },
                 "This is an integer option",
+                std::string(),
                 0);
-            _print(join(intCmdLineOption->getHelp(), '\n'));
+            _print(intCmdLineOption->getHelp());
             intCmdLineOption->parse(argv);
             FEATHER_TK_ASSERT(10 == intCmdLineOption->getValue());
 

@@ -82,16 +82,19 @@ namespace feather_tk
         std::vector<std::shared_ptr<ICmdLineOption> > cmdLineOptionsTmp = cmdLineOptions;
         p.cmdLine.exit = CmdLineFlagOption::create(
             { "-exit" },
-            "Start the user interface and then exit (for testing).");
+            "Start the user interface and then exit.",
+            "Testing");
         cmdLineOptionsTmp.push_back(p.cmdLine.exit);
         p.cmdLine.displayScale = CmdLineValueOption<float>::create(
             { "-displayScale", "-ds" },
             "Set the display scale. A value of 0 sets the scale automatically.",
+            "Style",
             0.F);
         cmdLineOptionsTmp.push_back(p.cmdLine.displayScale);
         p.cmdLine.colorStyle = CmdLineValueOption<ColorStyle>::create(
             { "-colorStyle", "-cs" },
             "Set the color style.",
+            "Style",
             ColorStyle::Dark,
             join(getColorStyleLabels(), ", "));
         cmdLineOptionsTmp.push_back(p.cmdLine.colorStyle);

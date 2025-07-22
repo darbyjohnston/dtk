@@ -10,9 +10,11 @@ namespace feather_tk
 {
     ICmdLineOption::ICmdLineOption(
         const std::vector<std::string>& names,
-        const std::string& help) :
+        const std::string& help,
+        const std::string& group) :
         _names(names),
-        _help(help)
+        _help(help),
+        _group(group)
     {}
 
     ICmdLineOption::~ICmdLineOption()
@@ -20,15 +22,19 @@ namespace feather_tk
 
     CmdLineFlagOption::CmdLineFlagOption(
         const std::vector<std::string>& names,
-        const std::string& help) :
-        ICmdLineOption(names, help)
-    {}
+        const std::string& help,
+        const std::string& group) :
+        ICmdLineOption(names, help, group)
+    {
+        _help = join(_names, ", ") + " - " + help;
+    }
 
     std::shared_ptr<CmdLineFlagOption> CmdLineFlagOption::create(
         const std::vector<std::string>& names,
-        const std::string& help)
+        const std::string& help,
+        const std::string& group)
     {
-        return std::shared_ptr<CmdLineFlagOption>(new CmdLineFlagOption(names, help));
+        return std::shared_ptr<CmdLineFlagOption>(new CmdLineFlagOption(names, help, group));
     }
 
     void CmdLineFlagOption::parse(std::vector<std::string>& args)
@@ -43,13 +49,6 @@ namespace feather_tk
                 i = args.erase(i);
             }
         }
-    }
-
-    std::vector<std::string> CmdLineFlagOption::getHelp() const
-    {
-        std::vector<std::string> out;
-        out.push_back(join(_names, ", ") + " - " + _help);
-        return out;
     }
 
     bool cmdLineParse(std::vector<std::string>& args, std::vector<std::string>::iterator& it, std::string& value)

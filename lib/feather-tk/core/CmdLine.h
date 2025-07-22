@@ -22,7 +22,8 @@ namespace feather_tk
     protected:
         ICmdLineOption(
             const std::vector<std::string>& names,
-            const std::string& help);
+            const std::string& help,
+            const std::string& group = std::string());
 
     public:
         virtual ~ICmdLineOption() = 0;
@@ -31,7 +32,10 @@ namespace feather_tk
         virtual void parse(std::vector<std::string>& args) = 0;
 
         //! Get the help.
-        virtual std::vector<std::string> getHelp() const = 0;
+        const std::string& getHelp() const;
+
+        //! Get the group.
+        const std::string& getGroup() const;
 
         //! Get the option name that was matched.
         const std::string& getMatchedName() const;
@@ -39,6 +43,7 @@ namespace feather_tk
     protected:
         std::vector<std::string> _names;
         std::string _help;
+        std::string _group;
         std::string _matchedName;
     };
 
@@ -48,19 +53,20 @@ namespace feather_tk
     protected:
         CmdLineFlagOption(
             const std::vector<std::string>& names,
-            const std::string& help);
+            const std::string& help,
+            const std::string& group);
 
     public:
         //! Create a new command line flag option.
         static std::shared_ptr<CmdLineFlagOption> create(
             const std::vector<std::string>& names,
-            const std::string& help);
+            const std::string& help,
+            const std::string& group = std::string());
 
         //! Get whether the flag was found.
         bool found() const;
 
         void parse(std::vector<std::string>& args) override;
-        std::vector<std::string> getHelp() const override;
 
     private:
         bool _found = false;
@@ -74,6 +80,7 @@ namespace feather_tk
         CmdLineValueOption(
             const std::vector<std::string>& names,
             const std::string& help,
+            const std::string& group,
             const std::optional<T>& defaultValue,
             const std::string& possibleValues);
 
@@ -82,6 +89,7 @@ namespace feather_tk
         static std::shared_ptr<CmdLineValueOption<T> > create(
             const std::vector<std::string>& names,
             const std::string& help,
+            const std::string& group = std::string(),
             const std::optional<T>& defaultValue = std::optional<T>(),
             const std::string& possibleValues = std::string());
 
@@ -93,7 +101,6 @@ namespace feather_tk
         const T& getValue() const;
 
         void parse(std::vector<std::string>& args) override;
-        std::vector<std::string> getHelp() const override;
 
     private:
         std::optional<T> _value;
