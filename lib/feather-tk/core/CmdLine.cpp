@@ -48,8 +48,7 @@ namespace feather_tk
     std::vector<std::string> CmdLineFlagOption::getHelp() const
     {
         std::vector<std::string> out;
-        out.push_back(join(_names, ", "));
-        out.push_back(_help);
+        out.push_back(join(_names, ", ") + " - " + _help);
         return out;
     }
 
