@@ -225,17 +225,23 @@ namespace feather_tk
         }
         if (!p.cmdLineOptions.empty())
         {
+            std::vector<std::string> groupNames;
             std::map<std::string, std::vector<std::shared_ptr<ICmdLineOption> > > groups;
             for (const auto& i : p.cmdLineOptions)
             {
-                groups[i->getGroup()].push_back(i);
-            }
-            for (const auto& i : groups)
-            {
-                if (!i.first.empty())
+                const std::string& group = i->getGroup();
+                if (std::find(groupNames.begin(), groupNames.end(), group) == groupNames.end())
                 {
-                    _print(i.first + " Options:\n");
-                    for (const auto& j : i.second)
+                    groupNames.push_back(group);
+                }
+                groups[group].push_back(i);
+            }
+            for (const auto& i : groupNames)
+            {
+                if (!i.empty())
+                {
+                    _print(i + " Options:\n");
+                    for (const auto& j : groups[i])
                     {
                         _print("    " + j->getHelp());
                     }
