@@ -110,9 +110,17 @@ namespace feather_tk
         p.fontSystem = context->getSystem<FontSystem>();
         p.iconSystem = context->getSystem<IconSystem>();
         p.style = Style::create(context);
-        p.colorStyle = ObservableValue<ColorStyle>::create(p.cmdLine.colorStyle->getValue());
+        p.colorStyle = ObservableValue<ColorStyle>::create(ColorStyle::Dark);
+        if (p.cmdLine.colorStyle->hasValue())
+        {
+            p.colorStyle->setIfChanged(p.cmdLine.colorStyle->getValue());
+        }
         p.customColorRoles = ObservableMap<ColorRole, Color4F>::create(feather_tk::getCustomColorRoles());
-        p.displayScale = ObservableValue<float>::create(p.cmdLine.displayScale->getValue());
+        p.displayScale = ObservableValue<float>::create(0.F);
+        if (p.cmdLine.displayScale->hasValue())
+        {
+            p.displayScale->setIfChanged(p.cmdLine.displayScale->getValue());
+        }
         p.tooltipsEnabled = ObservableValue<bool>::create(true);
 
         _styleUpdate();
